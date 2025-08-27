@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Linkedin, Github } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 
@@ -19,10 +19,27 @@ const navigation = [
   { name: 'Our Story', href: '/about' },
 ]
 
+const socialLinks = [
+  { name: 'LinkedIn', href: 'https://linkedin.com/company/rubixkube', iconType: 'linkedin' },
+  { name: 'GitHub', href: 'https://github.com/rubixkube-io', iconType: 'github' }
+]
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const prefersReducedMotion = useReducedMotion()
+
+  // Function to render social icons
+  const renderSocialIcon = (iconType: string) => {
+    switch (iconType) {
+      case 'linkedin':
+        return <Linkedin className="w-4 h-4" />
+      case 'github':
+        return <Github className="w-4 h-4" />
+      default:
+        return null
+    }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,8 +99,25 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center">
+          {/* Desktop CTA & Social Links */}
+          <div className="hidden md:flex items-center space-x-6">
+            {/* Social Links */}
+            <div className="flex items-center space-x-3">
+              {socialLinks.map((social) => (
+                <Link
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors duration-200 p-2 rounded-lg hover:bg-background-secondary"
+                  title={social.name}
+                >
+                  {renderSocialIcon(social.iconType)}
+                </Link>
+              ))}
+            </div>
+            
+            {/* Book Demo Button */}
             <Button asChild>
               <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting">
                 Book Demo
@@ -123,7 +157,26 @@ export function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-                <div className="px-3 py-2">
+                
+                {/* Mobile Social Links */}
+                <div className="px-3 py-2 border-t border-border mt-2 pt-3">
+                  <div className="flex items-center space-x-4 mb-3">
+                    {socialLinks.map((social) => (
+                      <Link
+                        key={social.name}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground hover:text-primary transition-colors duration-200 p-2 rounded-lg hover:bg-background-secondary"
+                        title={social.name}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {renderSocialIcon(social.iconType)}
+                      </Link>
+                    ))}
+                  </div>
+                  
+                  {/* Mobile Book Demo Button */}
                   <Button asChild>
                     <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting" className="w-full">
                       Book Demo
