@@ -90,13 +90,13 @@ RubixKube transforms operations from firefighting to foresight:
 ## 🌟 Success Stories
 
 > *"RubixKube brought calm and clarity to our operations. Instead of noise, we got actions that made sense. We moved from reacting to anticipating."*  
-> **— Staff Engineer, Fintech**
+> **— Ganesh Kumar, CEO Sheshi AI**
 
 > *"It's rare that something makes seasoned SREs pause mid-standup. RubixKube did. Confident impact with low risk."*  
-> **— DevOps Lead, SaaS**
+> **— Richie Sebastian, DevOps Lead**
 
 > *"The value wasn't a dashboard. It was the system fixing the right things at the right time with proof."*  
-> **— VP Engineering, E-commerce**
+> **— Kartik Pawar, Staff Engineer, Fellow.ai**
 
 ### Key Metrics from Early Adopters:
 - **MTTR reduction by 80%** across incident response
