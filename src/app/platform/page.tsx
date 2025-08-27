@@ -15,10 +15,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "RubixKube Platform - AI Agents for Reliability",
     description: "Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.",
-    url: "https://rubixkube.io/platform",
+    url: "https://rubixkube.ai/platform",
     images: [
       {
-        url: "https://rubixkube.io/og.png",
+        url: "https://rubixkube.ai/og.png",
         width: 1200,
         height: 630,
         alt: "RubixKube Platform - AI Agents for Reliability"
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "RubixKube Platform - AI Agents for Reliability",
     description: "Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.",
-    images: ["https://rubixkube.io/og.png"],
+    images: ["https://rubixkube.ai/og.png"],
   },
 }
 

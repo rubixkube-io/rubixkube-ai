@@ -7,10 +7,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Privacy Policy - RubixKube",
     description: "How RubixKube collects, uses, and protects data across the platform, APIs, and integrations, with controls for security and compliance.",
-    url: "https://rubixkube.io/legal/privacy",
+    url: "https://rubixkube.ai/legal/privacy",
     images: [
       {
-        url: "https://rubixkube.io/og.png",
+        url: "https://rubixkube.ai/og.png",
         width: 1200,
         height: 630,
         alt: "Privacy Policy - RubixKube"
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "Privacy Policy - RubixKube",
     description: "How RubixKube collects, uses, and protects data across the platform, APIs, and integrations, with controls for security and compliance.",
-    images: ["https://rubixkube.io/og.png"],
+    images: ["https://rubixkube.ai/og.png"],
   },
 }
 

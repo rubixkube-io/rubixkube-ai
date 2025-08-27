@@ -14,7 +14,7 @@ export function StructuredData() {
     "publisher": {
       "@type": "Organization",
       "name": "RubixKube",
-      "url": "https://rubixkube.io"
+      "url": "https://rubixkube.ai"
     },
     "featureList": [
       "Conversational Control",
@@ -24,15 +24,15 @@ export function StructuredData() {
       "Guardrails and Approvals",
       "Evidence-Linked RCA"
     ],
-    "screenshot": "https://rubixkube.io/hero.webm"
+    "screenshot": "https://rubixkube.ai/hero.webm"
   }
 
   const organizationData = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "RubixKube",
-    "url": "https://rubixkube.io",
-    "logo": "https://rubixkube.io/logo-icon.png",
+    "url": "https://rubixkube.ai",
+    "logo": "https://rubixkube.ai/logo-icon.png",
     "description": "Site Reliability Intelligence for the AI Era",
     "foundingDate": "2024",
     "industry": "Software Development",

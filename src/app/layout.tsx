@@ -17,7 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://rubixkube.io'),
+  metadataBase: new URL('https://rubixkube.ai'),
   title: "RubixKube - Site Reliability Intelligence",
   description: "Predict, prevent, and fix production issues before customers are impacted with AI-native reliability for Kubernetes and cloud.",
   keywords: [
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "RubixKube - Site Reliability Intelligence",
     description: "Detect, diagnose, and heal issues before customers feel them.",
-    url: "https://rubixkube.io",
+    url: "https://rubixkube.ai",
     siteName: "RubixKube",
     type: "website",
   },

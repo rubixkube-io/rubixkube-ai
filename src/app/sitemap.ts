@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://rubixkube.io'
+  const baseUrl = 'https://rubixkube.ai'
   
   return [
     {
