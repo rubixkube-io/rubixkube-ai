@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+:root {
+  /* Light mode colors */
+  --background: #FFFFFF;
+  --background-secondary: #f8fafc;
+  --background-tertiary: #f1f5f9;
+  --foreground: #101214;
+  --foreground-muted: #64748b;
+  --primary: #2457E6;
+  --accent: #2F5BFF;
+  --cta-green: #059669;
+  --border: #e2e8f0;
+  --border-muted: #cbd5e1;
+  --card-background: #ffffff;
+  --hero-grid: #E9EEF9;
+}
+
+.dark {
+  /* Dark mode colors */
+  --background: #0B1220;
+  --background-secondary: #1e293b;
+  --background-tertiary: #334155;
+  --foreground: #ffffff;
+  --foreground-muted: #94a3b8;
+  --primary: #2457E6;
+  --accent: #2F5BFF;
+  --cta-green: #00C853;
+  --border: #334155;
+  --border-muted: #475569;
+  --card-background: #1e293b;
+  --hero-grid: #2F5BFF;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--background-tertiary);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-cta-green: var(--cta-green);
+  --color-border: var(--border);
+  --color-border-muted: var(--border-muted);
+  --color-card-background: var(--card-background);
+  --color-hero-grid: var(--hero-grid);
+  
+  --color-white: #ffffff;
+  --color-black: #101214;
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-indigo-50: #eef2ff;
+  --color-indigo-600: #4f46e5;
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  letter-spacing: -0.015em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile text overflow prevention */
+@media (max-width: 640px) {
+  h1, h2, h3, h4, h5, h6 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Flowing animation for connection lines */
+@keyframes flow {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-flow {
+  animation: flow 2s ease-in-out infinite;
+}

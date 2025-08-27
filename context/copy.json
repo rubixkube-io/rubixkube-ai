@@ -1,0 +1,282 @@
+{
+    "meta": {
+      "title": "RubixKube — Site Reliability Intelligence for the AI Era",
+      "description": "RubixKube is Site Reliability Intelligence. Detect, diagnose, and heal production issues before customers feel them. Autonomous remediation with approvals for Kubernetes and cloud.",
+      "seo_keywords": [
+        "site reliability intelligence",
+        "SRI",
+        "AI SRE",
+        "AIOps",
+        "autonomous remediation",
+        "incident response automation",
+        "root cause analysis",
+        "RCA",
+        "Kubernetes reliability",
+        "reduce MTTR",
+        "SLO management",
+        "observability"
+      ],
+      "social": {
+        "twitter_title": "RubixKube — Site Reliability Intelligence",
+        "twitter_description": "Detect, diagnose, and heal issues before customers feel them.",
+        "og_image": "/assets/og/og-home.png"
+      }
+    },
+  
+    "navbar": {
+      "items": [
+        { "label": "Platform", "href": "/platform" },
+        { "label": "Solutions", "href": "/solutions" },
+        { "label": "Resources", "href": "/resources" },
+        { "label": "Our Story", "href": "/about" }
+      ],
+      "cta": { "label": "Book Demo", "href": "/demo" }
+    },
+  
+    "hero": {
+      "eyebrow": "RubixKube",
+      "h1_html": "Site Reliability <span class=\"line-through\">Engineer</span> Intelligence",
+      "subhead": "Keep revenue online. RubixKube watches your stack, finds the real cause, and fixes it safely with approvals.",
+      "supporting_points": [
+        "Detect, diagnose, and heal before customers feel it",
+        "Human-in-the-loop guardrails",
+        "Works with Kubernetes, cloud, and your tools"
+      ],
+      "primary_cta": { "label": "Book a Free Demo", "href": "/demo" },
+      "secondary_cta": { "label": "See it in Action", "href": "#how-it-works" },
+      "trustbar_title": "Trusted by modern engineering teams",
+      "trustbar_logos": ["/assets/logos/sample1.svg", "/assets/logos/sample2.svg", "/assets/logos/sample3.svg"]
+    },
+  
+    "why": {
+      "heading": "Why RubixKube",
+      "bullets": [
+        { "title": "One command center", "copy": "Unify incidents, signals, and actions in one place." },
+        { "title": "Predict and prevent", "copy": "Catch risky rollouts and regressions early." },
+        { "title": "De-risk deployments", "copy": "Plan safe rollbacks and patches with context." },
+        { "title": "MTTR that actually drops", "copy": "Correlate signals to evidence. No alert fatigue." },
+        { "title": "Protect revenue and trust", "copy": "SLOs stay green. Customers stay happy." }
+      ]
+    },
+  
+    "sri_flow": {
+      "eyebrow": "How Site Reliability Intelligence works",
+      "heading": "Observe → Plan → Act → Learn",
+      "steps": [
+        {
+          "title": "Observe",
+          "copy": "Continuously maps your infra across Kubernetes, cloud, code, and configs. Pulls context from Prometheus, Loki, GitHub, and more."
+        },
+        {
+          "title": "Plan",
+          "copy": "Agents reason over live data and history to propose safe, auditable actions."
+        },
+        {
+          "title": "Act",
+          "copy": "Execute fixes behind guardrails. Approve PRs or apply controlled changes with policy checks."
+        },
+        {
+          "title": "Learn",
+          "copy": "Every incident updates memory and playbooks. RCAs become knowledge, not documents you forget."
+        }
+      ],
+      "cta": { "label": "Explore the Platform", "href": "/platform" }
+    },
+  
+    "features_grid": {
+      "heading": "Key Features",
+      "subhead": "The future of operations, powered by intelligent agents.",
+      "items": [
+        {
+          "title": "Conversational Control",
+          "copy": "Manage clusters and apps through chat, CLI, or web. Natural language with real action.",
+          "icon": "chat"
+        },
+        {
+          "title": "Smart Agent Operations",
+          "copy": "Agents detect incidents, triage root cause, and propose fixes with evidence.",
+          "icon": "bolt"
+        },
+        {
+          "title": "Evolving Memory",
+          "copy": "Snapshot and historical memory improve every decision and RCA.",
+          "icon": "brain"
+        },
+        {
+          "title": "Agent Mesh",
+          "copy": "Specialized agents coordinate across your stack to investigate and remediate faster.",
+          "icon": "mesh"
+        },
+        {
+          "title": "Guardrails and Approvals",
+          "copy": "Least-privilege actions, policy checks, and human approvals when you want them.",
+          "icon": "shield"
+        },
+        {
+          "title": "Evidence-Linked RCA",
+          "copy": "Timelines, queries, diffs, and actions captured automatically and shared with teams.",
+          "icon": "report"
+        }
+      ]
+    },
+  
+    "use_cases": {
+      "heading": "What RubixKube handles",
+      "cards": [
+        {
+          "title": "Incident Response",
+          "points": [
+            "Auto-triage and correlation across logs, metrics, traces",
+            "Proposed fixes with risk and blast radius",
+            "MTTR down. On-call stress down"
+          ]
+        },
+        {
+          "title": "Release Reliability",
+          "points": [
+            "Detect bad rollouts right after deploy",
+            "Rollback or patch with context and approvals",
+            "Protect customer experience"
+          ]
+        },
+        {
+          "title": "Cost and Performance",
+          "points": [
+            "Spot regressions and noisy neighbors",
+            "Right-size workloads with evidence",
+            "Keep SLOs and budgets in line"
+          ]
+        },
+        {
+          "title": "Compliance and Audit",
+          "points": [
+            "Action logs, RCAs, and policies in one place",
+            "Prove who did what and why",
+            "SOC-friendly by design"
+          ]
+        }
+      ]
+    },
+  
+    "integrations": {
+      "heading": "Works with your stack",
+      "logos": [
+        { "name": "Kubernetes", "src": "/assets/integrations/kubernetes.svg" },
+        { "name": "Prometheus", "src": "/assets/integrations/prometheus.svg" },
+        { "name": "Loki", "src": "/assets/integrations/loki.svg" },
+        { "name": "GitHub", "src": "/assets/integrations/github.svg" },
+        { "name": "GCP", "src": "/assets/integrations/gcp.svg" },
+        { "name": "AWS", "src": "/assets/integrations/aws.svg" }
+      ],
+      "note": "Don’t see your tool? We’re pluggable. Ask us."
+    },
+  
+    "testimonials": {
+      "heading": "Success Stories",
+      "quote_style": "card",
+      "items": [
+        {
+          "quote": "RubixKube brought calm and clarity to our operations. Instead of noise, we got actions that made sense. We moved from reacting to anticipating.",
+          "author": "Staff Engineer, Fintech"
+        },
+        {
+          "quote": "It’s rare that something makes seasoned SREs pause mid-standup. RubixKube did. Confident impact with low risk.",
+          "author": "DevOps Lead, SaaS"
+        },
+        {
+          "quote": "The value wasn’t a dashboard. It was the system fixing the right things at the right time with proof.",
+          "author": "VP Engineering, E-commerce"
+        }
+      ]
+    },
+  
+    "early_access": {
+      "heading": "Early Access",
+      "subhead": "Limited seats for teams who want reliability on autopilot.",
+      "benefits": [
+        "Priority onboarding and support",
+        "Preferential pricing locked for the year",
+        "Direct product input"
+      ],
+      "counter_label": "seats remaining",
+      "cta": { "label": "Request Access", "href": "/early-access" }
+    },
+  
+    "closing_cta": {
+      "heading": "Ready to keep revenue online?",
+      "subhead": "Put Site Reliability Intelligence to work in your stack.",
+      "primary_cta": { "label": "Schedule a Deep Dive", "href": "/demo" },
+      "secondary_cta": { "label": "Get the One-Pager", "href": "/assets/RubixKube-SRI.pdf" }
+    },
+  
+    "faq": {
+      "heading": "Questions, answered",
+      "items": [
+        {
+          "q": "What is Site Reliability Intelligence?",
+          "a": "SRI uses agents, context, and memory to detect, diagnose, and heal issues across your stack. It closes the Observe → Plan → Act → Learn loop and turns RCAs into reusable knowledge."
+        },
+        {
+          "q": "How is RubixKube different from AIOps?",
+          "a": "AIOps explains alerts. RubixKube fixes problems with guardrails. You get proposed actions, change plans, and auditable outcomes, not just summaries."
+        },
+        {
+          "q": "Will it replace my SREs?",
+          "a": "No. It handles the repetitive, high-confidence work and gives your team time for the hard stuff. Your SREs stay in control with approvals and policy."
+        },
+        {
+          "q": "What does onboarding look like?",
+          "a": "A short install for the Observer Agent, then connect observability and code. You choose approvals and policies. Most teams see value in days."
+        },
+        {
+          "q": "Which environments are supported?",
+          "a": "Kubernetes, cloud services, and hybrid setups. Bring your own tools and pipelines."
+        }
+      ]
+    },
+  
+    "footer": {
+      "summary": "RubixKube is Site Reliability Intelligence. Agents that see more, plan better, act safely, and learn forever.",
+      "columns": [
+        {
+          "title": "Product",
+          "links": [
+            { "label": "Features", "href": "/platform" },
+            { "label": "Security", "href": "/platform/security" },
+            { "label": "Changelog", "href": "/changelog" }
+          ]
+        },
+        {
+          "title": "Company",
+          "links": [
+            { "label": "Our Story", "href": "/about" },
+            { "label": "Careers", "href": "/careers" },
+            { "label": "Contact", "href": "/contact" }
+          ]
+        },
+        {
+          "title": "Resources",
+          "links": [
+            { "label": "Docs", "href": "/docs" },
+            { "label": "Blog", "href": "/blog" },
+            { "label": "Press Kit", "href": "/press" }
+          ]
+        },
+        {
+          "title": "Legal",
+          "links": [
+            { "label": "Privacy", "href": "/legal/privacy" },
+            { "label": "Terms", "href": "/legal/terms" }
+          ]
+        }
+      ],
+      "contact": {
+        "email": "connect@rubixkube.io",
+        "location": "Bengaluru, India",
+        "social": [
+          { "platform": "LinkedIn", "href": "https://linkedin.com/company/rubixkube" },
+          { "platform": "X", "href": "https://x.com/rubixkube" }
+        ]
+      }
+    }
+  }

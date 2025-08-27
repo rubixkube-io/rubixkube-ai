@@ -1,0 +1,176 @@
+{
+    "version": "1.0.0",
+    "project": {
+      "name": "RubixKube Website",
+      "framework": "Next.js",
+      "deployment": "Vercel",
+      "design_system": "Tailwind + shadcn/ui + Framer Motion"
+    },
+    "brand": {
+      "company": "RubixKube",
+      "tagline": "The Reliability Layer for the AI Era",
+      "colors": {
+        "primary": "#0E3A8A",
+        "accent": "#2F5BFF",
+        "background_light": "#F8FAFC",
+        "background_dark": "#0B1220",
+        "ink": "#111827",
+        "muted": "#6B7280",
+        "cta_green": "#00C853"
+      },
+      "typography": {
+        "heading": "Space Grotesk, Inter, sans-serif",
+        "body": "Inter, system-ui, sans-serif",
+        "weights": { "regular": 400, "medium": 500, "bold": 700 },
+        "scale": {
+          "h1": "clamp(42px, 6vw, 72px)",
+          "h2": "clamp(32px, 4.5vw, 56px)",
+          "h3": "clamp(24px, 3vw, 36px)",
+          "body": "18px",
+          "small": "15px"
+        }
+      },
+      "motifs": {
+        "orbital_graphics": true,
+        "grid_overlay": true,
+        "soft_3d_shapes": ["cube", "bars", "nodes"],
+        "accent_glow": "#2F5BFF33"
+      }
+    },
+    "nav": {
+      "logo": "/assets/rubixkube-logo.svg",
+      "items": [
+        { "label": "Platform", "href": "/platform" },
+        { "label": "Solutions", "href": "/solutions" },
+        { "label": "Resources", "href": "/resources" },
+        { "label": "Company", "href": "/company" }
+      ],
+      "cta": { "label": "Get Access", "href": "/demo", "style": "button/primary" },
+      "auth": ["Sign In"]
+    },
+    "pages": [
+      {
+        "route": "/",
+        "sections": [
+          {
+            "type": "hero",
+            "background": "light",
+            "heading": "Run reliability on autopilot.",
+            "subheading": "Free your teams for what’s next.",
+            "visual": {
+              "kind": "3d-bars",
+              "colors": ["#0E3A8A", "#2F5BFF", "#16A34A", "#9333EA", "#F97316"]
+            },
+            "cta_bar": {
+              "text": "AI-Powered Reliability for Modern Businesses",
+              "cta": { "label": "Book a Demo", "href": "/demo", "style": "button/black" },
+              "background": "cta_green"
+            }
+          },
+          {
+            "type": "why",
+            "background": "white",
+            "heading": "Why RubixKube?",
+            "points": [
+              "Unify control in a singular Command Center.",
+              "Predict and prevent errors before they hit customers.",
+              "De-risk deployments across any environment.",
+              "Streamline collaboration with seamless integration.",
+              "Ensure continuity and protect against loss."
+            ],
+            "visual": {
+              "kind": "gradient-card",
+              "colors": ["#0E3A8A", "#2F5BFF"],
+              "overlay_ui": ["checklist"]
+            },
+            "logos": [
+              "/assets/logos/salesforce.svg",
+              "/assets/logos/aws.svg",
+              "/assets/logos/gcp.svg"
+            ]
+          },
+          {
+            "type": "ai_teammates",
+            "background": "dark",
+            "heading": "Meet your AI teammates that learn fast, act responsibly, and always deliver.",
+            "cta": { "label": "Explore Platform", "href": "/platform" },
+            "highlight": {
+              "pill": "Intelligence",
+              "color": "#2F5BFF",
+              "copy": "Detects, diagnoses and heals issues proactively."
+            }
+          },
+          {
+            "type": "capabilities",
+            "background": "dark",
+            "heading": "Automate reliability. Accelerate innovation.",
+            "carousel": ["Observe", "Plan", "Act", "Learn"],
+            "visual": { "kind": "particle-orbit", "accent": "#2F5BFF" }
+          },
+          {
+            "type": "hybrid_teams",
+            "background": "dark",
+            "heading": "Purpose-Built for Hybrid Teams.",
+            "copy": "Geography and time zones won’t slow momentum. RubixKube ensures seamless workflows, preserving context across handoffs.",
+            "tags": ["Monitor", "Document", "Build"]
+          },
+          {
+            "type": "investors",
+            "background": "light",
+            "heading": "Built by engineers for engineers. Backed by leading investors.",
+            "logos": [
+              "/assets/logos/google.svg",
+              "/assets/logos/microsoft.svg",
+              "/assets/logos/ycombinator.svg",
+              "/assets/logos/partners.svg"
+            ]
+          },
+          {
+            "type": "closing_cta",
+            "background": "white",
+            "heading": "Run reliability on autopilot. Turn uptime into upside.",
+            "buttons": [
+              { "label": "Schedule a Deep Dive", "style": "button/black", "href": "/demo" },
+              { "label": "Stay Updated", "style": "button/outline", "href": "/subscribe" }
+            ],
+            "visual": { "kind": "3d-cube", "color": "#0E3A8A" }
+          }
+        ]
+      }
+    ],
+    "footer": {
+      "columns": [
+        {
+          "title": "Solutions",
+          "links": [{ "label": "Salesforce", "href": "/solutions/salesforce" }]
+        },
+        {
+          "title": "Platform",
+          "links": [
+            { "label": "Command Center", "href": "/platform/command-center" },
+            { "label": "AI Brain", "href": "/platform/ai-brain" }
+          ]
+        },
+        {
+          "title": "Resources",
+          "links": [
+            { "label": "Docs", "href": "/docs" },
+            { "label": "Blog", "href": "/blog" }
+          ]
+        },
+        {
+          "title": "Company",
+          "links": [{ "label": "Contact", "href": "/company/contact" }]
+        }
+      ],
+      "social": [
+        { "platform": "LinkedIn", "href": "https://linkedin.com/company/rubixkube" },
+        { "platform": "X", "href": "https://x.com/rubixkube" },
+        { "platform": "Slack", "href": "https://rubixkube-community.slack.com" }
+      ],
+      "legal": [
+        { "label": "Privacy", "href": "/privacy" },
+        { "label": "Terms", "href": "/terms" }
+      ]
+    }
+  }

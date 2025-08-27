@@ -1,0 +1,532 @@
+{
+  "pages": {
+    "about": {
+      "meta": {
+        "title": "Our Story — RubixKube",
+        "description": "Learn about RubixKube's journey from a real problem to the bridge between infrastructure and impact. Discover how we're building the default reliability layer for your infra and business.",
+        "seo_keywords": [
+          "RubixKube story",
+          "company mission",
+          "infrastructure reliability",
+          "AI SRE",
+          "site reliability intelligence"
+        ]
+      },
+      "hero": {
+        "eyebrow": "Our Story",
+        "h1_html": "The Bridge between <span class=\"bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent\">Infra and Impact</span>",
+        "subhead": "RubixKube was born from lived pain. We’ve seen good engineers drown in dashboards, alerts, and late-night fire drills. Infra kept evolving, but reliability stayed a people problem. We built RubixKube as the missing layer — software that thinks like a seasoned SRE, acts before customers notice, and explains impact in the language of both infra and business.",
+        "image": "/Our_story.png",
+        "image_alt": "Abstract colorful shapes representing RubixKube's intelligent infrastructure management"
+      },
+      "sections": {
+        "what_we_built": {
+          "heading": "What We Built",
+          "content": [
+            "A growing mesh of intelligent AI agents that <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-semibold\">observe, plan, act and learn.</span> A system that <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-semibold\">learns your stack like a seasoned SRE</span> and scales faster than any human ever could.",
+            "But we didn't stop at engineers. <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-semibold\">RubixKube bridges the gap between infrastructure and leadership.</span> While agents automate root cause and healing, the system also tells you in business terms what's at risk, what's costing you, and whether you're safe to launch."
+          ]
+        },
+        "why_it_matters": {
+          "heading": "Why It Matters",
+          "content": [
+            "Because downtime doesn't just break systems. It breaks <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-semibold\">trust. momentum. revenue.</span>",
+            "Not another tool. Not another LLM wrapper. RubixKube is the <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-semibold\">default reliability layer</span> for your infra and business."
+          ]
+        },
+        "the_result": {
+          "heading": "The Result",
+          "outcomes": [
+            "Fewer fire drills",
+            "Faster launches",
+            "Peace of mind"
+          ]
+        }
+      }
+    },
+
+    "platform": {
+      "meta": {
+        "title": "Platform — RubixKube",
+        "description": "Explore RubixKube's intelligent platform. Discover how our AI agents observe, plan, act, and learn to keep your infrastructure reliable and your business running.",
+        "seo_keywords": [
+          "RubixKube platform",
+          "AI agents",
+          "infrastructure automation",
+          "site reliability",
+          "Kubernetes management"
+        ]
+      },
+      "hero": {
+        "eyebrow": "Platform",
+        "h1_html": "About <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent\">RubixKube</span>",
+        "subhead": "RubixKube is the reliability brain for modern systems. An AI-native mesh of agents that watch, plan, act, and learn — 24/7. Where most ‘AI tools’ stop at a suggestion, RubixKube closes the loop: detecting risks, reasoning across context, and executing safe remediations with guardrails.",
+        "supporting_text": "It doesn’t just tell you what’s broken. It keeps your systems alive.",
+        "image": "/Our_story.png",
+        "image_alt": "Abstract colorful shapes representing RubixKube's intuitive infrastructure management"
+      },
+      "sections": {
+        "pillars": {
+          "heading": "Pillars Of RubixKube",
+          "items": [
+            {
+              "title": "Agentic Mesh Architecture",
+              "description": "A self orchestrating network of specialized AI agents (Observer, Planner, Executor, Historian, Collaborator) that form a collaborative reasoning engine for intelligent, multi-step infrastructure operations. Think \"microservices for operational intelligence.\"",
+              "icon": "Network",
+              "gradient": "from-primary to-primary-dark"
+            },
+            {
+              "title": "Multi-Dimensional Memory System",
+              "description": "Combines real-time state capture (live system snapshots) with persistent historical knowledge (incidents, RCAs, patterns) using retrieval-augmented generation (RAG). Provides agents with deep temporal awareness for pattern recognition and continuous learning.",
+              "icon": "Brain",
+              "gradient": "from-accent to-primary"
+            },
+            {
+              "title": "Intelligent Conversational Interface",
+              "description": "Human-centric, context-aware interface that transforms operational complexity into intuitive dialogue. Eliminates CLI gymnastics and YAML hunting — it's an operational copilot that understands infrastructure, not just text.",
+              "icon": "MessageCircle",
+              "gradient": "from-primary-light to-accent"
+            },
+            {
+              "title": "Governed Autonomy Framework",
+              "description": "Every action operates within configurable policy boundaries, audit trails, and approval workflows. Operators control automation scope from read-only monitoring to full autonomous remediation. Policy driven, explainable, and reversible.",
+              "icon": "Shield",
+              "gradient": "from-primary-dark to-primary"
+            },
+            {
+              "title": "Unified Observability & Knowledge Graph",
+              "description": "Comprehensive infrastructure graph connecting services, metrics, logs, dependencies, ownership, and incident history. Enriched with CI/CD, docs, and runbooks to answer \"What happened?\", \"Why?\", \"What next?\", and \"Has this happened before?\"",
+              "icon": "Search",
+              "gradient": "from-accent to-primary-light"
+            },
+            {
+              "title": "Adaptive Intelligence Engine",
+              "description": "Continuously evolves through feedback loops, corrective interventions, and historical analysis. Over time, becomes your team's institutional memory, SRE expert, and diagnostic specialist — always online, always learning.",
+              "icon": "Zap",
+              "gradient": "from-primary to-accent"
+            }
+          ]
+        },
+        "under_the_hood": {
+          "heading": "Under The Hood",
+          "items": [
+            {
+              "title": "Modular Agents",
+              "description": "Observer, Planner, Executor, Historian, Collaborator, each agent focused on their specialty, dynamically scaling with workload.",
+              "icon": "Settings",
+              "gradient": "from-primary to-primary-dark"
+            },
+            {
+              "title": "Multi-Cloud Native",
+              "description": "Kubernetes, AWS, GCP, Azure, hybrid, on-prem, one interface to rule them all through pluggable environment adapters.",
+              "icon": "Cloud",
+              "gradient": "from-accent to-primary"
+            },
+            {
+              "title": "Context Enrichment",
+              "description": "CI/CD metadata, architecture docs, FAQs, support tickets automatically linked to infrastructure nodes.",
+              "icon": "Link",
+              "gradient": "from-primary-light to-accent"
+            },
+            {
+              "title": "Visual RCA Flow",
+              "description": "Infrastructure graph animates investigation paths and remediation steps in real time, see your system think.",
+              "icon": "Target",
+              "gradient": "from-primary to-accent"
+            },
+            {
+              "title": "Vendor-Specific Agents",
+              "description": "Specialized sub-agents for AWS, GCP, Azure operations, deep platform expertise in each domain.",
+              "icon": "Dices",
+              "gradient": "from-primary-dark to-accent"
+            },
+            {
+              "title": "Distributed Coordination",
+              "description": "Goal-oriented agent collaboration ensures cohesive action across complex, multi-system operations.",
+              "icon": "Music",
+              "gradient": "from-accent to-primary-light"
+            }
+          ]
+        }
+      }
+    },
+
+    "solutions": {
+      "meta": {
+        "title": "Solutions — RubixKube",
+        "description": "Discover how RubixKube solves real infrastructure challenges. From incident response to proactive monitoring, see how our AI agents transform your operations.",
+        "seo_keywords": [
+          "infrastructure solutions",
+          "incident response",
+          "proactive monitoring",
+          "AI operations",
+          "site reliability solutions"
+        ]
+      },
+      "hero": {
+        "eyebrow": "Solutions",
+        "h1_html": "Solve Real <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent\">Infrastructure Challenges</span>",
+        "subhead": "Reliability isn’t optional. Every failure costs revenue, trust, and momentum. RubixKube transforms operations from firefighting to foresight — keeping your business resilient."
+      },
+      "sections": {
+        "use_cases": {
+          "heading": "Key Use Cases",
+          "items": [
+            {
+              "title": "Incident Response & Resolution",
+              "description": "Incidents that finish themselves — agents correlate signals, pinpoint root cause, and apply safe fixes.",
+              "icon": "AlertTriangle",
+              "benefits": ["Reduce MTTR by 80%", "Eliminate alert fatigue", "Automated root cause analysis"]
+            },
+            {
+              "title": "Proactive Monitoring & Prevention",
+              "description": "Prevention over panic — learns from history to predict and stop repeat failures before they cascade.",
+              "icon": "Eye",
+              "benefits": ["Prevent 70% of incidents", "Predict capacity issues", "Early warning systems"]
+            },
+            {
+              "title": "Deployment Safety & Rollback",
+              "description": "Safe launches, always — validates deployments and automatically rolls back at the first sign of risk.",
+              "icon": "Shield",
+              "benefits": ["Zero-downtime deployments", "Automatic rollback triggers", "Deployment health monitoring"]
+            },
+            {
+              "title": "Capacity Planning & Optimization",
+              "description": "Capacity without chaos — continuously optimizes resources before they bottleneck.",
+              "icon": "TrendingUp",
+              "benefits": ["Optimize resource usage", "Predict capacity needs", "Cost optimization"]
+            }
+          ]
+        },
+        "industries": {
+          "heading": "Industries We Serve",
+          "items": [
+            {
+              "title": "E-commerce & Retail",
+              "description": "Keep your online store running 24/7. Prevent revenue loss from downtime and ensure smooth customer experiences.",
+              "challenges": ["High traffic spikes", "Payment processing reliability", "Inventory system uptime"]
+            },
+            {
+              "title": "Financial Services",
+              "description": "Meet strict compliance requirements while maintaining system reliability. AI agents ensure your financial systems are always available.",
+              "challenges": ["Regulatory compliance", "Transaction processing", "Data security"]
+            },
+            {
+              "title": "Healthcare & Life Sciences",
+              "description": "Ensure critical healthcare systems remain operational. AI agents monitor and maintain the infrastructure that supports patient care.",
+              "challenges": ["Patient data systems", "Medical device connectivity", "Emergency response systems"]
+            },
+            {
+              "title": "Technology & SaaS",
+              "description": "Scale your platform with confidence. AI agents handle the complexity of modern cloud-native architectures.",
+              "challenges": ["Microservices complexity", "Multi-cloud management", "API reliability"]
+            }
+          ]
+        }
+      }
+    },
+
+    "resources": {
+      "meta": {
+        "title": "Resources — RubixKube",
+        "description": "Access RubixKube resources including documentation, blog posts, case studies, and more. Learn how to maximize the value of your infrastructure.",
+        "seo_keywords": [
+          "RubixKube resources",
+          "documentation",
+          "blog",
+          "case studies",
+          "infrastructure guides"
+        ]
+      },
+      "hero": {
+        "eyebrow": "Resources",
+        "h1_html": "Learn & <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent\">Grow</span>",
+        "subhead": "Not just docs. This is our playbook for the reliability era — guides, case studies, and stories from teams who refuse to gamble with downtime."
+      },
+      "sections": {
+        "documentation": {
+          "heading": "Documentation",
+          "description": "Comprehensive guides to get you started with RubixKube and master advanced features.",
+          "categories": [
+            {
+              "title": "Getting Started",
+              "items": ["Quick Start Guide", "Installation", "First Steps", "Basic Configuration"]
+            },
+            {
+              "title": "Core Concepts",
+              "items": ["AI Agents", "Observability", "Automation", "Security"]
+            },
+            {
+              "title": "Advanced Topics",
+              "items": ["Custom Policies", "Integration APIs", "Performance Tuning", "Troubleshooting"]
+            }
+          ]
+        },
+        "blog": {
+          "heading": "Blog & Insights",
+          "description": "Stay updated with the latest in infrastructure reliability, AI operations, and industry trends.",
+          "categories": [
+            "Infrastructure Reliability",
+            "AI Operations",
+            "Industry Insights",
+            "Product Updates",
+            "Best Practices"
+          ]
+        },
+        "case_studies": {
+          "heading": "Case Studies",
+          "description": "Real-world examples of how organizations are using RubixKube to transform their operations.",
+          "items": [
+            {
+              "title": "E-commerce Platform",
+              "description": "How a major retailer reduced MTTR by 80% and prevented revenue loss.",
+              "metrics": ["80% MTTR reduction", "99.9% uptime", "Zero revenue loss"]
+            },
+            {
+              "title": "Financial Services",
+              "description": "Achieving compliance while maintaining system reliability in a regulated environment.",
+              "metrics": ["100% compliance", "99.99% uptime", "Automated audits"]
+            }
+          ]
+        },
+        "webinars": {
+          "heading": "Webinars & Events",
+          "description": "Join our live sessions to learn from experts and connect with the community.",
+          "upcoming": [
+            "Getting Started with RubixKube",
+            "Advanced Automation Strategies",
+            "Industry Roundtable: Future of SRE"
+          ]
+        }
+      }
+    },
+
+    "demo": {
+      "meta": {
+        "title": "Book Demo — RubixKube",
+        "description": "See RubixKube in action. Book a personalized demo to discover how our AI agents can transform your infrastructure operations.",
+        "seo_keywords": [
+          "RubixKube demo",
+          "book demo",
+          "AI SRE demo",
+          "infrastructure automation demo"
+        ]
+      },
+      "hero": {
+        "eyebrow": "Book Demo",
+        "h1_html": "See <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent\">RubixKube</span> in Action",
+        "subhead": "See RubixKube catch failures before they cascade, explain what’s at risk in plain language, and keep services online without a war room. In 30 minutes, you’ll know why we call it the default reliability layer.",
+        "benefits": [
+          "Personalized demonstration",
+          "Real-world use cases",
+          "Q&A with experts",
+          "Implementation roadmap"
+        ]
+      },
+      "sections": {
+        "what_to_expect": {
+          "heading": "What to Expect",
+          "items": [
+            {
+              "title": "Platform Overview",
+              "description": "See how RubixKube's AI agents work together to monitor, analyze, and maintain your infrastructure."
+            },
+            {
+              "title": "Real Scenarios",
+              "description": "Watch live demonstrations of incident detection, root cause analysis, and automated remediation."
+            },
+            {
+              "title": "Integration Examples",
+              "description": "Learn how RubixKube integrates with your existing tools and workflows."
+            },
+            {
+              "title": "ROI Discussion",
+              "description": "Understand the business impact and return on investment for your organization."
+            }
+          ]
+        },
+        "demo_form": {
+          "title": "Book Your Demo",
+          "description": "Fill out the form below and our team will get back to you within 24 hours to schedule your personalized demo.",
+          "fields": [
+            "Full Name",
+            "Company",
+            "Job Title",
+            "Email",
+            "Phone",
+            "Company Size",
+            "Current Infrastructure",
+            "Primary Challenges"
+          ]
+        }
+      }
+    },
+
+    "legal": {
+      "privacy": {
+        "meta": {
+          "title": "Privacy Policy — RubixKube",
+          "description": "Learn how RubixKube collects, uses, and protects your data. Our comprehensive privacy policy ensures transparency and compliance.",
+          "seo_keywords": [
+            "privacy policy",
+            "data protection",
+            "GDPR compliance",
+            "data usage"
+          ]
+        },
+        "content": {
+          "title": "RubixKube™ Privacy & Data Usage Policy",
+          "effective_date": "25 June 2025",
+          "sections": [
+            {
+              "title": "Introduction",
+              "content": "This Privacy & Data Usage Policy applies to all users of RubixKube™ services, including our website, platform, APIs, and integrations. By using RubixKube™, you agree to the practices described in this document."
+            },
+            {
+              "title": "What Information We Collect",
+              "subsections": [
+                {
+                  "title": "Personal Information",
+                  "items": ["Name, email, job title", "Organization name", "Login credentials, preferences"]
+                },
+                {
+                  "title": "Usage & Technical Data",
+                  "items": ["IP address, browser, OS", "Pages visited, session time", "Infra metadata (e.g., logs)"]
+                },
+                {
+                  "title": "Third-Party Integrations",
+                  "items": ["GitHub tokens", "Prometheus, CI/CD events", "System logs & telemetry"]
+                }
+              ]
+            },
+            {
+              "title": "How We Use Your Data",
+              "table_data": [
+                ["Service Delivery", "Operate and improve RubixKube™ functionality"],
+                ["Account Management", "Authenticate, notify, and support your usage"],
+                ["AI Operations", "Feed anonymized data to improve agent behavior"],
+                ["Security Monitoring", "Detect unauthorized access or misconfigurations"],
+                ["Analytics & Insights", "Product usage patterns to guide UX & features"],
+                ["Legal & Compliance", "Fulfill legal obligations and audits"]
+              ]
+            }
+          ]
+        }
+      },
+      "terms": {
+        "meta": {
+          "title": "Terms of Service — RubixKube",
+          "description": "Read RubixKube's terms of service. Understand your rights and responsibilities when using our platform and services.",
+          "seo_keywords": [
+            "terms of service",
+            "legal terms",
+            "service agreement",
+            "usage terms"
+          ]
+        },
+        "content": {
+          "title": "RubixKube™ Terms of Use",
+          "effective_date": "25 June 2025",
+          "sections": [
+            {
+              "title": "Eligibility",
+              "content": "To use RubixKube™, you must be at least 16 years of age and have the authority to enter into binding agreements. If you're using RubixKube on behalf of an organization, you represent that you have the necessary permissions to bind that organization to these Terms."
+            },
+            {
+              "title": "Use of the Services",
+              "content": "You agree to use RubixKube™ only for lawful purposes. You will not:",
+              "prohibited_actions": [
+                "Disrupt or interfere with the performance of the Services",
+                "Reverse engineer or attempt to extract the source code",
+                "Use Services to build competing products",
+                "Misuse API access or tokens",
+                "Submit harmful or misleading content"
+              ]
+            },
+            {
+              "title": "Your Data & Responsibilities",
+              "content": "You retain ownership of your data. We process it according to our Privacy Policy.",
+              "responsibilities": [
+                "Keep your credentials secure",
+                "Ensure compliance of integrated tools (e.g., GitHub, Prometheus)",
+                "Backup critical data"
+              ]
+            }
+          ]
+        }
+      }
+    },
+
+    "contact": {
+      "meta": {
+        "title": "Contact Us — RubixKube",
+        "description": "Get in touch with the RubixKube team. We're here to help with questions, support, and partnership opportunities.",
+        "seo_keywords": [
+          "contact RubixKube",
+          "support",
+          "partnership",
+          "sales inquiry"
+        ]
+      },
+      "hero": {
+        "eyebrow": "Contact Us",
+        "h1_html": "We'd Love to <span class=\"bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent\">Hear from You</span>",
+        "subhead": "Whether you’re scaling your first cluster or managing billions in transactions, let’s talk about how RubixKube can give you peace of mind at scale."
+      },
+      "sections": {
+        "contact_methods": {
+          "heading": "Get in Touch",
+          "methods": [
+            {
+              "title": "General Inquiries",
+              "email": "connect@rubixkube.ai",
+              "description": "For general questions, partnerships, and media inquiries"
+            },
+            {
+              "title": "Technical Support",
+              "email": "support@rubixkube.ai",
+              "description": "For technical questions and platform support"
+            },
+            {
+              "title": "Sales & Demos",
+              "email": "sales@rubixkube.ai",
+              "description": "For sales inquiries and demo requests"
+            }
+          ]
+        },
+        "contact_form": {
+          "title": "Send us a Message",
+          "description": "Fill out the form below and we'll get back to you as soon as possible.",
+          "fields": [
+            "Full Name",
+            "Company",
+            "Email",
+            "Subject",
+            "Message"
+          ]
+        }
+      }
+    },
+
+    "404": {
+      "meta": {
+        "title": "Page Not Found — RubixKube",
+        "description": "The page you're looking for doesn't exist. Return to the RubixKube homepage to explore our platform.",
+        "seo_keywords": [
+          "404 error",
+          "page not found",
+          "RubixKube"
+        ]
+      },
+      "content": {
+        "error_code": "404",
+        "title": "Achievement Unlocked!",
+        "subtitle": "Congratulations! You've discovered a page that exists in a parallel universe.",
+        "cta": {
+          "label": "Back to Reality",
+          "href": "/"
+        }
+      }
+    }
+  }
+}
