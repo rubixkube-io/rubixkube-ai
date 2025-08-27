@@ -1,6 +1,12 @@
-# RubixKube
+<div align="center">
+  <img src="/public/og.png" alt="RubixKube - Site Reliability Intelligence for the AI Era" width="100%" />
+</div>
 
-**Site Reliability Intelligence for the AI Era**
+<div align="center">
+  <img src="/public/logo-icon.png" alt="RubixKube Logo" width="80" />
+  <h1>RubixKube</h1>
+  <p><strong>Site Reliability Intelligence for the AI Era</strong></p>
+</div>
 
 RubixKube is the reliability brain for modern systems. An AI-native mesh of agents that watch, plan, act, and learn — 24/7. Keep revenue online. RubixKube watches your stack, finds the real cause, and fixes it safely with approvals.
 
@@ -56,6 +62,11 @@ RubixKube transforms operations from firefighting to foresight:
 - **Guardrails and Approvals**: Least-privilege actions, policy checks, and human approvals when you want them
 - **Visual RCA Flow**: Infrastructure graph animates investigation paths and remediation steps in real time
 - **Conversational Control**: Manage clusters and apps through chat, CLI, or web. Natural language with real action
+
+<div align="center">
+  <img src="/public/139_1x_shots_so.png" alt="RubixKube Platform Screenshot - Site Reliability Intelligence Dashboard" width="100%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+  <p><em>RubixKube Platform: Real-time infrastructure monitoring and AI-powered incident response</em></p>
+</div>
 
 ## 🎯 What RubixKube Handles
 
