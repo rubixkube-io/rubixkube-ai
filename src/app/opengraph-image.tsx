@@ -12,7 +12,7 @@ export default async function Image() {
   // Read the existing og.png file from the public directory
   const imageData = await readFile(join(process.cwd(), 'public/og.png'))
   
-  return new Response(imageData, {
+  return new Response(new Uint8Array(imageData), {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=31536000, immutable',
