@@ -101,6 +101,8 @@ export default function RootLayout({
         {/* Cache-busting for WhatsApp and Slack */}
         <meta property="og:image" content="https://rubixkube.ai/og.jpg?v=20241201" />
         <meta name="twitter:image" content="https://rubixkube.ai/og.jpg?v=20241201" />
+        {/* Logo for Open Graph */}
+        <meta property="og:logo" content="https://rubixkube.ai/logo-icon.png" />
         {/* Additional Open Graph properties for better compatibility */}
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="RubixKube" />
