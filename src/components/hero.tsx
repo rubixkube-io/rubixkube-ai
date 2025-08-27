@@ -78,7 +78,7 @@ export function Hero() {
             <motion.h1
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.1 } })}
-              className="text-[64px] lg:text-[72px] xl:text-[80px] sm:text-[48px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6"
+              className="text-[40px] sm:text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6"
             >
               <span className="font-medium">Site Reliability</span>{' '}
               <span className="relative">

@@ -56,7 +56,7 @@ export function ClosingCTA() {
             <motion.h2
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
-              className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-6 leading-[0.95] px-4 sm:px-0"
+              className="text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-6 leading-[0.95] px-4 sm:px-0"
             >
               Ready to keep your infrastructure reliable?
             </motion.h2>

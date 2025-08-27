@@ -45,7 +45,7 @@ export function SRIFlow() {
           <div className="inline-flex items-center rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-sm font-medium text-accent mb-6">
             How Site Reliability Intelligence works
           </div>
-          <h2 className="text-[56px] sm:text-[40px] font-extrabold tracking-[-0.015em] mb-4 text-foreground">
+          <h2 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] mb-4 text-foreground">
             Observe → Plan → Act → Learn
           </h2>
         </motion.div>

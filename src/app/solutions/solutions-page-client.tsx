@@ -125,7 +125,7 @@ export function SolutionsPageClient() {
 
               {/* Main Headline */}
               <motion.h1 
-                className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] xl:text-[80px] 2xl:text-[88px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6 px-4 sm:px-0"
+                className="text-[40px] sm:text-[48px] md:text-[56px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6 px-4 sm:px-0"
                 variants={fadeUpVariants}
               >
                 Solve Real <span className="text-accent">Infrastructure Challenges</span>

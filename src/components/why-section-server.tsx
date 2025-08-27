@@ -28,7 +28,7 @@ export function WhySectionServer() {
     <section className="py-24 md:py-20 sm:py-14 bg-background">
       <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-[56px] sm:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-4">
+          <h2 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-4">
             Why RubixKube
           </h2>
         </div>

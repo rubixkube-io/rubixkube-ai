@@ -159,7 +159,7 @@ export function ResourcesPageClient() {
 
               {/* Main Headline */}
               <motion.h1 
-                className="text-[64px] lg:text-[72px] xl:text-[80px] sm:text-[48px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6"
+                className="text-[40px] sm:text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6"
                 variants={fadeUpVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -226,7 +226,7 @@ export function ResourcesPageClient() {
               viewport={{ once: true }}
             >
               <motion.h2 
-                className="text-[56px] sm:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-6"
+                className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-6"
                 variants={fadeUpVariants}
               >
                 Blog & Insights
@@ -267,7 +267,7 @@ export function ResourcesPageClient() {
               transition={{ delay: 0.2 }}
             >
               <motion.h2 
-                className="text-[56px] sm:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-6"
+                className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-6"
                 variants={fadeUpVariants}
               >
                 Case Studies
@@ -332,7 +332,7 @@ export function ResourcesPageClient() {
             viewport={{ once: true }}
           >
             <motion.h2 
-              className="text-[56px] sm:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-6"
+              className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-6"
               variants={fadeUpVariants}
             >
               Ready to Level Up Your Infrastructure Knowledge?

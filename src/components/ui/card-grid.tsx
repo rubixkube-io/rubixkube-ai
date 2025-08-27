@@ -235,7 +235,7 @@ export function CardGrid({
           className="text-center mb-16"
         >
           {title && (
-            <h2 className="text-[56px] sm:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-4">
+            <h2 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-4">
               {title}
             </h2>
           )}

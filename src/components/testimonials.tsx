@@ -33,7 +33,7 @@ export function Testimonials() {
           {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
           className="text-center mb-16"
         >
-          <h2 className="text-[56px] sm:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-4">
+          <h2 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-4">
             Success Stories
           </h2>
         </motion.div>
