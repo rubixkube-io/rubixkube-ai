@@ -2,11 +2,9 @@
   <img src="/public/og.png" alt="RubixKube - Site Reliability Intelligence for the AI Era" width="100%" />
 </div>
 
-<div align="center">
-  <img src="/public/logo-icon.png" alt="RubixKube Logo" width="80" />
-  <h1>RubixKube</h1>
-  <p><strong>Site Reliability Intelligence for the AI Era</strong></p>
-</div>
+<h1>RubixKube</h1>
+<p><strong>Site Reliability Intelligence for the AI Era</strong></p>
+
 
 RubixKube is the reliability brain for modern systems. An AI-native mesh of agents that watch, plan, act, and learn — 24/7. Keep revenue online. RubixKube watches your stack, finds the real cause, and fixes it safely with approvals.
 
