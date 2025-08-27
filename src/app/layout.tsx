@@ -17,6 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://rubixkube.io'),
   title: "RubixKube - Site Reliability Intelligence",
   description: "Predict, prevent, and fix production issues before customers are impacted with AI-native reliability for Kubernetes and cloud.",
   keywords: [
@@ -40,20 +41,11 @@ export const metadata: Metadata = {
     url: "https://rubixkube.io",
     siteName: "RubixKube",
     type: "website",
-    images: [
-      {
-        url: "https://rubixkube.io/og.png",
-        width: 1200,
-        height: 630,
-        alt: "RubixKube Site Reliability Intelligence"
-      }
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "RubixKube - Site Reliability Intelligence",
     description: "Detect, diagnose, and heal issues before customers feel them.",
-    images: ["https://rubixkube.io/og.png"],
   },
 };
 
