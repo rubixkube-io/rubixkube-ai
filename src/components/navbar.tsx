@@ -33,9 +33,9 @@ export function Navbar() {
   const renderSocialIcon = (iconType: string) => {
     switch (iconType) {
       case 'linkedin':
-        return <Linkedin className="w-4 h-4" />
+        return <Linkedin className="w-5 h-5" />
       case 'github':
-        return <Github className="w-4 h-4" />
+        return <Github className="w-5 h-5" />
       default:
         return null
     }
@@ -51,12 +51,11 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-
-
   return (
     <motion.header
       variants={fadeUpVariants}
-      {...(prefersReducedMotion ? { initial: "visible" } : { initial: "hidden", animate: "visible" })}
+      initial={prefersReducedMotion ? "visible" : "hidden"}
+      animate={prefersReducedMotion ? "visible" : "visible"}
       className={cn(
         'fixed top-0 w-full z-50 transition-all duration-300',
         scrolled 
@@ -64,7 +63,7 @@ export function Navbar() {
           : 'bg-transparent'
       )}
     >
-              <nav className="mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8">
+      <nav className="mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link href="/">

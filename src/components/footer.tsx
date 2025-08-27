@@ -52,9 +52,9 @@ export function Footer() {
   const renderSocialIcon = (iconType: string) => {
     switch (iconType) {
       case 'linkedin':
-        return <Linkedin className="w-5 h-5" />
+        return <Linkedin className="w-6 h-6" />
       case 'github':
-        return <Github className="w-5 h-5" />
+        return <Github className="w-6 h-6" />
       default:
         return null
     }
@@ -66,7 +66,8 @@ export function Footer() {
         {/* One-liner about SRI */}
         <motion.div
           variants={fadeUpVariants}
-          {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
+          initial={prefersReducedMotion ? "visible" : "hidden"}
+          animate="visible"
           className="text-center mb-12"
         >
           <p className="text-slate-300 text-lg max-w-2xl mx-auto">
@@ -81,7 +82,9 @@ export function Footer() {
             <motion.div
               key={column.title}
               variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: index * 0.1 } })}
+              initial={prefersReducedMotion ? "visible" : "hidden"}
+              animate="visible"
+              transition={prefersReducedMotion ? {} : { delay: index * 0.1 }}
             >
               <h3 className="font-heading font-semibold text-white mb-4">
                 {column.title}
@@ -105,7 +108,9 @@ export function Footer() {
         {/* Bottom Section */}
         <motion.div
           variants={fadeUpVariants}
-          {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
+          initial={prefersReducedMotion ? "visible" : "hidden"}
+          animate="visible"
+          transition={prefersReducedMotion ? {} : { delay: 0.4 }}
           className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4"
         >
           <div className="flex items-center gap-4">
@@ -138,7 +143,7 @@ export function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-300 hover:text-white transition-colors duration-200 text-sm hover:scale-110 transition-transform"
+                className="text-slate-300 hover:text-white transition-colors duration-200 hover:scale-110 transition-transform p-1"
                 title={social.platform}
               >
                 {renderSocialIcon(social.iconType)}
