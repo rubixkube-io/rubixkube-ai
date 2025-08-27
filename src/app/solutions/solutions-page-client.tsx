@@ -125,16 +125,15 @@ export function SolutionsPageClient() {
 
               {/* Main Headline */}
               <motion.h1 
-                className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6 px-4 sm:px-0"
+                className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] xl:text-[80px] 2xl:text-[88px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6 px-4 sm:px-0"
                 variants={fadeUpVariants}
-                dangerouslySetInnerHTML={{
-                  __html: "Solve Real <span class=\"text-accent\">Infrastructure<br class=\"hidden sm:block\" />Challenges</span>"
-                }}
-              />
+              >
+                Solve Real <span className="text-accent">Infrastructure Challenges</span>
+              </motion.h1>
 
               {/* Subheadline */}
               <motion.p 
-                className="max-w-[90vw] sm:max-w-[55ch] text-base sm:text-lg md:text-[18px] leading-7 text-foreground-muted mx-auto px-4 sm:px-0"
+                className="max-w-[90vw] sm:max-w-[55ch] text-[18px] sm:text-[19px] md:text-[20px] leading-7 text-foreground-muted mx-auto px-4 sm:px-0"
                 variants={fadeUpVariants}
               >
                 Reliability isn&apos;t optional. Every failure costs revenue, trust, and momentum. RubixKube transforms operations from firefighting to foresight - keeping your business resilient.
@@ -146,7 +145,7 @@ export function SolutionsPageClient() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="flex flex-col sm:flex-row gap-3 mt-8 justify-center"
+                className="flex flex-col sm:flex-row gap-3 mt-8 justify-center items-center w-full px-4 sm:px-0"
               >
                 <Button size="lg" asChild>
                   <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting">

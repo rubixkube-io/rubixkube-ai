@@ -82,19 +82,18 @@ export function AboutPageClient() {
 
               {/* Main Headline */}
               <motion.h1 
-                className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6 px-4 sm:px-0"
+                className="text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] xl:text-[80px] 2xl:text-[88px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6 px-4 sm:px-0"
                 variants={fadeUpVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                dangerouslySetInnerHTML={{
-                  __html: "Building the Bridge <span class=\"text-accent\">Between<br class=\"hidden sm:block\" />Infrastructure & Impact</span>"
-                }}
-              />
+              >
+                Building the Bridge Between <span className="text-accent">Infrastructure & Impact</span>
+              </motion.h1>
 
               {/* Subheadline */}
               <motion.p 
-                className="max-w-[90vw] sm:max-w-[55ch] text-base sm:text-lg md:text-[18px] leading-7 text-foreground-muted mx-auto px-4 sm:px-0"
+                className="max-w-[90vw] sm:max-w-[55ch] text-[18px] sm:text-[19px] md:text-[20px] leading-7 text-foreground-muted mx-auto px-4 sm:px-0"
                 variants={fadeUpVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -146,7 +145,7 @@ export function AboutPageClient() {
               viewport={{ once: true }}
             >
               <div>
-                <h2 className="text-[48px] sm:text-[36px] font-extrabold tracking-[-0.015em] text-foreground mb-6">
+                <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-6">
                   The Problem We Couldn&apos;t Ignore
                 </h2>
                 <div className="space-y-4 text-lg leading-relaxed text-foreground-muted">
@@ -177,7 +176,7 @@ export function AboutPageClient() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h2 className="text-[48px] sm:text-[36px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
+            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
               RubixKube is the Missing Layer
             </h2>
             <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -217,7 +216,7 @@ export function AboutPageClient() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h2 className="text-[48px] sm:text-[36px] font-extrabold tracking-[-0.015em] text-foreground mb-8 text-center">
+            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-8 text-center">
               What We Built
             </h2>
             <div className="bg-background rounded-2xl p-8 border border-border">
@@ -261,7 +260,7 @@ export function AboutPageClient() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h2 className="text-[48px] sm:text-[36px] font-extrabold tracking-[-0.015em] text-foreground mb-12 text-center">
+            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-12 text-center">
               Why It Matters
             </h2>
             
@@ -312,7 +311,7 @@ export function AboutPageClient() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              <h2 className="text-[40px] sm:text-[32px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
+              <h2 className="text-[28px] sm:text-[32px] md:text-[36px] lg:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
                 What This Means For Your Team
               </h2>
               <div className="space-y-4">
@@ -337,7 +336,7 @@ export function AboutPageClient() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              <h2 className="text-[40px] sm:text-[32px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
+              <h2 className="text-[28px] sm:text-[32px] md:text-[36px] lg:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
                 What This Means For Your Business
               </h2>
               <div className="space-y-4">
@@ -368,7 +367,7 @@ export function AboutPageClient() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h2 className="text-[48px] sm:text-[36px] font-extrabold tracking-[-0.015em] text-foreground mb-12 text-center">
+            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-12 text-center">
               What We Believe
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
@@ -400,7 +399,7 @@ export function AboutPageClient() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h2 className="text-[48px] sm:text-[36px] font-extrabold tracking-[-0.015em] text-foreground mb-12">
+            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-12">
               The Result
             </h2>
             <div className="grid md:grid-cols-3 gap-8">

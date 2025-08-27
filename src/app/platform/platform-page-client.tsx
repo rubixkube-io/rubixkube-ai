@@ -105,10 +105,10 @@ export function PlatformPageClient() {
               <motion.h1 
                 className="text-[64px] lg:text-[72px] xl:text-[80px] sm:text-[48px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6"
                 variants={fadeUpVariants}
-                dangerouslySetInnerHTML={{
-                  __html: "Site Reliability <span class=\"text-accent\">Intelligence</span>"
-                }}
-              />
+              >
+                Site Reliability <span className="text-accent">Intelligence</span>
+              </motion.h1>
+
 
               {/* Subheadline */}
               <motion.p 

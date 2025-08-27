@@ -164,10 +164,9 @@ export function ResourcesPageClient() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                dangerouslySetInnerHTML={{
-                  __html: "Learn & <span class=\"text-accent\">Grow</span>"
-                }}
-              />
+              >
+                Learn & <span className="text-accent">Grow</span>
+              </motion.h1>
 
               {/* Subheadline */}
               <motion.p 
