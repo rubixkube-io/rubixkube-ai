@@ -41,14 +41,24 @@ const footerColumns = [
 ]
 
 const socialLinks = [
-  { platform: 'LinkedIn', href: 'https://linkedin.com/company/rubixkube', icon: <Linkedin /> },
-  { platform: 'GitHub', href: 'https://github.com/rubixkube-io', icon: <Github /> }
+  { platform: 'LinkedIn', href: 'https://linkedin.com/company/rubixkube', iconType: 'linkedin' },
+  { platform: 'GitHub', href: 'https://github.com/rubixkube-io', iconType: 'github' }
 ]
 
 export function Footer() {
   const prefersReducedMotion = useReducedMotion()
 
-
+  // Function to render social icons
+  const renderSocialIcon = (iconType: string) => {
+    switch (iconType) {
+      case 'linkedin':
+        return <Linkedin className="w-5 h-5" />
+      case 'github':
+        return <Github className="w-5 h-5" />
+      default:
+        return null
+    }
+  }
 
   return (
     <footer className="bg-slate-900 dark:bg-slate-900 text-white">
@@ -128,9 +138,10 @@ export function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-300 hover:text-white transition-colors duration-200 text-sm"
+                className="text-slate-300 hover:text-white transition-colors duration-200 text-sm hover:scale-110 transition-transform"
+                title={social.platform}
               >
-                {social.icon}
+                {renderSocialIcon(social.iconType)}
               </Link>
             ))}
             <Link
