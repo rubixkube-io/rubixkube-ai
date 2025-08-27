@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: "https://rubixkube.ai/about",
     images: [
       {
-        url: "https://rubixkube.ai/og.png",
+        url: "https://rubixkube.ai/og.jpg",
         width: 1200,
         height: 630,
         alt: "About RubixKube - From Outages to Intelligence"
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "About RubixKube - From Outages to Intelligence",
     description: "We built RubixKube from lived pain: late nights and alert floods. Learn how we created an AI reliability brain that keeps systems alive.",
-    images: ["https://rubixkube.ai/og.png"],
+    images: ["https://rubixkube.ai/og.jpg"],
   },
 }
 

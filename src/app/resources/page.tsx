@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: "https://rubixkube.ai/resources",
     images: [
       {
-        url: "https://rubixkube.ai/og.png",
+        url: "https://rubixkube.ai/og.jpg",
         width: 1200,
         height: 630,
         alt: "Resources - Docs, Playbooks, Case Studies"
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "Resources - Docs, Playbooks, Case Studies",
     description: "Learn the reliability playbook. Guides, docs, and stories that show how teams prevent outages and ship with confidence using RubixKube.",
-    images: ["https://rubixkube.ai/og.png"],
+    images: ["https://rubixkube.ai/og.jpg"],
   },
 }
 

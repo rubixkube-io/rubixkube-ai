@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     url: "https://rubixkube.ai/solutions",
     images: [
       {
-        url: "https://rubixkube.ai/og.png",
+        url: "https://rubixkube.ai/og.jpg",
         width: 1200,
         height: 630,
         alt: "Solutions - Reduce MTTR, End Alert Fatigue"
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "Solutions - Reduce MTTR, End Alert Fatigue",
     description: "Cut MTTR by up to 80%, reduce noise, and stop revenue risk. RubixKube turns firefighting into foresight with autonomous, safe remediation.",
-    images: ["https://rubixkube.ai/og.png"],
+    images: ["https://rubixkube.ai/og.jpg"],
   },
 }
 

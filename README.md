@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/public/og.png" alt="RubixKube - Site Reliability Intelligence for the AI Era" width="100%" />
+  <img src="/public/og.jpg" alt="RubixKube - Site Reliability Intelligence for the AI Era" width="100%" />
 </div>
 
 <h1>RubixKube</h1>
