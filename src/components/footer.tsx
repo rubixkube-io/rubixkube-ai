@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
-import { fadeUpVariants, fadeUp } from '@/lib/animations'
+import { fadeUpVariants } from '@/lib/animations'
 import { Linkedin, Github } from 'lucide-react'
 
 const footerColumns = [

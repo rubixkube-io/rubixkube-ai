@@ -16,6 +16,7 @@ const navigation = [
   { name: 'Platform', href: '/platform' },
   { name: 'Solutions', href: '/solutions' },
   { name: 'Resources', href: '/resources' },
+  { name: 'Blog', href: '/blog' },
   { name: 'Our Story', href: '/about' },
 ]
 
