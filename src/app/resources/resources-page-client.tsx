@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
@@ -16,7 +17,7 @@ import {
   BarChart3,
   Calendar,
   ArrowRight,
-  ExternalLink,
+  // ExternalLink, - unused"
   Lightbulb,
   TrendingUp
 } from 'lucide-react'
@@ -236,24 +237,31 @@ export function ResourcesPageClient() {
               </p>
               <div className="space-y-4">
                 {blogCategories.map((category, idx) => (
-                  <motion.div
+                  <Link 
                     key={idx}
-                    className="flex items-center justify-between p-4 bg-card-background rounded-lg shadow-sm border border-border hover:shadow-md transition-shadow cursor-pointer group"
-                    variants={fadeUpVariants}
-                    transition={{ delay: idx * 0.05 }}
+                    href={`/blog?category=${encodeURIComponent(category.title)}`}
+                    className="block"
                   >
-                    <div className="flex items-center space-x-3">
-                      <Lightbulb className="w-5 h-5 text-primary" />
-                      <span className="font-medium text-foreground">{category.title}</span>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-foreground-muted group-hover:text-primary transition-colors" />
-                  </motion.div>
+                    <motion.div
+                      className="flex items-center justify-between p-4 bg-card-background rounded-lg shadow-sm border border-border hover:shadow-md transition-shadow cursor-pointer group"
+                      variants={fadeUpVariants}
+                      transition={{ delay: idx * 0.05 }}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <Lightbulb className="w-5 h-5 text-primary" />
+                        <span className="font-medium text-foreground">{category.title}</span>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-foreground-muted group-hover:text-primary transition-colors" />
+                    </motion.div>
+                  </Link>
                 ))}
               </div>
               <div className="mt-8">
-                <Button variant="outline" className="group">
-                  View All Posts
-                  <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                <Button variant="outline" className="group" asChild>
+                  <Link href="/blog">
+                    View All Posts
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </Button>
               </div>
             </motion.div>
