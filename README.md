@@ -151,7 +151,7 @@ Put Site Reliability Intelligence to work in your stack.
 
 ---
 
-**RubixKube** — *Site Reliability Intelligence for the AI Era*
+**RubixKube** — *Site Reliability Intelligence is the future*
 
 *Agents that see more, plan better, act safely, and learn forever.*
 

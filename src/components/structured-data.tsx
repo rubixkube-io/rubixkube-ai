@@ -33,7 +33,7 @@ export function StructuredData() {
     "name": "RubixKube",
     "url": "https://rubixkube.ai",
     "logo": "https://rubixkube.ai/logo-icon.png",
-    "description": "Site Reliability Intelligence for the AI Era",
+    "description": "Site Reliability Intelligence is the future",
     "foundingDate": "2024",
     "industry": "Software Development",
     "knowsAbout": [

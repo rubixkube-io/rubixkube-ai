@@ -11,7 +11,7 @@ import { StructuredData } from '@/components/structured-data'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'RubixKube - Site Reliability Intelligence for the AI Era',
+  title: 'RubixKube - Site Reliability Intelligence is the future',
   description: 'Detect, diagnose, and heal production issues before customers feel them. Autonomous remediation with approvals for Kubernetes and cloud-native stacks.',
   keywords: [
     'site reliability intelligence',

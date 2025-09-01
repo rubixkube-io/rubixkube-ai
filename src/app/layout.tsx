@@ -113,7 +113,7 @@ export default function RootLayout({
         {/* Slack specific meta tags */}
         <meta name="slack-app-id" content="RubixKube" />
         <meta name="slack-app-name" content="RubixKube" />
-        <meta name="slack-app-description" content="Site Reliability Intelligence for the AI Era" />
+        <meta name="slack-app-description" content="Site Reliability Intelligence is the future" />
         {/* 
           Debugging Open Graph for WhatsApp and Slack:
           1. Test with: https://developers.facebook.com/tools/debug/
