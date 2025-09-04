@@ -40,7 +40,7 @@
       "supporting_points": [
         "Detect, diagnose, and heal before customers feel it",
         "Human-in-the-loop guardrails",
-        "Works with Kubernetes, cloud, and your tools"
+        "Works with Kubernetes, cloud, and your existing tools"
       ],
       "primary_cta": { "label": "Book a Free Demo", "href": "/demo" },
       "secondary_cta": { "label": "See it in Action", "href": "#how-it-works" },
