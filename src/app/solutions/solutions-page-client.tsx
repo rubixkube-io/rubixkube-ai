@@ -38,23 +38,23 @@ export function SolutionsPageClient() {
 
   const useCases = [
     {
-      title: "Incident Response & Resolution",
-      copy: "Incidents that finish themselves - agents correlate signals, pinpoint root cause, and apply safe fixes.",
+      title: "Self-healing infrastructure.",
+      copy: "Imagine a system that doesn't just alert you to problems, but fixes them on its own, correlating signals, pinpointing the root cause, and applying safe fixes.",
       icon: AlertTriangle
     },
     {
-      title: "Proactive Monitoring & Prevention",
-      copy: "Prevention over panic - learns from history to predict and stop repeat failures before they cascade.",
+      title: "Prevention over panic.",
+      copy: "RubixKube learns from every past incident, allowing it to predict and stop repeat failures before they can cascade and cause damage.",
       icon: Lightbulb
     },
     {
-      title: "Deployment Safety & Rollback",
-      copy: "Safe launches, always - validates deployments and automatically rolls back at the first sign of risk.",
+      title: "Proactive guardrails for every launch.",
+      copy: "RubixKube validates deployments and automatically rolls back at the first sign of risk, transforming a moment of potential crisis into a seamless, automated recovery.",
       icon: Shield
     },
     {
-      title: "Capacity Planning & Optimization",
-      copy: "Capacity without chaos - continuously optimizes resources before they bottleneck.",
+      title: "Capacity without chaos.",
+      copy: "RubixKube turns reactive scaling into proactive intelligence. The system continuously optimizes resources, ensuring your infrastructure is always ready for demand and preventing bottlenecks before they even form.",
       icon: Brain
     }
   ]
@@ -136,7 +136,7 @@ export function SolutionsPageClient() {
                 className="max-w-[90vw] sm:max-w-[55ch] text-[18px] sm:text-[19px] md:text-[20px] leading-7 text-foreground-muted mx-auto px-4 sm:px-0"
                 variants={fadeUpVariants}
               >
-                Reliability isn&apos;t optional. Every failure costs revenue, trust, and momentum. RubixKube transforms operations from firefighting to foresight - keeping your business resilient.
+                From reactive firefighting to autonomous, self-healing operations.
               </motion.p>
 
               {/* CTA Buttons */}
@@ -168,7 +168,7 @@ export function SolutionsPageClient() {
       <section className="py-24 md:py-20 sm:py-14 bg-background">
         <CardGrid
           items={useCases}
-          title="Key Use Cases"
+          title="The Reliability Layer for AI Era"
           subtitle="Transform your operations with intelligent automation and proactive monitoring."
           variant="with-icon-2x2"
         />
@@ -178,8 +178,8 @@ export function SolutionsPageClient() {
       <section className="py-24 md:py-20 sm:py-14 bg-background-secondary">
         <CardGrid
           items={industries}
-          title="Industries We Serve"
-          subtitle="From startups to enterprises, RubixKube adapts to your industry&apos;s unique challenges and compliance requirements."
+          title="Industries Powered by SRI"
+          subtitle="We secure businesses across every industry. From high-growth startups to Fortune 500 enterprises - by ensuring compliance and eliminating their toughest infrastructure challenges."
           variant="with-challenges-2x2"
         />
       </section>

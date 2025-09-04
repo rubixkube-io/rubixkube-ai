@@ -12,8 +12,9 @@ const footerColumns = [
     title: 'Product',
     links: [
       { label: 'Features', href: '/platform' },
-      { label: 'Security', href: '/platform/security' },
-      { label: 'Changelog', href: '/changelog' }
+      { label: 'Solutions', href: '/solutions' },
+      // { label: 'Security', href: '/platform/security' }, // Page doesn't exist yet
+      // { label: 'Changelog', href: '/changelog' } // Page doesn't exist yet
     ]
   },
   {
@@ -26,9 +27,10 @@ const footerColumns = [
   {
     title: 'Resources',
     links: [
-      { label: 'Docs', href: '/docs' },
+      { label: 'Resources', href: '/resources' },
+      // { label: 'Docs', href: '/docs' }, // Page doesn't exist yet
       { label: 'Blog', href: '/blog' },
-      { label: 'Press Kit', href: '/press' }
+      // { label: 'Press Kit', href: '/press' } // Page doesn't exist yet
     ]
   },
   {
@@ -61,8 +63,8 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-slate-900 dark:bg-slate-900 text-white">
-      <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8 py-16">
+    <footer className="bg-slate-900 dark:bg-slate-900 text-white flex items-center min-h-[400px]">
+      <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8 py-16 w-full">
         {/* One-liner about SRI */}
         <motion.div
           variants={fadeUpVariants}
@@ -77,16 +79,17 @@ export function Footer() {
         </motion.div>
 
         {/* Footer Columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        <div className="flex flex-col md:flex-row justify-evenly mb-12 items-start gap-8 md:gap-0 max-w-6xl mx-auto">
           {footerColumns.map((column, index) => (
             <motion.div
               key={column.title}
               variants={fadeUpVariants}
               initial={prefersReducedMotion ? "visible" : "hidden"}
               animate="visible"
-              transition={prefersReducedMotion ? {} : { delay: index * 0.1 }}
+              transition={prefersReducedMotion ? {} : {}}
+              className="flex flex-col items-start justify-start"
             >
-              <h3 className="font-heading font-semibold text-white mb-4">
+              <h3 className="font-heading font-semibold text-white mb-4 leading-tight">
                 {column.title}
               </h3>
               <ul className="space-y-3">

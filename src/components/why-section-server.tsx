@@ -2,11 +2,19 @@ import { CheckCircle } from 'lucide-react'
 
 const whyPoints = [
   {
+    title: 'SRI leads to immediate time savings',
+    copy: 'Eliminate cognitive overload and burnout. It learns from every solved incident.'
+  },
+  {
+    title: 'Watch your MTTR drop',
+    copy: 'Reduce the time to recovery with context and evidence. No alert fatigue.'
+  },
+  {
     title: 'One command center',
     copy: 'Unify incidents, signals, and actions in one place.'
   },
   {
-    title: 'Predict and prevent',
+    title: 'Predict and Prevent',
     copy: 'Catch risky rollouts and regressions early.'
   },
   {
@@ -14,13 +22,10 @@ const whyPoints = [
     copy: 'Plan safe rollbacks and patches with context.'
   },
   {
-    title: 'MTTR that actually drops',
-    copy: 'Correlate signals to evidence. No alert fatigue.'
-  },
-  {
-    title: 'Protect revenue and trust',
+    title: 'Protect Revenue and Trust',
     copy: 'SLOs stay green. Customers stay happy.'
   }
+  
 ]
 
 export function WhySectionServer() {

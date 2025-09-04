@@ -144,6 +144,12 @@ const journeyPath =
   'M150,80 Q80,130 120,180 Q160,230 200,280 Q120,330 100,380 Q140,430 180,480 Q120,530 140,580 Q180,630 160,680'
 
 export function JourneyAnimation() {
+  // Global speed multiplier to accelerate the whole loop
+  // Smaller value = faster animations (e.g., 0.25 = 4x speed)
+  const SPEED = 0.40
+  const dur = (s: number) => s * SPEED // seconds scaler for framer-motion durations
+  const delay = (ms: number) => ms * SPEED // milliseconds scaler for setTimeout pauses
+
   const prefersReducedMotion = useReducedMotion()
   const pathLength = useMotionValue(0) // 0..1 animated smoothly
 
@@ -304,11 +310,11 @@ export function JourneyAnimation() {
           x: -overview.centerX + CENTER.x,
           y: -overview.centerY + CENTER.y,
           scale: Math.max(overview.scale, 0.8), // Ensure minimum readable scale
-          transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }
+          transition: { duration: dur(0.7), ease: [0.25, 0.1, 0.25, 1] }
         })
 
         // Reset path to 0 at start of each loop
-        await animate(pathLength, 0, { duration: 0.1, ease: [0.25, 0.1, 0.25, 1] })
+        await animate(pathLength, 0, { duration: dur(0.1), ease: [0.25, 0.1, 0.25, 1] })
 
         for (let i = 0; i < journeyNodes.length; i++) {
           const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
@@ -318,12 +324,12 @@ export function JourneyAnimation() {
           // Animate strictly to the mapped ratio (mapping already includes back-offset)
           const currentRatio = ratios[i] ?? ((i + 1) / journeyNodes.length)
           await animate(pathLength, clamp01(currentRatio), {
-            duration: 1.2,
+            duration: dur(1.2),
             ease: [0.25, 0.1, 0.25, 1]
           })
 
           // Wait for path to complete before proceeding
-          await new Promise((r) => setTimeout(r, 500))
+          await new Promise((r) => setTimeout(r, delay(500)))
 
           // Camera pans to keep the current node dead center, clamp Y, scale 1.2 for readability
           {
@@ -338,14 +344,14 @@ export function JourneyAnimation() {
               y: target.y,
               scale: targetScale, // Increased for better readability
               transition: {
-                duration: 1.6,
+                duration: dur(1.6),
                 ease: [0.25, 0.1, 0.25, 1]
               }
             })
           }
 
           // Dwell at node before action
-          await new Promise((r) => setTimeout(r, 800))
+          await new Promise((r) => setTimeout(r, delay(800)))
 
           // Zoom in for action, clamp Y
           setIsActionActive(true)
@@ -361,7 +367,7 @@ export function JourneyAnimation() {
               y: target.y,
               scale: targetScale, // Increased zoom for action focus
               transition: {
-                duration: 0.9,
+                duration: dur(0.9),
                 ease: [0.25, 0.1, 0.25, 1]
               }
             })
@@ -369,7 +375,7 @@ export function JourneyAnimation() {
 
           // Perform action with variable timing
           const actionDuration = i === 2 ? 2400 : i === 3 ? 2000 : 1500
-          await new Promise((r) => setTimeout(r, actionDuration))
+          await new Promise((r) => setTimeout(r, delay(actionDuration)))
 
           // Zoom out, clamp Y
           {
@@ -384,7 +390,7 @@ export function JourneyAnimation() {
               y: target.y,
               scale: targetScale, // Match the main scale for consistency
               transition: {
-                duration: 1.0,
+                duration: dur(1.0),
                 ease: [0.25, 0.1, 0.25, 1]
               }
             })
@@ -392,25 +398,25 @@ export function JourneyAnimation() {
           setIsActionActive(false)
 
           // Breath between steps
-          await new Promise((r) => setTimeout(r, 400))
+          await new Promise((r) => setTimeout(r, delay(400)))
         }
 
         // Hold final state briefly
-        await new Promise((r) => setTimeout(r, 1200))
+        await new Promise((r) => setTimeout(r, delay(1200)))
 
         // Reset for next loop: return to overview for proper restart
         await Promise.all([
-          animate(pathLength, 0, { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }),
+          animate(pathLength, 0, { duration: dur(0.5), ease: [0.25, 0.1, 0.25, 1] }),
           cameraControls.start({
             x: -overview.centerX + CENTER.x,
             y: -overview.centerY + CENTER.y,
             scale: Math.max(overview.scale, 0.8), // Ensure minimum readable scale
-            transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }
+            transition: { duration: dur(0.8), ease: [0.25, 0.1, 0.25, 1] }
           })
         ])
 
         // Brief pause on overview before next cycle
-        await new Promise((r) => setTimeout(r, 1000))
+        await new Promise((r) => setTimeout(r, delay(1000)))
 
         setCurrentNodeIndex(-1)
         setIsAnimating(false)
@@ -419,9 +425,9 @@ export function JourneyAnimation() {
       }
     }
 
-    const t = setTimeout(runAnimation, 800)
-    // Interval timing adjusted for new sequence duration
-    const id = setInterval(runAnimation, 6000)
+    const t = setTimeout(runAnimation, delay(800))
+    // Interval timing scaled down to restart soon after completion
+    const id = setInterval(runAnimation, Math.max(1200, Math.floor(6000 * SPEED)))
 
     return () => {
       clearTimeout(t)
