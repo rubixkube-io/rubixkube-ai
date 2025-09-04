@@ -96,7 +96,7 @@ export function PlatformPageClient() {
             >
               {/* Eyebrow */}
               <motion.div variants={fadeUpVariants}>
-                <span className="inline-flex items-center rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-sm font-medium text-accent mb-8">
+                <span className="inline-flex items-center rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-8">
                   Platform
                 </span>
               </motion.div>

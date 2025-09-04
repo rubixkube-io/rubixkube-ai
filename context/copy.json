@@ -1,6 +1,6 @@
 {
     "meta": {
-      "title": "RubixKube — Site Reliability Intelligence for the AI Era",
+      "title": "RubixKube - Site Reliability Intelligence is the future",
       "description": "RubixKube is Site Reliability Intelligence. Detect, diagnose, and heal production issues before customers feel them. Autonomous remediation with approvals for Kubernetes and cloud.",
       "seo_keywords": [
         "site reliability intelligence",
@@ -40,7 +40,7 @@
       "supporting_points": [
         "Detect, diagnose, and heal before customers feel it",
         "Human-in-the-loop guardrails",
-        "Works with Kubernetes, cloud, and your tools"
+        "Works with Kubernetes, cloud, and your existing tools"
       ],
       "primary_cta": { "label": "Book a Free Demo", "href": "/demo" },
       "secondary_cta": { "label": "See it in Action", "href": "#how-it-works" },

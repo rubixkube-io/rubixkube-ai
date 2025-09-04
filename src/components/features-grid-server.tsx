@@ -9,9 +9,9 @@ import {
 
 const features = [
   {
-    title: 'Conversational Control',
-    copy: 'Manage clusters and apps through chat, CLI, or web. Natural language with real action.',
-    icon: MessageSquare
+    title: 'Agent Mesh',
+    copy: 'Specialized agents coordinate across your stack to investigate and remediate faster.',
+    icon: Network
   },
   {
     title: 'Smart Agent Operations',
@@ -19,25 +19,25 @@ const features = [
     icon: Zap
   },
   {
+    title: 'Evidence-Linked RCA',
+    copy: 'Timelines, queries, diffs, and actions captured automatically and shared with teams.',
+    icon: FileText
+  },
+  {
+    title: 'Conversational Control',
+    copy: 'Manage clusters and apps through chat, CLI, or web. Natural language with real action.',
+    icon: MessageSquare
+  },
+  {
     title: 'Evolving Memory',
     copy: 'Snapshot and historical memory improve every decision and RCA.',
     icon: Brain
-  },
-  {
-    title: 'Agent Mesh',
-    copy: 'Specialized agents coordinate across your stack to investigate and remediate faster.',
-    icon: Network
   },
   {
     title: 'Guardrails and Approvals',
     copy: 'Least-privilege actions, policy checks, and human approvals when you want them.',
     icon: Shield
   },
-  {
-    title: 'Evidence-Linked RCA',
-    copy: 'Timelines, queries, diffs, and actions captured automatically and shared with teams.',
-    icon: FileText
-  }
 ]
 
 export function FeaturesGridServer() {

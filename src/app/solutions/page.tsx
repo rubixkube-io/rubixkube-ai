@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { SolutionsPageClient } from './solutions-page-client'
 
 export const metadata: Metadata = {
-  title: "Solutions - Reduce MTTR, End Alert Fatigue",
+  title: "RubixKube solves Infrastructure Challenges at scale",
   description: "Cut MTTR by up to 80%, reduce noise, and stop revenue risk. RubixKube turns firefighting into foresight with autonomous, safe remediation.",
   keywords: [
     "reduce MTTR",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "deployment health"
   ],
   openGraph: {
-    title: "Solutions - Reduce MTTR, End Alert Fatigue",
+    title: "RubixKube solves Infrastructure Challenges at scale",
     description: "Cut MTTR by up to 80%, reduce noise, and stop revenue risk. RubixKube turns firefighting into foresight with autonomous, safe remediation.",
     url: "https://rubixkube.ai/solutions",
     images: [
@@ -22,12 +22,12 @@ export const metadata: Metadata = {
         url: "https://rubixkube.ai/og.jpg",
         width: 1200,
         height: 630,
-        alt: "Solutions - Reduce MTTR, End Alert Fatigue"
+        alt: "RubixKube solves Infrastructure Challenges at scale"
       }
     ],
   },
   twitter: {
-    title: "Solutions - Reduce MTTR, End Alert Fatigue",
+    title: "RubixKube solves Infrastructure Challenges at scale",
     description: "Cut MTTR by up to 80%, reduce noise, and stop revenue risk. RubixKube turns firefighting into foresight with autonomous, safe remediation.",
     images: ["https://rubixkube.ai/og.jpg"],
   },

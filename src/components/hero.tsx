@@ -17,7 +17,7 @@ import { JourneyAnimation } from './ui/journey-animation'
 const supportingPoints = [
   'Detect, diagnose, and heal automatically, before customers feel it',
   'AI you can trust: Human-in-the-loop guardrails', 
-  'Works with Kubernetes, cloud, and your tools'
+  'Works with Kubernetes, cloud, and your existing tools'
 ]
 
 // const trustbarLogos = [
@@ -119,7 +119,7 @@ export function Hero() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.2, duration: 0.5 }}
                 >
-                  <span className="font-black">Intelligence</span>
+                  <span className="text-accent">Intelligence</span>
                 </motion.span>
               </span>
             </motion.h1>
@@ -147,8 +147,8 @@ export function Hero() {
                 </CalendlyBooking>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link href="#how-it-works">
-                  See it in Action
+                <Link href="/blog/the-age-of-site-reliability-intelligence-sri">
+                  What is SRI?
                 </Link>
               </Button>
             </motion.div>

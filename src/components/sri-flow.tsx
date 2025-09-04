@@ -11,22 +11,22 @@ import { fadeUpVariants, fadeUp } from '@/lib/animations'
 const steps = [
   {
     title: 'Observe',
-    copy: 'Continuously maps your infra across Kubernetes, cloud, code, and configs. Pulls context from Prometheus, Loki, GitHub, and more.',
+    copy: 'Continuously maps your infra across Kubernetes, cloud, code, and pulls context from Prometheus, Loki, and more.',
     icon: Eye
   },
   {
     title: 'Plan', 
-    copy: 'Agents reason over live data and history to propose safe, auditable actions.',
+    copy: 'Agent Mesh that reason over live data and history to propose safe, auditable actions.',
     icon: Brain
   },
   {
-    title: 'Act',
+    title: 'Execute',
     copy: 'Execute fixes behind guardrails. Approve PRs or apply controlled changes with policy checks.',
     icon: Zap
   },
   {
     title: 'Learn',
-    copy: 'Every incident updates memory and playbooks. RCAs become knowledge, not documents you forget.',
+    copy: 'Every incident updates memory and playbooks. RCAs become knowledge.',
     icon: TrendingUp
   }
 ]
@@ -43,10 +43,10 @@ export function SRIFlow() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-sm font-medium text-accent mb-6">
-            How Site Reliability Intelligence works
+          Heartbeat of SRI - The OPEL loop
           </div>
           <h2 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] mb-4 text-foreground">
-            Observe → Plan → Act → Learn
+            How Site Reliability Intelligence works
           </h2>
         </motion.div>
 

@@ -143,8 +143,27 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       {/* Header Section */}
       <section className="bg-background pt-20 pb-12">
         <div className="mx-auto max-w-6xl px-6 md:px-8">
+          {/* Eyebrow */}
+          <motion.div variants={fadeUpVariants}>
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-4 sm:mb-6 md:mb-8">
+            <Link href="/" className="hover:text-foreground transition-colors">
+                Home
+              </Link>
+              <span>→</span>
+              <Link href="/blog" className="hover:text-foreground transition-colors">
+                Blog
+              </Link>
+              {post.categories && post.categories.length > 0 && (
+                <>
+                  <span>→</span>
+                  <span className="text-accent">{post.categories[0]}</span>
+                </>
+              )}
+            </span>
+          </motion.div>
+
           {/* Breadcrumb */}
-          <motion.nav 
+          {/* <motion.nav 
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
             className="mb-8"
@@ -164,7 +183,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                 </>
               )}
             </div>
-          </motion.nav>
+          </motion.nav> */}
 
           {/* Cover Image */}
           {postImageUrl && (

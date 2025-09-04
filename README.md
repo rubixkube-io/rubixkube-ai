@@ -15,7 +15,7 @@ Site Reliability Intelligence (SRI) uses agents, context, and memory to detect, 
 ### Key Capabilities:
 - **Detect, diagnose, and heal** before customers feel it
 - **Human-in-the-loop guardrails** for safe autonomous operations
-- **Works with Kubernetes, cloud, and your tools** through intelligent integrations
+- **Works with Kubernetes, cloud, and your existing tools** through intelligent integrations
 - **Continuous learning** from every incident and resolution
 
 ## 🚀 Why Choose RubixKube?
@@ -151,7 +151,7 @@ Put Site Reliability Intelligence to work in your stack.
 
 ---
 
-**RubixKube** — *Site Reliability Intelligence for the AI Era*
+**RubixKube** — *Site Reliability Intelligence is the future*
 
 *Agents that see more, plan better, act safely, and learn forever.*
 
