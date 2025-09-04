@@ -184,19 +184,19 @@ export function AboutPageClient() {
                 <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Brain className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">Software that thinks like a seasoned SRE</h3>
+                <h3 className="text-xl font-semibold text-foreground mb-2">Software that thinks and learns like your best SRE who knows everything about your infrastructure</h3>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">Software that acts before customers notice</h3>
+                <h3 className="text-xl font-semibold text-foreground mb-2">Software that can predict and resolve issues before customers feel the heat</h3>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">Software that explains risk in the language of both infra and business</h3>
+                <h3 className="text-xl font-semibold text-foreground mb-2">Software that explains risk to both engineers and executives.</h3>
               </div>
             </div>
             <p className="text-xl text-foreground-muted">
