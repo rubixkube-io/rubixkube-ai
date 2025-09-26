@@ -119,7 +119,7 @@ export function Navbar() {
             
             {/* Book Demo Button */}
             <Button asChild>
-              <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting">
+              <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
                 Book Demo
               </CalendlyBooking>
             </Button>
@@ -178,7 +178,7 @@ export function Navbar() {
                   
                   {/* Mobile Book Demo Button */}
                   <Button asChild>
-                    <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting" className="w-full">
+                    <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" className="w-full">
                       Book Demo
                     </CalendlyBooking>
                   </Button>

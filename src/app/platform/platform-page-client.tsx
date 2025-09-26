@@ -130,7 +130,7 @@ export function PlatformPageClient() {
                 className="flex flex-col sm:flex-row gap-3 mt-8 justify-center"
               >
                 <Button size="lg" asChild>
-                  <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting">
+                  <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
                     Book Demo
                     <ArrowRight className="w-4 h-4 flex-shrink-0" />
                   </CalendlyBooking>

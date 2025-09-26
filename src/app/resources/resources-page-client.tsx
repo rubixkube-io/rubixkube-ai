@@ -189,7 +189,7 @@ export function ResourcesPageClient() {
                 className="flex flex-col sm:flex-row gap-3 mt-8 justify-center"
               >
                 <Button size="lg" asChild>
-                  <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting">
+                  <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
                     Book Demo
                     <ArrowRight className="w-4 h-4 flex-shrink-0" />
                   </CalendlyBooking>
@@ -350,7 +350,7 @@ export function ResourcesPageClient() {
             </p>
             <motion.div variants={fadeUpVariants}>
               <Button asChild size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
-                <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting">
+                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
                   Book a Demo
                 </CalendlyBooking>
               </Button>

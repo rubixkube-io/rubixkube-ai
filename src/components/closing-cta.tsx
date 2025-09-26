@@ -75,7 +75,7 @@ export function ClosingCTA() {
               className="flex flex-col sm:flex-row gap-3 items-start"
             >
               <Button size="lg" asChild>
-                <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting">
+                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
                   Schedule Demo
                   <ArrowRight className="w-4 h-4 flex-shrink-0" />
                 </CalendlyBooking>

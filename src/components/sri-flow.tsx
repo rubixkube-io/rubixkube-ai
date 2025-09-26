@@ -118,7 +118,7 @@ export function SRIFlow() {
             size="lg" 
             asChild
           >
-            <CalendlyBooking url="https://calendly.com/rubixkube/new-meeting">
+            <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
               Explore Platform
               <ArrowRight className="w-4 h-4 flex-shrink-0" />
             </CalendlyBooking>
