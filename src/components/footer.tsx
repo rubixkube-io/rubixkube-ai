@@ -80,7 +80,7 @@ export function Footer() {
 
         {/* Footer Columns */}
         <div className="flex flex-col md:flex-row justify-evenly mb-12 items-start gap-8 md:gap-0 max-w-6xl mx-auto">
-          {footerColumns.map((column, index) => (
+          {footerColumns.map((column) => (
             <motion.div
               key={column.title}
               variants={fadeUpVariants}

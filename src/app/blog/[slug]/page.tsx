@@ -78,7 +78,13 @@ export async function generateMetadata({
       url,
       type: 'article',
       siteName: 'RubixKube',
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: title }],
+      images: [{ 
+        url: imageUrl, 
+        width: 1200, 
+        height: 630, 
+        alt: title,
+        type: 'image/png'
+      }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -92,6 +98,11 @@ export async function generateMetadata({
     robots: {
       index: true,
       follow: true,
+    },
+    other: {
+      'whatsapp:image': imageUrl,
+      'whatsapp:title': title,
+      'whatsapp:description': description,
     },
   }
 }

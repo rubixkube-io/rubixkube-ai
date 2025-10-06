@@ -20,19 +20,20 @@ export async function GET(request: NextRequest) {
             position: 'relative',
           }}
         >
-          {/* Background Image */}
-          <img
-            src="https://rubixkube.ai/og.jpg"
-            alt="RubixKube Background"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-            }}
-          />
+        {/* Background Image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://rubixkube.ai/og.jpg"
+          alt="RubixKube Background"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+          }}
+        />
           
           {/* Overlay Text */}
           <div

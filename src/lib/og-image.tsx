@@ -23,6 +23,7 @@ export function generateOGImage({
         }}
       >
         {/* Background Image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="https://rubixkube.ai/og.jpg"
           alt="RubixKube Background"
