@@ -40,6 +40,8 @@ export default async function Image() {
             left: '40px',
             color: 'white',
             zIndex: 10,
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <div
