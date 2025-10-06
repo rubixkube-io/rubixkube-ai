@@ -175,7 +175,20 @@ export function ContactPageClient() {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                <form className="space-y-6">
+                <form 
+                  name="contact" 
+                  method="POST" 
+                  data-netlify="true" 
+                  data-netlify-honeypot="bot-field"
+                  className="space-y-6"
+                >
+                  {/* Hidden Netlify fields */}
+                  <input type="hidden" name="form-name" value="contact" />
+                  <div style={{ display: 'none' }}>
+                    <label>
+                      Don&apos;t fill this out if you&apos;re human: <input name="bot-field" />
+                    </label>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
@@ -183,6 +196,7 @@ export function ContactPageClient() {
                       </label>
                       <Input 
                         type="text" 
+                        name="name"
                         placeholder="Enter your full name"
                         className="w-full"
                         required
@@ -194,6 +208,7 @@ export function ContactPageClient() {
                       </label>
                       <Input 
                         type="text" 
+                        name="company"
                         placeholder="Enter company name"
                         className="w-full"
                       />
@@ -207,6 +222,7 @@ export function ContactPageClient() {
                       </label>
                       <Input 
                         type="email" 
+                        name="email"
                         placeholder="Enter your email address"
                         className="w-full"
                         required
@@ -218,6 +234,7 @@ export function ContactPageClient() {
                       </label>
                       <Input 
                         type="text" 
+                        name="subject"
                         placeholder="What's this about?"
                         className="w-full"
                         required
@@ -230,6 +247,7 @@ export function ContactPageClient() {
                       Message *
                     </label>
                     <Textarea 
+                      name="message"
                       placeholder="Tell us how we can help you..."
                       className="w-full min-h-[120px]"
                       required
