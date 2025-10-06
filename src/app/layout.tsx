@@ -42,21 +42,13 @@ export const metadata: Metadata = {
     siteName: "RubixKube",
     type: "website",
     locale: "en_US",
-    images: [
-      {
-        url: "https://rubixkube.ai/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "RubixKube - Site Reliability Intelligence",
-        type: "image/png"
-      }
-    ]
+    // Don't set images here - let pages define their own
   },
   twitter: {
     card: "summary_large_image",
     title: "RubixKube - Site Reliability Intelligence",
     description: "Detect, diagnose, and heal issues before customers feel them.",
-    images: ["https://rubixkube.ai/og.jpg"]
+    // Don't set images here - let pages define their own
   },
   other: {
     "viewport": "width=device-width, initial-scale=1",
@@ -88,20 +80,22 @@ export default function RootLayout({
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:alt" content="RubixKube - Site Reliability Intelligence" />
-        {/* WhatsApp additional requirements */}
-        <meta property="og:image:secure_url" content="https://rubixkube.ai/og.jpg?v=20241201" />
-        <meta name="whatsapp:image" content="https://rubixkube.ai/og.jpg?v=20241201" />
-        <meta name="whatsapp:title" content="RubixKube - Site Reliability Intelligence" />
-        <meta name="whatsapp:description" content="Detect, diagnose, and heal issues before customers feel them." />
         {/* Mobile-specific meta tags for better WhatsApp/Slack compatibility */}
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-touch-fullscreen" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        {/* Cache-busting for WhatsApp and Slack */}
-        <meta property="og:image" content="https://rubixkube.ai/og.jpg?v=20241201" />
-        <meta name="twitter:image" content="https://rubixkube.ai/og.jpg?v=20241201" />
-        {/* Logo for Open Graph */}
+        <meta name="msapplication-TileImage" content="https://rubixkube.ai/logo-icon.png" />
+        {/* WhatsApp specific meta tags */}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:alt" content="RubixKube - Site Reliability Intelligence" />
+        {/* Mobile-specific meta tags for better WhatsApp/Slack compatibility */}
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta property="og:logo" content="https://rubixkube.ai/logo-icon.png" />
         {/* Additional Open Graph properties for better compatibility */}
         <meta property="og:locale" content="en_US" />

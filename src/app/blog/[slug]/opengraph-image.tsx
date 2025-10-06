@@ -1,10 +1,11 @@
 import { ImageResponse } from 'next/og'
 import { client, urlFor } from '@/lib/sanity.client'
 
+
 export const alt = 'Blog Post - RubixKube'
 export const size = {
-  width: 1200,
-  height: 630,
+  width: 600,
+  height: 315,
 }
 export const contentType = 'image/png'
 
@@ -98,7 +99,19 @@ export default async function Image({
   }
 
   // Use the blog post's cover image if available
-  const coverImageUrl = post.image ? urlFor(post.image)?.width(1200).height(630).url() : null
+  let coverImageUrl = null
+  if (post.image) {
+    try {
+      // Use the urlFor function to generate optimized image URL
+      const imageBuilder = urlFor(post.image)
+      if (imageBuilder) {
+        // Use optimized source image size (500x263, quality 20)
+        coverImageUrl = imageBuilder.width(500).height(263).quality(20).url()
+      }
+    } catch (error) {
+      console.error('Error generating cover image URL:', error)
+    }
+  }
 
   if (coverImageUrl) {
     // Return the cover image directly without any overlay
@@ -123,8 +136,12 @@ export default async function Image({
         </div>
       ),
       {
-        width: 1200,
-        height: 630,
+        width: 600,
+        height: 315,
+        // Add compression for smaller file size
+        headers: {
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        },
       }
     )
   }
