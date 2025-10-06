@@ -65,8 +65,9 @@ export async function generateMetadata({
 
   const title = post.seoTitle || post.title
   const description = post.seoDescription || post.excerpt || 'Article from RubixKube.'
-  const imageUrl = post.image ? `${urlFor(post.image)?.width(1200).height(630).url()}` : 'https://rubixkube.ai/og.jpg'
   const url = `https://rubixkube.ai/blog/${slug}`
+  // Use dynamic OG image for blog posts
+  const imageUrl = `https://rubixkube.ai/blog/${slug}/opengraph-image`
 
   return {
     title,
