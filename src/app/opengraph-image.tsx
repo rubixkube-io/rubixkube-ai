@@ -1,6 +1,4 @@
 import { ImageResponse } from 'next/og'
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
 
 export const alt = 'RubixKube - Site Reliability Intelligence'
 export const size = {
@@ -10,9 +8,6 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image() {
-  // Read the existing og.jpg file from the public directory
-  const imageData = await readFile(join(process.cwd(), 'public/og.jpg'))
-  
   return new ImageResponse(
     (
       <div

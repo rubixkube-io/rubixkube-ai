@@ -1,6 +1,6 @@
 import { type SanityDocument } from "next-sanity"
 import type { Metadata } from "next"
-import { client, urlFor } from "@/lib/sanity.client"
+import { client } from "@/lib/sanity.client"
 import { notFound } from "next/navigation"
 import { BlogPostClient } from "./blog-post-client"
 import type { SanityPost } from "@/types/sanity"

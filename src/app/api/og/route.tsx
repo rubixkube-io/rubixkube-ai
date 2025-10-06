@@ -7,7 +7,6 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const title = searchParams.get('title') || 'RubixKube'
-    const subtitle = searchParams.get('subtitle') || 'Site Reliability Intelligence'
     const description = searchParams.get('description') || 'Detect, diagnose, and heal issues before customers feel them.'
     const stats = searchParams.get('stats') || 'Time saved: 90%'
 
@@ -103,8 +102,9 @@ export async function GET(request: NextRequest) {
         height: 630,
       }
     )
-  } catch (e: any) {
-    console.log(`${e.message}`)
+  } catch (e: unknown) {
+    const error = e as Error
+    console.log(`${error.message}`)
     return new Response(`Failed to generate the image`, {
       status: 500,
     })

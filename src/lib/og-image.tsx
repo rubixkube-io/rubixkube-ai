@@ -9,7 +9,6 @@ export interface OGImageParams {
 
 export function generateOGImage({
   title,
-  subtitle = 'Site Reliability Intelligence',
   description = 'Detect, diagnose, and heal issues before customers feel them.',
   stats = 'Time saved: 90%'
 }: OGImageParams) {
