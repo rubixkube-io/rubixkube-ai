@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
-import { Linkedin, Github } from 'lucide-react'
+import { Linkedin, Github, Slack } from 'lucide-react'
 
 const footerColumns = [
   {
@@ -44,7 +44,8 @@ const footerColumns = [
 
 const socialLinks = [
   { platform: 'LinkedIn', href: 'https://linkedin.com/company/rubixkube', iconType: 'linkedin' },
-  { platform: 'GitHub', href: 'https://github.com/rubixkube-io', iconType: 'github' }
+  { platform: 'GitHub', href: 'https://github.com/rubixkube-io', iconType: 'github' },
+  { platform: 'Slack', href: 'https://join.slack.com/t/rubixkubecommunity/shared_invite/zt-3fq7kiu8k-RC5uzLY6BjQFE5Uq_NziEA', iconType: 'slack' }
 ]
 
 export function Footer() {
@@ -57,6 +58,8 @@ export function Footer() {
         return <Linkedin className="w-6 h-6" />
       case 'github':
         return <Github className="w-6 h-6" />
+      case 'slack':
+        return <Slack className="w-6 h-6" />
       default:
         return null
     }

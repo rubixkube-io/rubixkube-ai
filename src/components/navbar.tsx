@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Linkedin, Github } from 'lucide-react'
+import { Menu, X, Linkedin, Github, Slack } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 
@@ -22,7 +22,8 @@ const navigation = [
 
 const socialLinks = [
   { name: 'LinkedIn', href: 'https://linkedin.com/company/rubixkube', iconType: 'linkedin' },
-  { name: 'GitHub', href: 'https://github.com/rubixkube-io', iconType: 'github' }
+  { name: 'GitHub', href: 'https://github.com/rubixkube-io', iconType: 'github' },
+  { name: 'Slack', href: 'https://join.slack.com/t/rubixkubecommunity/shared_invite/zt-3fq7kiu8k-RC5uzLY6BjQFE5Uq_NziEA', iconType: 'slack' }
 ]
 
 export function Navbar() {
@@ -37,6 +38,8 @@ export function Navbar() {
         return <Linkedin className="w-5 h-5" />
       case 'github':
         return <Github className="w-5 h-5" />
+      case 'slack':
+        return <Slack className="w-5 h-5" />
       default:
         return null
     }

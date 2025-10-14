@@ -10,6 +10,7 @@ import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useTheme } from '@/components/theme-provider'
 import DotGrid from './ui/bg'
 import { JourneyAnimation } from './ui/journey-animation'
+import { CalendlyBooking } from './ui/calendly-booking'
 
 const supportingPoints = [
   'Detect, diagnose, and heal automatically, before customers feel it',
@@ -138,8 +139,11 @@ export function Hero() {
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.3 } })}
               className="flex flex-col sm:flex-row gap-3 mb-12"
             >
-              {/* Typeform embed replaces Book Demo button */}
-              <div data-tf-live="01K666C833J8XZNC5XWEG9D44K"></div>
+              <Button variant="primary" size="lg" asChild>
+                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
+                  Book Demo
+                </CalendlyBooking>
+              </Button>
               <Button variant="outline" size="lg" asChild>
                 <Link href="/blog/the-age-of-site-reliability-intelligence-sri">
                   What is SRI?
