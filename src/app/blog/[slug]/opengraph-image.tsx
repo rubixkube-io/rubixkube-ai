@@ -1,5 +1,4 @@
 import { ImageResponse } from 'next/og'
-import { client, urlFor } from '@/lib/sanity.client'
 
 
 export const alt = 'Blog Post - RubixKube'

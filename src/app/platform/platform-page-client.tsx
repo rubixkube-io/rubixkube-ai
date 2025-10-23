@@ -5,14 +5,12 @@ import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
-import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants } from '@/lib/animations'
 import { useTheme } from '@/components/theme-provider'
 import DotGrid from '@/components/ui/bg'
 import { CardGrid } from '@/components/ui/card-grid'
 import { 
-  ArrowRight,
   CheckCircle,
   Lightbulb,
   Users,

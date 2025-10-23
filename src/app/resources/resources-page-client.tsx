@@ -340,7 +340,7 @@ export function ResourcesPageClient() {
                 Live Demos & Examples
               </motion.h2>
               <p className="text-foreground-muted mb-8">
-                Real platform demonstrations showing RubixKube's Agent Mesh detecting, analyzing, and resolving infrastructure incidents.
+                Real platform demonstrations showing RubixKube&apos;s Agent Mesh detecting, analyzing, and resolving infrastructure incidents.
               </p>
               <div className="space-y-6">
                 {caseStudies.map((study, idx) => (
