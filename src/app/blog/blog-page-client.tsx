@@ -46,11 +46,11 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
   const dotColors = resolvedTheme === 'dark' 
     ? {
         baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.12)" // Light blue, slightly more visible
+        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
       }
     : {
         baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(162, 196, 250, 0.12)" // Darker blue, slightly more visible
+        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
       }
   
   // Get unique categories from posts
@@ -77,11 +77,11 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
         {/* DotGrid background */}
         <div className="absolute inset-0">
           <DotGrid
-            dotSize={3}
+            dotSize={1.5}
             gap={20}
             baseColor={dotColors.baseColor}
             activeColor={dotColors.activeColor}
-            proximity={120}
+            proximity={100}
             shockRadius={250}
             shockStrength={4}
             resistance={750}

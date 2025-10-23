@@ -31,11 +31,11 @@ export function AboutPageClient() {
   const dotColors = resolvedTheme === 'dark' 
     ? {
         baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.12)" // Light blue, slightly more visible
+        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
       }
     : {
         baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(162, 196, 250, 0.12)" // Darker blue, slightly more visible
+        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
       }
 
   return (
@@ -47,11 +47,11 @@ export function AboutPageClient() {
         {/* DotGrid background */}
         <div className="absolute inset-0">
           <DotGrid
-            dotSize={3}
+            dotSize={1.5}
             gap={20}
             baseColor={dotColors.baseColor}
             activeColor={dotColors.activeColor}
-            proximity={120}
+            proximity={100}
             shockRadius={250}
             shockStrength={4}
             resistance={750}
@@ -117,8 +117,9 @@ export function AboutPageClient() {
                   </CalendlyBooking>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link href="#how-it-works">
+                  <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                     See it in Action
+                    <Rocket className="w-4 h-4 flex-shrink-0" />
                   </Link>
                 </Button>
               </motion.div>

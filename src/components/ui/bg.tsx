@@ -40,14 +40,29 @@ export interface DotGridProps {
   style?: React.CSSProperties;
 }
 
-function hexToRgb(hex: string) {
-  const m = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
-  if (!m) return { r: 0, g: 0, b: 0 };
-  return {
-    r: parseInt(m[1], 16),
-    g: parseInt(m[2], 16),
-    b: parseInt(m[3], 16),
-  };
+function parseColor(color: string) {
+  // Handle hex colors
+  const hexMatch = color.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+  if (hexMatch) {
+    return {
+      r: parseInt(hexMatch[1], 16),
+      g: parseInt(hexMatch[2], 16),
+      b: parseInt(hexMatch[3], 16),
+    };
+  }
+  
+  // Handle rgba colors
+  const rgbaMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
+  if (rgbaMatch) {
+    return {
+      r: parseInt(rgbaMatch[1], 10),
+      g: parseInt(rgbaMatch[2], 10),
+      b: parseInt(rgbaMatch[3], 10),
+    };
+  }
+  
+  // Fallback
+  return { r: 0, g: 0, b: 0 };
 }
 
 const DotGrid: React.FC<DotGridProps> = ({
@@ -79,8 +94,8 @@ const DotGrid: React.FC<DotGridProps> = ({
     lastY: 0,
   });
 
-  const baseRgb = useMemo(() => hexToRgb(baseColor), [baseColor]);
-  const activeRgb = useMemo(() => hexToRgb(activeColor), [activeColor]);
+  const baseRgb = useMemo(() => parseColor(baseColor), [baseColor]);
+  const activeRgb = useMemo(() => parseColor(activeColor), [activeColor]);
 
   const circlePath = useMemo(() => {
     if (typeof window === "undefined" || !window.Path2D) return null;

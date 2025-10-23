@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { LucideIcon } from 'lucide-react'
+import { LucideIcon, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants, fadeUp, cardHover } from '@/lib/animations'
 
@@ -14,6 +15,8 @@ export interface CardGridItem {
   metrics?: string[]
   challenges?: string[]
   benefits?: string[]
+  link?: string
+  guides?: Array<{ title: string; link: string }>
 }
 
 export interface CardGridProps {
@@ -45,7 +48,7 @@ export function CardGrid({
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: index * 0.1 } })}
             {...(prefersReducedMotion ? {} : cardHover)}
-            className={baseCardClasses}
+            className={`${baseCardClasses} flex flex-col`}
           >
             {IconComponent && (
               <div className={`w-10 h-10 rounded-lg ${item.gradient ? `bg-gradient-to-r ${item.gradient}` : 'bg-indigo-50'} flex items-center justify-center mb-4`}>
@@ -55,9 +58,46 @@ export function CardGrid({
             <h3 className="font-heading text-lg font-bold text-foreground mb-3">
               {item.title}
             </h3>
-            <p className="text-foreground-muted leading-relaxed text-sm">
+            <p className="text-foreground-muted leading-relaxed text-sm mb-4 flex-grow">
               {item.copy}
             </p>
+            
+            {/* Guides List */}
+            {item.guides && item.guides.length > 0 && (
+              <div className="space-y-2 mb-4">
+                {item.guides.slice(0, 3).map((guide, guideIdx) => (
+                  <Link
+                    key={guideIdx}
+                    href={guide.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-xs text-foreground-muted hover:text-primary transition-colors py-1 border-l-2 border-border hover:border-primary pl-3"
+                  >
+                    {guide.title}
+                  </Link>
+                ))}
+                {item.guides.length > 3 && (
+                  <span className="block text-xs text-foreground-muted/70 pl-3">
+                    +{item.guides.length - 3} more guides
+                  </span>
+                )}
+              </div>
+            )}
+            
+            {/* Main CTA */}
+            {item.link && (
+              <div className="pt-3 border-t border-border mt-auto">
+                <Link
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors gap-1 group"
+                >
+                  View Documentation
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            )}
           </motion.div>
         )
 
@@ -68,7 +108,7 @@ export function CardGrid({
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: index * 0.1 } })}
             {...(prefersReducedMotion ? {} : cardHover)}
-            className={baseCardClasses}
+            className={`${baseCardClasses} flex flex-col`}
           >
             {IconComponent && (
               <div className={`w-10 h-10 rounded-lg ${item.gradient ? `bg-gradient-to-r ${item.gradient}` : 'bg-indigo-50'} flex items-center justify-center mb-4`}>
@@ -78,9 +118,26 @@ export function CardGrid({
             <h3 className="font-heading text-lg font-bold text-foreground mb-3">
               {item.title}
             </h3>
-            <p className="text-foreground-muted leading-relaxed text-sm">
+            <p className="text-foreground-muted leading-relaxed text-sm mb-4 flex-grow">
               {item.copy}
             </p>
+            
+            {/* Main CTA */}
+            {item.link && (
+              <div className="pt-3 border-t border-border mt-auto">
+                <Link
+                  href={item.link}
+                  target="_blank"  
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors gap-1 group"
+                >
+                  {item.title.includes('Tutorial') ? 'Start Tutorial' : 
+                   item.title.includes('FAQ') || item.title.includes('Troubleshooting') ? 'Get Help' :
+                   'Learn More'}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            )}
           </motion.div>
         )
 

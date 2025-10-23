@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Linkedin, Github, Slack } from 'lucide-react'
+import { Menu, X, Linkedin, Github, Slack, Rocket, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 
@@ -119,13 +119,22 @@ export function Navbar() {
                 </Link>
               ))}
             </div>
-            
             {/* Book Demo Button */}
-            <Button asChild>
-              <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
-                Book Demo
-              </CalendlyBooking>
-            </Button>
+              <Button variant="outline" asChild>
+                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" className="flex items-center gap-2">
+                  Book Demo
+                </CalendlyBooking>
+              </Button>
+            
+            <div className="flex items-center space-x-3">
+              <Button variant="primary" asChild>
+                <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  Launch Console
+                  <Rocket className="w-4 h-4" />
+                </Link>
+              </Button>
+              
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -179,12 +188,20 @@ export function Navbar() {
                     ))}
                   </div>
                   
-                  {/* Mobile Book Demo Button */}
-                  <Button asChild>
-                    <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" className="w-full">
-                      Book Demo
-                    </CalendlyBooking>
-                  </Button>
+                  <div className="space-y-3">
+                    <Button variant="primary" asChild>
+                      <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2">
+                        Launch Console
+                        <Rocket className="w-4 h-4" />
+                      </Link>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" className="w-full flex items-center justify-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        Book Demo
+                      </CalendlyBooking>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </motion.div>
