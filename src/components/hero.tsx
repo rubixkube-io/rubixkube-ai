@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle, Sparkles, ArrowRight } from 'lucide-react'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useTheme } from '@/components/theme-provider'
@@ -26,11 +26,11 @@ export function Hero() {
   const dotColors = resolvedTheme === 'dark' 
     ? {
         baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.12)" // Light blue, slightly more visible
+        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
       }
     : {
         baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(162, 196, 250, 0.12)" // Darker blue, slightly more visible
+        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
       }
 
   // Inject Typeform script only once
@@ -48,11 +48,11 @@ export function Hero() {
       {/* DotGrid background */}
       <div className="absolute inset-0">
         <DotGrid
-          dotSize={3}
+          dotSize={1.5}
           gap={20}
           baseColor={dotColors.baseColor}
           activeColor={dotColors.activeColor}
-          proximity={120}
+          proximity={100}
           shockRadius={250}
           shockStrength={4}
           resistance={750}
@@ -61,6 +61,29 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8 pt-20">
+        {/* News Badge */}
+        <div className="w-full flex justify-center mb-8">
+          <motion.div
+            variants={fadeUpVariants}
+            {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
+          >
+            <Link
+              href="https://console.rubixkube.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500/8 via-cyan-400/6 to-teal-400/4 dark:from-blue-600/12 dark:via-cyan-500/10 dark:to-teal-400/8 border border-blue-400/15 dark:border-teal-400/20 px-4 py-2 text-sm font-medium text-foreground hover:from-blue-500/12 hover:via-cyan-400/10 hover:to-teal-400/8 dark:hover:from-blue-600/25 dark:hover:via-cyan-500/20 dark:hover:to-teal-400/15 hover:border-blue-400/25 dark:hover:border-teal-400/30 transition-all duration-200"
+            >
+              <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-500 group-hover:text-teal-600 dark:group-hover:text-teal-500 transition-all duration-200 hover:scale-110 animate-pulse" style={{ animationDuration: '2s' }} />
+              <span className="text-foreground/90 group-hover:text-foreground">
+                Just launched! Meet your AI reliability team
+              </span>
+              <span className="text-primary group-hover:text-primary/80 font-semibold">
+                Experience SRI
+              </span>
+              <ArrowRight className="w-3 h-3 text-primary group-hover:text-primary/80 group-hover:translate-x-0.5 transition-all" />
+            </Link>
+          </motion.div>
+        </div>
         <div className="min-h-[600px] flex flex-col lg:flex-row items-center justify-between gap-12">
           {/* Text Content */}
           <div className="flex-1 text-center lg:text-left">

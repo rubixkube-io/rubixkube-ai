@@ -29,11 +29,11 @@ export function PlatformPageClient() {
   const dotColors = resolvedTheme === 'dark' 
     ? {
         baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.12)" // Light blue, slightly more visible
+        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
       }
     : {
         baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(162, 196, 250, 0.12)" // Darker blue, slightly more visible
+        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
       }
 
   const platformFeatures = [
@@ -73,11 +73,11 @@ export function PlatformPageClient() {
         {/* DotGrid background */}
         <div className="absolute inset-0">
           <DotGrid
-            dotSize={3}
+            dotSize={1.5}
             gap={20}
             baseColor={dotColors.baseColor}
             activeColor={dotColors.activeColor}
-            proximity={120}
+            proximity={100}
             shockRadius={250}
             shockStrength={4}
             resistance={750}
@@ -130,13 +130,13 @@ export function PlatformPageClient() {
                 className="flex flex-col sm:flex-row gap-3 mt-8 justify-center"
               >
                 <Button size="lg" asChild>
-                  <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
-                    Book Demo
-                    <ArrowRight className="w-4 h-4 flex-shrink-0" />
-                  </CalendlyBooking>
+                  <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    Launch Console
+                    <Rocket className="w-4 h-4 flex-shrink-0" />
+                  </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link href="#how-it-works">
+                  <Link href="#platform-in-action">
                     See it in Action
                   </Link>
                 </Button>
@@ -165,7 +165,7 @@ export function PlatformPageClient() {
       </section>
 
       {/* Platform Preview Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background-secondary">
+      <section id="platform-in-action" className="py-24 md:py-20 sm:py-14 bg-background-secondary">
         <div className="mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8">
           <motion.div
             className="text-center mb-16"

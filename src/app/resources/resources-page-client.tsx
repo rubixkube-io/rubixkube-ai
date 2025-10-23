@@ -29,31 +29,54 @@ export function ResourcesPageClient() {
   const dotColors = resolvedTheme === 'dark' 
     ? {
         baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.12)" // Light blue, slightly more visible
+        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
       }
     : {
         baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(162, 196, 250, 0.12)" // Darker blue, slightly more visible
+        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
       }
 
   const documentationCategories = [
     {
       title: "Getting Started",
-      copy: "Quick Start Guide, Installation, First Steps, Basic Configuration",
+      copy: "Sign up, install locally or on cloud, connect clusters, and complete your first 15 minutes",
       icon: BookOpen,
-      gradient: "from-primary to-primary-dark"
+      gradient: "from-primary to-primary-dark",
+      link: "https://docs.rubixkube.ai/getting-started/introduction",
+      guides: [
+        { title: "Installation with KIND", link: "https://docs.rubixkube.ai/getting-started/installation-kind" },
+        { title: "Cloud Installation", link: "https://docs.rubixkube.ai/getting-started/installation-cloud" },
+        { title: "First Steps Tutorial", link: "https://docs.rubixkube.ai/tutorials/first-steps" },
+        { title: "Sign Up & Login", link: "https://docs.rubixkube.ai/getting-started/sign-up" }
+      ]
     },
     {
       title: "Core Concepts",
-      copy: "AI Agents, Observability, Automation, Security",
+      copy: "Site Reliability Intelligence, Agent Mesh, Memory Engine, and Safety Guardrails",
       icon: FileText,
-      gradient: "from-accent to-primary"
+      gradient: "from-accent to-primary",
+      link: "https://docs.rubixkube.ai/concepts/what-is-sri",
+      guides: [
+        { title: "What is SRI?", link: "https://docs.rubixkube.ai/concepts/what-is-sri" },
+        { title: "Agent Mesh", link: "https://docs.rubixkube.ai/concepts/agent-mesh" },
+        { title: "Memory Engine", link: "https://docs.rubixkube.ai/concepts/memory-engine" },
+        { title: "Safety Guardrails", link: "https://docs.rubixkube.ai/concepts/guardrails" }
+      ]
     },
     {
-      title: "Advanced Topics",
-      copy: "Custom Policies, Integration APIs, Performance Tuning, Troubleshooting",
+      title: "Using the Platform",
+      copy: "Dashboard, Insights & RCA, Chat Interface, Agents, Clusters, and Integrations",
       icon: BarChart3,
-      gradient: "from-primary-light to-accent"
+      gradient: "from-primary-light to-accent",
+      link: "https://docs.rubixkube.ai/using/dashboard",
+      guides: [
+        { title: "Dashboard Overview", link: "https://docs.rubixkube.ai/using/dashboard" },
+        { title: "Insights & RCA", link: "https://docs.rubixkube.ai/using/insights" },
+        { title: "Chat Basics", link: "https://docs.rubixkube.ai/tutorials/chat-basics" },
+        { title: "Managing Agents", link: "https://docs.rubixkube.ai/using/agents" },
+        { title: "Connect Clusters", link: "https://docs.rubixkube.ai/using/clusters" },
+        { title: "Integrations", link: "https://docs.rubixkube.ai/using/integrations" }
+      ]
     }
   ]
 
@@ -82,37 +105,73 @@ export function ResourcesPageClient() {
 
   const caseStudies = [
     {
-      title: "E-commerce Platform",
-      copy: "How a major retailer reduced MTTR by 80% and prevented revenue loss.",
-      status: "Available Now",
-      metrics: ["80% MTTR reduction", "99.9% uptime", "Zero revenue loss"]
+      title: "OOMKilled Detection & Auto-Remediation",
+      copy: "See how RubixKube's Agent Mesh detects memory issues, performs RCA in 30 seconds, and suggests optimal resource allocation.",
+      status: "Tutorial Available",
+      metrics: ["30-90s RCA analysis", "Automated evidence gathering", "Memory optimization suggestions"],
+      link: "https://docs.rubixkube.ai/tutorials/rubixkube-in-action"
     },
     {
-      title: "Financial Services",
-      copy: "Achieving compliance while maintaining system reliability in a regulated environment.",
-      status: "Coming Soon",
-      metrics: ["100% compliance", "99.99% uptime", "Automated audits"]
+      title: "Multi-Incident Analysis Dashboard",
+      copy: "Real dashboard showing CrashLoop, ImagePullBackOff, and PodPending incidents with 75% RCA coverage and intelligent prioritization.",
+      status: "Live Demo",
+      metrics: ["75% RCA coverage", "Real-time detection", "Intelligent prioritization"],
+      link: "https://docs.rubixkube.ai/using/insights"
+    },
+    {
+      title: "Cost Optimization with AI",
+      copy: "Chat-based resource analysis identifying over-provisioned nginx containers and automated VPA recommendations.",
+      status: "Tutorial Available", 
+      metrics: ["10x resource optimization", "Automated right-sizing", "Cost analysis via chat"],
+      link: "https://docs.rubixkube.ai/tutorials/chat-cost-analysis"
     }
   ]
 
-  const upcomingWebinars = [
+  const supportResources = [
     {
-      title: "Getting Started with RubixKube",
-      copy: "Learn the basics of setting up and using RubixKube for your infrastructure",
-      icon: Calendar,
-      gradient: "from-primary to-accent"
+      title: "Troubleshooting Guide",
+      copy: "Step-by-step fixes for common issues across Dashboard, Insights, Agents, and platform components",
+      icon: Lightbulb,
+      gradient: "from-red-500 to-orange-500",
+      link: "https://docs.rubixkube.ai/support/troubleshooting"
     },
     {
-      title: "Advanced Automation Strategies", 
-      copy: "Discover advanced techniques for automating your infrastructure operations",
-      icon: Calendar,
-      gradient: "from-accent to-primary"
+      title: "Frequently Asked Questions", 
+      copy: "Quick answers to common questions about setup, RCA, agents, guardrails, and platform usage",
+      icon: TrendingUp,
+      gradient: "from-blue-500 to-indigo-500", 
+      link: "https://docs.rubixkube.ai/support/faq"
     },
     {
-      title: "Industry Roundtable: Future of SRE",
-      copy: "Join industry experts for a discussion on the future of Site Reliability Engineering",
+      title: "Beta Disclaimers & Limitations",
+      copy: "Important information about current capabilities, known limitations, and what's coming next",
       icon: Calendar,
-      gradient: "from-primary to-accent"
+      gradient: "from-yellow-500 to-amber-500",
+      link: "https://docs.rubixkube.ai/getting-started/disclaimers"
+    }
+  ]
+
+  const handsonTutorials = [
+    {
+      title: "Break Things, Watch RubixKube Fix Them",
+      copy: "Guided experiments with OOMKilled, CrashLoop, and ImagePullBackOff incidents - see real RCA in action",
+      icon: Calendar,
+      gradient: "from-primary to-accent",
+      link: "https://docs.rubixkube.ai/tutorials/rubixkube-in-action"
+    },
+    {
+      title: "Chat with Your Infrastructure", 
+      copy: "Master the conversational interface - from basic queries to advanced troubleshooting and cost analysis",
+      icon: Calendar,
+      gradient: "from-accent to-primary",
+      link: "https://docs.rubixkube.ai/tutorials/chat-basics"
+    },
+    {
+      title: "Agent Mesh Deep Dive",
+      copy: "Understand how 6 specialized AI agents collaborate - Observer, RCA Pipeline, Memory, SRI, Remediation, and Guardian",
+      icon: Calendar,
+      gradient: "from-primary to-accent",
+      link: "https://docs.rubixkube.ai/concepts/agent-mesh"
     }
   ]
 
@@ -125,11 +184,11 @@ export function ResourcesPageClient() {
         {/* DotGrid background */}
         <div className="absolute inset-0">
           <DotGrid
-            dotSize={3}
+            dotSize={1.5}
             gap={20}
             baseColor={dotColors.baseColor}
             activeColor={dotColors.activeColor}
-            proximity={120}
+            proximity={100}
             shockRadius={250}
             shockStrength={4}
             resistance={750}
@@ -189,10 +248,10 @@ export function ResourcesPageClient() {
                 className="flex flex-col sm:flex-row gap-3 mt-8 justify-center"
               >
                 <Button size="lg" asChild>
-                  <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
-                    Book Demo
-                    <ArrowRight className="w-4 h-4 flex-shrink-0" />
-                  </CalendlyBooking>
+                  <Link href="https://docs.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 flex-shrink-0" />
+                    Read the Docs
+                  </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
                   <a href="#resources">
@@ -206,7 +265,7 @@ export function ResourcesPageClient() {
       </section>
 
       {/* Documentation Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background">
+      <section id="resources" className="py-24 md:py-20 sm:py-14 bg-background">
         <CardGrid
           items={documentationCategories}
           title="Documentation"
@@ -278,25 +337,25 @@ export function ResourcesPageClient() {
                 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-6"
                 variants={fadeUpVariants}
               >
-                Case Studies
+                Live Demos & Examples
               </motion.h2>
               <p className="text-foreground-muted mb-8">
-                Real-world examples of how organizations are using RubixKube to transform their operations.
+                Real platform demonstrations showing RubixKube's Agent Mesh detecting, analyzing, and resolving infrastructure incidents.
               </p>
               <div className="space-y-6">
                 {caseStudies.map((study, idx) => (
                   <motion.div
                     key={idx}
-                    className="bg-card-background rounded-2xl p-6 shadow-lg border border-border hover:shadow-xl transition-shadow"
+                    className="bg-card-background rounded-2xl p-6 shadow-lg border border-border hover:shadow-xl transition-shadow group"
                     variants={fadeUpVariants}
                     transition={{ delay: idx * 0.1 }}
                   >
                     <div className="flex items-start justify-between mb-4">
                       <h3 className="text-lg font-bold text-foreground">{study.title}</h3>
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        study.status === 'Available Now' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
+                        study.status === 'Tutorial Available' || study.status === 'Live Demo' 
+                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
+                          : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
                       }`}>
                         {study.status}
                       </span>
@@ -304,7 +363,7 @@ export function ResourcesPageClient() {
                     <p className="text-foreground-muted mb-4 text-sm leading-relaxed">
                       {study.copy}
                     </p>
-                    <div className="space-y-2">
+                    <div className="space-y-2 mb-4">
                       {study.metrics.map((metric, metricIdx) => (
                         <div key={metricIdx} className="flex items-center space-x-2">
                           <TrendingUp className="w-4 h-4 text-accent" />
@@ -312,6 +371,19 @@ export function ResourcesPageClient() {
                         </div>
                       ))}
                     </div>
+                    {study.link && (
+                      <div className="pt-4 border-t border-border">
+                        <Link 
+                          href={study.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors group-hover:gap-2 gap-1 transition-all"
+                        >
+                          View Tutorial
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+                    )}
                   </motion.div>
                 ))}
               </div>
@@ -320,18 +392,28 @@ export function ResourcesPageClient() {
         </div>
       </section>
 
-      {/* Webinars Section */}
+      {/* Hands-on Tutorials Section */}
       <section className="py-24 md:py-20 sm:py-14 bg-background">
         <CardGrid
-          items={upcomingWebinars}
-          title="Webinars & Events"
-          subtitle="Join our live sessions to learn from experts and connect with the community."
+          items={handsonTutorials}
+          title="Hands-on Tutorials"
+          subtitle="Interactive learning experiences - break things, fix them, and master the platform with guided experiments."
+          variant="with-icon"
+        />
+      </section>
+
+      {/* Support & Troubleshooting Section */}
+      <section className="py-24 md:py-20 sm:py-14 bg-background-secondary">
+        <CardGrid
+          items={supportResources}
+          title="Support & Help"
+          subtitle="Get help quickly with troubleshooting guides, FAQs, and platform documentation."
           variant="with-icon"
         />
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background-secondary">
+      <section className="py-24 md:py-20 sm:py-14 bg-background">
         <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8 text-center">
           <motion.div
             variants={fadeUpVariants}
