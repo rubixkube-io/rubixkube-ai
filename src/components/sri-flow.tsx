@@ -7,6 +7,7 @@ import { ArrowRight, Eye, Brain, Zap, TrendingUp } from 'lucide-react'
 import Image from 'next/image'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
+import { useTheme } from '@/components/theme-provider'
 
 const steps = [
   {
@@ -15,7 +16,7 @@ const steps = [
     icon: Eye
   },
   {
-    title: 'Plan', 
+    title: 'Plan',
     copy: 'Agent Mesh that reason over live data and history to propose safe, auditable actions.',
     icon: Brain
   },
@@ -33,6 +34,7 @@ const steps = [
 
 export function SRIFlow() {
   const prefersReducedMotion = useReducedMotion()
+  const { resolvedTheme } = useTheme()
 
   return (
     <section id="how-it-works" className="py-24 md:py-20 sm:py-14 overflow-hidden bg-background">
@@ -43,7 +45,7 @@ export function SRIFlow() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-sm font-medium text-accent mb-6">
-          Heartbeat of SRI - The OPEL loop
+            Heartbeat of SRI - The OPEL loop
           </div>
           <h2 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.015em] mb-4 text-foreground">
             How Site Reliability Intelligence works
@@ -66,7 +68,7 @@ export function SRIFlow() {
                     <div className="w-full h-full bg-gradient-to-r from-accent via-accent/80 to-transparent animate-flow" />
                   </div>
                 )}
-                
+
                 <div className="rounded-xl p-6 border border-border bg-background hover:bg-background-secondary/50 transition-all duration-300 h-full">
                   <div className="text-center">
                     <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
@@ -89,7 +91,7 @@ export function SRIFlow() {
           variants={fadeUpVariants}
           {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
           className="mb-12"
-          whileHover={{ 
+          whileHover={{
             scale: 1.02,
             transition: { duration: 0.3, ease: "easeOut" }
           }}
@@ -99,23 +101,23 @@ export function SRIFlow() {
         >
           <div className="rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:shadow-2xl bg-background">
             <Image
-              src='/rca.png'
+              src={`/screenshots/hero-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
               alt="RubixKube Dashboard Interface"
-              width={800}
+              width={1200}
               height={800}
               className="w-full h-auto object-contain drop-shadow-2xl"
               priority
             />
           </div>
         </motion.div>
-        
+
         <motion.div
           variants={fadeUpVariants}
           {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
           className="text-center"
         >
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             asChild
           >
             <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
