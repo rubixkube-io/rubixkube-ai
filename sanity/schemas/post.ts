@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {blockContent} from './blocks'
 
 export const postType = defineType({
   name: 'post',
@@ -59,18 +60,8 @@ export const postType = defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-        },
-        {
-          type: 'image',
-          options: {
-            hotspot: true,
-          },
-        },
-      ],
+      description: 'Use markdown shortcuts: # for headings, **bold**, *italic*, `code`, - for lists',
+      ...blockContent,
     }),
     defineField({
       name: 'seoTitle',
