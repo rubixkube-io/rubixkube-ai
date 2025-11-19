@@ -10,29 +10,30 @@ import { fadeUpVariants } from '@/lib/animations'
 import { useTheme } from '@/components/theme-provider'
 import DotGrid from '@/components/ui/bg'
 import { CardGrid } from '@/components/ui/card-grid'
-import { 
+import {
   CheckCircle,
   Lightbulb,
   Users,
   Clock,
   AlertTriangle,
-  Rocket
+  Rocket,
+  Puzzle
 } from 'lucide-react'
 import Link from 'next/link'
 
 export function PlatformPageClient() {
   const { resolvedTheme } = useTheme()
-  
+
   // Theme-aware colors for DotGrid
-  const dotColors = resolvedTheme === 'dark' 
+  const dotColors = resolvedTheme === 'dark'
     ? {
-        baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
-      }
+      baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
+      activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
+    }
     : {
-        baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
-      }
+      baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
+      activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
+    }
 
   const platformFeatures = [
     {
@@ -59,13 +60,18 @@ export function PlatformPageClient() {
       title: "Automated Remediation",
       copy: "Intelligent agents that can automatically fix common issues while maintaining safety and compliance.",
       icon: Rocket
+    },
+    {
+      title: "Integrations with your existing tools",
+      copy: "RubixKube supports modular integrations with several third-party tools like Jira, Confluence, Github, PagerDuty, Microsoft Teams, Slack and several others.",
+      icon: Puzzle
     }
   ]
 
   return (
     <>
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* DotGrid background */}
@@ -86,7 +92,7 @@ export function PlatformPageClient() {
         <div className="relative z-10 mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8 pt-20">
           <div className="min-h-[600px] flex flex-col items-center justify-center gap-12">
             {/* Text Content */}
-            <motion.div 
+            <motion.div
               className="text-center max-w-4xl mx-auto"
               variants={fadeUpVariants}
               initial="hidden"
@@ -100,7 +106,7 @@ export function PlatformPageClient() {
               </motion.div>
 
               {/* Main Headline */}
-              <motion.h1 
+              <motion.h1
                 className="text-[40px] sm:text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6"
                 variants={fadeUpVariants}
               >
@@ -109,7 +115,7 @@ export function PlatformPageClient() {
 
 
               {/* Subheadline */}
-              <motion.p 
+              <motion.p
                 className="max-w-[55ch] text-[18px] leading-7 text-foreground-muted mx-auto"
                 variants={fadeUpVariants}
                 initial="hidden"
@@ -149,39 +155,26 @@ export function PlatformPageClient() {
               viewport={{ once: true }}
               className="w-full max-w-6xl mx-auto"
             >
-              <Image
-                src="/623_1x_shots_so.png"
-                alt="RubixKube Platform Dashboard - Cloud management interface with AI agents and infrastructure monitoring"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
-                priority
-              />
+              <div className="relative rounded-xl overflow-hidden border border-border shadow-2xl">
+                <Image
+                  src={`/screenshots/hero-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
+                  alt="RubixKube Platform Dashboard - Cloud management interface with AI agents and infrastructure monitoring"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Platform Preview Section */}
-      <section id="platform-in-action" className="py-24 md:py-20 sm:py-14 bg-background-secondary">
+      {/* Talk to Infra Section */}
+      <section className="py-24 md:py-20 sm:py-14 bg-background-secondary">
         <div className="mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8">
-          <motion.div
-            className="text-center mb-16"
-            variants={fadeUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6">
-              See the Platform in <span className="text-accent">Action</span>
-            </h2>
-            <p className="text-xl text-foreground-muted max-w-3xl mx-auto">
-              Experience the power of AI-driven infrastructure management through our intuitive interface
-            </p>
-          </motion.div>
-
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Platform Screenshot */}
+            {/* Left: Chat Screenshot */}
             <motion.div
               variants={fadeUpVariants}
               initial="hidden"
@@ -189,13 +182,15 @@ export function PlatformPageClient() {
               viewport={{ once: true }}
               className="order-2 lg:order-1"
             >
-              <Image
-                src="/279_1x_shots_so.png"
-                alt="RubixKube RCA Reports Interface - Root Cause Analysis dashboard with incident management"
-                width={800}
-                height={600}
-                className="w-full h-auto"
-              />
+              <div className="relative rounded-xl overflow-hidden border border-border shadow-xl">
+                <Image
+                  src={`/screenshots/chat-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
+                  alt="RubixKube Chat Interface - Talk to your infrastructure"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto"
+                />
+              </div>
             </motion.div>
 
             {/* Right: Content */}
@@ -206,26 +201,85 @@ export function PlatformPageClient() {
               viewport={{ once: true }}
               className="order-1 lg:order-2"
             >
-              <h3 className="text-3xl font-bold text-foreground mb-6">
-                Intelligent Incident Management
-              </h3>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Talk to your <span className="text-accent">Infrastructure</span>
+              </h2>
               <p className="text-lg text-foreground-muted mb-8">
-                Our platform provides comprehensive RCA (Root Cause Analysis) capabilities, 
-                helping teams quickly identify and resolve infrastructure issues before they impact customers.
+                Stop digging through logs and YAML files. Just ask RubixKube.
+                Our intelligent conversational interface understands your infrastructure context
+                and helps you diagnose issues, run commands, and get answers in seconds.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-accent" />
-                  <span className="text-foreground-muted">Automated incident detection</span>
+                  <span className="text-foreground-muted">Natural language queries</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-accent" />
-                  <span className="text-foreground-muted">AI-powered root cause analysis</span>
+                  <span className="text-foreground-muted">Context-aware responses</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-accent" />
-                  <span className="text-foreground-muted">Intelligent remediation suggestions</span>
+                  <span className="text-foreground-muted">Execute actions safely</span>
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Actionable Insights Section */}
+      <section className="py-24 md:py-20 sm:py-14 bg-background">
+        <div className="mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Content */}
+            <motion.div
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="order-1"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Actionable <span className="text-accent">Insights</span>
+              </h2>
+              <p className="text-lg text-foreground-muted mb-8">
+                Get a unified view of your entire stack. RubixKube connects the dots between
+                metrics, logs, and events to provide clear, actionable insights.
+                Identify root causes faster and prevent incidents before they happen.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-accent" />
+                  <span className="text-foreground-muted">Unified observability graph</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-accent" />
+                  <span className="text-foreground-muted">Automated root cause analysis</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-accent" />
+                  <span className="text-foreground-muted">Proactive anomaly detection</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right: Dashboard Screenshot */}
+            <motion.div
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="order-2"
+            >
+              <div className="relative rounded-xl overflow-hidden border border-border shadow-xl">
+                <Image
+                  src={`/screenshots/actions-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
+                  alt="RubixKube Dashboard - Actionable Insights"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto"
+                />
               </div>
             </motion.div>
           </div>
