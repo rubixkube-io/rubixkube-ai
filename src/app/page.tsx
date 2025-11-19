@@ -71,11 +71,11 @@ export default function Home() {
         <Navbar />
         <main>
           <Hero />
+          <TrustedBy />
           <WhySectionServer />
           <SRIFlow />
           <FeaturesGridServer />
           <UseCasesServer />
-          <TrustedBy />
           <TestimonialsServer />
           <ClosingCTA />
         </main>
