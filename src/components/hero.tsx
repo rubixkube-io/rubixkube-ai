@@ -206,9 +206,6 @@ export function Hero() {
             </motion.div>
           </div>
         </div>
-
-        {/* Trust Bar */}
-        {/* ... trust bar remains unchanged ... */}
       </div>
     </section>
   )

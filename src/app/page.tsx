@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/navbar'
 import { Hero } from '@/components/hero'
+import { TrustedBy } from '@/components/trusted-by'
 import { WhySectionServer } from '@/components/why-section-server'
 import { SRIFlow } from '@/components/sri-flow'
 import { FeaturesGridServer } from '@/components/features-grid-server'
@@ -74,6 +75,7 @@ export default function Home() {
           <SRIFlow />
           <FeaturesGridServer />
           <UseCasesServer />
+          <TrustedBy />
           <TestimonialsServer />
           <ClosingCTA />
         </main>
