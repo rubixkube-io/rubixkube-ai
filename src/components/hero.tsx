@@ -160,7 +160,7 @@ export function Hero() {
             <motion.div
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.3 } })}
-              className="flex flex-col sm:flex-row gap-3 mb-12"
+              className="flex flex-col sm:flex-row items-center sm:items-stretch gap-3 mb-6"
             >
               <Button variant="primary" size="lg" asChild>
                 <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
@@ -172,6 +172,28 @@ export function Hero() {
                   What is SRI?
                 </Link>
               </Button>
+            </motion.div>
+
+            {/* Product Hunt launch badge */}
+            <motion.div
+              variants={fadeUpVariants}
+              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.34 } })}
+              className="mb-12 flex justify-center lg:justify-start"
+            >
+              <a
+                href="https://www.producthunt.com/products/rubixkube?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-rubixkube"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center"
+              >
+                <img
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1030409&theme=light&t=1765797854861"
+                  alt="RubixKube - Site Reliability Intelligence | Product Hunt"
+                  width="250"
+                  height="54"
+                  style={{ width: '250px', height: '54px' }}
+                />
+              </a>
             </motion.div>
 
             {/* Supporting Points */}
