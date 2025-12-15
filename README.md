@@ -1,3 +1,5 @@
+<a href="https://www.producthunt.com/products/rubixkube?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-rubixkube" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1030409&theme=light&t=1765797854861" alt="RubixKube - Site&#0032;Reliability&#0032;Intelligence | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
 <div align="center">
   <img src="/public/og.jpg" alt="RubixKube - Site Reliability Intelligence for the AI Era" width="100%" />
 </div>
