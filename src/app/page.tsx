@@ -12,8 +12,8 @@ import { StructuredData } from '@/components/structured-data'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'RubixKube - Site Reliability Intelligence is the future',
-  description: 'Detect, diagnose, and heal production issues before customers feel them. Autonomous remediation with approvals for Kubernetes and cloud-native stacks.',
+  title: 'Site Reliability Intelligence (SRI) | RubixKube',
+  description: 'Detect, diagnose, and heal production issues before customers feel them. AI-native reliability for Kubernetes. Book a demo.',
   keywords: [
     'site reliability intelligence',
     'SRI', 
@@ -57,9 +57,6 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-  },
-  verification: {
-    google: 'your-google-site-verification-code',
   },
 }
 
