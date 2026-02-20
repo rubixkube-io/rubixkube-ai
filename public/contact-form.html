@@ -5,14 +5,16 @@
 </head>
 <body>
   <!-- This form is used by Netlify to detect form fields -->
-  <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+  <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="contact" />
     <input type="text" name="name" />
     <input type="text" name="company" />
     <input type="email" name="email" />
     <input type="text" name="subject" />
     <textarea name="message"></textarea>
   </form>
-  <form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
+  <form name="newsletter" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="newsletter" />
     <input type="email" name="email" />
   </form>
 </body>
