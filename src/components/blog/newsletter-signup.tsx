@@ -17,19 +17,31 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
 
     setIsLoading(true)
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setSubscribed(true)
-    setIsLoading(false)
-    setEmail('')
+    setError('')
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ 'form-name': 'newsletter', email }).toString(),
+      })
+
+      if (!response.ok) throw new Error('Submission failed')
+
+      setSubscribed(true)
+      setEmail('')
+    } catch {
+      setError('Something went wrong. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   if (compact) {
@@ -63,9 +75,20 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
             <p className="text-sm text-foreground-muted mb-4">
               Get the latest insights on infrastructure reliability.
             </p>
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form
+              onSubmit={handleSubmit}
+              name="newsletter"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              className="space-y-3"
+            >
+              <input type="hidden" name="form-name" value="newsletter" />
+              <div style={{ display: 'none' }}>
+                <input name="bot-field" />
+              </div>
               <input
                 type="email"
+                name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
@@ -80,6 +103,9 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
               >
                 {isLoading ? 'Subscribing...' : 'Subscribe'}
               </Button>
+              {error && (
+                <p className="text-xs text-red-500 text-center">{error}</p>
+              )}
             </form>
           </>
         )}
@@ -128,9 +154,20 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+          <form
+            onSubmit={handleSubmit}
+            name="newsletter"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            className="flex flex-col sm:flex-row gap-3"
+          >
+            <input type="hidden" name="form-name" value="newsletter" />
+            <div style={{ display: 'none' }}>
+              <input name="bot-field" />
+            </div>
             <input
               type="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
@@ -153,6 +190,10 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
               )}
             </Button>
           </form>
+
+          {error && (
+            <p className="text-xs text-red-500 mt-2 text-center">{error}</p>
+          )}
 
           <p className="text-xs text-foreground-muted mt-4 text-center">
             No spam, unsubscribe at any time. Read our{" "}
