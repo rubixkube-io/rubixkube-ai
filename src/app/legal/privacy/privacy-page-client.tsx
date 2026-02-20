@@ -296,7 +296,7 @@ export function PrivacyPageClient() {
                     </a>
                   </p>
                   <p className="text-foreground">
-                    <span className="font-medium">Address:</span> SLOW RABBIT DESIGNS PRIVATE LIMITED
+                    <span className="font-medium">Address:</span> RubixKube Intelligence Private Limited
                   </p>
                 </div>
               </div>

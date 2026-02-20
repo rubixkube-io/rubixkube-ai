@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
@@ -8,9 +9,36 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants } from '@/lib/animations'
-import { Mail, MapPin, Send, Clock, MessageSquare } from 'lucide-react'
+import { Mail, MapPin, Send, Clock, MessageSquare, Check } from 'lucide-react'
 
 export function ContactPageClient() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+
+    const formData = new FormData(e.currentTarget)
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(Object.fromEntries(formData) as Record<string, string>).toString(),
+      })
+
+      if (!response.ok) throw new Error('Submission failed')
+
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
   const contactMethods = [
     {
       icon: Mail,
@@ -38,7 +66,7 @@ export function ContactPageClient() {
   const officeInfo = {
     icon: MapPin,
     title: "Office",
-    description: "SLOW RABBIT DESIGNS PRIVATE LIMITED",
+    description: "RubixKube Intelligence Private Limited",
     contact: "India",
     href: "#"
   }
@@ -175,103 +203,116 @@ export function ContactPageClient() {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                <form 
-                  name="contact" 
-                  method="POST" 
-                  data-netlify="true" 
-                  data-netlify-honeypot="bot-field"
-                  className="space-y-6"
-                >
-                  {/* Hidden Netlify fields */}
-                  <input type="hidden" name="form-name" value="contact" />
-                  <div style={{ display: 'none' }}>
-                    <label>
-                      Don&apos;t fill this out if you&apos;re human: <input name="bot-field" />
-                    </label>
+                {submitted ? (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground mb-3">Message Sent!</h3>
+                    <p className="text-foreground-muted">We&apos;ll get back to you within 2-4 hours.</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                ) : (
+                  <form
+                    name="contact"
+                    data-netlify="true"
+                    data-netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                    className="space-y-6"
+                  >
+                    <input type="hidden" name="form-name" value="contact" />
+                    <div style={{ display: 'none' }}>
+                      <input name="bot-field" />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          Full Name *
+                        </label>
+                        <Input
+                          type="text"
+                          name="name"
+                          placeholder="Enter your full name"
+                          className="w-full"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          Company
+                        </label>
+                        <Input
+                          type="text"
+                          name="company"
+                          placeholder="Enter company name"
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          Email *
+                        </label>
+                        <Input
+                          type="email"
+                          name="email"
+                          placeholder="Enter your email address"
+                          className="w-full"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          Subject *
+                        </label>
+                        <Input
+                          type="text"
+                          name="subject"
+                          placeholder="What's this about?"
+                          className="w-full"
+                          required
+                        />
+                      </div>
+                    </div>
+
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
-                        Full Name *
+                        Message *
                       </label>
-                      <Input 
-                        type="text" 
-                        name="name"
-                        placeholder="Enter your full name"
-                        className="w-full"
+                      <Textarea
+                        name="message"
+                        placeholder="Tell us how we can help you..."
+                        className="w-full min-h-[120px]"
                         required
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Company
-                      </label>
-                      <Input 
-                        type="text" 
-                        name="company"
-                        placeholder="Enter company name"
-                        className="w-full"
-                      />
+
+                    {error && (
+                      <p className="text-sm text-red-500 text-center">{error}</p>
+                    )}
+
+                    <div className="pt-4">
+                      <Button
+                        type="submit"
+                        size="lg"
+                        disabled={isLoading}
+                        className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-lg py-6"
+                      >
+                        <Send className="w-5 h-5 mr-2" />
+                        {isLoading ? 'Sending...' : 'Send Message'}
+                      </Button>
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Email *
-                      </label>
-                      <Input 
-                        type="email" 
-                        name="email"
-                        placeholder="Enter your email address"
-                        className="w-full"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Subject *
-                      </label>
-                      <Input 
-                        type="text" 
-                        name="subject"
-                        placeholder="What's this about?"
-                        className="w-full"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Message *
-                    </label>
-                    <Textarea 
-                      name="message"
-                      placeholder="Tell us how we can help you..."
-                      className="w-full min-h-[120px]"
-                      required
-                    />
-                  </div>
-
-                  <div className="pt-4">
-                    <Button 
-                      type="submit" 
-                      size="lg" 
-                      className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-lg py-6"
-                    >
-                      <Send className="w-5 h-5 mr-2" />
-                      Send Message
-                    </Button>
-                  </div>
-
-                  <p className="text-sm text-foreground-muted text-center">
-                    By submitting this form, you agree to our{' '}
-                    <a href="/legal/privacy" className="text-primary hover:underline">Privacy Policy</a>
-                    {' '}and{' '}
-                    <a href="/legal/terms" className="text-primary hover:underline">Terms of Service</a>.
-                  </p>
-                </form>
+                    <p className="text-sm text-foreground-muted text-center">
+                      By submitting this form, you agree to our{' '}
+                      <a href="/legal/privacy" className="text-primary hover:underline">Privacy Policy</a>
+                      {' '}and{' '}
+                      <a href="/legal/terms" className="text-primary hover:underline">Terms of Service</a>.
+                    </p>
+                  </form>
+                )}
               </motion.div>
             </motion.div>
           </div>

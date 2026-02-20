@@ -167,7 +167,7 @@ const TermsPage = () => {
             {/* Intellectual Property */}
             <Section title="Intellectual Property" id="intellectual-property">
               <p className="mb-4">
-                RubixKube™ and all platform content are the exclusive IP of SLOW RABBIT DESIGNS PRIVATE LIMITED.
+                RubixKube™ and all platform content are the exclusive IP of RubixKube Intelligence Private Limited.
               </p>
               <div className="p-4 bg-card-background rounded-lg border border-border">
                 <ul className="list-disc pl-6 space-y-2 text-foreground-muted">
@@ -241,7 +241,7 @@ const TermsPage = () => {
                     </a>
                   </p>
                   <p className="text-foreground">
-                    <span className="font-medium">Address:</span> SLOW RABBIT DESIGNS PRIVATE LIMITED
+                    <span className="font-medium">Address:</span> RubixKube Intelligence Private Limited
                   </p>
                 </div>
               </div>
