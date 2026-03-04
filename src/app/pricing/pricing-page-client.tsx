@@ -88,7 +88,7 @@ export function PricingPageClient() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative flex items-center overflow-hidden" style={{ minHeight: '65vh' }}>
+      <section className="relative min-h-[75vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <DotGrid
             dotSize={1.5}
@@ -104,7 +104,7 @@ export function PricingPageClient() {
         </div>
 
         <div className="relative z-10 mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-4 sm:px-6 md:px-8 pt-20">
-          <div className="flex flex-col items-center justify-center gap-8 pt-12 pb-32">
+          <div className="min-h-[600px] flex flex-col items-center justify-center gap-8">
             <motion.div
               className="text-center max-w-4xl mx-auto"
               variants={fadeUpVariants}
@@ -173,9 +173,9 @@ export function PricingPageClient() {
       </section>
 
       {/* Pricing Cards */}
-      <section id="pricing-cards" className="pt-8 pb-24 md:pb-20 sm:pb-14 bg-background scroll-mt-20">
-        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+      <section id="pricing-cards" className="pt-8 pb-14 sm:pb-20 md:pb-24 bg-background scroll-mt-20 overflow-x-hidden">
+        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-4 sm:px-6 md:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
             {/* Free */}
             <motion.div
               variants={fadeUpVariants}
@@ -184,7 +184,7 @@ export function PricingPageClient() {
               viewport={{ once: true }}
               className="flex flex-col"
             >
-              <Card className="flex flex-col h-full border-border opacity-90 hover:opacity-100 transition-opacity">
+              <Card className="flex flex-col h-full border-border">
                 <CardHeader className="pb-4">
                   <p className="text-sm font-medium text-foreground-muted uppercase tracking-wide">Individual</p>
                   <div className="mt-2">
@@ -309,7 +309,7 @@ export function PricingPageClient() {
               viewport={{ once: true }}
               className="flex flex-col"
             >
-              <Card className="flex flex-col h-full border-border bg-card-background dark:bg-slate-800/60 dark:border-slate-700">
+              <Card className="flex flex-col h-full border-border">
                 <CardHeader className="pb-4">
                   <p className="text-sm font-medium text-foreground-muted uppercase tracking-wide">Enterprise</p>
                   <div className="mt-2">
@@ -343,7 +343,7 @@ export function PricingPageClient() {
       </section>
 
       {/* FAQ */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background-secondary">
+      <section className="py-14 sm:py-20 md:py-24 bg-background-secondary">
         <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
           <motion.div
             variants={fadeUpVariants}
