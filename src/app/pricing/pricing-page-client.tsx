@@ -49,7 +49,7 @@ const enterpriseIncludes = [
 
 const boostPacks = [
   { name: 'Boost S', investigations: 50, price: 300, perInvestigation: 6 },
-  { name: 'Boost M', investigations: 100, price: 700, perInvestigation: 7 },
+  { name: 'Boost M', investigations: 100, price: 500, perInvestigation: 5 },
 ]
 
 const faqItems = [
@@ -357,7 +357,7 @@ export function PricingPageClient() {
             </h2>
           </motion.div>
           <div className="max-w-[800px] mx-auto space-y-10">
-            {faqItems.map((item, i) => (
+            {faqItems.map((item) => (
               <motion.div
                 key={item.q}
                 variants={fadeUpVariants}
