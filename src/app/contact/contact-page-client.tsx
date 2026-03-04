@@ -104,7 +104,7 @@ export function ContactPageClient() {
       {/* Contact Content */}
       <section className="py-16 bg-background">
         <div className="mx-auto max-w-6xl px-6 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:items-start">
             
             {/* Contact Information */}
             <motion.div
@@ -189,12 +189,9 @@ export function ContactPageClient() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-6">
+              <h2 className="text-2xl font-semibold text-foreground mb-8">
                 Send us a Message
               </h2>
-              <p className="text-lg text-foreground-muted mb-8">
-                Fill out the form below and we&apos;ll get back to you as soon as possible.
-              </p>
 
               <motion.div
                 className="rounded-2xl border border-border bg-card-background shadow-xl p-8"
@@ -223,6 +220,10 @@ export function ContactPageClient() {
                     <div style={{ display: 'none' }}>
                       <input name="bot-field" />
                     </div>
+
+                    <p className="text-foreground-muted">
+                      Fill out the form below and we&apos;ll get back to you as soon as possible.
+                    </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
@@ -296,9 +297,10 @@ export function ContactPageClient() {
                     <div className="pt-4">
                       <Button
                         type="submit"
+                        variant="primary"
                         size="lg"
                         disabled={isLoading}
-                        className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-lg py-6"
+                        className="w-full text-lg py-6 rounded-full"
                       >
                         <Send className="w-5 h-5 mr-2" />
                         {isLoading ? 'Sending...' : 'Send Message'}

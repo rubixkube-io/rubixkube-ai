@@ -11,6 +11,28 @@ export function TrustedBy() {
   return (
     <section className="relative py-12 md:py-16 overflow-hidden">
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-8">
+        {/* Product Hunt Badge */}
+        <motion.div
+          variants={fadeUpVariants}
+          {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.05 } })}
+          className="flex justify-center mb-8 md:mb-10"
+        >
+          <a
+            href="https://www.producthunt.com/products/rubixkube?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-rubixkube"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1030409&theme=light&t=1765797854861"
+              alt="RubixKube - Site Reliability Intelligence | Product Hunt"
+              width="250"
+              height="54"
+              style={{ width: '250px', height: '54px' }}
+            />
+          </a>
+        </motion.div>
+
         {/* Title Card - Mobile Only */}
         <motion.div
           variants={fadeUpVariants}
