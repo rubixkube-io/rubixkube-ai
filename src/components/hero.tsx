@@ -15,7 +15,7 @@ import { CalendlyBooking } from './ui/calendly-booking'
 const supportingPoints = [
   'Detect, diagnose, and heal automatically, before customers feel it',
   'AI you can trust: Human-in-the-loop guardrails', 
-  'Works with Kubernetes, cloud, and your existing tools'
+  'Works with AWS, GCP, Azure, Kubernetes, and your existing tools.'
 ]
 
 export function Hero() {
@@ -75,10 +75,10 @@ export function Hero() {
             >
               <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-500 group-hover:text-teal-600 dark:group-hover:text-teal-500 transition-all duration-200 hover:scale-110 animate-pulse" style={{ animationDuration: '2s' }} />
               <span className="text-foreground/90 group-hover:text-foreground">
-                Just launched! Meet your AI reliability team
+                New: AI-driven RCA in 4 minutes.
               </span>
               <span className="text-primary group-hover:text-primary/80 font-semibold">
-                Experience SRI
+                See how
               </span>
               <ArrowRight className="w-3 h-3 text-primary group-hover:text-primary/80 group-hover:translate-x-0.5 transition-all" />
             </Link>
@@ -93,7 +93,7 @@ export function Hero() {
               {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
               className="inline-flex items-center rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-8"
             >
-              RubixKube
+              Beyond Observability
             </motion.div>
 
             {/* Main Headline */}
@@ -152,8 +152,8 @@ export function Hero() {
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
               className="max-w-[55ch] text-[18px] leading-7 text-foreground-muted mb-8"
             >
-              For Businesses who can&apos;t afford downtime, 
-              RubixKube is the AI Reliability Brain (SRI) that predicts, prevents, and safely fixes failures across cloud-native stacks.
+              RubixKube is the AI brain that understands every failure across your cloud-native infrastructure,
+              detecting anomalies, diagnosing root cause in minutes, and telling your team exactly what to fix. Before your users feel a thing.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -173,53 +173,15 @@ export function Hero() {
                 </Link>
               </Button>
             </motion.div>
-
-            {/* Product Hunt launch badge */}
-            <motion.div
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.34 } })}
-              className="mb-12 flex justify-center lg:justify-start"
-            >
-              <a
-                href="https://www.producthunt.com/products/rubixkube?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-rubixkube"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center"
-              >
-                <img
-                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1030409&theme=light&t=1765797854861"
-                  alt="RubixKube - Site Reliability Intelligence | Product Hunt"
-                  width="250"
-                  height="54"
-                  style={{ width: '250px', height: '54px' }}
-                />
-              </a>
-            </motion.div>
-
-            {/* Supporting Points */}
-            <motion.div
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
-              className="space-y-3"
-            >
-              {supportingPoints.map((point) => (
-                <div key={point} className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-cta-green flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-foreground-muted">{point}</span>
-                </div>
-              ))}
-            </motion.div>
           </div>
 
-          {/* Journey Animation */}
-          {/* hide on mobile */}
-          <div className="flex-1 flex items-stretch justify-center lg:justify-end mt-8 lg:mt-0 hidden lg:block">
+          {/* Journey Animation — original structure only */}
+          <div className="flex-1 hidden lg:flex items-stretch justify-center lg:justify-end mt-8 lg:mt-0">
             <motion.div
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.5 } })}
               className="w-full max-w-[620px] lg:max-w-[520px] xl:max-w-[600px] 2xl:max-w-[700px] 3xl:max-w-[800px]"
             >
-              {/* Glassmorphic frame */}
               <div className="relative h-[520px] lg:h-[540px] rounded-3xl overflow-hidden border border-border-secondary">
                 <div className="absolute inset-0">
                   <JourneyAnimation />
@@ -227,6 +189,45 @@ export function Hero() {
               </div>
             </motion.div>
           </div>
+        </div>
+
+        {/* Bullets + Stats — same row for vertical alignment */}
+        <div className="mt-6 lg:mt-4 grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-4 items-start">
+          {/* Supporting Points — left, aligns with stats */}
+          <motion.div
+            variants={fadeUpVariants}
+            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
+            className="space-y-3 text-center lg:text-left"
+          >
+            {supportingPoints.map((point) => (
+              <div key={point} className="flex items-start gap-3 justify-center lg:justify-start">
+                <CheckCircle className="w-5 h-5 text-cta-green flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-foreground-muted">{point}</span>
+              </div>
+            ))}
+          </motion.div>
+          <motion.div
+            variants={fadeUpVariants}
+            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.55 } })}
+            className="w-full rounded-xl border border-border/60 bg-background-secondary/60 backdrop-blur-sm px-4 py-4 text-center"
+          >
+            <p className="text-base sm:text-lg font-semibold text-foreground mb-2">
+              Incident Root Cause Analysis in under 4 minutes.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+              <span className="inline-flex items-center rounded-full bg-primary/10 dark:bg-primary/15 px-3 py-1.5 text-xs sm:text-sm font-semibold text-primary">
+                <span className="font-mono">4.13 min</span>
+                <span className="ml-1 text-foreground-muted font-normal">avg MTTU</span>
+              </span>
+              <span className="inline-flex items-center rounded-full bg-cta-green/10 dark:bg-cta-green/15 px-3 py-1.5 text-xs sm:text-sm font-semibold text-cta-green">
+                100% detection rate
+              </span>
+              <span className="inline-flex items-center rounded-full bg-accent/10 dark:bg-accent/15 px-3 py-1.5 text-xs sm:text-sm font-semibold text-accent">
+                <span className="font-mono">55</span>
+                <span className="ml-1 text-foreground-muted font-normal">eng-hours saved/week</span>
+              </span>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
