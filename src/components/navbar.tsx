@@ -18,6 +18,7 @@ const navigation = [
   { name: 'Resources', href: '/resources' },
   { name: 'Blog', href: '/blog' },
   { name: 'Our Story', href: '/about' },
+  { name: 'Contact', href: '/contact' },
 ]
 
 const socialLinks = [

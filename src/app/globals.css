@@ -13,6 +13,9 @@
   --border: #e2e8f0;
   --border-muted: #cbd5e1;
   --card-background: #ffffff;
+  --input: #e2e8f0;
+  --ring: #2457E6;
+  --muted-foreground: #64748b;
   --hero-grid: #E9EEF9;
 }
 
@@ -29,6 +32,9 @@
   --border: #334155;
   --border-muted: #475569;
   --card-background: #1e293b;
+  --input: #475569;
+  --ring: #2F5BFF;
+  --muted-foreground: #94a3b8;
   --hero-grid: #2F5BFF;
 }
 
@@ -45,6 +51,9 @@
   --color-border-muted: var(--border-muted);
   --color-card-background: var(--card-background);
   --color-hero-grid: var(--hero-grid);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-muted-foreground: var(--muted-foreground);
   
   --color-white: #ffffff;
   --color-black: #101214;
