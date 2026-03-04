@@ -13,6 +13,7 @@ const footerColumns = [
     links: [
       { label: 'Features', href: '/platform' },
       { label: 'Solutions', href: '/solutions' },
+      { label: 'Pricing', href: '/pricing' },
       // { label: 'Security', href: '/platform/security' }, // Page doesn't exist yet
       // { label: 'Changelog', href: '/changelog' } // Page doesn't exist yet
     ]
