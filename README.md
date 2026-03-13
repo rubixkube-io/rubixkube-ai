@@ -5,6 +5,8 @@
 <h1>RubixKube</h1>
 <p><strong>Site Reliability Intelligence for the AI Era</strong></p>
 
+[![Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.rubixkube.ai%2Fstatus%2Fbadge)](https://rubixkube.ai/status)
+
 
 RubixKube is the reliability brain for modern systems. An AI-native mesh of agents that watch, plan, act, and learn — 24/7. Keep revenue online. RubixKube watches your stack, finds the real cause, and fixes it safely with approvals.
 
