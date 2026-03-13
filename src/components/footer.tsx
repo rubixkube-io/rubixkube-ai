@@ -22,7 +22,8 @@ const footerColumns = [
     title: 'Company',
     links: [
       { label: 'Our Story', href: '/about' },
-      { label: 'Contact', href: '/contact' }
+      { label: 'Contact', href: '/contact' },
+      { label: 'Status', href: '/status' }
     ]
   },
   {
