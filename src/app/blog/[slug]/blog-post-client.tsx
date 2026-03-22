@@ -6,6 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { Button } from "@/components/ui/button"
 import { ClosingCTA } from "@/components/closing-cta"
 import { urlFor } from "@/lib/sanity.client"
 import { motion } from "framer-motion"
@@ -131,9 +132,9 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
   return (
     <>
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-border z-50">
+      <div className="fixed top-0 left-0 right-0 h-0.5 bg-[var(--rule)] z-50">
         <div 
-          className="h-full bg-accent transition-all duration-150 ease-out"
+          className="h-full bg-[var(--blue)] transition-all duration-150 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
@@ -141,49 +142,22 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       <Navbar />
       
       {/* Header Section */}
-      <section className="bg-background pt-20 pb-12">
-        <div className="mx-auto max-w-6xl px-6 md:px-8">
-          {/* Eyebrow */}
-          <motion.div variants={fadeUpVariants}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-4 sm:mb-6 md:mb-8">
-            <Link href="/" className="hover:text-foreground transition-colors">
-                Home
-              </Link>
-              <span>→</span>
-              <Link href="/blog" className="hover:text-foreground transition-colors">
-                Blog
-              </Link>
-              {post.categories && post.categories.length > 0 && (
-                <>
-                  <span>→</span>
-                  <span className="text-accent">{post.categories[0]}</span>
-                </>
-              )}
-            </span>
-          </motion.div>
-
+      <section className="bg-[var(--bg)] pt-[calc(var(--nav-stack)+3rem)] pb-12">
+        <div className="rk-landing-max px-[var(--pad)]">
           {/* Breadcrumb */}
-          {/* <motion.nav 
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
-            className="mb-8"
-          >
-            <div className="flex items-center gap-2 text-sm text-foreground-muted">
-              <Link href="/" className="hover:text-foreground transition-colors">
-                Home
-              </Link>
-              <span>→</span>
-              <Link href="/blog" className="hover:text-foreground transition-colors">
-                Blog
-              </Link>
+          <motion.div variants={fadeUpVariants}>
+            <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-8">
+              <Link href="/" className="hover:text-[var(--ink)] transition-colors">Home</Link>
+              <span className="text-[var(--faint)]">→</span>
+              <Link href="/blog" className="hover:text-[var(--ink)] transition-colors">Blog</Link>
               {post.categories && post.categories.length > 0 && (
                 <>
-                  <span>→</span>
-                  <span className="text-accent">{post.categories[0]}</span>
+                  <span className="text-[var(--faint)]">→</span>
+                  <span className="text-[var(--blue)]">{post.categories[0]}</span>
                 </>
               )}
-            </div>
-          </motion.nav> */}
+            </nav>
+          </motion.div>
 
           {/* Cover Image */}
           {postImageUrl && (
@@ -192,7 +166,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.1 } })}
             >
-              <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-card-background border border-border">
+              <div className="relative aspect-[16/9] overflow-hidden border border-[var(--rule)] bg-[var(--bg)]">
                 <Image
                   src={postImageUrl}
                   alt={post.title}
@@ -209,19 +183,19 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
           >
-            <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground leading-[0.9]">
+            <h1 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,5vw,4rem)] font-light leading-[1.05] tracking-[-0.01em] text-[var(--ink)]">
               {post.title}
             </h1>
           </motion.div>
 
-          {/* Excerpt/Dek */}
+          {/* Excerpt */}
           {post.excerpt && (
             <motion.div 
               className="mb-8"
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.3 } })}
             >
-              <p className="text-xl leading-relaxed text-foreground-muted max-w-3xl">
+              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-3xl">
                 {post.excerpt}
               </p>
             </motion.div>
@@ -229,12 +203,12 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
 
           {/* Meta row */}
           <motion.div 
-            className="flex items-center gap-6 py-6 border-b border-border mb-12"
+            className="flex flex-wrap items-center gap-4 sm:gap-6 py-6 border-b border-[var(--rule)] mb-12 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
           >
-            <div className="flex items-center gap-2 text-sm text-foreground-muted">
-              <Calendar className="w-4 h-4" />
+            <div className="flex items-center gap-2">
+              <Calendar className="w-3.5 h-3.5" />
               <time>
                 {new Date(post.publishedAt).toLocaleDateString('en-US', {
                   year: 'numeric',
@@ -243,13 +217,13 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                 })}
               </time>
             </div>
-            <div className="flex items-center gap-2 text-sm text-foreground-muted">
-              <Clock className="w-4 h-4" />
+            <div className="flex items-center gap-2">
+              <Clock className="w-3.5 h-3.5" />
               <span>5 min read</span>
             </div>
             {post.author && (
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-card-background border border-border rounded-full flex items-center justify-center overflow-hidden">
+                <div className="w-7 h-7 bg-[var(--bg)] border border-[var(--rule)] rounded-full flex items-center justify-center overflow-hidden">
                   {post.author?.image ? (
                     <Image 
                       src={urlFor(post.author.image)?.width(32).height(32).url()} 
@@ -259,10 +233,10 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <User className="w-4 h-4 text-foreground-muted" />
+                    <User className="w-3.5 h-3.5 text-[var(--mid)]" />
                   )}
                 </div>
-                <span className="text-sm font-medium text-foreground">
+                <span style={{ fontWeight: 500 }} className="text-[var(--ink)]">
                   {post.author.name || 'RubixKube Team'}
                 </span>
               </div>
@@ -272,9 +246,9 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       </section>
       
       {/* Article Content */}
-      <section className="pb-24 bg-background">
-        <div className="mx-auto max-w-6xl px-6 md:px-8">
-          <div className="grid lg:grid-cols-[1fr_300px] gap-16">
+      <section className="pb-24 bg-[var(--bg)]">
+        <div className="rk-landing-max px-[var(--pad)]">
+          <div className="grid lg:grid-cols-[1fr_280px] gap-10 xl:gap-16">
             {/* Main Content */}
             <motion.article 
               className="prose prose-lg max-w-none"
@@ -282,8 +256,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUpVariants}
-              style={{ 
-                maxWidth: '80ch',
+              style={{
                 '--tw-prose-body': 'var(--foreground)',
                 '--tw-prose-headings': 'var(--foreground)',
                 '--tw-prose-lead': 'var(--foreground-muted)',
@@ -312,7 +285,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const imageUrl = urlFor(value)
                         return (
                           <figure className="my-12 not-prose">
-                            <div className="relative rounded-2xl overflow-hidden bg-card-background border border-border shadow-lg">
+                            <div className="relative overflow-hidden bg-[var(--bg)] border border-[var(--rule)]">
                               <Image
                                 src={imageUrl?.width(1000).height(562).url()}
                                 alt={value.alt || "Blog image"}
@@ -322,7 +295,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                               />
                             </div>
                             {value.caption && (
-                              <figcaption className="text-center text-sm text-foreground-muted mt-4 italic">
+                              <figcaption className="text-center font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mt-4 italic">
                                 {value.caption}
                               </figcaption>
                             )}
@@ -348,7 +321,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h1 id={id} className="font-heading text-4xl font-bold text-foreground mt-16 mb-8 leading-tight">
+                          <h1 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4vw,3rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-16 mb-8">
                             {children}
                           </h1>
                         )
@@ -357,7 +330,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h2 id={id} className="font-heading text-3xl font-bold text-foreground mt-12 mb-6 leading-tight">
+                          <h2 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,3.5vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-12 mb-6">
                             {children}
                           </h2>
                         )
@@ -366,7 +339,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h3 id={id} className="font-heading text-2xl font-bold text-foreground mt-10 mb-4 leading-tight">
+                          <h3 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2rem)] font-light leading-[1.15] tracking-[-0.01em] text-[var(--ink)] mt-10 mb-4">
                             {children}
                           </h3>
                         )
@@ -375,7 +348,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h4 id={id} className="font-heading text-xl font-bold text-foreground mt-8 mb-3 leading-tight">
+                          <h4 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2.5vw,1.5rem)] font-light leading-[1.2] text-[var(--ink)] mt-8 mb-3">
                             {children}
                           </h4>
                         )
@@ -386,8 +359,8 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         </p>
                       ),
                       blockquote: ({children}) => (
-                        <blockquote className="border-l-4 border-accent bg-accent/5 p-6 my-8 rounded-r-2xl">
-                          <div className="text-foreground text-lg italic">
+                        <blockquote className="border-l-2 border-[var(--blue)] bg-[var(--blue)]/[0.03] p-6 my-8">
+                          <div className="font-[family-name:var(--font-mono)] text-[var(--ink)] text-[15px] font-light leading-relaxed italic">
                             {children}
                           </div>
                         </blockquote>
@@ -466,13 +439,13 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
 
           {/* Author Bio */}
           <motion.div
-            className="mt-16 pt-12 border-t border-border"
+            className="mt-16 pt-12 border-t border-[var(--rule)]"
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.9 } })}
           >
-            <div className="bg-card-background border border-border rounded-2xl p-8">
+            <div className="border border-[var(--rule)] bg-[var(--bg)] p-8">
               <div className="flex items-start gap-6">
-                <div className="w-16 h-16 bg-background-secondary border border-border rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-14 h-14 bg-[var(--background-secondary)] border border-[var(--rule)] rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                   {post.author?.image ? (
                     <Image 
                       src={urlFor(post.author.image)?.width(64).height(64).url()} 
@@ -482,14 +455,17 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <User className="w-8 h-8 text-foreground-muted" />
+                    <User className="w-6 h-6 text-[var(--mid)]" />
                   )}
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-heading text-xl font-bold text-foreground mb-2">
+                  <h3
+                    className="text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)] mb-2"
+                    style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+                  >
                     {post.author?.name || 'RubixKube Team'}
                   </h3>
-                  <div className="text-foreground-muted mb-4">
+                  <div className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-4">
                     {post.author?.bio ? (
                       typeof post.author.bio === 'string' ? (
                         <p className="leading-relaxed">{post.author.bio}</p>
@@ -525,9 +501,9 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             >
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 px-4 py-3 bg-card-background text-foreground border border-border rounded-full shadow-lg hover:shadow-xl hover:border-accent/50 transition-all duration-200 text-sm font-medium"
+                className="inline-flex items-center gap-2 px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-xs font-light"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-3.5 h-3.5" />
                 All stories
               </Link>
             </motion.div>
@@ -536,32 +512,22 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       </section>
 
       {/* Related Posts */}
-      <section className="py-16 bg-background border-t border-border">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+        <div className="rk-landing-max px-[var(--pad)]">
           <motion.div
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
             className="mb-12"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-4">
-                <h2 className="font-heading text-3xl font-bold text-foreground">
-                  Related Articles
-                </h2>
-                <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
-              </div>
-              <div className="bg-card-background border border-border rounded-xl px-4 py-2">
-                <span className="text-sm font-medium text-foreground-muted">
-                  {relatedPosts.length} article{relatedPosts.length !== 1 ? 's' : ''}
-                </span>
-              </div>
-            </div>
-            <p className="text-foreground-muted text-lg">
-              Insights from the trenches of infrastructure reliability
-            </p>
+            <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              Related
+            </span>
+            <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-3">
+              More <span className="italic text-[var(--blue)]">stories.</span>
+            </h2>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {relatedPosts.map((relatedPost, i) => (
               <motion.div
                 key={relatedPost._id}
@@ -586,13 +552,12 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
           >
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-xl hover:bg-accent/90 transition-colors font-medium shadow-lg shadow-accent/25"
-            >
-              View All Articles
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
+            <Button asChild variant="outline">
+              <Link href="/blog" className="inline-flex items-center gap-2">
+                View All Articles
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </section>
