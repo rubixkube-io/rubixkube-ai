@@ -1,404 +1,275 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { CheckCircle } from 'lucide-react'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
-import { CalendlyBooking } from '@/components/ui/calendly-booking'
-import { fadeUpVariants } from '@/lib/animations'
-import { 
-  ArrowRight,
-  CheckCircle,
-  Lightbulb,
-  Target,
-  Users,
-  Shield,
-  Brain,
-  Zap,
-  Clock,
-  AlertTriangle,
-  Rocket
-} from 'lucide-react'
-import Link from 'next/link'
 import { ClosingCTA } from '@/components/closing-cta'
+import { fadeUpVariants, staggerContainer, fadeUp } from '@/lib/animations'
+
+
+const BELIEFS = [
+  {
+    title: 'Reliability is a product decision, not just an ops task',
+    body: 'Uptime is not an ops concern — it is a business commitment. We built tools that make that commitment possible for teams of any size, at any stage of growth.',
+  },
+  {
+    title: 'Memory beats muscle. What you learn should compound',
+    body: 'Every incident your systems survive generates hard-won knowledge. RubixKube preserves it — so your team stops re-learning the same lesson at 2 AM.',
+  },
+  {
+    title: 'Automation must be governed, explainable, and reversible',
+    body: 'Automation that cannot explain itself is just noise at speed. Every action RubixKube takes is traceable, reversible, and legible to the humans behind it.',
+  },
+  {
+    title: 'Great teams deserve tools that protect their focus and health',
+    body: 'Alert fatigue is a design failure. We build systems that escalate only what matters — so engineers can do their best work without burning out.',
+  },
+]
+
+const TEAM_BENEFITS = [
+  'Fewer escalations and fewer late nights',
+  'Clear root cause in plain language',
+  'Safer, faster releases',
+  'A system that gets better with every fix',
+]
+
+const BUSINESS_BENEFITS = [
+  'Less revenue at risk',
+  'Fewer broken customer moments',
+  'Reliable launches on tight timelines',
+  'Leadership visibility on risk, cost, and impact',
+]
 
 export function AboutPageClient() {
   return (
     <>
       <Navbar />
-      
-      {/* Hero Section */}
-      <section className="relative flex min-h-screen items-center overflow-hidden">
-        <div className="absolute inset-0 bg-[var(--bg)]" aria-hidden />
 
-        <div className="relative z-10 mx-auto max-w-[1400px] px-4 pt-20 sm:px-6 md:px-[var(--pad)] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px]">
-          <div className="min-h-[600px] flex flex-col items-center justify-center gap-12">
-            {/* Text Content */}
-            <motion.div 
-              className="text-center max-w-4xl mx-auto"
-              variants={fadeUpVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {/* Eyebrow */}
-              <motion.div 
-                variants={fadeUpVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                <span className="mb-8 inline-flex items-center border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--mid)] uppercase">
-                  Our Story
-                </span>
-              </motion.div>
-
-              {/* Main Headline */}
-              <motion.h1 
-                className="text-[40px] sm:text-[48px] md:text-[56px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6 px-4 sm:px-0"
-                variants={fadeUpVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                Building the Bridge Between <span className="text-accent">Infrastructure & Impact</span>
-              </motion.h1>
-
-              {/* Subheadline */}
-              <motion.p 
-                className="max-w-[90vw] sm:max-w-[55ch] text-[18px] sm:text-[19px] md:text-[20px] leading-7 text-foreground-muted mx-auto px-4 sm:px-0"
-                variants={fadeUpVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                We did not start with a product idea. We started with a feeling we could not ignore.
-              </motion.p>
-
-              {/* CTA Buttons */}
-              <motion.div
-                variants={fadeUpVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="flex flex-col sm:flex-row gap-3 mt-8 justify-center items-center w-full"
-              >
-                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" variant="primary" size="lg" className="inline-flex items-center gap-2">
-                  Book Demo
-                  <ArrowRight className="h-4 w-4 shrink-0" />
-                </CalendlyBooking>
-                <Button variant="outline" size="lg" asChild>
-                  <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    See it in Action
-                    <Rocket className="w-4 h-4 flex-shrink-0" />
-                  </Link>
-                </Button>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Problem Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background-secondary/30">
-        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
-          <motion.div 
-            className="max-w-4xl mx-auto"
-            variants={fadeUpVariants}
+      {/* ── Hero ─────────────────────────────────────────── */}
+      <section className="relative bg-[var(--bg)]">
+        <div className="rk-landing-max px-[var(--pad)] pt-[calc(var(--nav-stack)+5rem)] pb-28 sm:pb-36 text-center">
+          <motion.div
+            variants={staggerContainer}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
+            animate="visible"
+            className="flex flex-col items-center gap-6"
           >
-            <motion.div 
-              className="grid md:grid-cols-2 gap-8 items-center"
+            <motion.p
               variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
+              className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase"
             >
-              <div>
-                <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-6">
-                  The Problem We Couldn&apos;t Ignore
-                </h2>
-                <div className="space-y-4 text-lg leading-relaxed text-foreground-muted">
-                  <p>Good engineers drowning in dashboards. Alerts at 2 AM. War rooms that drag for hours.</p>
-                  <p>Infra kept getting smarter. Reliability still relied on tired people.</p>
-                  <p>Every outage cost more than uptime. It cost trust. It cost momentum. It cost people.</p>
-                  <p>We watched smart teammates leave jobs they loved just to breathe again.</p>
-                  <p className="text-accent font-semibold">That waste of talent and energy is why we built RubixKube.</p>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="w-64 h-64 rounded-full bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center">
-                  <AlertTriangle className="w-24 h-24 text-accent" />
-                </div>
-              </div>
+              Our Story
+            </motion.p>
+
+            <motion.h1
+              variants={fadeUpVariants}
+              className="font-[family-name:var(--font-serif)] text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] max-w-3xl"
+            >
+              Building the Bridge Between{' '}
+              <span className="italic text-[var(--blue)]">
+                Infrastructure &amp; Impact
+              </span>
+            </motion.h1>
+
+            <motion.p
+              variants={fadeUpVariants}
+              className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-xl"
+            >
+              We did not start with a product idea. We started with a feeling
+              we could not ignore.
+            </motion.p>
+
+            <motion.div
+              variants={fadeUpVariants}
+              className="flex flex-col sm:flex-row gap-3"
+            >
+              <a
+                href="https://calendly.com/rubixkube-ai/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded-[6px] bg-[var(--blue)] px-[30px] py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-white uppercase transition-colors hover:bg-blue-700"
+              >
+                Book Demo
+              </a>
+              <a
+                href="https://console.rubixkube.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-[6px] border border-[var(--faint)] bg-transparent px-6 py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--mid)] uppercase transition-colors hover:border-[var(--mid)]"
+              >
+                See it in Action
+              </a>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* The Solution Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background">
-        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center"
-            variants={fadeUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
+      {/* ── Problem ──────────────────────────────────────── */}
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+        <div className="rk-landing-max px-[var(--pad)]">
+          <motion.div
+            variants={staggerContainer}
+            {...fadeUp}
+            className="grid lg:grid-cols-[1fr_1px_1fr] gap-16 lg:gap-0"
           >
-            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
-              RubixKube is the Missing Layer
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Brain className="w-8 h-8 text-accent" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">Software that thinks and learns like your best SRE who knows everything about your infrastructure</h3>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Zap className="w-8 h-8 text-accent" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">Software that can predict and resolve issues before customers feel the heat</h3>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-8 h-8 text-accent" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">Software that explains risk to both engineers and executives.</h3>
-              </div>
-            </div>
-            <p className="text-xl text-foreground-muted">
-              <span className="text-accent font-semibold">We are here to keep services alive and teams human.</span>
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* What We Built Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background-secondary/30">
-        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
-          <motion.div 
-            className="max-w-4xl mx-auto"
-            variants={fadeUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-8 text-center">
-              What We Built
-            </h2>
-            <div className="bg-background rounded-2xl p-8 border border-border">
-              <p className="text-lg leading-relaxed text-foreground-muted mb-6">
-                A mesh of intelligent AI agents that <span className="text-accent font-semibold">observe, plan, act, and learn.</span>
-              </p>
-              <p className="text-lg leading-relaxed text-foreground-muted mb-6">
-                It studies your stack like an expert. It scales without burnout. It remembers everything.
-              </p>
-              <div className="grid md:grid-cols-2 gap-6 mt-8">
-                <div className="flex items-start gap-3">
-                  <Users className="w-6 h-6 text-accent mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Engineers get a partner</h4>
-                    <p className="text-foreground-muted">that handles the grind</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Target className="w-6 h-6 text-accent mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Leaders get clarity</h4>
-                    <p className="text-foreground-muted">on risk, cost, and readiness to ship</p>
-                  </div>
-                </div>
-              </div>
-              <p className="text-lg leading-relaxed text-foreground-muted mt-6">
-                The same system that heals issues also tells you what is safe to launch.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Why It Matters Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background">
-        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
-          <motion.div 
-            className="max-w-4xl mx-auto"
-            variants={fadeUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-12 text-center">
-              Why It Matters
-            </h2>
-            
-            <div className="grid md:grid-cols-2 gap-12 items-start">
-              {/* Left Column */}
-              <div className="space-y-6">
-                <p className="text-xl leading-relaxed text-foreground-muted">
-                  Downtime does not only break systems.
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-destructive rounded-full"></div>
-                    <span className="text-lg text-foreground-muted">It breaks trust</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-destructive rounded-full"></div>
-                    <span className="text-lg text-foreground-muted">It breaks momentum</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-destructive rounded-full"></div>
-                    <span className="text-lg text-foreground-muted">It breaks revenue</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column */}
-              <div className="space-y-6">
-                <p className="text-lg leading-relaxed text-foreground-muted">
-                  Reliability should not depend on heroics. It should be a property of the system.
-                </p>
-                <p className="text-lg leading-relaxed text-foreground-muted">
-                  <span className="text-accent font-semibold">RubixKube makes reliability predictable.</span> It reduces fire drills. It protects launches. It buys back time.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Benefits Sections */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background">
-        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Team Benefits */}
-            <motion.div 
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <h2 className="text-[28px] sm:text-[32px] md:text-[36px] lg:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
-                What This Means For Your Team
+            <motion.div variants={fadeUpVariants} className="flex flex-col gap-3 lg:pr-16">
+              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                Why we exist
+              </span>
+              <h2 className="font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
+                The problem we couldn&apos;t{' '}
+                <span className="italic text-[var(--blue)]">ignore.</span>
               </h2>
-              <div className="space-y-4">
-                {[
-                  "Fewer escalations and fewer late nights",
-                  "Clear root cause in plain language",
-                  "Safer, faster releases",
-                  "A system that gets better with every fix"
-                ].map((benefit, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-accent mt-1 flex-shrink-0" />
-                    <span className="text-lg text-foreground-muted">{benefit}</span>
-                  </div>
-                ))}
+              <div className="mt-4 space-y-5">
+                <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                  Good engineers drowning in dashboards. Alerts at 2 AM. War
+                  rooms that drag for hours.
+                </p>
+                <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                  Infra kept getting smarter. Reliability still relied on tired
+                  people.
+                </p>
+                <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                  Every outage cost more than uptime. It cost trust. It cost
+                  momentum. It cost people.
+                </p>
+                <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                  We watched smart teammates leave jobs they loved just to
+                  breathe again.
+                </p>
+                <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                  That waste of talent and energy is why we built RubixKube.
+                </p>
               </div>
             </motion.div>
 
-            {/* Business Benefits */}
-            <motion.div 
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <h2 className="text-[28px] sm:text-[32px] md:text-[36px] lg:text-[40px] font-extrabold tracking-[-0.015em] text-foreground mb-8">
-                What This Means For Your Business
-              </h2>
-              <div className="space-y-4">
-                {[
-                  "Less revenue at risk",
-                  "Fewer broken customer moments",
-                  "Reliable launches on tight timelines",
-                  "Leadership visibility on risk, cost, and impact"
-                ].map((benefit, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-accent mt-1 flex-shrink-0" />
-                    <span className="text-lg text-foreground-muted">{benefit}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="hidden lg:block w-px bg-[var(--rule)]" />
+
+            <motion.div variants={fadeUpVariants} className="space-y-5 lg:pl-16">
+              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                The solution
+              </span>
+              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                A mesh of intelligent AI agents that observe, plan, act, and
+                learn.
+              </p>
+              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                It studies your stack like an expert. It scales without
+                burnout. It remembers everything.
+              </p>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* What We Believe Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background-secondary/30">
-        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
-          <motion.div 
-            className="max-w-4xl mx-auto"
-            variants={fadeUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
+
+      {/* ── Values ───────────────────────────────────────── */}
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+        <div className="rk-landing-max px-[var(--pad)]">
+          <motion.div
+            variants={staggerContainer}
+            {...fadeUp}
+            className="flex flex-col gap-14"
           >
-            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-12 text-center">
-              What We Believe
-            </h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {[
-                "Reliability is a product decision, not just an ops task",
-                "Memory beats muscle. What you learn should compound",
-                "Automation must be governed, explainable, and reversible",
-                "Great teams deserve tools that protect their focus and health"
-              ].map((belief, index) => (
-                <div key={index} className="bg-background rounded-xl p-6 border border-border">
-                  <div className="flex items-start gap-3">
-                    <Lightbulb className="w-6 h-6 text-accent mt-1 flex-shrink-0" />
-                    <p className="text-lg text-foreground-muted">{belief}</p>
-                  </div>
-                </div>
+            <motion.div variants={fadeUpVariants} className="flex flex-col gap-3">
+              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                What we believe
+              </span>
+              <h2 className="font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
+                Principles that shape every{' '}
+                <span className="italic text-[var(--blue)]">decision.</span>
+              </h2>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {BELIEFS.map((belief) => (
+                <motion.div
+                  key={belief.title}
+                  variants={fadeUpVariants}
+                  className="rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-8 flex flex-col gap-4"
+                >
+                  <span
+                    style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+                    className="text-[14px] text-[var(--ink)] leading-[1.4]"
+                  >
+                    {belief.title}
+                  </span>
+                  <p
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', lineHeight: '1.6', opacity: 0.6 }}
+                    className="text-[var(--mid)]"
+                  >
+                    {belief.body}
+                  </p>
+                </motion.div>
               ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* The Result Section */}
-      <section className="py-24 md:py-20 sm:py-14 bg-background">
-        <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-6 md:px-8">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center"
-            variants={fadeUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
+      {/* ── Benefits ─────────────────────────────────────── */}
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+        <div className="rk-landing-max px-[var(--pad)]">
+          <motion.div
+            variants={staggerContainer}
+            {...fadeUp}
+            className="flex flex-col gap-14"
           >
-            <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-extrabold tracking-[-0.015em] text-foreground mb-12">
-              The Result
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="w-10 h-10 text-accent" />
-                </div>
-                <p className="text-2xl font-bold text-accent">Fewer fire drills</p>
-              </div>
-              <div className="text-center">
-                <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Rocket className="w-10 h-10 text-accent" />
-                </div>
-                <p className="text-2xl font-bold text-accent">Faster launches</p>
-              </div>
-              <div className="text-center">
-                <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-10 h-10 text-accent" />
-                </div>
-                <p className="text-2xl font-bold text-accent">Peace of mind at scale</p>
-              </div>
+            <motion.div variants={fadeUpVariants} className="flex flex-col gap-3">
+              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                The impact
+              </span>
+              <h2 className="font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
+                What this means for your{' '}
+                <span className="italic text-[var(--blue)]">team.</span>
+              </h2>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-12">
+              <motion.div variants={fadeUpVariants} className="flex flex-col gap-6">
+                <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                  What this means for your team
+                </p>
+                <ul className="flex flex-col gap-4">
+                  {TEAM_BENEFITS.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircle
+                        size={16}
+                        className="mt-0.5 shrink-0 text-[var(--blue)]"
+                      />
+                      <span className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+
+              <motion.div variants={fadeUpVariants} className="flex flex-col gap-6">
+                <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                  What this means for your business
+                </p>
+                <ul className="flex flex-col gap-4">
+                  {BUSINESS_BENEFITS.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircle
+                        size={16}
+                        className="mt-0.5 shrink-0 text-[var(--blue)]"
+                      />
+                      <span className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
             </div>
           </motion.div>
         </div>
       </section>
 
       <ClosingCTA />
-
       <Footer />
     </>
   )

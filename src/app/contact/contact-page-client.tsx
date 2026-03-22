@@ -4,11 +4,10 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { ClosingCTA } from '@/components/closing-cta'
-import { fadeUpVariants } from '@/lib/animations'
+import { fadeUpVariants, staggerContainer } from '@/lib/animations'
 import { Mail, MapPin, Send, Clock, MessageSquare, Check } from 'lucide-react'
 
 export function ContactPageClient() {
@@ -39,61 +38,68 @@ export function ContactPageClient() {
       setIsLoading(false)
     }
   }
+
   const contactMethods = [
     {
       icon: Mail,
-      title: "Email",
-      description: "Send us a message directly",
-      contact: "connect@rubixkube.ai",
-      href: "mailto:connect@rubixkube.ai"
+      label: 'Email',
+      description: 'Send us a message directly',
+      contact: 'connect@rubixkube.ai',
+      href: 'mailto:connect@rubixkube.ai',
     },
     {
       icon: MessageSquare,
-      title: "Live Chat",
-      description: "Get instant support",
-      contact: "Available 24/7",
-      href: "#"
+      label: 'Live Chat',
+      description: 'Get instant support',
+      contact: 'Available 24/7',
+      href: '#',
     },
     {
       icon: Clock,
-      title: "Response Time",
-      description: "We typically respond within",
-      contact: "2-4 hours",
-      href: "#"
-    }
+      label: 'Response Time',
+      description: 'We typically respond within',
+      contact: '2–4 hours',
+      href: '#',
+    },
+    {
+      icon: MapPin,
+      label: 'Office',
+      description: 'RubixKube Intelligence Private Limited',
+      contact: 'India',
+      href: '#',
+    },
   ]
-
-  const officeInfo = {
-    icon: MapPin,
-    title: "Office",
-    description: "RubixKube Intelligence Private Limited",
-    contact: "India",
-    href: "#"
-  }
 
   return (
     <>
       <Navbar />
-      
-      {/* Header Section */}
-      <section className="pt-24 pb-12 bg-background border-b border-border">
-        <div className="mx-auto max-w-6xl px-6 md:px-8">
+
+      {/* ── Hero ── */}
+      <section className="relative bg-[var(--bg)]">
+        <div className="rk-landing-max px-[var(--pad)] pt-[calc(var(--nav-stack)+5rem)] pb-20 text-center">
           <motion.div
-            variants={fadeUpVariants}
+            className="mx-auto max-w-3xl"
+            variants={staggerContainer}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="text-center"
+            animate="visible"
           >
-            <motion.h1 
-              className="text-4xl md:text-5xl font-bold text-foreground mb-4"
+            <motion.span
               variants={fadeUpVariants}
+              className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase"
             >
-              Get in Touch
-            </motion.h1>
-            <motion.p 
-              className="text-lg text-foreground-muted max-w-2xl mx-auto"
+              Contact
+            </motion.span>
+
+            <motion.h1
               variants={fadeUpVariants}
+              className="mb-6 font-[family-name:var(--font-serif)] text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]"
+            >
+              Get in <span className="italic text-[var(--blue)]">touch.</span>
+            </motion.h1>
+
+            <motion.p
+              variants={fadeUpVariants}
+              className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]"
             >
               Have questions about RubixKube? Need help getting started? We&apos;re here to help.
             </motion.p>
@@ -101,222 +107,219 @@ export function ContactPageClient() {
         </div>
       </section>
 
-      {/* Contact Content */}
-      <section className="py-16 bg-background">
-        <div className="mx-auto max-w-6xl px-6 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:items-start">
-            
-            {/* Contact Information */}
+      {/* ── Form + Contact Info ── */}
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+        <div className="rk-landing-max px-[var(--pad)]">
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_380px] lg:items-start">
+
+            {/* Left: form */}
             <motion.div
-              variants={fadeUpVariants}
+              variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-8% 0px' }}
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-8">
-                Contact Information
-              </h2>
-              
-              <div className="space-y-6">
-                {/* Contact Methods */}
-                {contactMethods.map((method, index) => (
-                  <motion.div
-                    key={index}
-                    variants={fadeUpVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    className="flex items-start gap-4 p-4 bg-card-background rounded-lg border border-border hover:border-primary/20 transition-colors"
-                  >
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <method.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-foreground mb-1">{method.title}</h3>
-                      <p className="text-foreground-muted text-sm mb-2">{method.description}</p>
-                      <a 
-                        href={method.href}
-                        className="text-primary hover:underline font-medium"
-                      >
-                        {method.contact}
-                      </a>
-                    </div>
-                  </motion.div>
-                ))}
+              <motion.span
+                variants={fadeUpVariants}
+                className="mb-8 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase"
+              >
+                Send a Message
+              </motion.span>
 
-                {/* Office Info */}
+              {submitted ? (
                 <motion.div
                   variants={fadeUpVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  className="flex items-start gap-4 p-4 bg-card-background rounded-lg border border-border"
+                  className="flex flex-col items-center gap-5 py-16 text-center"
                 >
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <officeInfo.icon className="w-5 h-5 text-primary" />
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--rule)]">
+                    <Check className="h-6 w-6 text-[var(--blue)]" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground mb-1">{officeInfo.title}</h3>
-                    <p className="text-foreground-muted text-sm mb-2">{officeInfo.description}</p>
-                    <span className="text-foreground font-medium">{officeInfo.contact}</span>
-                  </div>
+                  <p className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1] font-light text-[var(--ink)]">
+                    Message <span className="italic text-[var(--blue)]">received.</span>
+                  </p>
+                  <p className="font-[family-name:var(--font-mono)] text-[14px] font-light text-[var(--mid)]">
+                    We&apos;ll get back to you within 2–4 hours.
+                  </p>
                 </motion.div>
-              </div>
-
-              {/* Additional Info */}
-              <motion.div
-                variants={fadeUpVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="mt-8 p-6 bg-background-secondary rounded-lg border border-border"
-              >
-                <h3 className="font-semibold text-foreground mb-3">Why Contact Us?</h3>
-                  <ul className="space-y-2 text-foreground-muted text-sm">
-                    <li>• Get help with platform setup and configuration</li>
-                    <li>• Discuss enterprise pricing and custom solutions</li>
-                    <li>• Report bugs or request new features</li>
-                    <li>• Schedule a consultation call</li>
-                    <li>• Learn about integration possibilities</li>
-                  </ul>
-              </motion.div>
-            </motion.div>
-
-            {/* Contact Form */}
-            <motion.div
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <h2 className="text-2xl font-semibold text-foreground mb-8">
-                Send us a Message
-              </h2>
-
-              <motion.div
-                className="rounded-2xl border border-border bg-card-background shadow-xl p-8"
-                variants={fadeUpVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                {submitted ? (
-                  <div className="text-center py-8">
-                    <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Check className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-foreground mb-3">Message Sent!</h3>
-                    <p className="text-foreground-muted">We&apos;ll get back to you within 2-4 hours.</p>
+              ) : (
+                <motion.form
+                  variants={fadeUpVariants}
+                  name="contact"
+                  data-netlify="true"
+                  data-netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                >
+                  <input type="hidden" name="form-name" value="contact" />
+                  <div style={{ display: 'none' }}>
+                    <input name="bot-field" />
                   </div>
-                ) : (
-                  <form
-                    name="contact"
-                    data-netlify="true"
-                    data-netlify-honeypot="bot-field"
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
-                  >
-                    <input type="hidden" name="form-name" value="contact" />
-                    <div style={{ display: 'none' }}>
-                      <input name="bot-field" />
-                    </div>
 
-                    <p className="text-foreground-muted">
-                      Fill out the form below and we&apos;ll get back to you as soon as possible.
-                    </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Full Name *
-                        </label>
-                        <Input
-                          type="text"
-                          name="name"
-                          placeholder="Enter your full name"
-                          className="w-full"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Company
-                        </label>
-                        <Input
-                          type="text"
-                          name="company"
-                          placeholder="Enter company name"
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Email *
-                        </label>
-                        <Input
-                          type="email"
-                          name="email"
-                          placeholder="Enter your email address"
-                          className="w-full"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Subject *
-                        </label>
-                        <Input
-                          type="text"
-                          name="subject"
-                          placeholder="What's this about?"
-                          className="w-full"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Message *
+                  {/* Name + Company */}
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <label className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                        Full Name *
                       </label>
-                      <Textarea
-                        name="message"
-                        placeholder="Tell us how we can help you..."
-                        className="w-full min-h-[120px]"
+                      <Input
+                        type="text"
+                        name="name"
+                        placeholder="Your name"
+                        className="w-full border-[var(--rule)] bg-transparent font-[family-name:var(--font-mono)] text-[13px] text-[var(--ink)] placeholder:text-[var(--mid)] focus-visible:ring-[var(--blue)]"
                         required
                       />
                     </div>
-
-                    {error && (
-                      <p className="text-sm text-red-500 text-center">{error}</p>
-                    )}
-
-                    <div className="pt-4">
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        size="lg"
-                        disabled={isLoading}
-                        className="w-full text-lg py-6 rounded-full"
-                      >
-                        <Send className="w-5 h-5 mr-2" />
-                        {isLoading ? 'Sending...' : 'Send Message'}
-                      </Button>
+                    <div className="space-y-2">
+                      <label className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                        Company
+                      </label>
+                      <Input
+                        type="text"
+                        name="company"
+                        placeholder="Your company"
+                        className="w-full border-[var(--rule)] bg-transparent font-[family-name:var(--font-mono)] text-[13px] text-[var(--ink)] placeholder:text-[var(--mid)] focus-visible:ring-[var(--blue)]"
+                      />
                     </div>
+                  </div>
 
-                    <p className="text-sm text-foreground-muted text-center">
-                      By submitting this form, you agree to our{' '}
-                      <a href="/legal/privacy" className="text-primary hover:underline">Privacy Policy</a>
-                      {' '}and{' '}
-                      <a href="/legal/terms" className="text-primary hover:underline">Terms of Service</a>.
+                  {/* Email + Subject */}
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <label className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                        Email *
+                      </label>
+                      <Input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        className="w-full border-[var(--rule)] bg-transparent font-[family-name:var(--font-mono)] text-[13px] text-[var(--ink)] placeholder:text-[var(--mid)] focus-visible:ring-[var(--blue)]"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                        Subject *
+                      </label>
+                      <Input
+                        type="text"
+                        name="subject"
+                        placeholder="What's this about?"
+                        className="w-full border-[var(--rule)] bg-transparent font-[family-name:var(--font-mono)] text-[13px] text-[var(--ink)] placeholder:text-[var(--mid)] focus-visible:ring-[var(--blue)]"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div className="space-y-2">
+                    <label className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                      Message *
+                    </label>
+                    <Textarea
+                      name="message"
+                      placeholder="Tell us how we can help you..."
+                      className="w-full min-h-[160px] border-[var(--rule)] bg-transparent font-[family-name:var(--font-mono)] text-[13px] text-[var(--ink)] placeholder:text-[var(--mid)] focus-visible:ring-[var(--blue)] resize-none"
+                      required
+                    />
+                  </div>
+
+                  {error && (
+                    <p className="font-[family-name:var(--font-mono)] text-[12px] text-red-500">
+                      {error}
                     </p>
-                  </form>
-                )}
+                  )}
+
+                  <div className="flex items-center gap-6">
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="inline-flex items-center gap-2 rounded-[6px] bg-[var(--blue)] px-[30px] py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-white uppercase transition-colors hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      <Send className="h-3.5 w-3.5" />
+                      {isLoading ? 'Sending…' : 'Send Message'}
+                    </button>
+
+                    <p className="font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]">
+                      By submitting you agree to our{' '}
+                      <a href="/legal/privacy" className="underline underline-offset-2 hover:text-[var(--ink)]">
+                        Privacy Policy
+                      </a>
+                      {' '}and{' '}
+                      <a href="/legal/terms" className="underline underline-offset-2 hover:text-[var(--ink)]">
+                        Terms
+                      </a>.
+                    </p>
+                  </div>
+                </motion.form>
+              )}
+            </motion.div>
+
+            {/* Right: contact info */}
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-8% 0px' }}
+              className="space-y-4 lg:pt-[2.4rem]"
+            >
+              <motion.span
+                variants={fadeUpVariants}
+                className="mb-8 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase"
+              >
+                Contact Info
+              </motion.span>
+
+              {contactMethods.map((method) => (
+                <motion.a
+                  key={method.label}
+                  href={method.href}
+                  variants={fadeUpVariants}
+                  className="group flex items-start gap-4 border border-[var(--rule)] p-5 transition-colors hover:border-[var(--blue)]/30"
+                >
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center border border-[var(--rule)] transition-colors group-hover:border-[var(--blue)]/30">
+                    <method.icon className="h-3.5 w-3.5 text-[var(--mid)] transition-colors group-hover:text-[var(--blue)]" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                      {method.label}
+                    </p>
+                    <p className="mt-0.5 font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]">
+                      {method.description}
+                    </p>
+                    <p className="mt-1 font-[family-name:var(--font-mono)] text-[13px] text-[var(--ink)]">
+                      {method.contact}
+                    </p>
+                  </div>
+                </motion.a>
+              ))}
+
+              {/* Use cases note */}
+              <motion.div
+                variants={fadeUpVariants}
+                className="border-t border-[var(--rule)] pt-6 mt-6"
+              >
+                <p className="mb-3 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                  Why Contact Us?
+                </p>
+                <ul className="space-y-2">
+                  {[
+                    'Get help with platform setup and configuration',
+                    'Discuss enterprise pricing and custom solutions',
+                    'Report bugs or request new features',
+                    'Schedule a consultation call',
+                    'Learn about integration possibilities',
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]"
+                    >
+                      • {item}
+                    </li>
+                  ))}
+                </ul>
               </motion.div>
             </motion.div>
+
           </div>
         </div>
       </section>
