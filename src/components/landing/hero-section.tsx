@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
+import { rkMono13 } from '@/lib/landing-responsive-type'
+import { cn } from '@/lib/utils'
 import { PartnerLogoRow } from './partner-logos'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
@@ -44,12 +46,12 @@ export function HeroSection() {
     <div className="landing-hero-slide relative">
       <Link
         href={SRI_MANIFESTO_HREF}
-        className="absolute top-1/2 left-[var(--pad)] z-10 hidden -translate-y-1/2 -rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[9px] tracking-[0.2em] text-[var(--text-muted)] uppercase transition-colors hover:text-[var(--ink)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] sm:block"
+        className="absolute top-1/2 left-[var(--pad)] z-10 hidden -translate-y-1/2 -rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[9px] tracking-[0.2em] text-[var(--text-muted)] uppercase transition-colors hover:text-[var(--ink)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] min-[1920px]:text-[11px] min-[2560px]:text-[12px] sm:block"
       >
         Site Reliability Intelligence
       </Link>
       <span
-        className="pointer-events-none absolute top-1/2 right-[var(--pad)] z-10 hidden -translate-y-1/2 rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[9px] tracking-[0.2em] text-[var(--text-muted)] uppercase sm:block"
+        className="pointer-events-none absolute top-1/2 right-[var(--pad)] z-10 hidden -translate-y-1/2 rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[9px] tracking-[0.2em] text-[var(--text-muted)] uppercase min-[1920px]:text-[11px] min-[2560px]:text-[12px] sm:block"
         aria-hidden
       >
         Memory · Safety · Explainability
@@ -57,12 +59,12 @@ export function HeroSection() {
 
       <div className="flex min-h-0 flex-1 flex-col px-[var(--pad)]">
         <div className="rk-landing-max flex min-h-0 w-full flex-1 flex-col items-center justify-center text-center">
-        <p className="rk-hero-eyebrow mb-8 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] text-[var(--mid)] uppercase">
+        <p className="rk-hero-eyebrow mb-8 font-[family-name:var(--font-mono)] tracking-[0.3em] text-[var(--mid)] uppercase">
           Beyond Observability
         </p>
 
         {/* No max-width — matches redesign.html .headline so line breaks stay editorial (e.g. “While you sleep.” one line). */}
-        <h1 className="rk-hero-headline w-full max-w-none text-[clamp(4rem,8.5vw,7.5rem)] tracking-[-0.01em] text-[var(--ink)]">
+        <h1 className="rk-hero-headline rk-hero-display w-full max-w-none tracking-[-0.01em] text-[var(--ink)]">
           Your infra,
           <br />
           <span className="rk-hero-headline-accent text-[var(--blue)]">healing itself.</span>
@@ -72,7 +74,12 @@ export function HeroSection() {
 
         <div className="rk-hero-rule my-9 h-12 w-px bg-[var(--faint)]" aria-hidden />
 
-        <p className="rk-hero-sub font-[family-name:var(--font-mono)] text-[13px] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]">
+        <p
+          className={cn(
+            'rk-hero-sub font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+            rkMono13,
+          )}
+        >
           Detects anomalies. Diagnoses root cause.
           <br />
           Resolves failures. Autonomously.
@@ -82,14 +89,14 @@ export function HeroSection() {
           <CalendlyBooking
             url={CALENDLY}
             variant="primary"
-            className="!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-light !tracking-[0.1em] !text-white !uppercase"
+            className="!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-light !tracking-[0.1em] !text-white !uppercase min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm"
           >
             Book a Demo
           </CalendlyBooking>
           <button
             type="button"
             onClick={scrollToMetrics}
-            className="cursor-pointer rounded-[6px] border border-[var(--faint)] bg-transparent px-6 py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--mid)] uppercase transition-colors hover:border-[var(--mid)]"
+            className="cursor-pointer rounded-[6px] border border-[var(--faint)] bg-transparent px-6 py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--mid)] uppercase transition-colors hover:border-[var(--mid)] min-[1920px]:px-7 min-[1920px]:py-[15px] min-[1920px]:text-[13px] min-[2560px]:text-sm"
           >
             See how it works ↓
           </button>
@@ -103,7 +110,10 @@ export function HeroSection() {
             }
           />
           <p
-            className="rk-hero-status-text font-[family-name:var(--font-mono)] text-[13px] text-[var(--mid)] transition-opacity duration-300"
+            className={cn(
+              'rk-hero-status-text font-[family-name:var(--font-mono)] text-[var(--mid)] transition-opacity duration-300',
+              rkMono13,
+            )}
             style={{ opacity }}
           >
             <span className="text-[var(--blue)]">{t.metric}</span>

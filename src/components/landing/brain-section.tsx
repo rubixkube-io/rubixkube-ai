@@ -3,6 +3,8 @@
 import { SectionLabel } from '@/components/ui/section-label'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { BrainIntegrationStrip } from './brain-integration-strip'
+import { rkMono13 } from '@/lib/landing-responsive-type'
+import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
 /** Inbound motion along spokes (satellite → hub), staggered over one cycle. */
@@ -20,17 +22,22 @@ const BRAIN_FLOW_CYCLE_S = 2.6
 export function BrainSection() {
   const reducedMotion = useReducedMotion()
   return (
-    <section className="landing-snap-section flex min-h-[calc(100vh-64px)] items-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-64px)]">
+    <section className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] items-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-var(--nav-stack))]">
       <div className="rk-landing-max flex w-full flex-col gap-16 lg:gap-20">
         <div className="grid w-full grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-[120px]">
         <Reveal>
           <SectionLabel>Continuous intelligence</SectionLabel>
-          <h2 className="mt-0 font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
+          <h2 className="rk-landing-h2-wide mt-0 font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
             The more it sees,
             <br />
             the more it <em className="italic text-[var(--blue)]">knows.</em>
           </h2>
-          <div className="mt-8 space-y-3.5 font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed tracking-[-0.01em] text-[var(--mid)]">
+          <div
+            className={cn(
+              'mt-8 space-y-3.5 font-[family-name:var(--font-mono)] font-light leading-relaxed tracking-[-0.01em] text-[var(--mid)]',
+              rkMono13,
+            )}
+          >
             <p>
               Investigations are not episodic. Every conversation, every RCA, every human correction feeds the
               same growing model. Indexes rebuild, connections deepen, and the system&apos;s understanding of your

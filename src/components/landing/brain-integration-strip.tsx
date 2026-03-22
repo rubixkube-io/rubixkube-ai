@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import { rkMono13 } from '@/lib/landing-responsive-type'
+import { cn } from '@/lib/utils'
 import {
   SiApachekafka,
   SiApachekafkaHex,
@@ -151,10 +153,15 @@ export function BrainIntegrationStrip() {
   return (
     <div className="w-full border-t border-[var(--rule)] pt-12">
       <header className="max-w-[42rem]">
-        <p className="font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.8vw,1.75rem)] font-light leading-[1.08] tracking-[-0.01em] text-[var(--ink)]">
+        <p className="font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.8vw,1.75rem)] font-light leading-[1.08] tracking-[-0.01em] text-[var(--ink)] min-[1920px]:text-[clamp(1.45rem,2.2vw,2rem)] min-[2560px]:text-[clamp(1.55rem,1.9vw,2.35rem)]">
           Built for the tools your teams already use
         </p>
-        <p className="mt-3 font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed tracking-[-0.01em] text-[var(--mid)]">
+        <p
+          className={cn(
+            'mt-3 font-[family-name:var(--font-mono)] font-light leading-relaxed tracking-[-0.01em] text-[var(--mid)]',
+            rkMono13,
+          )}
+        >
           Cloud, delivery, observability, collaboration, and data—wired in without rip-and-replace.
         </p>
       </header>

@@ -53,7 +53,7 @@ export function TestimonialsSection() {
   }, [])
 
   return (
-    <section className="landing-snap-section flex min-h-[calc(100vh-64px)] items-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-64px)]">
+    <section className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] items-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-var(--nav-stack))]">
       <div className="rk-landing-max flex w-full justify-center">
       <Reveal className="w-full max-w-2xl text-center">
         <AnimatePresence mode="wait">
@@ -64,15 +64,15 @@ export function TestimonialsSection() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
-            <blockquote className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2.4vw,1.875rem)] font-light leading-[1.45] tracking-[-0.01em] text-[var(--ink)] italic">
+            <blockquote className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2.4vw,1.875rem)] font-light leading-[1.45] tracking-[-0.01em] text-[var(--ink)] italic min-[1920px]:text-[clamp(1.35rem,2.1vw,2.25rem)] min-[2560px]:text-[clamp(1.45rem,1.85vw,2.65rem)]">
               {slides[cur].quote}
             </blockquote>
             <cite className="flex flex-wrap items-center justify-center gap-2 not-italic">
-              <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-wide text-[var(--ink)]">
+              <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-wide text-[var(--ink)] min-[1920px]:text-[13px] min-[2560px]:text-[15px]">
                 {slides[cur].name}
               </span>
               <span className="h-1 w-1 rounded-full bg-[var(--faint)]" aria-hidden />
-              <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--mid)]">
+              <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--mid)] min-[1920px]:text-[13px] min-[2560px]:text-[15px]">
                 {slides[cur].role}
               </span>
             </cite>

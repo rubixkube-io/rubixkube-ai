@@ -37,7 +37,7 @@ const CONSOLE_URL = 'https://console.rubixkube.ai'
 
 /** Primary nav CTA — solid brand blue, aligned height with Book Demo */
 const launchConsoleClass =
-  '!rounded-[5px] !py-[9px] !px-5 !text-[10px] !tracking-[0.12em] !font-medium !gap-1.5 shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)]'
+  '!rounded-[5px] !py-[9px] !px-5 !text-[10px] !tracking-[0.12em] !font-medium !gap-1.5 shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!py-[11px] min-[1920px]:!px-6 min-[1920px]:!text-[11px] min-[2560px]:!text-xs'
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -65,7 +65,8 @@ export function Navbar() {
       initial={prefersReducedMotion ? 'visible' : 'hidden'}
       animate="visible"
       className={cn(
-        'fixed top-0 right-0 left-0 z-[100] h-16 transition-[background-color,border-color,backdrop-filter] duration-300',
+        'fixed right-0 left-0 z-[100] h-[var(--nav-height)] transition-[background-color,border-color,backdrop-filter] duration-300',
+        'top-[var(--nav-gap-top)]',
         scrolled
           ? 'border-b border-[var(--rule)] bg-[rgba(242,240,235,0.92)] backdrop-blur-[14px]'
           : 'border-b border-transparent bg-transparent',
@@ -82,7 +83,7 @@ export function Navbar() {
             alt=""
             width={1720}
             height={200}
-            className="h-[18px] w-auto max-w-[min(156px,46vw)] sm:h-5 sm:max-w-[min(176px,44vw)]"
+            className="h-[18px] w-auto max-w-[min(156px,46vw)] sm:h-5 sm:max-w-[min(176px,44vw)] min-[1920px]:h-6 min-[1920px]:max-w-[min(200px,40vw)] min-[2560px]:h-[26px] min-[2560px]:max-w-[min(220px,38vw)]"
             priority
           />
         </Link>
@@ -93,7 +94,7 @@ export function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.14em] text-[var(--mid)] uppercase transition-colors hover:text-[var(--ink)] xl:text-[11px]"
+                className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.14em] text-[var(--mid)] uppercase transition-colors hover:text-[var(--ink)] xl:text-[11px] min-[1920px]:text-[12px] min-[2560px]:text-[13px]"
               >
                 {item.name}
               </Link>
@@ -111,9 +112,9 @@ export function Navbar() {
                 rel="noopener noreferrer"
                 title={name}
                 aria-label={name}
-                className="rounded-md p-2 text-[var(--mid)] transition-colors hover:bg-[rgba(17,19,24,0.04)] hover:text-[var(--ink)]"
+                className="rounded-md p-2 text-[var(--mid)] transition-colors hover:bg-[rgba(17,19,24,0.04)] hover:text-[var(--ink)] min-[1920px]:p-2.5 min-[2560px]:p-3"
               >
-                <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
+                <Icon className="h-[18px] w-[18px] min-[1920px]:h-5 min-[1920px]:w-5 min-[2560px]:h-[22px] min-[2560px]:w-[22px]" strokeWidth={1.75} />
               </Link>
             ))}
           </div>
@@ -148,7 +149,7 @@ export function Navbar() {
             transition={{ duration: 0.25, ease: 'easeInOut' }}
             className="border-t border-[var(--rule)] bg-[var(--bg)] lg:hidden"
           >
-            <div className="flex max-h-[min(70vh,calc(100dvh-4rem))] flex-col gap-1 overflow-y-auto px-[var(--pad)] py-4">
+            <div className="flex max-h-[min(70vh,calc(100dvh-var(--nav-height)))] flex-col gap-1 overflow-y-auto px-[var(--pad)] py-4">
               {navigation.map((item) => (
                 <Link
                   key={item.name}

@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { SectionLabel } from '@/components/ui/section-label'
 import { landingCtaArrowSmClass, landingCtaLinkSm } from '@/lib/landing-inline-cta'
+import { rkMono9, rkMono11, rkMono13, rkMono15Lead } from '@/lib/landing-responsive-type'
+import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
 const HX = 55
@@ -298,12 +300,12 @@ function intelCardClass(i: number) {
 
 export function IntelligenceSection() {
   return (
-    <section className="landing-snap-section flex min-h-[calc(100vh-64px)] flex-col justify-center border-t border-[var(--rule)] px-[var(--pad)] lg:h-[calc(100vh-64px)]">
+    <section className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] flex-col justify-center border-t border-[var(--rule)] px-[var(--pad)] lg:h-[calc(100vh-var(--nav-stack))]">
       <div className="rk-landing-max flex w-full shrink-0 flex-col">
-        <div className="grid shrink-0 grid-cols-1 items-center gap-12 pt-[52px] pb-10 md:grid-cols-2 md:gap-20">
+        <div className="grid shrink-0 grid-cols-1 items-start gap-12 pt-[52px] pb-10 md:grid-cols-2 md:items-end md:gap-20">
         <Reveal>
           <SectionLabel className="mb-9">The intelligence layer</SectionLabel>
-          <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
+          <h2 className="rk-landing-h2-compact font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
             Most tools see your
             <br />
             infrastructure for the
@@ -312,9 +314,19 @@ export function IntelligenceSection() {
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="intel-body font-[family-name:var(--font-mono)] text-[13px] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]">
+          <div
+            className={cn(
+              'intel-body font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+              rkMono13,
+            )}
+          >
             <p>
-              <span className="text-[15px] font-medium text-[var(--blue)] underline decoration-1 underline-offset-4">
+              <span
+                className={cn(
+                  'font-medium text-[var(--blue)] decoration-1',
+                  rkMono15Lead,
+                )}
+              >
                 RubixKube remembers.
               </span>
             </p>
@@ -337,7 +349,12 @@ export function IntelligenceSection() {
         </div>
 
         <div className="flex h-9 shrink-0 items-center border-b border-[var(--rule)]">
-        <span className="font-[family-name:var(--font-mono)] text-[9px] tracking-[0.22em] text-[var(--text-muted)] uppercase">
+        <span
+          className={cn(
+            'font-[family-name:var(--font-mono)] tracking-[0.22em] text-[var(--text-muted)] uppercase',
+            rkMono9,
+          )}
+        >
           Compounding memory
         </span>
         </div>
@@ -346,7 +363,12 @@ export function IntelligenceSection() {
         <div className="flex shrink-0 flex-col pt-8 pb-10 lg:flex-row lg:items-start">
           {cards.map((c, i) => (
             <Reveal key={c.time} delay={0.05 * i} className={intelCardClass(i)}>
-              <p className="mb-5 font-[family-name:var(--font-mono)] text-[9px] tracking-[0.2em] text-[var(--blue)] uppercase">
+              <p
+                className={cn(
+                  'mb-5 font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--blue)] uppercase',
+                  rkMono9,
+                )}
+              >
                 {c.time}
               </p>
               <h3 className="mb-2 font-[family-name:var(--font-serif)] text-2xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)]">
@@ -354,7 +376,12 @@ export function IntelligenceSection() {
                 <br />
                 <em className="italic text-[var(--blue)]">{c.em}</em>
               </h3>
-              <p className="mb-6 font-[family-name:var(--font-mono)] text-[11px] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]">
+              <p
+                className={cn(
+                  'mb-6 font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+                  rkMono11,
+                )}
+              >
                 {c.desc}
               </p>
               <div className="card-graph flex h-[120px] shrink-0 items-center justify-center">

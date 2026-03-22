@@ -25,7 +25,7 @@ const textPanelShellWhitepaper =
 const textPanelFrostWhitepaper = `pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.84)_0%,rgba(0,0,0,0.72)_28%,rgba(1,3,10,0.78)_48%,rgba(4,6,15,0.88)_62%,rgba(9,11,20,0.64)_80%,rgba(14,16,24,0.24)_94%,transparent_100%)] backdrop-blur-[32px] backdrop-saturate-150 [-webkit-backdrop-filter:blur(32px)_saturate(1.35)] ${frostMaskWhitepaper}`
 
 const eyebrow =
-  'mb-2.5 font-[family-name:var(--font-mono)] text-[11px] font-semibold tracking-[0.16em] text-white/95 [text-shadow:0_1px_3px_rgba(0,0,0,1),0_2px_14px_rgba(0,0,0,0.95)] antialiased'
+  'mb-2.5 font-[family-name:var(--font-mono)] text-[11px] font-semibold tracking-[0.16em] text-white/95 [text-shadow:0_1px_3px_rgba(0,0,0,1),0_2px_14px_rgba(0,0,0,0.95)] antialiased min-[1920px]:text-[13px] min-[2560px]:text-[15px]'
 
 const titleHero =
   'text-balance max-w-lg font-[family-name:var(--font-serif)] text-[clamp(1.28rem,2.45vw,2.05rem)] font-semibold leading-[1.2] tracking-[0.015em] text-white antialiased [text-shadow:0_1px_2px_rgba(0,0,0,1),0_2px_10px_rgba(0,0,0,1),0_8px_32px_rgba(0,0,0,0.92),0_16px_56px_rgba(0,0,0,0.78)]'

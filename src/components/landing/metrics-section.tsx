@@ -3,18 +3,20 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { landingCtaArrowSmClass, landingCtaLinkSmCaps } from '@/lib/landing-inline-cta'
+import { rkMono9, rkMono10, rkMono11, rkMonoXs } from '@/lib/landing-responsive-type'
+import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
 export function MetricsSection() {
   return (
     <section
       id="landing-metrics"
-      className="landing-snap-section flex min-h-[calc(100vh-64px)] flex-col justify-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-64px)]"
+      className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] flex-col justify-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-var(--nav-stack))]"
     >
       <div className="rk-landing-max w-full">
         <div className="mb-[72px] grid grid-cols-1 items-end gap-10 md:grid-cols-2 md:gap-[80px]">
         <Reveal>
-          <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2.5rem,4.5vw,4rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
+          <h2 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
             Infrastructure intelligence
             <br />
             that <em className="italic text-[var(--blue)]">pays for itself.</em>
@@ -22,10 +24,20 @@ export function MetricsSection() {
         </Reveal>
         <Reveal delay={0.08}>
           <div className="flex flex-col items-start">
-            <p className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.22em] text-[var(--mid)] uppercase">
+            <p
+              className={cn(
+                'font-[family-name:var(--font-mono)] tracking-[0.22em] text-[var(--mid)] uppercase',
+                rkMono10,
+              )}
+            >
               Early results from production deployments
             </p>
-            <p className="mt-2 font-[family-name:var(--font-mono)] text-[11px] font-light leading-relaxed text-[var(--text-muted)]">
+            <p
+              className={cn(
+                'mt-2 font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--text-muted)]',
+                rkMono11,
+              )}
+            >
               Measured across 31 incidents · one engineering team · 7-day period
             </p>
             <Link href="/pricing" className={`mt-8 ${landingCtaLinkSmCaps}`}>
@@ -50,10 +62,20 @@ export function MetricsSection() {
               <div className="font-[family-name:var(--font-serif)] text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-normal tracking-[-0.03em] text-[var(--blue)]">
                 220<span className="text-[0.32em] font-light tracking-normal text-[var(--mid)]"> hrs</span>
               </div>
-              <p className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--mid)] uppercase">
+              <p
+                className={cn(
+                  'font-[family-name:var(--font-mono)] tracking-[0.16em] text-[var(--mid)] uppercase',
+                  rkMono10,
+                )}
+              >
                 Eng-hrs saved / month
               </p>
-            <p className="mt-1 font-[family-name:var(--font-mono)] text-xs font-light leading-[1.65] text-[var(--text-muted)]">
+            <p
+              className={cn(
+                'mt-1 font-[family-name:var(--font-mono)] font-light leading-[1.65] text-[var(--text-muted)]',
+                rkMonoXs,
+              )}
+            >
               Time your team gets back every month.
                 <br />
                 To build, not firefight.
@@ -63,10 +85,20 @@ export function MetricsSection() {
               <div className="font-[family-name:var(--font-serif)] text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-normal tracking-[-0.03em] text-[var(--ink)]">
                 $6K<span className="text-[0.32em] font-light tracking-normal text-[var(--mid)]"> /mo</span>
               </div>
-              <p className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--mid)] uppercase">
+              <p
+                className={cn(
+                  'font-[family-name:var(--font-mono)] tracking-[0.16em] text-[var(--mid)] uppercase',
+                  rkMono10,
+                )}
+              >
                 Avg engineering cost saved
               </p>
-            <p className="mt-1 font-[family-name:var(--font-mono)] text-xs font-light leading-[1.65] text-[var(--text-muted)]">
+            <p
+              className={cn(
+                'mt-1 font-[family-name:var(--font-mono)] font-light leading-[1.65] text-[var(--text-muted)]',
+                rkMonoXs,
+              )}
+            >
               Extrapolated from a single team&apos;s 7-day production window.
               </p>
             </div>
@@ -92,7 +124,12 @@ export function MetricsSection() {
                     {s.n}
                     <span className="text-[0.4em] font-light tracking-normal text-[var(--mid)]">{s.u}</span>
                   </div>
-                  <p className="font-[family-name:var(--font-mono)] text-[9px] tracking-[0.16em] text-[var(--mid)] uppercase">
+                  <p
+                    className={cn(
+                      'font-[family-name:var(--font-mono)] tracking-[0.16em] text-[var(--mid)] uppercase',
+                      rkMono9,
+                    )}
+                  >
                     {s.l}
                   </p>
                 </div>

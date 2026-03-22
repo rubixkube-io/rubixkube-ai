@@ -10,7 +10,7 @@ import { LandingContentCards } from './content-cards-section'
 export function LandingFooter() {
   return (
     <footer
-      className="rk-landing-footer landing-snap-section flex min-h-[calc(100vh-64px)] w-full shrink-0 flex-col bg-[var(--bg)] lg:min-h-[calc(100vh-64px)]"
+      className="rk-landing-footer landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] w-full shrink-0 flex-col bg-[var(--bg)] lg:min-h-[calc(100vh-var(--nav-stack))]"
       aria-label="Featured articles, resources, and site footer"
     >
       <div className="flex min-h-0 flex-1 flex-col">

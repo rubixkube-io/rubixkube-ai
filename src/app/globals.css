@@ -20,6 +20,10 @@
   --green: #1a9060;
   --red: #c83030;
   --pad: clamp(48px, 8vw, 140px);
+  /* Fixed header: bar height + optional inset from top of viewport (large screens) */
+  --nav-gap-top: 0px;
+  --nav-height: 4rem;
+  --nav-stack: calc(var(--nav-height) + var(--nav-gap-top));
 
   /* Bridge legacy Tailwind token names */
   --background: var(--bg);
@@ -37,6 +41,30 @@
   --ring: var(--blue);
   --muted-foreground: var(--mid);
   --hero-grid: rgba(47, 91, 255, 0.06);
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --nav-gap-top: 8px;
+    --nav-height: 4.5rem;
+    --pad: clamp(52px, 8.5vw, 168px);
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --nav-gap-top: 14px;
+    --nav-height: 5rem;
+    --pad: clamp(56px, 9vw, 200px);
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --nav-gap-top: 18px;
+    --nav-height: 5.5rem;
+    --pad: clamp(64px, 10vw, 260px);
+  }
 }
 
 @theme inline {
@@ -159,9 +187,9 @@ h6 {
 
 /* Landing: scroll snap container — sole vertical scroll on homepage */
 .landing-scroll {
-  margin-top: 64px;
-  height: calc(100vh - 64px);
-  max-height: calc(100vh - 64px);
+  margin-top: var(--nav-stack);
+  height: calc(100vh - var(--nav-stack));
+  max-height: calc(100vh - var(--nav-stack));
   overflow-y: auto;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
@@ -173,14 +201,14 @@ h6 {
 .landing-snap-section {
   scroll-snap-align: start;
   scroll-snap-stop: normal;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - var(--nav-stack));
   flex-shrink: 0;
   box-sizing: border-box;
 }
 
 @media (min-width: 1024px) {
   .landing-snap-section {
-    height: calc(100vh - 64px);
+    height: calc(100vh - var(--nav-stack));
   }
 }
 
@@ -199,8 +227,8 @@ h6 {
 /* First slide: hero + marquee = exactly one viewport */
 .landing-hero-slide {
   display: flex;
-  height: calc(100vh - 64px);
-  min-height: calc(100vh - 64px);
+  height: calc(100vh - var(--nav-stack));
+  min-height: calc(100vh - var(--nav-stack));
   flex-direction: column;
   flex-shrink: 0;
   scroll-snap-align: start;
@@ -228,6 +256,27 @@ h6 {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+@media (min-width: 1920px) {
+  .rk-marquee-bar {
+    height: 64px;
+  }
+
+  .rk-marquee-label {
+    font-size: 10px;
+    padding-right: 32px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-marquee-bar {
+    height: 72px;
+  }
+
+  .rk-marquee-label {
+    font-size: 11px;
+  }
 }
 
 .rk-marquee-track {
@@ -260,6 +309,7 @@ h6 {
   animation: rk-hero-fadeup 1s 0.1s forwards;
   opacity: 0;
   font-weight: 300;
+  font-size: 10px;
 }
 
 /* Matches redesign.html .headline: same font files + weight 300 + real italic */
@@ -284,6 +334,117 @@ h6 {
 .rk-hero-headline .rk-hero-headline-muted {
   font-weight: 300;
   color: var(--text-soft);
+}
+
+/* Hero display: cap lifts on ultra-wide / 4K so type doesn’t stay “laptop sized” */
+.rk-hero-display {
+  font-size: clamp(4rem, 8.5vw, 7.5rem);
+}
+
+@media (min-width: 1600px) {
+  .rk-hero-display {
+    font-size: clamp(4.25rem, 7.5vw, 8.5rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-hero-display {
+    font-size: clamp(4.5rem, 6.8vw, 10rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-hero-display {
+    font-size: clamp(4.75rem, 5.8vw, 11.5rem);
+  }
+}
+
+/* Landing section H2 — higher caps on ultra-wide / 4K (metrics, RCA, closing, …) */
+.rk-landing-h2-std {
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+}
+
+@media (min-width: 1600px) {
+  .rk-landing-h2-std {
+    font-size: clamp(2.65rem, 4vw, 4.85rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-landing-h2-std {
+    font-size: clamp(2.85rem, 3.65vw, 5.35rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-landing-h2-std {
+    font-size: clamp(3rem, 3.15vw, 6.25rem);
+  }
+}
+
+/* Brain: smaller minimum, same large-screen lift */
+.rk-landing-h2-wide {
+  font-size: clamp(2rem, 4.5vw, 4rem);
+}
+
+@media (min-width: 1600px) {
+  .rk-landing-h2-wide {
+    font-size: clamp(2.35rem, 4vw, 4.85rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-landing-h2-wide {
+    font-size: clamp(2.55rem, 3.65vw, 5.35rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-landing-h2-wide {
+    font-size: clamp(2.75rem, 3.15vw, 6.25rem);
+  }
+}
+
+/* Intelligence: tighter default max, still scales up on 4K */
+.rk-landing-h2-compact {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+}
+
+@media (min-width: 1600px) {
+  .rk-landing-h2-compact {
+    font-size: clamp(2.4rem, 3.55vw, 4.25rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-landing-h2-compact {
+    font-size: clamp(2.55rem, 3.15vw, 4.95rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-landing-h2-compact {
+    font-size: clamp(2.7rem, 2.75vw, 5.75rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-hero-eyebrow {
+    font-size: 11px;
+    margin-bottom: 2.25rem;
+  }
+
+  .rk-hero-rule {
+    margin-top: 2.25rem;
+    margin-bottom: 2.25rem;
+    height: 3.5rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-hero-eyebrow {
+    font-size: 12px;
+  }
 }
 
 .rk-hero-rule {

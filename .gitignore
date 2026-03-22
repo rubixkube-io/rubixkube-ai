@@ -132,3 +132,5 @@ jspm_packages/
 .dynamodb/
 .next/
 context/seo_audit_report.md
+context/redesign-initiative.md
+context/redesign.html

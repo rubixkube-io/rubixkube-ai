@@ -4,22 +4,29 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
+import { rkMono9, rkMono13 } from '@/lib/landing-responsive-type'
+import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 
 export function ClosingLandingSection() {
   return (
-    <section className="landing-snap-section flex min-h-[calc(100vh-64px)] items-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-64px)]">
+    <section className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] items-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-var(--nav-stack))]">
       <div className="rk-landing-max w-full">
       <div className="mx-auto w-full max-w-4xl text-center">
         <Reveal>
-          <p className="mb-10 font-[family-name:var(--font-mono)] text-[9px] tracking-[0.28em] text-[var(--text-muted)] uppercase">
+          <p
+            className={cn(
+              'mb-10 font-[family-name:var(--font-mono)] tracking-[0.28em] text-[var(--text-muted)] uppercase',
+              rkMono9,
+            )}
+          >
             The result
           </p>
         </Reveal>
         <Reveal delay={0.08}>
-          <h2 className="mb-12 font-[family-name:var(--font-serif)] text-[clamp(2.5rem,4.5vw,4rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
+          <h2 className="rk-landing-h2-std mb-12 font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
             Not a faster tool.
             <br />
             <em className="italic text-[var(--blue)]">A smarter system.</em>
@@ -28,7 +35,12 @@ export function ClosingLandingSection() {
           </h2>
         </Reveal>
         <Reveal delay={0.15}>
-          <p className="mx-auto -mt-6 max-w-xl font-[family-name:var(--font-mono)] text-[13px] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]">
+          <p
+            className={cn(
+              'mx-auto -mt-6 max-w-xl font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+              rkMono13,
+            )}
+          >
             Every incident you resolve without RubixKube is context it never learns from.
           </p>
         </Reveal>
