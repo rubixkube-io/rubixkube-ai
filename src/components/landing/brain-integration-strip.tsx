@@ -149,24 +149,26 @@ function IntegrationMark({ item }: { item: StackItem }) {
   return <item.Icon size={22} color={item.color} aria-hidden />
 }
 
-export function BrainIntegrationStrip() {
+export function BrainIntegrationStrip({ hideHeader = false }: { hideHeader?: boolean } = {}) {
   return (
-    <div className="w-full border-t border-[var(--rule)] pt-12">
-      <header className="max-w-[42rem]">
-        <p className="font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.8vw,1.75rem)] font-light leading-[1.08] tracking-[-0.01em] text-[var(--ink)] min-[1920px]:text-[clamp(1.45rem,2.2vw,2rem)] min-[2560px]:text-[clamp(1.55rem,1.9vw,2.35rem)]">
-          Built for the tools your teams already use
-        </p>
-        <p
-          className={cn(
-            'mt-3 font-[family-name:var(--font-mono)] font-light leading-relaxed tracking-[-0.01em] text-[var(--mid)]',
-            rkMono13,
-          )}
-        >
-          Cloud, delivery, observability, collaboration, and data—wired in without rip-and-replace.
-        </p>
-      </header>
+    <div className={cn("w-full", !hideHeader && "border-t border-[var(--rule)] pt-12")}>
+      {!hideHeader && (
+        <header className="max-w-[42rem]">
+          <p className="font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.8vw,1.75rem)] font-light leading-[1.08] tracking-[-0.01em] text-[var(--ink)] min-[1920px]:text-[clamp(1.45rem,2.2vw,2rem)] min-[2560px]:text-[clamp(1.55rem,1.9vw,2.35rem)]">
+            Built for the tools your teams already use
+          </p>
+          <p
+            className={cn(
+              'mt-3 font-[family-name:var(--font-mono)] font-light leading-relaxed tracking-[-0.01em] text-[var(--mid)]',
+              rkMono13,
+            )}
+          >
+            Cloud, delivery, observability, collaboration, and data—wired in without rip-and-replace.
+          </p>
+        </header>
+      )}
 
-      <div className="mt-12 grid grid-cols-1 gap-x-14 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      <div className={cn("grid grid-cols-1 gap-x-14 gap-y-10 sm:grid-cols-2 lg:grid-cols-3", !hideHeader && "mt-12")}>
         {GROUPS.map((group) => (
           <div key={group.title} className="group cursor-default">
             <SectionLabel className="mb-4">{group.title}</SectionLabel>

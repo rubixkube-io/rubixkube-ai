@@ -5,7 +5,7 @@ import './globals.css'
 
 /** Same stylesheet as redesign.html — next/font was rendering heavier than the standalone prototype. */
 const GOOGLE_FONTS_HREF =
-  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Rajdhani:wght@400;700&display=swap'
+  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Rajdhani:wght@400;700&display=swap'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rubixkube.ai'),
