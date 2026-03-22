@@ -10,9 +10,7 @@ import { Button } from "@/components/ui/button"
 // import { urlFor } from "@/lib/sanity.client" - unused"
 import { motion } from "framer-motion"
 import { fadeUpVariants, fadeUp } from "@/lib/animations"
-import { useTheme } from "@/components/theme-provider"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
-import DotGrid from "@/components/ui/bg"
 import { BookOpen, ArrowUpRight, Search, Filter } from "lucide-react"
 import { BlogCardStyles, NewsletterSignup } from "@/components/blog"
 
@@ -23,7 +21,6 @@ interface BlogPageClientProps {
 
 export function BlogPageClient({ posts, category }: BlogPageClientProps) {
   const [selectedCategory, setSelectedCategory] = useState(category || '')
-  const { resolvedTheme } = useTheme()
   const prefersReducedMotion = useReducedMotion()
   const [view, setView] = useState<'grid' | 'list'>('grid')
   
@@ -41,18 +38,7 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
       window.history.replaceState(null, '', newUrl)
     }
   }, [selectedCategory])
-  
-  // Theme-aware colors for DotGrid
-  const dotColors = resolvedTheme === 'dark' 
-    ? {
-        baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
-      }
-    : {
-        baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
-      }
-  
+
   // Get unique categories from posts
   const allCategories = posts.flatMap(post => post.categories || [])
   const uniqueCategories = [...new Set(allCategories)].sort()
@@ -73,23 +59,10 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
-        {/* DotGrid background */}
-        <div className="absolute inset-0">
-          <DotGrid
-            dotSize={1.5}
-            gap={20}
-            baseColor={dotColors.baseColor}
-            activeColor={dotColors.activeColor}
-            proximity={100}
-            shockRadius={250}
-            shockStrength={4}
-            resistance={750}
-            returnDuration={1.5}
-          />
-        </div>
+      <section className="relative flex min-h-[85vh] items-center overflow-hidden">
+        <div className="absolute inset-0 bg-[var(--bg)]" aria-hidden />
 
-        <div className="relative z-10 mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-4 sm:px-6 md:px-8 pt-16 sm:pt-20">
+        <div className="relative z-10 mx-auto max-w-[1400px] px-4 pt-16 sm:px-6 sm:pt-20 md:px-[var(--pad)] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px]">
           <div className="min-h-[400px] sm:min-h-[500px] flex flex-col items-center justify-center gap-6 sm:gap-8 md:gap-10 py-4 sm:py-6">
             <motion.div 
               className="text-center max-w-4xl mx-auto"
@@ -99,23 +72,23 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
             >
               {/* Eyebrow */}
               <motion.div variants={fadeUpVariants}>
-                <span className="inline-flex items-center rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-4 sm:mb-6 md:mb-8">
+                <span className="mb-4 inline-flex items-center border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--mid)] uppercase sm:mb-6 md:mb-8">
                   RubixKube Blog
                 </span>
               </motion.div>
 
               {/* Headline */}
               <motion.h1 
-                className="text-[28px] sm:text-[32px] md:text-[48px] lg:text-[56px] xl:text-[64px] 2xl:text-[72px] tracking-[-0.02em] leading-[0.95] text-foreground mb-4 sm:mb-6 px-2 sm:px-0"
+                className="mb-4 px-2 font-[family-name:var(--font-serif)] text-[clamp(1.75rem,5vw,4rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] sm:mb-6 sm:px-0"
                 variants={fadeUpVariants}
                 {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.1 } })}
               >
-                Stories from the <span className="text-accent">Reliability</span> Era
+                Stories from the <span className="italic text-[var(--blue)]">Reliability</span> Era
               </motion.h1>
 
               {/* Subheadline */}
               <motion.p 
-                className="max-w-[90vw] sm:max-w-[55ch] text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] leading-6 sm:leading-7 text-foreground-muted mx-auto px-2 sm:px-0"
+                className="mx-auto max-w-[90vw] px-2 font-[family-name:var(--font-mono)] text-sm font-light leading-relaxed text-[var(--mid)] sm:max-w-[55ch] sm:px-0 sm:text-[15px]"
                 variants={fadeUpVariants}
                 {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
               >
@@ -158,7 +131,7 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
       </section>
 
       {/* Professional Content Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-12 sm:py-16 md:py-20 lg:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8">
           {filteredPosts.length === 0 ? (
             <motion.div 

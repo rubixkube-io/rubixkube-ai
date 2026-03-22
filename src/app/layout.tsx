@@ -1,129 +1,87 @@
-import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import type { Metadata } from 'next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { StructuredData } from '@/components/structured-data'
-import "./globals.css";
+import './globals.css'
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: 'swap',
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: 'swap',
-});
+/** Same stylesheet as redesign.html — next/font was rendering heavier than the standalone prototype. */
+const GOOGLE_FONTS_HREF =
+  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Rajdhani:wght@400;700&display=swap'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rubixkube.ai'),
-  title: "RubixKube - Site Reliability Intelligence",
-  description: "Predict, prevent, and fix production issues before customers are impacted with AI-native reliability for Kubernetes and cloud.",
+  title: 'RubixKube — Site Reliability Intelligence',
+  description:
+    'AI-native Site Reliability Intelligence: detect anomalies, diagnose root cause, and resolve failures autonomously.',
   keywords: [
-    "site reliability intelligence",
-    "AI SRE",
-    "autonomous remediation",
-    "reduce MTTR",
-    "alert fatigue",
-    "incident response automation",
-    "root cause analysis",
-    "Kubernetes reliability",
-    "SLO management",
-    "observability correlation",
-    "governed automation",
-    "revenue at risk"
+    'site reliability intelligence',
+    'AI SRE',
+    'autonomous remediation',
+    'reduce MTTR',
+    'Kubernetes reliability',
+    'root cause analysis',
   ],
-  authors: [{ name: "RubixKube" }],
+  authors: [{ name: 'RubixKube' }],
   openGraph: {
-    title: "RubixKube - Site Reliability Intelligence",
-    description: "Detect, diagnose, and heal issues before customers feel them.",
-    url: "https://rubixkube.ai",
-    siteName: "RubixKube",
-    type: "website",
-    locale: "en_US",
-    // Don't set images here - let pages define their own
+    title: 'RubixKube — Site Reliability Intelligence',
+    description: 'Detect, diagnose, and heal issues before customers feel them.',
+    url: 'https://rubixkube.ai',
+    siteName: 'RubixKube',
+    type: 'website',
+    locale: 'en_US',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "RubixKube - Site Reliability Intelligence",
-    description: "Detect, diagnose, and heal issues before customers feel them.",
-    // Don't set images here - let pages define their own
+    card: 'summary_large_image',
+    title: 'RubixKube — Site Reliability Intelligence',
+    description: 'Detect, diagnose, and heal issues before customers feel them.',
   },
   other: {
-    "viewport": "width=device-width, initial-scale=1",
-    "theme-color": "#000000"
-  }
-};
+    viewport: 'width=device-width, initial-scale=1',
+    'theme-color': '#f2f0eb',
+  },
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="light" suppressHydrationWarning>
       <head>
         <StructuredData />
-        {/* Additional meta tags for WhatsApp and Slack compatibility */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href={GOOGLE_FONTS_HREF} rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="msapplication-TileColor" content="#000000" />
+        <meta name="theme-color" content="#f2f0eb" />
+        <meta name="msapplication-TileColor" content="#f2f0eb" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="RubixKube" />
         <meta name="application-name" content="RubixKube" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileImage" content="https://rubixkube.ai/logo-icon.png" />
-        {/* WhatsApp specific meta tags */}
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:alt" content="RubixKube - Site Reliability Intelligence" />
-        {/* Mobile-specific meta tags for better WhatsApp/Slack compatibility */}
+        <meta property="og:image:alt" content="RubixKube — Site Reliability Intelligence" />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-touch-fullscreen" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="msapplication-TileImage" content="https://rubixkube.ai/logo-icon.png" />
-        {/* WhatsApp specific meta tags */}
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:alt" content="RubixKube - Site Reliability Intelligence" />
-        {/* Mobile-specific meta tags for better WhatsApp/Slack compatibility */}
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-touch-fullscreen" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta property="og:logo" content="https://rubixkube.ai/logo-icon.png" />
-        {/* Additional Open Graph properties for better compatibility */}
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="RubixKube" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://rubixkube.ai" />
-        <meta property="og:title" content="RubixKube - Site Reliability Intelligence" />
-        <meta property="og:description" content="Detect, diagnose, and heal issues before customers feel them." />
-        {/* Slack specific meta tags */}
-        <meta name="slack-app-id" content="RubixKube" />
-        <meta name="slack-app-name" content="RubixKube" />
-        <meta name="slack-app-description" content="Site Reliability Intelligence is the future" />
-        {/* 
-          Debugging Open Graph for WhatsApp and Slack:
-          1. Test with: https://developers.facebook.com/tools/debug/
-          2. Test with: https://cards-dev.twitter.com/validator
-          3. Clear WhatsApp cache by sharing to a new chat
-          4. Clear Slack cache by posting in a new channel
-          5. Check image accessibility: https://rubixkube.ai/og.jpg?v=20241201
-        */}
+        <meta property="og:title" content="RubixKube — Site Reliability Intelligence" />
+        <meta
+          property="og:description"
+          content="Detect, diagnose, and heal issues before customers feel them."
+        />
+        <meta property="og:logo" content="https://rubixkube.ai/logo-icon.png" />
       </head>
-      <body
-        className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
-      >
-        <ThemeProvider defaultTheme="system" storageKey="rubixkube-theme">
+      <body className="antialiased">
+        <ThemeProvider defaultTheme="light" storageKey="rubixkube-theme">
           {children}
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

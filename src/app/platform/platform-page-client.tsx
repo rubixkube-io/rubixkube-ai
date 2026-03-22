@@ -7,8 +7,6 @@ import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants } from '@/lib/animations'
-import { useTheme } from '@/components/theme-provider'
-import DotGrid from '@/components/ui/bg'
 import { CardGrid } from '@/components/ui/card-grid'
 import {
   CheckCircle,
@@ -22,19 +20,6 @@ import {
 import Link from 'next/link'
 
 export function PlatformPageClient() {
-  const { resolvedTheme } = useTheme()
-
-  // Theme-aware colors for DotGrid
-  const dotColors = resolvedTheme === 'dark'
-    ? {
-      baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-      activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
-    }
-    : {
-      baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-      activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
-    }
-
   const platformFeatures = [
     {
       title: "Agentic Mesh Architecture",
@@ -73,23 +58,10 @@ export function PlatformPageClient() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* DotGrid background */}
-        <div className="absolute inset-0">
-          <DotGrid
-            dotSize={1.5}
-            gap={20}
-            baseColor={dotColors.baseColor}
-            activeColor={dotColors.activeColor}
-            proximity={100}
-            shockRadius={250}
-            shockStrength={4}
-            resistance={750}
-            returnDuration={1.5}
-          />
-        </div>
+      <section className="relative flex min-h-screen items-center overflow-hidden">
+        <div className="absolute inset-0 bg-[var(--bg)]" aria-hidden />
 
-        <div className="relative z-10 mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8 pt-20">
+        <div className="relative z-10 mx-auto max-w-[1400px] px-[var(--pad)] pt-20 xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px]">
           <div className="min-h-[600px] flex flex-col items-center justify-center gap-12">
             {/* Text Content */}
             <motion.div
@@ -100,23 +72,23 @@ export function PlatformPageClient() {
             >
               {/* Eyebrow */}
               <motion.div variants={fadeUpVariants}>
-                <span className="inline-flex items-center rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-8">
+                <span className="mb-8 inline-flex items-center border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--mid)] uppercase">
                   Platform
                 </span>
               </motion.div>
 
               {/* Main Headline */}
               <motion.h1
-                className="text-[40px] sm:text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6"
+                className="mb-6 font-[family-name:var(--font-serif)] text-[clamp(2.25rem,6vw,5rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]"
                 variants={fadeUpVariants}
               >
-                Site Reliability <span className="text-accent">Intelligence</span>
+                Site Reliability <span className="italic text-[var(--blue)]">Intelligence</span>
               </motion.h1>
 
 
               {/* Subheadline */}
               <motion.p
-                className="max-w-[55ch] text-[18px] leading-7 text-foreground-muted mx-auto"
+                className="mx-auto max-w-[55ch] font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]"
                 variants={fadeUpVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -157,7 +129,7 @@ export function PlatformPageClient() {
             >
               <div className="relative rounded-xl overflow-hidden border border-border shadow-2xl">
                 <Image
-                  src={`/screenshots/hero-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
+                  src="/screenshots/hero-light.png"
                   alt="RubixKube Platform Dashboard - Cloud management interface with AI agents and infrastructure monitoring"
                   width={1200}
                   height={800}
@@ -184,7 +156,7 @@ export function PlatformPageClient() {
             >
               <div className="relative rounded-xl overflow-hidden border border-border shadow-xl">
                 <Image
-                  src={`/screenshots/chat-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
+                  src="/screenshots/chat-light.png"
                   alt="RubixKube Chat Interface - Talk to your infrastructure"
                   width={800}
                   height={600}
@@ -274,7 +246,7 @@ export function PlatformPageClient() {
             >
               <div className="relative rounded-xl overflow-hidden border border-border shadow-xl">
                 <Image
-                  src={`/screenshots/actions-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
+                  src="/screenshots/actions-light.png"
                   alt="RubixKube Dashboard - Actionable Insights"
                   width={800}
                   height={600}

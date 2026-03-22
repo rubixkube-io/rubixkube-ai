@@ -8,8 +8,6 @@ import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants } from '@/lib/animations'
-import { useTheme } from '@/components/theme-provider'
-import DotGrid from '@/components/ui/bg'
 import { CardGrid } from '@/components/ui/card-grid'
 import { 
   BookOpen,
@@ -23,19 +21,6 @@ import {
 } from 'lucide-react'
 
 export function ResourcesPageClient() {
-  const { resolvedTheme } = useTheme()
-  
-  // Theme-aware colors for DotGrid
-  const dotColors = resolvedTheme === 'dark' 
-    ? {
-        baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
-      }
-    : {
-        baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
-      }
-
   const documentationCategories = [
     {
       title: "Getting Started",
@@ -180,23 +165,10 @@ export function ResourcesPageClient() {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* DotGrid background */}
-        <div className="absolute inset-0">
-          <DotGrid
-            dotSize={1.5}
-            gap={20}
-            baseColor={dotColors.baseColor}
-            activeColor={dotColors.activeColor}
-            proximity={100}
-            shockRadius={250}
-            shockStrength={4}
-            resistance={750}
-            returnDuration={1.5}
-          />
-        </div>
+      <section className="relative flex min-h-screen items-center overflow-hidden">
+        <div className="absolute inset-0 bg-[var(--bg)]" aria-hidden />
 
-        <div className="relative z-10 mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8 pt-20">
+        <div className="relative z-10 mx-auto max-w-[1400px] px-6 pt-20 md:px-[var(--pad)] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px]">
           <div className="min-h-[600px] flex flex-col items-center justify-center gap-12">
             {/* Text Content */}
             <motion.div 
@@ -212,7 +184,7 @@ export function ResourcesPageClient() {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                <span className="inline-flex items-center rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-8">
+                <span className="mb-8 inline-flex items-center border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--mid)] uppercase">
                   Resources
                 </span>
               </motion.div>
@@ -431,11 +403,9 @@ export function ResourcesPageClient() {
               Put Site Reliability Intelligence to work in your stack.
             </p>
             <motion.div variants={fadeUpVariants}>
-              <Button asChild size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
-                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
-                  Book a Demo
-                </CalendlyBooking>
-              </Button>
+              <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" variant="primary" size="lg">
+                Book a Demo
+              </CalendlyBooking>
             </motion.div>
           </motion.div>
         </div>

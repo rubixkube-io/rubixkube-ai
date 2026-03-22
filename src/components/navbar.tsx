@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Linkedin, Github, Slack, Rocket, Calendar } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Menu, X, Linkedin, Github, Slack, Rocket } from 'lucide-react'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
-
+import { Button } from '@/components/ui/button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
+import { outlineBlueAccentNav } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 
 const navigation = [
@@ -20,196 +20,191 @@ const navigation = [
   { name: 'Blog', href: '/blog' },
   { name: 'Our Story', href: '/about' },
   { name: 'Contact', href: '/contact' },
-]
+] as const
 
 const socialLinks = [
-  { name: 'LinkedIn', href: 'https://linkedin.com/company/rubixkube', iconType: 'linkedin' },
-  { name: 'GitHub', href: 'https://github.com/rubixkube-io', iconType: 'github' },
-  { name: 'Slack', href: 'https://join.slack.com/t/rubixkubecommunity/shared_invite/zt-3fq7kiu8k-RC5uzLY6BjQFE5Uq_NziEA', iconType: 'slack' }
-]
+  { name: 'LinkedIn', href: 'https://linkedin.com/company/rubixkube', icon: Linkedin },
+  { name: 'GitHub', href: 'https://github.com/rubixkube-io', icon: Github },
+  {
+    name: 'Slack',
+    href: 'https://join.slack.com/t/rubixkubecommunity/shared_invite/zt-3fq7kiu8k-RC5uzLY6BjQFE5Uq_NziEA',
+    icon: Slack,
+  },
+] as const
+
+const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
+const CONSOLE_URL = 'https://console.rubixkube.ai'
+
+/** Primary nav CTA — solid brand blue, aligned height with Book Demo */
+const launchConsoleClass =
+  '!rounded-[5px] !py-[9px] !px-5 !text-[10px] !tracking-[0.12em] !font-medium !gap-1.5 shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)]'
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const prefersReducedMotion = useReducedMotion()
 
-  // Function to render social icons
-  const renderSocialIcon = (iconType: string) => {
-    switch (iconType) {
-      case 'linkedin':
-        return <Linkedin className="w-5 h-5" />
-      case 'github':
-        return <Github className="w-5 h-5" />
-      case 'slack':
-        return <Slack className="w-5 h-5" />
-      default:
-        return null
-    }
-  }
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 24
-      setScrolled(isScrolled)
+    if (isOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = ''
+    return () => {
+      document.body.style.overflow = ''
     }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isOpen])
 
   return (
     <motion.header
       variants={fadeUpVariants}
-      initial={prefersReducedMotion ? "visible" : "hidden"}
-      animate={prefersReducedMotion ? "visible" : "visible"}
+      initial={prefersReducedMotion ? 'visible' : 'hidden'}
+      animate="visible"
       className={cn(
-        'fixed top-0 w-full z-50 transition-all duration-300',
-        scrolled 
-          ? 'bg-background/70 backdrop-blur border-b border-border' 
-          : 'bg-transparent'
+        'fixed top-0 right-0 left-0 z-[100] h-16 transition-[background-color,border-color,backdrop-filter] duration-300',
+        scrolled
+          ? 'border-b border-[var(--rule)] bg-[rgba(242,240,235,0.92)] backdrop-blur-[14px]'
+          : 'border-b border-transparent bg-transparent',
       )}
     >
-      <nav className="mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-6 md:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <Link href="/">
-            <span className="flex items-center space-x-4">
-              <Image
-                src="/logo-icon.png"
-                alt="RubixKube Logo"
-                width={32}
-                height={32}
-                className="h-8 w-auto"
-              />
-              <Image 
-                src="/logo-text.svg" 
-                alt="RubixKube" 
-                width={120}
-                height={24}
-                className="h-6 w-auto dark:invert" 
-              />
-            </span>
-          </Link>
+      <nav className="mx-auto grid h-full max-w-[100vw] grid-cols-[1fr_auto] items-center gap-3 px-[var(--pad)] lg:grid-cols-[auto_minmax(0,1fr)_auto]">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center justify-self-start"
+          aria-label="RubixKube home"
+        >
+          <Image
+            src="/light-logo.svg"
+            alt=""
+            width={1720}
+            height={200}
+            className="h-[18px] w-auto max-w-[min(156px,46vw)] sm:h-5 sm:max-w-[min(176px,44vw)]"
+            priority
+          />
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden min-w-0 justify-center justify-self-center lg:flex">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 xl:gap-x-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-foreground hover:underline hover:underline-offset-4 transition-all duration-200 font-medium"
+                className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.14em] text-[var(--mid)] uppercase transition-colors hover:text-[var(--ink)] xl:text-[11px]"
               >
                 {item.name}
               </Link>
             ))}
           </div>
-
-          {/* Desktop CTA & Social Links */}
-          <div className="hidden md:flex items-center space-x-6">
-            {/* Social Links */}
-            <div className="flex items-center space-x-3">
-              {socialLinks.map((social) => (
-                <Link
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-primary transition-colors duration-200 p-2 rounded-lg hover:bg-background-secondary"
-                  title={social.name}
-                >
-                  {renderSocialIcon(social.iconType)}
-                </Link>
-              ))}
-            </div>
-            {/* Book Demo Button */}
-              <Button variant="outline" asChild>
-                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" className="flex items-center gap-2">
-                  Book Demo
-                </CalendlyBooking>
-              </Button>
-            
-            <div className="flex items-center space-x-3">
-              <Button variant="primary" asChild>
-                <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  Launch Console
-                  <Rocket className="w-4 h-4" />
-                </Link>
-              </Button>
-              
-            </div>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-foreground hover:bg-background-secondary transition-colors"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
         </div>
 
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="md:hidden border-t border-border bg-background"
-            >
-              <div className="px-2 pt-2 pb-3 space-y-1">
-                {navigation.map((item) => (
+        <div className="hidden items-center gap-2 justify-self-end lg:flex xl:gap-3">
+          <div className="mr-1 flex items-center gap-0.5 border-r border-[var(--rule)] pr-3 xl:mr-2 xl:pr-4">
+            {socialLinks.map(({ name, href, icon: Icon }) => (
+              <Link
+                key={name}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={name}
+                aria-label={name}
+                className="rounded-md p-2 text-[var(--mid)] transition-colors hover:bg-[rgba(17,19,24,0.04)] hover:text-[var(--ink)]"
+              >
+                <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              </Link>
+            ))}
+          </div>
+          <CalendlyBooking url={CALENDLY} variant="outline" size="sm" className={outlineBlueAccentNav}>
+            Book Demo
+          </CalendlyBooking>
+          <Button asChild variant="primary" size="sm" className={launchConsoleClass}>
+            <Link href={CONSOLE_URL} target="_blank" rel="noopener noreferrer">
+              Launch Console
+              <Rocket className="h-3.5 w-3.5 shrink-0 opacity-95" strokeWidth={2.25} aria-hidden />
+            </Link>
+          </Button>
+        </div>
+
+        <button
+          type="button"
+          className="justify-self-end rounded-md p-2 text-[var(--ink)] lg:hidden"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </nav>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="border-t border-[var(--rule)] bg-[var(--bg)] lg:hidden"
+          >
+            <div className="flex max-h-[min(70vh,calc(100dvh-4rem))] flex-col gap-1 overflow-y-auto px-[var(--pad)] py-4">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] text-[var(--ink)] uppercase"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+              <div className="mt-3 flex items-center gap-2 border-t border-[var(--rule)] pt-4">
+                {socialLinks.map(({ name, href, icon: Icon }) => (
                   <Link
-                    key={item.name}
-                    href={item.href}
-                    className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-background-secondary rounded-lg transition-colors"
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="rounded-md p-2.5 text-[var(--mid)] hover:bg-[rgba(17,19,24,0.04)] hover:text-[var(--ink)]"
                     onClick={() => setIsOpen(false)}
                   >
-                    {item.name}
+                    <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </Link>
                 ))}
-                
-                {/* Mobile Social Links */}
-                <div className="px-3 py-2 border-t border-border mt-2 pt-3">
-                  <div className="flex items-center space-x-4 mb-3">
-                    {socialLinks.map((social) => (
-                      <Link
-                        key={social.name}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-foreground hover:text-primary transition-colors duration-200 p-2 rounded-lg hover:bg-background-secondary"
-                        title={social.name}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {renderSocialIcon(social.iconType)}
-                      </Link>
-                    ))}
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <Button variant="primary" asChild>
-                      <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2">
-                        Launch Console
-                        <Rocket className="w-4 h-4" />
-                      </Link>
-                    </Button>
-                    <Button variant="outline" asChild>
-                      <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" className="w-full flex items-center justify-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        Book Demo
-                      </CalendlyBooking>
-                    </Button>
-                  </div>
-                </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+              <div className="mt-4 flex w-full flex-col gap-3">
+                <CalendlyBooking
+                  url={CALENDLY}
+                  variant="outline"
+                  size="sm"
+                  className={`w-full ${outlineBlueAccentNav} [&_button]:w-full`}
+                  onOpen={() => setIsOpen(false)}
+                >
+                  Book Demo
+                </CalendlyBooking>
+                <Button
+                  asChild
+                  variant="primary"
+                  size="sm"
+                  className={cn(launchConsoleClass, 'w-full')}
+                >
+                  <Link
+                    href={CONSOLE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Launch Console
+                    <Rocket className="h-3.5 w-3.5 shrink-0 opacity-95" strokeWidth={2.25} aria-hidden />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   )
 }

@@ -1,22 +1,15 @@
 import { Navbar } from '@/components/navbar'
-import { Hero } from '@/components/hero'
-import { TrustedBy } from '@/components/trusted-by'
-import { WhySectionServer } from '@/components/why-section-server'
-import { SRIFlow } from '@/components/sri-flow'
-import { FeaturesGridServer } from '@/components/features-grid-server'
-import { UseCasesServer } from '@/components/use-cases-server'
-import { TestimonialsServer } from '@/components/testimonials-server'
-import { ClosingCTA } from '@/components/closing-cta'
-import { Footer } from '@/components/footer'
-import { StructuredData } from '@/components/structured-data'
+import { LandingPage } from '@/components/landing'
+import { HomeScrollLock } from '@/components/landing/home-scroll-lock'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Site Reliability Intelligence (SRI) | RubixKube',
-  description: 'Detect, diagnose, and heal production issues before customers feel them. AI-native reliability for Kubernetes. Book a demo.',
+  title: 'RubixKube — Site Reliability Intelligence',
+  description:
+    'Your infrastructure, healing itself. AI-native SRI that detects anomalies, diagnoses root cause, and resolves failures autonomously.',
   keywords: [
     'site reliability intelligence',
-    'SRI', 
+    'SRI',
     'AI SRE',
     'AIOps',
     'autonomous remediation',
@@ -24,10 +17,10 @@ export const metadata: Metadata = {
     'root cause analysis',
     'Kubernetes reliability',
     'reduce MTTR',
-    'SLO management'
+    'SLO management',
   ],
   openGraph: {
-    title: 'RubixKube - Site Reliability Intelligence',
+    title: 'RubixKube — Site Reliability Intelligence',
     description: 'Detect, diagnose, and heal issues before customers feel them.',
     url: 'https://rubixkube.ai',
     siteName: 'RubixKube',
@@ -37,15 +30,15 @@ export const metadata: Metadata = {
         url: 'https://rubixkube.ai/og.jpg',
         width: 1200,
         height: 630,
-        alt: 'RubixKube - Site Reliability Intelligence'
-      }
-    ]
+        alt: 'RubixKube — Site Reliability Intelligence',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RubixKube - Site Reliability Intelligence',
+    title: 'RubixKube — Site Reliability Intelligence',
     description: 'Detect, diagnose, and heal issues before customers feel them.',
-    images: ['https://rubixkube.ai/og.jpg']
+    images: ['https://rubixkube.ai/og.jpg'],
   },
   robots: {
     index: true,
@@ -63,21 +56,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <StructuredData />
-      <div className="min-h-screen">
-        <Navbar />
-        <main>
-          <Hero />
-          <TrustedBy />
-          <WhySectionServer />
-          <SRIFlow />
-          <FeaturesGridServer />
-          <UseCasesServer />
-          <TestimonialsServer />
-          <ClosingCTA />
-        </main>
-        <Footer />
-      </div>
+      <HomeScrollLock />
+      <Navbar />
+      <LandingPage />
     </>
   )
 }

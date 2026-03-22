@@ -10,8 +10,6 @@ import { ClosingCTA } from '@/components/closing-cta'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { fadeUpVariants } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
-import { useTheme } from '@/components/theme-provider'
-import DotGrid from '@/components/ui/bg'
 import { Check } from 'lucide-react'
 
 const freeIncludes = [
@@ -77,33 +75,16 @@ const faqItems = [
 
 export function PricingPageClient() {
   const prefersReducedMotion = useReducedMotion()
-  const { resolvedTheme } = useTheme()
-
-  const dotColors = resolvedTheme === 'dark'
-    ? { baseColor: 'rgba(147, 197, 253, 0.06)', activeColor: 'rgba(147, 197, 253, 0.07)' }
-    : { baseColor: 'rgba(59, 130, 246, 0.06)', activeColor: 'rgba(59, 130, 246, 0.07)' }
 
   return (
     <>
       <Navbar />
 
       {/* Hero */}
-      <section className="relative min-h-[75vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <DotGrid
-            dotSize={1.5}
-            gap={20}
-            baseColor={dotColors.baseColor}
-            activeColor={dotColors.activeColor}
-            proximity={100}
-            shockRadius={250}
-            shockStrength={4}
-            resistance={750}
-            returnDuration={1.5}
-          />
-        </div>
+      <section className="relative flex min-h-[75vh] items-center overflow-hidden">
+        <div className="absolute inset-0 bg-[var(--bg)]" aria-hidden />
 
-        <div className="relative z-10 mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-4 sm:px-6 md:px-8 pt-20">
+        <div className="relative z-10 mx-auto max-w-[1400px] px-4 pt-20 sm:px-6 md:px-[var(--pad)] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px]">
           <div className="min-h-[600px] flex flex-col items-center justify-center gap-8">
             <motion.div
               className="text-center max-w-4xl mx-auto"
@@ -112,19 +93,19 @@ export function PricingPageClient() {
               animate="visible"
             >
               <motion.div variants={fadeUpVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <span className="inline-flex items-center rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-8">
+                <span className="mb-8 inline-flex items-center border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--mid)] uppercase">
                   Pricing
                 </span>
               </motion.div>
 
               <motion.h1
-                className="text-[40px] sm:text-[48px] md:text-[56px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] tracking-[-0.02em] leading-[0.95] text-foreground mb-6 px-4 sm:px-0"
+                className="mb-6 px-4 font-[family-name:var(--font-serif)] text-[clamp(2.25rem,6vw,5rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] sm:px-0"
                 variants={fadeUpVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                <span className="text-accent">Reliability</span> that pays for itself.
+                <span className="italic text-[var(--blue)]">Reliability</span> that pays for itself.
               </motion.h1>
 
               <motion.div

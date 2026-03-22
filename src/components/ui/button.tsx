@@ -11,30 +11,33 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button'
-    
+
     return (
       <Comp
         className={cn(
-          'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 min-w-fit',
+          'inline-flex min-w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md font-[family-name:var(--font-mono)] font-normal uppercase tracking-[0.1em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] disabled:pointer-events-none disabled:opacity-50',
           {
-            'bg-foreground text-background hover:opacity-90': variant === 'primary',
-            'bg-background text-primary border border-primary hover:bg-primary/5': variant === 'secondary',
-            'border border-border bg-transparent text-foreground hover:bg-background-secondary': variant === 'outline',
-            'bg-transparent text-foreground hover:bg-background-secondary': variant === 'ghost',
-            'bg-cta-green text-white hover:bg-cta-green/90 font-semibold': variant === 'cta',
+            'border-none bg-[var(--blue)] text-white hover:opacity-92':
+              variant === 'primary' || variant === 'cta',
+            'border border-[var(--ink)] bg-transparent text-[var(--ink)] hover:bg-[var(--ink)]/5':
+              variant === 'secondary',
+            'border border-[var(--faint)] bg-transparent text-[var(--mid)] hover:border-[var(--mid)]/40':
+              variant === 'outline',
+            'border-none bg-transparent text-[var(--mid)] hover:text-[var(--ink)]':
+              variant === 'ghost',
           },
           {
-            'px-3 py-1.5 text-sm': size === 'sm',
-            'px-4 py-2 text-sm': size === 'md',
-            'px-5 py-3 text-base': size === 'lg',
+            'px-5 py-2.5 text-[10px]': size === 'sm',
+            'px-6 py-3 text-[11px]': size === 'md',
+            'px-8 py-3.5 text-[12px]': size === 'lg',
           },
-          className
+          className,
         )}
         ref={ref}
         {...props}
       />
     )
-  }
+  },
 )
 Button.displayName = 'Button'
 

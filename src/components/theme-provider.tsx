@@ -17,61 +17,31 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: 'system',
+  theme: 'light',
   setTheme: () => null,
   resolvedTheme: 'light',
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
-export function ThemeProvider({
-  children,
-  ...props
-}: ThemeProviderProps) {
-  const [theme] = useState<Theme>('system') // Always use system theme
-  // Unused variables removed: defaultTheme, storageKey
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light')
+/**
+ * Dark mode deferred — site ships warm light theme only.
+ * Always applies `light` on html for consistent tokens.
+ */
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  const [theme] = useState<Theme>('light')
+  const [resolvedTheme] = useState<'light'>('light')
 
   useEffect(() => {
     const root = window.document.documentElement
-
-    const updateTheme = (newTheme: Theme) => {
-      let resolvedTheme: 'light' | 'dark'
-      
-      if (newTheme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light'
-        resolvedTheme = systemTheme
-      } else {
-        resolvedTheme = newTheme
-      }
-
-      root.classList.remove('light', 'dark')
-      root.classList.add(resolvedTheme)
-      setResolvedTheme(resolvedTheme)
-    }
-
-    updateTheme(theme)
-
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleChange = () => {
-      if (theme === 'system') {
-        updateTheme('system')
-      }
-    }
-
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [theme])
+    root.classList.remove('dark')
+    root.classList.add('light')
+  }, [])
 
   const value = {
     theme,
-    setTheme: () => {
-      // No-op - theme is always system
-    },
-    resolvedTheme,
+    setTheme: () => {},
+    resolvedTheme: resolvedTheme as 'light' | 'dark',
   }
 
   return (
@@ -83,9 +53,7 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
-
   if (context === undefined)
     throw new Error('useTheme must be used within a ThemeProvider')
-
   return context
 }

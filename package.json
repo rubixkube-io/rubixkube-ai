@@ -26,8 +26,6 @@
     "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
-    "gsap": "^3.13.0",
-    "lottie-react": "^2.4.1",
     "lucide-react": "^0.540.0",
     "next": "15.5.7",
     "next-sanity": "^10.0.15",
@@ -36,7 +34,7 @@
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
     "sanity": "^4.16.0",
-    "styled-components": "^6.1.17",
+    "styled-components": "^6.1.19",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {

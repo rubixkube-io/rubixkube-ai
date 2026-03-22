@@ -6,8 +6,6 @@ import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { fadeUpVariants } from '@/lib/animations'
-import { useTheme } from '@/components/theme-provider'
-import DotGrid from '@/components/ui/bg'
 import { 
   ArrowRight,
   CheckCircle,
@@ -25,41 +23,15 @@ import Link from 'next/link'
 import { ClosingCTA } from '@/components/closing-cta'
 
 export function AboutPageClient() {
-  const { resolvedTheme } = useTheme()
-  
-  // Theme-aware colors for DotGrid
-  const dotColors = resolvedTheme === 'dark' 
-    ? {
-        baseColor: "rgba(147, 197, 253, 0.06)", // Light blue, very subtle
-        activeColor: "rgba(147, 197, 253, 0.07)" // Light blue, slightly more visible
-      }
-    : {
-        baseColor: "rgba(59, 130, 246, 0.06)", // Darker blue, very subtle  
-        activeColor: "rgba(59, 130, 246, 0.07)" // Darker blue, slightly more visible
-      }
-
   return (
     <>
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* DotGrid background */}
-        <div className="absolute inset-0">
-          <DotGrid
-            dotSize={1.5}
-            gap={20}
-            baseColor={dotColors.baseColor}
-            activeColor={dotColors.activeColor}
-            proximity={100}
-            shockRadius={250}
-            shockStrength={4}
-            resistance={750}
-            returnDuration={1.5}
-          />
-        </div>
+      <section className="relative flex min-h-screen items-center overflow-hidden">
+        <div className="absolute inset-0 bg-[var(--bg)]" aria-hidden />
 
-        <div className="relative z-10 mx-auto max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] px-4 sm:px-6 md:px-8 pt-20">
+        <div className="relative z-10 mx-auto max-w-[1400px] px-4 pt-20 sm:px-6 md:px-[var(--pad)] xl:max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px]">
           <div className="min-h-[600px] flex flex-col items-center justify-center gap-12">
             {/* Text Content */}
             <motion.div 
@@ -75,7 +47,7 @@ export function AboutPageClient() {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                <span className="inline-flex items-center rounded-full border border-border bg-background-secondary px-3 py-1 text-sm font-medium text-foreground-muted mb-8">
+                <span className="mb-8 inline-flex items-center border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--mid)] uppercase">
                   Our Story
                 </span>
               </motion.div>
@@ -110,12 +82,10 @@ export function AboutPageClient() {
                 viewport={{ once: true }}
                 className="flex flex-col sm:flex-row gap-3 mt-8 justify-center items-center w-full"
               >
-                <Button size="lg" asChild>
-                  <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
-                    Book Demo
-                    <ArrowRight className="w-4 h-4 flex-shrink-0" />
-                  </CalendlyBooking>
-                </Button>
+                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" variant="primary" size="lg" className="inline-flex items-center gap-2">
+                  Book Demo
+                  <ArrowRight className="h-4 w-4 shrink-0" />
+                </CalendlyBooking>
                 <Button variant="outline" size="lg" asChild>
                   <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                     See it in Action
