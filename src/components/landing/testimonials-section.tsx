@@ -53,7 +53,7 @@ export function TestimonialsSection() {
   }, [])
 
   return (
-    <section className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] items-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-var(--nav-stack))]">
+    <section className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] items-center border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] py-20 lg:h-[calc(100vh-var(--nav-stack))]">
       <div className="rk-landing-max flex w-full justify-center">
       <Reveal className="w-full max-w-2xl text-center">
         <AnimatePresence mode="wait">

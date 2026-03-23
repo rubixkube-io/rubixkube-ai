@@ -8,7 +8,8 @@
 
   --bg: #f2f0eb;
   --ink: #111318;
-  --mid: #6b6d78;
+  /* Stepped down from #6b6d78 for contrast on warm backgrounds */
+  --mid: #5e616b;
   /* Hairlines, borders, dots — not for body copy (too low contrast on --bg) */
   --faint: #c4c5cc;
   /* Small mono / captions: ~4.6:1 on #f2f0eb (replaces faint for readable text) */

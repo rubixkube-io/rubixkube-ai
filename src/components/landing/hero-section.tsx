@@ -12,10 +12,10 @@ const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const SRI_MANIFESTO_HREF = '/blog/the-age-of-site-reliability-intelligence-sri'
 
 const TRUTHS = [
-  { metric: '4.1 min', label: 'from alert to root cause', truth: 'not hours. minutes.' },
-  { metric: '100%', label: 'detection rate', truth: 'nothing slips through.' },
+  { metric: '2.8 min', label: 'mean time to understand', truth: 'not hours. minutes.' },
+  { metric: '98%', label: 'detection rate', truth: 'nothing slips through.' },
   { metric: '90% less', label: 'alert noise', truth: 'your team only sees what matters.' },
-  { metric: '55 hrs', label: 'saved per engineer, per week', truth: 'spend it building, not firefighting.' },
+  { metric: '55 hrs', label: 'team eng-hrs saved per week', truth: '220 hrs/mo ÷ 4 weeks.' },
   { metric: 'zero', label: 'new tools to adopt', truth: 'plugs into your existing stack on day one.' },
   { metric: 'gets smarter', label: 'with every incident', truth: 'the longer it runs, the better it gets.' },
 ] as const

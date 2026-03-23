@@ -158,7 +158,7 @@ export function FooterBody() {
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--rule)] bg-[var(--bg)]">
+    <footer className="border-t border-[var(--rule)] bg-[var(--background-secondary)]">
       <div className="px-[var(--pad)] py-16 md:py-20">
         <div className="rk-landing-max w-full">
           <FooterBody />

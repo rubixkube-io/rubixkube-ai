@@ -304,7 +304,7 @@ export function PlatformPageClient() {
       </section>
 
       {/* The Agentic Mesh Section */}
-      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
           <div className="mb-16 text-center">
             <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">

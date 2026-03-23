@@ -16,7 +16,7 @@ export function LandingFooter() {
       <div className="flex min-h-0 flex-1 flex-col">
         <LandingContentCards />
       </div>
-      <div className="shrink-0 border-t border-[var(--rule)] bg-[var(--bg)] px-[var(--pad)] pt-14 pb-16 md:pt-16 md:pb-20">
+      <div className="shrink-0 border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] pt-14 pb-16 md:pt-16 md:pb-20">
         <div className="rk-landing-max w-full">
           <FooterBody />
         </div>

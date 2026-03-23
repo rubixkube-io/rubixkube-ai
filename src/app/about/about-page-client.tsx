@@ -162,7 +162,7 @@ export function AboutPageClient() {
 
 
       {/* ── Values ───────────────────────────────────────── */}
-      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
           <motion.div
             variants={staggerContainer}

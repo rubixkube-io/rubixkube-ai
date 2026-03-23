@@ -77,10 +77,10 @@ const faqItems = [
 ]
 
 const proofStats = [
-  { n: '14', u: '×', c: 'text-[var(--blue)]', l: 'Return on investment' },
-  { n: '55', u: ' hrs', c: 'text-[var(--ink)]', l: 'Saved per week' },
-  { n: '$379', u: '', c: 'text-[var(--green)]', l: 'Saved per incident' },
-  { n: '4.1', u: ' min', c: 'text-[var(--blue)]', l: 'To root cause' },
+  { n: '30', u: '×', c: 'text-[var(--blue)]', l: 'Return on investment' },
+  { n: '55', u: ' hrs', c: 'text-[var(--ink)]', l: 'Team eng-hrs / week' },
+  { n: '$48', u: '', c: 'text-[var(--green)]', l: 'Avg saved / incident' },
+  { n: '2.8', u: ' min', c: 'text-[var(--blue)]', l: 'Mean time to understand' },
 ]
 
 function FeatureItem({ item, inverted = false }: { item: string; inverted?: boolean }) {
@@ -426,7 +426,7 @@ export function PricingPageClient() {
       </section>
 
       {/* Boost Packs — ruled sub-grid */}
-      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
           <motion.div
             variants={fadeUpVariants}
