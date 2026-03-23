@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Linkedin, Github, Slack, Rocket } from 'lucide-react'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
@@ -43,6 +44,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const prefersReducedMotion = useReducedMotion()
+  const pathname = usePathname()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -65,17 +67,16 @@ export function Navbar() {
       initial={prefersReducedMotion ? 'visible' : 'hidden'}
       animate="visible"
       className={cn(
-        'fixed right-0 left-0 z-[100] h-[var(--nav-height)] transition-[background-color,border-color,backdrop-filter] duration-300',
-        'top-[var(--nav-gap-top)]',
+        'fixed top-0 right-0 left-0 z-[100] pt-[var(--nav-gap-top)] transition-[background-color,border-color,backdrop-filter] duration-300',
         scrolled
           ? 'border-b border-[var(--rule)] bg-[rgba(242,240,235,0.92)] backdrop-blur-[14px]'
           : 'border-b border-transparent bg-transparent',
       )}
     >
-      <nav className="mx-auto grid h-full max-w-[100vw] grid-cols-[1fr_auto] items-center gap-3 px-[var(--pad)] lg:grid-cols-[auto_minmax(0,1fr)_auto]">
+      <nav className="relative mx-auto flex h-[var(--nav-height)] max-w-[100vw] items-center justify-end gap-3 px-[var(--pad)] min-[1377px]:grid min-[1377px]:grid-cols-[1fr_auto_1fr] min-[1377px]:justify-items-stretch">
         <Link
           href="/"
-          className="flex shrink-0 items-center justify-self-start"
+          className="absolute top-1/2 left-1/2 flex shrink-0 -translate-x-1/2 -translate-y-1/2 min-[1377px]:relative min-[1377px]:top-auto min-[1377px]:left-auto min-[1377px]:translate-x-0 min-[1377px]:translate-y-0 min-[1377px]:justify-self-start"
           aria-label="RubixKube home"
         >
           <Image
@@ -88,22 +89,30 @@ export function Navbar() {
           />
         </Link>
 
-        <div className="hidden min-w-0 justify-center justify-self-center lg:flex">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 xl:gap-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.14em] text-[var(--mid)] uppercase transition-colors hover:text-[var(--ink)] xl:text-[11px] min-[1920px]:text-[12px] min-[2560px]:text-[13px]"
-              >
-                {item.name}
-              </Link>
-            ))}
+        <div className="hidden min-w-0 justify-center justify-self-center min-[1377px]:flex">
+          <div className="flex items-center justify-center gap-x-6 min-[1600px]:gap-x-8">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    'whitespace-nowrap font-[family-name:var(--font-mono)] text-[12px] tracking-[0.14em] uppercase transition-colors min-[1600px]:text-[13px] min-[1920px]:text-[14px] min-[2560px]:text-[15px]',
+                    isActive
+                      ? 'text-[var(--blue)]'
+                      : 'text-[var(--mid)] hover:text-[var(--ink)]',
+                  )}
+                >
+                  {item.name}
+                </Link>
+              )
+            })}
           </div>
         </div>
 
-        <div className="hidden items-center gap-2 justify-self-end lg:flex xl:gap-3">
-          <div className="mr-1 flex items-center gap-0.5 border-r border-[var(--rule)] pr-3 xl:mr-2 xl:pr-4">
+        <div className="hidden items-center gap-2 justify-self-end min-[1377px]:flex min-[1377px]:gap-3">
+          <div className="mr-1 hidden min-[1601px]:flex items-center gap-0.5 border-r border-[var(--rule)] pr-3 min-[1601px]:mr-2 min-[1601px]:pr-4">
             {socialLinks.map(({ name, href, icon: Icon }) => (
               <Link
                 key={name}
@@ -131,7 +140,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="justify-self-end rounded-md p-2 text-[var(--ink)] lg:hidden"
+          className="relative z-10 shrink-0 rounded-md p-2 text-[var(--ink)] min-[1377px]:hidden"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
@@ -147,19 +156,25 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="border-t border-[var(--rule)] bg-[var(--bg)] lg:hidden"
+            className="border-t border-[var(--rule)] bg-[var(--bg)] min-[1377px]:hidden"
           >
             <div className="flex max-h-[min(70vh,calc(100dvh-var(--nav-height)))] flex-col gap-1 overflow-y-auto px-[var(--pad)] py-4">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] text-[var(--ink)] uppercase"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map((item) => {
+                const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      'py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase',
+                      isActive ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
+                    )}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              })}
               <div className="mt-3 flex items-center gap-2 border-t border-[var(--rule)] pt-4">
                 {socialLinks.map(({ name, href, icon: Icon }) => (
                   <Link
