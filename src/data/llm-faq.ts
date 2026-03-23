@@ -1,5 +1,5 @@
 /**
- * Supplementary Q&A for llms.txt only. Not shown on the site and not in FAQPage JSON-LD
+ * Supplementary Q&A for llms.txt and llms-full.txt. Not shown on the site and not in FAQPage JSON-LD
  * (pricing FAQs stay the single visible + schema-aligned FAQ source).
  *
  * Editorial rules (search + answer-engine tuned):
@@ -103,6 +103,6 @@ export const llmFaqItems = [
   },
   {
     q: 'Where can I learn more about RubixKube?',
-    a: 'The official site is https://rubixkube.ai. For pricing and plan details, visit https://rubixkube.ai/pricing. For the machine-readable product overview, see https://rubixkube.ai/llms.txt.',
+    a: 'The official site is https://rubixkube.ai. For pricing and plan details, visit https://rubixkube.ai/pricing. For a short machine-readable index, see https://rubixkube.ai/llms.txt. For long-form page narratives plus this Q&A in one file, see https://rubixkube.ai/llms-full.txt.',
   },
 ] as const

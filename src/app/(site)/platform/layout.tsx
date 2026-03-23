@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     "site reliability",
     "Kubernetes management"
   ],
+  alternates: {
+    canonical: '/platform',
+  },
 }
 
 export default function PlatformLayout({

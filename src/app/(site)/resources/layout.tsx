@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     "case studies",
     "infrastructure guides"
   ],
+  alternates: {
+    canonical: '/resources',
+  },
 }
 
 export default function ResourcesLayout({

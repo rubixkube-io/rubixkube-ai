@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     "service agreement",
     "usage terms"
   ],
+  alternates: {
+    canonical: '/legal/terms',
+  },
 }
 
 export default function TermsLayout({

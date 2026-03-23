@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { PricingPageClient } from './pricing-page-client'
-import { pricingFaqPageSchema } from '@/lib/jsonld/pricing-faq'
+import { PricingPageJsonLd } from '@/components/structured-data'
 
 export const metadata: Metadata = {
   title: 'Pricing - RubixKube',
@@ -22,17 +22,15 @@ export const metadata: Metadata = {
     title: 'Pricing - RubixKube',
     description: 'Start free. Scale when you\'re ready. Enterprise when reliability becomes mission-critical.',
   },
+  alternates: {
+    canonical: '/pricing',
+  },
 }
 
 export default function PricingPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(pricingFaqPageSchema()),
-        }}
-      />
+      <PricingPageJsonLd />
       <PricingPageClient />
     </>
   )

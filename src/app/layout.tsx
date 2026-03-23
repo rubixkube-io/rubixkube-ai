@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { ThemeProvider } from '@/components/theme-provider'
-import { StructuredData } from '@/components/structured-data'
 import './globals.css'
 
 /** Same stylesheet as redesign.html — next/font was rendering heavier than the standalone prototype. */
@@ -53,7 +52,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="light" suppressHydrationWarning>
       <head>
-        <StructuredData />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href={GOOGLE_FONTS_HREF} rel="stylesheet" />

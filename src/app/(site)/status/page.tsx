@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     description: 'Real-time health status of all RubixKube platform services.',
     url: 'https://rubixkube.ai/status',
   },
+  alternates: {
+    canonical: '/status',
+  },
 }
 
 export default function StatusPage() {

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     "AI operations",
     "site reliability solutions"
   ],
+  alternates: {
+    canonical: '/solutions',
+  },
 }
 
 export default function SolutionsLayout({

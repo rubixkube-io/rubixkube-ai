@@ -144,12 +144,17 @@ export function FooterBody() {
               <SocialIcon type={social.iconType} />
             </Link>
           ))}
-          <Link
-            href="/llms.txt"
-            className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.08em] text-[var(--text-muted)] uppercase hover:text-[var(--mid)]"
-          >
-            AI access
-          </Link>
+          <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.08em] text-[var(--text-muted)] uppercase">
+            <Link href="/llms.txt" className="hover:text-[var(--mid)]">
+              llms.txt
+            </Link>
+            <span className="mx-1.5 text-[var(--rule)]" aria-hidden>
+              ·
+            </span>
+            <Link href="/llms-full.txt" className="hover:text-[var(--mid)]">
+              full
+            </Link>
+          </span>
         </div>
       </motion.div>
     </>

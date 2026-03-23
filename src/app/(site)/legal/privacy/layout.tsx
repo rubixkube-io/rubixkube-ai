@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     "GDPR compliance",
     "data usage"
   ],
+  alternates: {
+    canonical: '/legal/privacy',
+  },
 }
 
 export default function PrivacyLayout({

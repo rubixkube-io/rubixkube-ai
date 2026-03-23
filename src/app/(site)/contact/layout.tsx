@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     "partnership",
     "sales inquiry"
   ],
+  alternates: {
+    canonical: '/contact',
+  },
 }
 
 export default function ContactLayout({

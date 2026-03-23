@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     "AI SRE",
     "site reliability intelligence"
   ],
+  alternates: {
+    canonical: '/about',
+  },
 }
 
 export default function AboutLayout({
