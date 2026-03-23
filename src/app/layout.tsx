@@ -23,24 +23,23 @@ export const metadata: Metadata = {
     'incident response automation',
   ],
   authors: [{ name: 'RubixKube' }],
+  /**
+   * Only site-wide Open Graph defaults here. Per-route title, description, url, and images must
+   * come from each `page.tsx` / `generateMetadata` (or `opengraph-image.tsx`); putting homepage
+   * url/title/description on the root layout duplicates tags and shows the wrong preview on /platform, /blog, etc.
+   */
   openGraph: {
-    title: 'RubixKube | Site Reliability Intelligence',
-    description:
-      'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
-    url: 'https://rubixkube.ai',
     siteName: 'RubixKube',
-    type: 'website',
     locale: 'en_US',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RubixKube | Site Reliability Intelligence',
-    description:
-      'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
   },
   other: {
     viewport: 'width=device-width, initial-scale=1',
     'theme-color': '#f2f0eb',
+    'og:logo': 'https://rubixkube.ai/logo-icon.png',
   },
 }
 
@@ -64,21 +63,7 @@ export default function RootLayout({
         <meta name="application-name" content="RubixKube" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileImage" content="https://rubixkube.ai/logo-icon.png" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:image:alt" content="RubixKube | Site Reliability Intelligence" />
         <meta name="format-detection" content="telephone=no" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:site_name" content="RubixKube" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://rubixkube.ai" />
-        <meta property="og:title" content="RubixKube | Site Reliability Intelligence" />
-        <meta
-          property="og:description"
-          content="Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it."
-        />
-        <meta property="og:logo" content="https://rubixkube.ai/logo-icon.png" />
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="light" storageKey="rubixkube-theme">

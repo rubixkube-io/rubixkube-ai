@@ -22,7 +22,7 @@ export function getOgPngDataUrl(): string {
 }
 
 /**
- * Clean template for page-specific {@link ImageResponse} (title/description/stats drawn in JSX).
+ * Clean template for page-specific {@link ImageResponse} (title/description/accent drawn in JSX).
  */
 export function getOgDynamicTemplateDataUrl(): string {
   if (ogTemplateDataUrl) return ogTemplateDataUrl

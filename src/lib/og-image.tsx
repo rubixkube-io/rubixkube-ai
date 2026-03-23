@@ -3,18 +3,20 @@ import { getOgDynamicTemplateDataUrl } from '@/lib/og-background'
 import { DynamicOgTextOverlay } from '@/lib/og-dynamic-overlay'
 
 export interface OGImageParams {
+  eyebrow?: string
   title: string
   description?: string
-  stats?: string
+  accent?: string | null
 }
 
 /**
  * Page-specific OG: `og-template.png` + editorial type (matches site, not the full og.png card).
  */
 export function generateOGImage({
+  eyebrow,
   title,
   description = 'Infrastructure that heals itself. Detect, diagnose, and resolve autonomously.',
-  stats,
+  accent,
 }: OGImageParams) {
   return new ImageResponse(
     (
@@ -41,7 +43,12 @@ export function generateOGImage({
             left: 0,
           }}
         />
-        <DynamicOgTextOverlay title={title} description={description} stats={stats ?? null} />
+        <DynamicOgTextOverlay
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+          accent={accent ?? null}
+        />
       </div>
     ),
     {

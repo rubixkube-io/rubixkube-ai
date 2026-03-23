@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     url: "https://rubixkube.ai/contact",
   },
   twitter: {
+    card: 'summary_large_image',
     title: "Contact RubixKube - Talk to the Team",
     description: "Plan your reliability path with us. From your first cluster to billions in transactions, we help you keep infra and customer trust intact.",
   },

@@ -1,4 +1,5 @@
 import { generateOGImage } from '@/lib/og-image'
+import { dynamicOgPageContent } from '@/lib/og-dynamic-page-content'
 
 export const alt = 'RubixKube Pricing'
 export const size = {
@@ -8,8 +9,5 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image() {
-  return generateOGImage({
-    title: 'Pricing',
-    description: 'Start free. Scale when you are ready. Enterprise when reliability is mission-critical.',
-  })
+  return generateOGImage({ ...dynamicOgPageContent.pricing })
 }

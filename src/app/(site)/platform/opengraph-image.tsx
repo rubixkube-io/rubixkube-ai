@@ -1,6 +1,7 @@
 import { generateOGImage } from '@/lib/og-image'
+import { dynamicOgPageContent } from '@/lib/og-dynamic-page-content'
 
-export const alt = 'RubixKube Platform - Site Reliability Intelligence'
+export const alt = 'RubixKube Platform — AI agents for reliability'
 export const size = {
   width: 1200,
   height: 630,
@@ -8,9 +9,5 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image() {
-  return generateOGImage({
-    title: 'Platform',
-    description: 'AI-native platform for autonomous site reliability engineering',
-    stats: 'Time saved: 90%'
-  })
+  return generateOGImage({ ...dynamicOgPageContent.platform })
 }

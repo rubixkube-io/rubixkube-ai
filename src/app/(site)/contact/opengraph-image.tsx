@@ -1,6 +1,7 @@
 import { generateOGImage } from '@/lib/og-image'
+import { dynamicOgPageContent } from '@/lib/og-dynamic-page-content'
 
-export const alt = 'RubixKube Contact - Site Reliability Intelligence'
+export const alt = 'Contact RubixKube'
 export const size = {
   width: 1200,
   height: 630,
@@ -8,9 +9,5 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image() {
-  return generateOGImage({
-    title: 'Contact',
-    description: 'Ready to transform your site reliability? Let\'s talk.',
-    stats: '24/7 Support'
-  })
+  return generateOGImage({ ...dynamicOgPageContent.contact })
 }

@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
+    card: 'summary_large_image',
     title: "Privacy Policy - RubixKube",
     description: "How RubixKube collects, uses, and protects data across the platform, APIs, and integrations, with controls for security and compliance.",
     images: [STATIC_MARKETING_OG_URL],

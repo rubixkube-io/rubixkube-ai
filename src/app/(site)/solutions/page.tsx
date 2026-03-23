@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     url: "https://rubixkube.ai/solutions",
   },
   twitter: {
+    card: 'summary_large_image',
     title: "RubixKube solves Infrastructure Challenges at scale",
     description: "Cut MTTR by up to 80%, reduce noise, and stop revenue risk. RubixKube turns firefighting into foresight with autonomous, safe remediation.",
   },

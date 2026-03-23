@@ -12,7 +12,9 @@ export async function GET(request: NextRequest) {
     const description =
       searchParams.get('description') ||
       'Infrastructure that heals itself. Detect, diagnose, and resolve autonomously before customers feel it.'
-    const stats = searchParams.get('stats') || undefined
+    const eyebrow = searchParams.get('eyebrow') || undefined
+    const accent =
+      searchParams.get('accent') || searchParams.get('stats') || undefined
 
     return new ImageResponse(
       (
@@ -39,7 +41,12 @@ export async function GET(request: NextRequest) {
               left: 0,
             }}
           />
-          <DynamicOgTextOverlay title={title} description={description} stats={stats ?? null} />
+          <DynamicOgTextOverlay
+            eyebrow={eyebrow}
+            title={title}
+            description={description}
+            accent={accent ?? null}
+          />
         </div>
       ),
       {
