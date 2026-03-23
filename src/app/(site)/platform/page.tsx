@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: "https://rubixkube.ai/platform",
     images: [
       {
-        url: "https://rubixkube.ai/og.jpg",
+        url: "https://rubixkube.ai/og.png",
         width: 1200,
         height: 630,
         alt: "RubixKube Platform - AI Agents for Reliability"
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "RubixKube Platform - AI Agents for Reliability",
     description: "Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.",
-    images: ["https://rubixkube.ai/og.jpg"],
+    images: ["https://rubixkube.ai/og.png"],
   },
 }
 

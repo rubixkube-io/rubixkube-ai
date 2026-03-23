@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://rubixkube.ai/og.jpg',
+        url: 'https://rubixkube.ai/og.png',
         width: 1200,
         height: 630,
         alt: 'RubixKube | Site Reliability Intelligence',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: 'RubixKube | Site Reliability Intelligence',
     description:
       'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
-    images: ['https://rubixkube.ai/og.jpg'],
+    images: ['https://rubixkube.ai/og.png'],
   },
   robots: {
     index: true,

@@ -14,7 +14,7 @@ function softwareApplicationNode() {
     description: softwareDescription,
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Web',
-    image: `${SITE}/og.jpg`,
+    image: `${SITE}/og.png`,
     offers: {
       '@type': 'Offer',
       price: '0',

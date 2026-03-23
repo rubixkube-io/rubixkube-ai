@@ -66,7 +66,7 @@ export default function RootLayout({
         <meta name="msapplication-TileImage" content="https://rubixkube.ai/logo-icon.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:type" content="image/png" />
         <meta property="og:image:alt" content="RubixKube | Site Reliability Intelligence" />
         <meta name="format-detection" content="telephone=no" />
         <meta property="og:locale" content="en_US" />

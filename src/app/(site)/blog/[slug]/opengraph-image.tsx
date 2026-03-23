@@ -1,10 +1,12 @@
 import { ImageResponse } from 'next/og'
+import { getOgDynamicTemplateDataUrl } from '@/lib/og-background'
+import { DynamicOgTextOverlay } from '@/lib/og-dynamic-overlay'
 
 
 export const alt = 'Blog Post - RubixKube'
 export const size = {
-  width: 600,
-  height: 315,
+  width: 1200,
+  height: 630,
 }
 export const contentType = 'image/png'
 
@@ -57,57 +59,27 @@ export default async function Image({
           width: '100%',
           display: 'flex',
           position: 'relative',
+          backgroundColor: '#f2f0eb',
         }}
       >
         <img
-          src="https://rubixkube.ai/og.jpg"
-          alt="RubixKube Background"
+          src={getOgDynamicTemplateDataUrl()}
+          alt=""
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            objectPosition: 'center',
             position: 'absolute',
             top: 0,
             left: 0,
           }}
         />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '40px',
-            left: '40px',
-            color: 'white',
-            zIndex: 10,
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-            padding: '20px',
-            borderRadius: '12px',
-            maxWidth: '400px',
-          }}
-        >
-            <div
-              style={{
-                fontSize: '56px',
-                fontWeight: 'bold',
-                lineHeight: 1.1,
-                marginBottom: '20px',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-              }}
-            >
-              Blog Post
-            </div>
-            <div
-              style={{
-                fontSize: '18px',
-                color: '#d1d5db',
-                lineHeight: 1.4,
-                textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-              }}
-            >
-              Read more on RubixKube Blog
-            </div>
-        </div>
+        <DynamicOgTextOverlay
+          eyebrow="RubixKube Blog"
+          title="Blog"
+          description="Read more on rubixkube.ai"
+        />
       </div>
     ),
     {
@@ -127,18 +99,19 @@ export default async function Image({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#1e293b',
-            color: 'white',
-            fontSize: '24px',
-            fontWeight: 'bold',
+            backgroundColor: '#f2f0eb',
+            color: '#111318',
+            fontSize: '28px',
+            fontWeight: 300,
+            fontFamily: 'Georgia, "Times New Roman", serif',
           }}
         >
           RubixKube Blog
         </div>
       ),
       {
-        width: 600,
-        height: 315,
+        width: 1200,
+        height: 630,
       }
     )
   }

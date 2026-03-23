@@ -65,13 +65,13 @@ export async function generateMetadata({
       url,
       type: 'website',
       siteName: 'RubixKube',
-      images: [{ url: 'https://rubixkube.ai/og.jpg', width: 1200, height: 630, alt: 'RubixKube' }],
+      images: [{ url: 'https://rubixkube.ai/og.png', width: 1200, height: 630, alt: 'RubixKube' }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description: baseDescription,
-      images: ['https://rubixkube.ai/og.jpg']
+      images: ['https://rubixkube.ai/og.png']
     },
     alternates: {
       canonical: url,
