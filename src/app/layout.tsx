@@ -9,21 +9,25 @@ const GOOGLE_FONTS_HREF =
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rubixkube.ai'),
-  title: 'RubixKube — Site Reliability Intelligence',
+  title: 'RubixKube | Site Reliability Intelligence',
   description:
-    'AI-native Site Reliability Intelligence: detect anomalies, diagnose root cause, and resolve failures autonomously.',
+    'AI-native SRI: infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve failures autonomously. Memory, safety, explainability.',
   keywords: [
     'site reliability intelligence',
+    'SRI',
     'AI SRE',
+    'AIOps',
     'autonomous remediation',
-    'reduce MTTR',
     'Kubernetes reliability',
     'root cause analysis',
+    'agent mesh',
+    'incident response automation',
   ],
   authors: [{ name: 'RubixKube' }],
   openGraph: {
-    title: 'RubixKube — Site Reliability Intelligence',
-    description: 'Detect, diagnose, and heal issues before customers feel them.',
+    title: 'RubixKube | Site Reliability Intelligence',
+    description:
+      'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
     url: 'https://rubixkube.ai',
     siteName: 'RubixKube',
     type: 'website',
@@ -31,8 +35,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RubixKube — Site Reliability Intelligence',
-    description: 'Detect, diagnose, and heal issues before customers feel them.',
+    title: 'RubixKube | Site Reliability Intelligence',
+    description:
+      'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
   },
   other: {
     viewport: 'width=device-width, initial-scale=1',
@@ -64,16 +69,16 @@ export default function RootLayout({
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:alt" content="RubixKube — Site Reliability Intelligence" />
+        <meta property="og:image:alt" content="RubixKube | Site Reliability Intelligence" />
         <meta name="format-detection" content="telephone=no" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="RubixKube" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://rubixkube.ai" />
-        <meta property="og:title" content="RubixKube — Site Reliability Intelligence" />
+        <meta property="og:title" content="RubixKube | Site Reliability Intelligence" />
         <meta
           property="og:description"
-          content="Detect, diagnose, and heal issues before customers feel them."
+          content="Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it."
         />
         <meta property="og:logo" content="https://rubixkube.ai/logo-icon.png" />
       </head>

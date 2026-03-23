@@ -4,7 +4,7 @@ import { HomeScrollLock } from '@/components/landing/home-scroll-lock'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'RubixKube — Site Reliability Intelligence',
+  title: 'RubixKube | Site Reliability Intelligence',
   description:
     'Your infrastructure, healing itself. AI-native SRI that detects anomalies, diagnoses root cause, and resolves failures autonomously.',
   keywords: [
@@ -20,8 +20,9 @@ export const metadata: Metadata = {
     'SLO management',
   ],
   openGraph: {
-    title: 'RubixKube — Site Reliability Intelligence',
-    description: 'Detect, diagnose, and heal issues before customers feel them.',
+    title: 'RubixKube | Site Reliability Intelligence',
+    description:
+      'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
     url: 'https://rubixkube.ai',
     siteName: 'RubixKube',
     type: 'website',
@@ -30,14 +31,15 @@ export const metadata: Metadata = {
         url: 'https://rubixkube.ai/og.jpg',
         width: 1200,
         height: 630,
-        alt: 'RubixKube — Site Reliability Intelligence',
+        alt: 'RubixKube | Site Reliability Intelligence',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RubixKube — Site Reliability Intelligence',
-    description: 'Detect, diagnose, and heal issues before customers feel them.',
+    title: 'RubixKube | Site Reliability Intelligence',
+    description:
+      'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
     images: ['https://rubixkube.ai/og.jpg'],
   },
   robots: {

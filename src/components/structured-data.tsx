@@ -1,49 +1,99 @@
+const SITE = 'https://rubixkube.ai'
+
+/** Aligns with on-site hero + pillars: autonomous loop, memory, safety, explainability, agent mesh. */
+const softwareDescription =
+  'AI-native Site Reliability Intelligence (SRI) that detects anomalies, diagnoses root cause, and resolves failures autonomously. Agent mesh with operational memory, safety guardrails, and evidence-linked RCA. Goes beyond traditional observability.'
+
 export function StructuredData() {
   const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "RubixKube",
-    "description": "Site Reliability Intelligence platform that predicts, prevents, and safely fixes failures across cloud-native stacks while quantifying revenue at risk.",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'RubixKube',
+    url: SITE,
+    description: softwareDescription,
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Web',
+    image: `${SITE}/og.jpg`,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": "RubixKube",
-      "url": "https://rubixkube.ai"
+    publisher: {
+      '@type': 'Organization',
+      name: 'RubixKube',
+      url: SITE,
     },
-    "featureList": [
-      "Conversational Control",
-      "Smart Agent Operations", 
-      "Evolving Memory",
-      "Agent Mesh",
-      "Guardrails and Approvals",
-      "Evidence-Linked RCA"
+    featureList: [
+      'Autonomous detection, diagnosis, and resolution loop',
+      'Agent mesh (observe, plan, act, learn)',
+      'Operational memory that compounds with every incident',
+      'Safety guardrails, approvals, and explainability',
+      'Evidence-linked root cause analysis (RCA)',
+      'Conversational operations and integrations (Slack, Jira, and more)',
     ],
-    "screenshot": "https://rubixkube.ai/hero.webm"
   }
 
   const organizationData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "RubixKube",
-    "url": "https://rubixkube.ai",
-    "logo": "https://rubixkube.ai/logo-icon.png",
-    "description": "Site Reliability Intelligence is the future",
-    "foundingDate": "2024",
-    "industry": "Software Development",
-    "knowsAbout": [
-      "Site Reliability Engineering",
-      "AIOps", 
-      "Kubernetes",
-      "Cloud Native",
-      "Incident Response",
-      "Root Cause Analysis"
-    ]
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'RubixKube',
+    url: SITE,
+    logo: `${SITE}/logo-icon.png`,
+    description:
+      'RubixKube builds Site Reliability Intelligence (SRI): systems that heal infrastructure autonomously while keeping humans in control.',
+    foundingDate: '2024',
+    industry: 'Software Development',
+    sameAs: [
+      'https://linkedin.com/company/rubixkube',
+      'https://github.com/rubixkube-io',
+    ],
+    knowsAbout: [
+      'Site Reliability Intelligence',
+      'Site Reliability Engineering',
+      'AIOps',
+      'Kubernetes',
+      'Cloud Native',
+      'Incident Response',
+      'Root Cause Analysis',
+      'Autonomous remediation',
+      'Observability',
+      'Metrics, logs, and traces',
+      'Application performance monitoring (APM)',
+      'Distributed tracing',
+      'Alerting and on-call',
+      'Datadog',
+      'New Relic',
+      'Grafana',
+      'Prometheus',
+      'Splunk',
+      'Elastic',
+      'AWS CloudWatch',
+      'Google Cloud Operations',
+      'Azure Monitor',
+      'Jira',
+      'Confluence',
+      'Linear',
+      'GitHub',
+      'Slack',
+      'PagerDuty',
+      'ServiceNow',
+      'Terraform',
+      'CI/CD',
+    ],
+  }
+
+  const webSiteData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'RubixKube',
+    url: SITE,
+    description: softwareDescription,
+    publisher: {
+      '@type': 'Organization',
+      name: 'RubixKube',
+      url: SITE,
+    },
   }
 
   return (
@@ -58,6 +108,12 @@ export function StructuredData() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organizationData),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(webSiteData),
         }}
       />
     </>

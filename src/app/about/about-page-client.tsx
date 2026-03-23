@@ -14,11 +14,11 @@ import { fadeUpVariants, staggerContainer, fadeUp } from '@/lib/animations'
 const BELIEFS = [
   {
     title: 'Reliability is a product decision, not just an ops task',
-    body: 'Uptime is not an ops concern — it is a business commitment. We built tools that make that commitment possible for teams of any size, at any stage of growth.',
+    body: 'Uptime is not an ops concern; it is a business commitment. We built tools that make that commitment possible for teams of any size, at any stage of growth.',
   },
   {
     title: 'Memory beats muscle. What you learn should compound',
-    body: 'Every incident your systems survive generates hard-won knowledge. RubixKube preserves it — so your team stops re-learning the same lesson at 2 AM.',
+    body: 'Every incident your systems survive generates hard-won knowledge. RubixKube preserves it so your team stops re-learning the same lesson at 2 AM.',
   },
   {
     title: 'Automation must be governed, explainable, and reversible',
@@ -26,7 +26,7 @@ const BELIEFS = [
   },
   {
     title: 'Great teams deserve tools that protect their focus and health',
-    body: 'Alert fatigue is a design failure. We build systems that escalate only what matters — so engineers can do their best work without burning out.',
+    body: 'Alert fatigue is a design failure. We build systems that escalate only what matters so engineers can do their best work without burning out.',
   },
 ]
 

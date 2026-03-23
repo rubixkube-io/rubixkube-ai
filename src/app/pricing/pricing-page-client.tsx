@@ -11,6 +11,7 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { cn } from '@/lib/utils'
 import { rkMono9, rkMono10, rkMono11, rkMono13, rkMonoXs } from '@/lib/landing-responsive-type'
+import { pricingFaqItems } from '@/data/pricing-faq'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 
@@ -51,29 +52,6 @@ const enterpriseIncludes = [
 const boostPacks = [
   { name: 'Boost S', investigations: 50, price: 300, perInvestigation: 6 },
   { name: 'Boost M', investigations: 100, price: 500, perInvestigation: 5 },
-]
-
-const faqItems = [
-  {
-    q: 'What is an investigation?',
-    a: "When something breaks, RubixKube finds it, traces it back to the root cause, and tells you exactly what to fix. That's one investigation.",
-  },
-  {
-    q: 'What is an environment?',
-    a: 'Your AWS account, your GCP project, your Kubernetes cluster, each one is an environment. Think of it as one distinct place your infrastructure lives.',
-  },
-  {
-    q: 'What is a monitored application?',
-    a: 'Any service RubixKube keeps an eye on, like your payment API, your auth service, your data pipeline. If it breaks, we catch it.',
-  },
-  {
-    q: 'What happens when I hit my investigation limit?',
-    a: "On Free, you're paused until next month. On Starter, we keep going at $8 per investigation or grab a Boost Pack if you'd rather pay upfront at a lower rate.",
-  },
-  {
-    q: 'Does RubixKube touch my infrastructure?',
-    a: 'No. We watch, we analyze, we recommend. Your team decides what to do. Nothing changes without you.',
-  },
 ]
 
 const proofStats = [
@@ -523,7 +501,7 @@ export function PricingPageClient() {
             </motion.div>
 
             <div>
-              {faqItems.map((item, i) => (
+              {pricingFaqItems.map((item, i) => (
                 <motion.div
                   key={item.q}
                   variants={fadeUpVariants}

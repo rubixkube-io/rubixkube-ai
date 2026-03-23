@@ -139,7 +139,7 @@ function groupServices(services: Service[]): Record<string, Service[]> {
 }
 
 function timeAgo(iso: string | null): string {
-  if (!iso) return '—'
+  if (!iso) return '-'
   const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000)
   if (diff < 60) return `${diff}s ago`
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`

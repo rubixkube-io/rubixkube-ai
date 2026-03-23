@@ -24,7 +24,7 @@ export function PlatformPageClient() {
   const platformFeatures = [
     {
       title: "Agentic Mesh Architecture",
-      copy: "A self-orchestrating network of specialized AI agents — Observer, Planner, Executor, Historian, Collaborator — that collaborate as a reasoning engine for multi-step infrastructure operations. Purpose-built for coordination, not just automation.",
+      copy: "A self-orchestrating network of specialized AI agents (Observer, Planner, Executor, Historian, Collaborator) that collaborate as a reasoning engine for multi-step infrastructure operations. Purpose-built for coordination, not just automation.",
       icon: Users
     },
     {
@@ -34,22 +34,22 @@ export function PlatformPageClient() {
     },
     {
       title: "Automated Remediation",
-      copy: "Agents that diagnose, plan, and act — with human-in-the-loop controls for safety and compliance.",
+      copy: "Agents that diagnose, plan, and act, with human-in-the-loop controls for safety and compliance.",
       icon: Rocket
     },
     {
       title: "Infrastructure Knowledge Graph",
-      copy: "A live graph of services, metrics, logs, dependencies, ownership, and incident history — enriched with CI/CD context and runbooks. Answers not just what happened, but why, what changed, and whether it happened before.",
+      copy: "A live graph of services, metrics, logs, dependencies, ownership, and incident history, enriched with CI/CD context and runbooks. Answers not just what happened, but why, what changed, and whether it happened before.",
       icon: Clock
     },
     {
       title: "Conversational Interface",
-      copy: "A context-aware operational interface that transforms infrastructure complexity into natural dialogue. Ask questions, trigger actions, and review incident timelines — no CLI gymnastics, no YAML hunting.",
+      copy: "A context-aware operational interface that transforms infrastructure complexity into natural dialogue. Ask questions, trigger actions, and review incident timelines without CLI gymnastics or YAML hunting.",
       icon: Lightbulb
     },
     {
       title: "Integrations",
-      copy: "Native connectors for Jira, GitHub, PagerDuty, Slack, Confluence, and more — plugs into your stack on day one.",
+      copy: "Native connectors for Jira, GitHub, PagerDuty, Slack, Confluence, and more. Plugs into your stack on day one.",
       icon: Puzzle
     }
   ]

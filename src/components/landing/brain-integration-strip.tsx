@@ -163,7 +163,7 @@ export function BrainIntegrationStrip({ hideHeader = false }: { hideHeader?: boo
               rkMono13,
             )}
           >
-            Cloud, delivery, observability, collaboration, and data—wired in without rip-and-replace.
+            Cloud, delivery, observability, collaboration, and data, wired in without rip-and-replace.
           </p>
         </header>
       )}

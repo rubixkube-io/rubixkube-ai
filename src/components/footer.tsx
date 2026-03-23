@@ -77,7 +77,7 @@ export function FooterBody() {
         viewport={{ once: true }}
         className="mx-auto mb-14 max-w-2xl text-center font-[family-name:var(--font-mono)] text-sm font-light leading-relaxed text-[var(--mid)]"
       >
-        RubixKube is Site Reliability Intelligence — see more, plan better, act safely, and learn with every
+        RubixKube is Site Reliability Intelligence: see more, plan better, act safely, and learn with every
         incident.
       </motion.p>
 

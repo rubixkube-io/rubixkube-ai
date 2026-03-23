@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'RubixKube - Site Reliability Intelligence'
+export const alt = 'RubixKube | Site Reliability Intelligence'
 export const size = {
   width: 1200,
   height: 630,

@@ -83,14 +83,14 @@ export function SolutionsPageClient() {
       label: 'Observe',
       icon: Eye,
       description:
-        'Continuous, low-latency telemetry across every layer of your stack — metrics, logs, events, topology — stitched into a live knowledge graph.',
+        'Continuous, low-latency telemetry across every layer of your stack (metrics, logs, events, topology), stitched into a live knowledge graph.',
     },
     {
       number: '02',
       label: 'Diagnose',
       icon: Microscope,
       description:
-        'AI agents correlate signals, traverse the graph, and surface root cause — not just the symptom — in seconds, not hours.',
+        'AI agents correlate signals, traverse the graph, and surface root cause (not just the symptom) in seconds, not hours.',
     },
     {
       number: '03',
@@ -233,7 +233,7 @@ export function SolutionsPageClient() {
               <span className="italic text-[var(--blue)]">SRI.</span>
             </h2>
             <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
-              We secure businesses across every industry. From high-growth startups to Fortune 500 enterprises — eliminating their toughest infrastructure challenges.
+              We secure businesses across every industry. From high-growth startups to Fortune 500 enterprises, eliminating their toughest infrastructure challenges.
             </p>
           </motion.div>
 
@@ -268,7 +268,7 @@ export function SolutionsPageClient() {
                         key={challenge}
                         className="font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.03em] text-[var(--mid)]"
                       >
-                        — {challenge}
+                        · {challenge}
                       </li>
                     ))}
                   </ul>

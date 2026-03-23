@@ -90,7 +90,7 @@ export function RcaSection() {
               </p>
               <ul className={cn('space-y-1 leading-snug text-[var(--mid)]', rkMono11)}>
                 <li className="flex gap-2 before:content-['·'] before:text-[var(--text-muted)]">
-                  redis-cluster memory at 98.4% — eviction policy active
+                  redis-cluster memory at 98.4%; eviction policy active
                 </li>
                 <li className="flex gap-2 before:content-['·'] before:text-[var(--text-muted)]">
                   session-service p99 latency increased 8× over baseline
@@ -141,7 +141,7 @@ export function RcaSection() {
                     MED
                   </span>
                   <span className={cn('leading-snug text-[var(--mid)]', rkMono11)}>
-                    Review session-service retry policy — current config amplifies cascades.
+                    Review session-service retry policy; current config amplifies cascades.
                   </span>
                 </div>
               </div>

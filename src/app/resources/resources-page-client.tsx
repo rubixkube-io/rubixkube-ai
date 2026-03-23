@@ -170,7 +170,7 @@ export function ResourcesPageClient() {
                 rkMono13,
               )}
             >
-              Not just docs. This is our playbook for the reliability era — guides, case studies, and stories from teams who refuse to gamble with downtime.
+              Not just docs. This is our playbook for the reliability era: guides, case studies, and stories from teams who refuse to gamble with downtime.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mt-10">
@@ -415,7 +415,7 @@ export function ResourcesPageClient() {
               Hands-on <span className="italic text-[var(--blue)]">learning.</span>
             </h2>
             <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mt-4 max-w-[60ch]', rkMono13)}>
-              Interactive learning experiences — break things, fix them, and master the platform with guided experiments.
+              Interactive learning experiences: break things, fix them, and master the platform with guided experiments.
             </p>
           </motion.div>
 
