@@ -16,19 +16,10 @@ export const metadata: Metadata = {
     title: "RubixKube Platform - AI Agents for Reliability",
     description: "Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.",
     url: "https://rubixkube.ai/platform",
-    images: [
-      {
-        url: "https://rubixkube.ai/og.png",
-        width: 1200,
-        height: 630,
-        alt: "RubixKube Platform - AI Agents for Reliability"
-      }
-    ],
   },
   twitter: {
     title: "RubixKube Platform - AI Agents for Reliability",
     description: "Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.",
-    images: ["https://rubixkube.ai/og.png"],
   },
 }
 

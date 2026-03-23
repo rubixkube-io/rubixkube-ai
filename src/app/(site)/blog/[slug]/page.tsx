@@ -66,8 +66,6 @@ export async function generateMetadata({
   const title = post.seoTitle || post.title
   const description = post.seoDescription || post.excerpt || 'Article from RubixKube.'
   const url = `https://rubixkube.ai/blog/${slug}`
-  // Use dynamic OG image for blog posts
-      const imageUrl = `https://rubixkube.ai/blog/${slug}/opengraph-image?v=2`
 
   return {
     title,
@@ -78,19 +76,11 @@ export async function generateMetadata({
       url,
       type: 'article',
       siteName: 'RubixKube',
-      images: [{ 
-        url: imageUrl, 
-        width: 1200, 
-        height: 630, 
-        alt: title,
-        type: 'image/png'
-      }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [imageUrl],
     },
     alternates: {
       canonical: url,
@@ -98,11 +88,6 @@ export async function generateMetadata({
     robots: {
       index: true,
       follow: true,
-    },
-    other: {
-      'whatsapp:image': imageUrl,
-      'whatsapp:title': title,
-      'whatsapp:description': description,
     },
   }
 }

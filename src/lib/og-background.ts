@@ -1,11 +1,12 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { SITE_URL, STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 
 /** Default share card (homepage metadata, etc.) — `public/og.png` from og-image.html */
-export const OG_STATIC_IMAGE_URL = 'https://rubixkube.ai/og.png'
+export const OG_STATIC_IMAGE_URL = STATIC_MARKETING_OG_URL
 
 /** Dynamic OG layer — `public/og-template.png` from og-dynamic-template.html */
-export const OG_DYNAMIC_TEMPLATE_URL = 'https://rubixkube.ai/og-template.png'
+export const OG_DYNAMIC_TEMPLATE_URL = `${SITE_URL}/og-template.png`
 
 let ogPngDataUrl: string | null = null
 let ogTemplateDataUrl: string | null = null

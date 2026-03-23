@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 import { PrivacyPageClient } from './privacy-page-client'
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     url: "https://rubixkube.ai/legal/privacy",
     images: [
       {
-        url: "https://rubixkube.ai/og.png",
+        url: STATIC_MARKETING_OG_URL,
         width: 1200,
         height: 630,
         alt: "Privacy Policy - RubixKube"
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "Privacy Policy - RubixKube",
     description: "How RubixKube collects, uses, and protects data across the platform, APIs, and integrations, with controls for security and compliance.",
-    images: ["https://rubixkube.ai/og.png"],
+    images: [STATIC_MARKETING_OG_URL],
   },
 }
 

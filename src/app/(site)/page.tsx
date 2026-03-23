@@ -2,6 +2,7 @@ import { Navbar } from '@/components/navbar'
 import { LandingPage } from '@/components/landing'
 import { HomeScrollLock } from '@/components/landing/home-scroll-lock'
 import type { Metadata } from 'next'
+import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 
 export const metadata: Metadata = {
   title: 'RubixKube | Site Reliability Intelligence',
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://rubixkube.ai/og.png',
+        url: STATIC_MARKETING_OG_URL,
         width: 1200,
         height: 630,
         alt: 'RubixKube | Site Reliability Intelligence',
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     title: 'RubixKube | Site Reliability Intelligence',
     description:
       'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
-    images: ['https://rubixkube.ai/og.png'],
+    images: [STATIC_MARKETING_OG_URL],
   },
   robots: {
     index: true,

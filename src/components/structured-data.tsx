@@ -1,6 +1,7 @@
 import { pricingFaqPageSchema } from '@/lib/jsonld/pricing-faq'
+import { SITE_URL, STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 
-const SITE = 'https://rubixkube.ai'
+const SITE = SITE_URL
 
 /** Aligns with on-site hero + pillars: autonomous loop, memory, safety, explainability, agent mesh. */
 const softwareDescription =
@@ -14,7 +15,7 @@ function softwareApplicationNode() {
     description: softwareDescription,
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Web',
-    image: `${SITE}/og.png`,
+    image: STATIC_MARKETING_OG_URL,
     offers: {
       '@type': 'Offer',
       price: '0',
