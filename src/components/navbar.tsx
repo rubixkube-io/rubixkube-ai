@@ -92,7 +92,8 @@ export function Navbar() {
         <div className="hidden min-w-0 justify-center justify-self-center min-[1377px]:flex">
           <div className="flex items-center justify-center gap-x-6 min-[1600px]:gap-x-8">
             {navigation.map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+              const isActive =
+                pathname === item.href || pathname.startsWith(`${item.href}/`)
               return (
                 <Link
                   key={item.name}
@@ -160,7 +161,8 @@ export function Navbar() {
           >
             <div className="flex max-h-[min(70vh,calc(100dvh-var(--nav-height)))] flex-col gap-1 overflow-y-auto px-[var(--pad)] py-4">
               {navigation.map((item) => {
-                const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+                const isActive =
+                  pathname === item.href || pathname.startsWith(`${item.href}/`)
                 return (
                   <Link
                     key={item.name}
