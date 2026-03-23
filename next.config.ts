@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      // Legacy OG asset was JPEG; marketing card is now exported as PNG.
+      { source: '/og.jpg', destination: '/og.png', permanent: true },
+      { source: '/og.jpeg', destination: '/og.png', permanent: true },
+    ]
+  },
+
   // Enable experimental features for better SSR
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
