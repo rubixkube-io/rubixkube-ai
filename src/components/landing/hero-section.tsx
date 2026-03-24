@@ -15,7 +15,7 @@ const TRUTHS = [
   { metric: '2.8 min', label: 'mean time to understand', truth: 'not hours. minutes.' },
   { metric: '98%', label: 'detection rate', truth: 'nothing slips through.' },
   { metric: '90% less', label: 'alert noise', truth: 'your team only sees what matters.' },
-  { metric: '55 hrs', label: 'team eng-hrs saved per week', truth: '220 hrs/mo ÷ 4 weeks.' },
+  { metric: '55 hrs', label: 'team eng-hrs saved per week', truth: 'focuse on shipping features, not fixing' },
   { metric: 'zero', label: 'new tools to adopt', truth: 'plugs into your existing stack on day one.' },
   { metric: 'gets smarter', label: 'with every incident', truth: 'the longer it runs, the better it gets.' },
 ] as const

@@ -17,9 +17,9 @@ export function MetricsSection() {
         <div className="mb-[72px] grid grid-cols-1 items-end gap-10 md:grid-cols-2 md:gap-[80px]">
         <Reveal>
           <h2 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
-            Infrastructure intelligence
-            <br />
-            that <em className="italic text-[var(--blue)]">pays for itself.</em>
+            What happens <br /> 
+            when your stack <br />
+            <em className="italic text-[var(--blue)]"> thinks for itself.</em>
           </h2>
         </Reveal>
         <Reveal delay={0.08}>
@@ -82,7 +82,7 @@ export function MetricsSection() {
               </p>
             </div>
             <div className="flex min-h-0 flex-1 flex-col gap-3 bg-[var(--bg)] p-12 transition-colors hover:bg-white">
-              <div className="font-[family-name:var(--font-serif)] text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-normal tracking-[-0.03em] text-[var(--ink)]">
+              <div className="font-[family-name:var(--font-serif)] text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-normal tracking-[-0.03em] text-[var(--green)]">
                 $6K<span className="text-[0.32em] font-light tracking-normal text-[var(--mid)]"> /mo</span>
               </div>
               <p
@@ -93,23 +93,15 @@ export function MetricsSection() {
               >
                 Avg engineering cost saved
               </p>
-            <p
-              className={cn(
-                'mt-1 font-[family-name:var(--font-mono)] font-light leading-[1.65] text-[var(--text-muted)]',
-                rkMonoXs,
-              )}
-            >
-              Extrapolated from a single team&apos;s 7-day production window.
-              </p>
             </div>
           </div>
 
           <div className="grid min-h-0 grid-cols-2 grid-rows-2">
             {[
-              { n: '2.8', u: ' min', c: 'text-[var(--blue)]', l: 'Mean time to understand' },
-              { n: '21', u: '×', c: 'text-[var(--ink)]', l: 'Faster than manual' },
-              { n: '98', u: '%', c: 'text-[var(--green)]', l: 'Detection rate' },
-              { n: '90', u: '%', c: 'text-[var(--ink)]', l: 'Less alert noise' },
+              { n: '2.8', u: ' min', c: 'text-[var(--green)]', l: 'Mean time to understand' },
+              { n: '21', u: '×', c: 'text-[var(--blue)]', l: 'Faster than manual investigations' },
+              { n: '98', u: '%', c: 'text-[var(--ink)]', l: 'Issue Detection rate' },
+              { n: '90', u: '%', c: 'text-[var(--ink)]', l: 'Reduction in alert noise' },
             ].map((s, i) => {
               const isRightCol = i % 2 === 1
               const isBottomRow = i >= 2
