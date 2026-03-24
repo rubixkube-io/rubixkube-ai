@@ -15,10 +15,9 @@ export const CUSTOMER_MARKS: CustomerMark[] = [
   { kind: 'logo', src: '/logos/fleek.png', alt: 'Fleek', w: 657, h: 174 },
   { kind: 'logo', src: '/logos/Sheshi-ai.svg', alt: 'Sheshi.ai', w: 146, h: 38 },
   { kind: 'logo', src: '/logos/vishanti.png', alt: 'Vishanti', w: 389, h: 100 },
-  { kind: 'placeholder', name: 'Astreya' },
-  { kind: 'placeholder', name: 'Paygent' },
-  { kind: 'placeholder', name: 'Byteflow' },
-  { kind: 'placeholder', name: 'Smaitic' },
+  { kind: 'logo', src: '/logos/astreya-logo.png', alt: 'Astreya', w: 421, h: 120 },
+  { kind: 'logo', src: '/logos/paygent.png', alt: 'Paygent', w: 938, h: 266 },
+  { kind: 'logo', src: '/logos/byteflow.png', alt: 'Byteflow', w: 2821, h: 295 },
 ]
 
 /** Infra and partner marks for the "Built on" row (muted). */
