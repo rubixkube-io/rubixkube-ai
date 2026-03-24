@@ -8,21 +8,20 @@ import { rkMono9, rkMono10 } from '@/lib/landing-responsive-type'
 // TODO: Replace Kishore and Sachin quotes with approved final copy when provided.
 const quotes = [
   {
-    quote:
-      'RubixKube is on the short list of tools our platform team actually trusts in production.',
+    quote: 'Killer stuff. Super clean UX, well thought through.',
     name: 'Kishore',
     role: 'CTO, Yellow.ai',
   },
   {
     quote:
-      'The RCA depth and evidence trail are what I would expect from a serious reliability product.',
-    name: 'Sachin',
-    role: 'Google',
+      'Super easy to set up with a single command. Impressed by the out-of-the-box metrics and clutter-free UI. A breath of fresh air.',
+    name: 'Sachin Govind',
+    role: 'Software Engineer',
   },
   {
-    quote: "It's rare that something makes seasoned SREs pause mid-standup. RubixKube did. Confident impact with low risk.",
-    name: 'Richie Sebastian',
-    role: 'DevOps Lead',
+    quote: "It truly feels like talking directly to your infrastructure. It's rare to see such polish in infra management platforms.",
+    name: 'Mridul Gain',
+    role: 'Staff Engineer, Platform9',
   },
   {
     quote: 'RubixKube brought calm and clarity to our operations. We moved from reacting to anticipating.',
