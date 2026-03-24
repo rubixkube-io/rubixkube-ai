@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://rubixkube.ai'),
   title: 'RubixKube | Site Reliability Intelligence',
   description:
-    'AI-native SRI: infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve failures autonomously. Memory, safety, explainability.',
+    'AI-native SRI: infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve failures autonomously. Memory, safety, Resilience.',
   keywords: [
     'site reliability intelligence',
     'SRI',

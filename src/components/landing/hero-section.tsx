@@ -54,7 +54,7 @@ export function HeroSection() {
         className="pointer-events-none absolute top-1/2 right-[var(--pad)] z-10 hidden -translate-y-1/2 rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[9px] tracking-[0.2em] text-[var(--text-muted)] uppercase min-[1920px]:text-[11px] min-[2560px]:text-[12px] sm:block"
         aria-hidden
       >
-        Memory · Safety · Explainability
+        Memory · Safety · Resilience
       </span>
 
       <div className="flex min-h-0 flex-1 flex-col px-[var(--pad)]">
