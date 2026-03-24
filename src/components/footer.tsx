@@ -19,7 +19,7 @@ const footerColumns = [
   {
     title: 'Company',
     links: [
-      { label: 'Our story', href: '/about' },
+      { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
       { label: 'Status', href: '/status' },
     ],
@@ -81,7 +81,7 @@ export function FooterBody() {
         incident.
       </motion.p>
 
-      <div className="mb-14 grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-8">
+      <div className="mb-14 grid grid-cols-2 items-start gap-10 md:grid-cols-5 md:gap-6 lg:gap-8">
         {footerColumns.map((column) => (
           <motion.div
             key={column.title}
@@ -111,6 +111,21 @@ export function FooterBody() {
             </ul>
           </motion.div>
         ))}
+        <motion.div
+          variants={fadeUpVariants}
+          initial={prefersReducedMotion ? 'visible' : 'hidden'}
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="col-span-2 flex justify-start self-start md:col-span-1"
+        >
+          <Image
+            src="/logos/nvidia-inception-program-badge-rgb-for-screen.png"
+            alt="NVIDIA Inception Program"
+            width={280}
+            height={112}
+            className="h-10 w-auto max-w-full object-contain object-left sm:h-11 md:h-12 lg:h-14"
+          />
+        </motion.div>
       </div>
 
       <motion.div

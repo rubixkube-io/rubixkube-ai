@@ -1,13 +1,26 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
-import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
-import { Mail, MapPin, Send, Clock, MessageSquare, Check, ArrowRight } from 'lucide-react'
+import { Mail, MapPin, Clock, Check, ArrowRight } from 'lucide-react'
+
+const CalendlyInline = dynamic(
+  () => import('react-calendly').then((mod) => mod.InlineWidget),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex min-h-[560px] items-center justify-center font-[family-name:var(--font-mono)] text-sm text-[var(--mid)]">
+        Loading calendar…
+      </div>
+    ),
+  },
+)
 
 export function ContactPageClient() {
   const [isLoading, setIsLoading] = useState(false)
@@ -49,18 +62,10 @@ export function ContactPageClient() {
       accent: 'bg-[var(--blue)]/[0.07] text-[var(--blue)]',
     },
     {
-      icon: MessageSquare,
-      label: 'Live Chat',
-      description: 'Get instant support',
-      contact: 'Available 24/7',
-      href: '#',
-      accent: 'bg-[var(--blue)]/[0.07] text-[var(--blue)]',
-    },
-    {
       icon: Clock,
       label: 'Response Time',
       description: 'We typically respond within',
-      contact: '2–4 hours',
+      contact: '2 to 4 hours',
       href: '#',
       accent: 'bg-[var(--blue)]/[0.07] text-[var(--blue)]',
     },
@@ -112,83 +117,82 @@ export function ContactPageClient() {
               variants={fadeUpVariants}
               className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]"
             >
-              Have questions about RubixKube? Need help getting started? We&apos;re here to help.
+              We typically respond within 2 to 4 hours. Demos run 30 minutes.
             </motion.p>
           </motion.div>
         </div>
       </section>
 
-      {/* ── Form + Contact Info ── */}
+      {/* ── Book demo + form ── */}
       <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
-          <div className="grid grid-cols-1 gap-16 lg:grid-cols-[380px_1fr] lg:items-start">
+          <div className="grid grid-cols-1 gap-16 xl:grid-cols-2 xl:items-start">
 
-            {/* Left: contact info */}
+            {/* Left: inline Calendly */}
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-8% 0px' }}
-              className="space-y-4"
+              className="min-w-0"
             >
-              {contactMethods.map((method) => (
-                <motion.a
-                  key={method.label}
-                  href={method.href}
-                  variants={fadeUpVariants}
-                  className="group flex items-start gap-4 border border-[var(--rule)] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--rule)] hover:shadow-md hover:shadow-black/[0.04]"
-                >
-                  <div className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${method.accent} transition-transform duration-300 group-hover:scale-110`}>
-                    <method.icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
-                      {method.label}
-                    </p>
-                    <p className="mt-0.5 font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]">
-                      {method.description}
-                    </p>
-                    <p className="mt-1 font-[family-name:var(--font-mono)] text-[13px] font-medium text-[var(--ink)]">
-                      {method.contact}
-                    </p>
-                  </div>
-                </motion.a>
-              ))}
-
+              <motion.div variants={fadeUpVariants} className="mb-6">
+                <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.25rem)] font-light leading-[1.15] text-[var(--ink)]">
+                  Book a <span className="italic text-[var(--blue)]">demo</span>
+                </h2>
+                <p className="mt-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+                  Pick a 30-minute slot. Same calendar as &quot;Schedule demo&quot; in the nav.
+                </p>
+              </motion.div>
               <motion.div
                 variants={fadeUpVariants}
-                className="mt-6 border-t border-[var(--rule)] pt-6"
+                className="overflow-hidden rounded-xl border border-[var(--rule)] bg-[var(--bg)] shadow-sm"
               >
-                <p className="mb-3 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
-                  Why Contact Us?
-                </p>
-                <ul className="space-y-2">
-                  {[
-                    'Get help with platform setup and configuration',
-                    'Discuss enterprise pricing and custom solutions',
-                    'Report bugs or request new features',
-                    'Schedule a consultation call',
-                    'Learn about integration possibilities',
-                  ].map((item) => (
-                    <li
-                      key={item}
-                      className="font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]"
-                    >
-                      • {item}
-                    </li>
-                  ))}
-                </ul>
+                <CalendlyInline
+                  url={CALENDLY_DEMO_URL}
+                  styles={{ height: 'min(680px, 75vh)', width: '100%', minWidth: '100%' }}
+                  pageSettings={{ backgroundColor: 'ffffff', hideEventTypeDetails: false, hideLandingPageDetails: false }}
+                />
               </motion.div>
             </motion.div>
 
-            {/* Right: form card */}
+            {/* Right: contact shortcuts + form */}
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-8% 0px' }}
-              className="rounded-xl border border-[var(--rule)]/60 bg-[#f6f6f4] p-8 shadow-xl shadow-black/[0.03] sm:p-10"
+              className="flex flex-col gap-10"
             >
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {contactMethods.map((method) => (
+                  <motion.a
+                    key={method.label}
+                    href={method.href}
+                    variants={fadeUpVariants}
+                    className="group flex items-start gap-3 border border-[var(--rule)] bg-[var(--bg)] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/[0.04]"
+                  >
+                    <div
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${method.accent} transition-transform duration-300 group-hover:scale-110`}
+                    >
+                      <method.icon className="h-3.5 w-3.5" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-[family-name:var(--font-mono)] text-[10px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                        {method.label}
+                      </p>
+                      <p className="mt-0.5 font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]">
+                        {method.description}
+                      </p>
+                      <p className="mt-1 font-[family-name:var(--font-mono)] text-[12px] font-medium text-[var(--ink)]">
+                        {method.contact}
+                      </p>
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+
+              <div className="rounded-xl border border-[var(--rule)]/60 bg-[#f6f6f4] p-8 shadow-xl shadow-black/[0.03] sm:p-10">
               <motion.div variants={fadeUpVariants} className="mb-8 border-b border-[var(--rule)] pb-6">
                 <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.4rem,3vw,2rem)] leading-[1.15] font-light text-[var(--ink)]">
                   Send us a message
@@ -211,7 +215,7 @@ export function ContactPageClient() {
                       Message <span className="italic text-[var(--blue)]">received.</span>
                     </p>
                     <p className="mt-3 font-[family-name:var(--font-mono)] text-[14px] font-light text-[var(--mid)]">
-                      We&apos;ll get back to you within 2–4 hours.
+                      We&apos;ll get back to you within 2 to 4 hours.
                     </p>
                   </div>
                 </motion.div>
@@ -329,13 +333,13 @@ export function ContactPageClient() {
                   </div>
                 </motion.form>
               )}
+              </div>
             </motion.div>
 
           </div>
         </div>
       </section>
 
-      <ClosingCTA />
       <Footer />
     </>
   )

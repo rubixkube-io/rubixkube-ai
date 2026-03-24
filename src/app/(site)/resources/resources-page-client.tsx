@@ -161,7 +161,7 @@ export function ResourcesPageClient() {
             </span>
 
             <h1 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] w-full max-w-none">
-              Learn &amp; <span className="italic text-[var(--blue)]">Grow.</span>
+              Docs, guides, and <span className="italic text-[var(--blue)]">deep dives.</span>
             </h1>
 
             <p
@@ -170,7 +170,7 @@ export function ResourcesPageClient() {
                 rkMono13,
               )}
             >
-              Not just docs. This is our playbook for the reliability era: guides, case studies, and stories from teams who refuse to gamble with downtime.
+              Get started in under 10 minutes.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mt-10">
@@ -200,7 +200,7 @@ export function ResourcesPageClient() {
               Documentation
             </span>
             <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4">
-              Comprehensive <span className="italic text-[var(--blue)]">guides.</span>
+              Get up and <span className="italic text-[var(--blue)]">running.</span>
             </h2>
             <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mt-4 max-w-[60ch]', rkMono13)}>
               Get started with RubixKube and master advanced features.
@@ -324,16 +324,16 @@ export function ResourcesPageClient() {
               </div>
             </motion.div>
 
-            {/* Case Studies */}
+            {/* Tutorials & demos */}
             <motion.div
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.1 } })}
             >
               <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase', rkMono10)}>
-                Case Studies
+                Tutorials
               </span>
               <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4 mb-3">
-                Live Demos &amp; <span className="italic text-[var(--blue)]">Examples.</span>
+                Tutorials &amp; <span className="italic text-[var(--blue)]">Demos.</span>
               </h2>
               <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mb-8', rkMono13)}>
                 Real platform demonstrations showing RubixKube&apos;s Agent Mesh detecting, analyzing, and resolving infrastructure incidents.
@@ -518,7 +518,10 @@ export function ResourcesPageClient() {
         </div>
       </section>
 
-      <ClosingCTA />
+      <ClosingCTA
+        headline="Ready to deploy?"
+        subline="Start with the quickstart guide."
+      />
       <Footer />
     </>
   )

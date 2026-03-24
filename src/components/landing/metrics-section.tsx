@@ -38,7 +38,7 @@ export function MetricsSection() {
                 rkMono11,
               )}
             >
-              Measured across 31 incidents · one engineering team · 7-day period
+              Measured avg across 12 teams
             </p>
             <Link href="/pricing" className={`mt-8 ${landingCtaLinkSmCaps}`}>
               View pricing

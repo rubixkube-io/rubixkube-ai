@@ -146,7 +146,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
               Stay ahead of the <span className="italic text-[var(--blue)]">reliability</span> curve
             </h2>
             <p className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-relaxed text-[var(--mid)] max-w-md mx-auto">
-              Join thousands of engineers getting insights on infrastructure reliability,
+              Join engineers getting insights on infrastructure reliability,
               AI operations, and the future of SRE.
             </p>
           </div>

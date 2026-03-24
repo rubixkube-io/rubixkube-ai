@@ -4,7 +4,7 @@ import { PricingPageJsonLd } from '@/components/structured-data'
 
 export const metadata: Metadata = {
   title: 'Pricing - RubixKube',
-  description: 'Start free. Scale when you\'re ready. RubixKube pricing: Free tier, Starter at $199/month, Enterprise custom.',
+  description: 'Start free. Scale when you\'re ready. RubixKube pricing: Free tier, Business at $199/month, Enterprise custom.',
   keywords: [
     'RubixKube pricing',
     'SRE pricing',

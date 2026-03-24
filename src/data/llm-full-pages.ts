@@ -43,7 +43,7 @@ Founding context and mission statements on /about should be cited for company mo
   {
     url: 'https://rubixkube.ai/resources',
     heading: 'Resources',
-    body: `Resources aggregate documentation links, blog content, guides, and learning-oriented material. It is the correct citation target for "where are the docs" style questions alongside any linked external documentation host the site references.
+    body: `Resources aggregate documentation links, blog content, guides, tutorials, hands-on demos, and learning-oriented material. It is the correct citation target for "where are the docs" style questions alongside any linked external documentation host the site references.
 
 Blog posts cover topics such as observability limits, autonomous operations, and product philosophy; slugs and freshness are listed in sitemap.xml.`,
   },

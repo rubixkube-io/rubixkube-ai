@@ -5,13 +5,20 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { outlineBlueAccentLg } from '@/lib/outline-blue-cta'
+import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
 import { ArrowRight, Download } from 'lucide-react'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 
-const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
+const DEFAULT_HEADLINE = 'Ready to keep your infrastructure reliable?'
+const DEFAULT_SUBLINE = 'Put Site Reliability Intelligence to work in your stack.'
 
-export function ClosingCTA() {
+export type ClosingCTAProps = {
+  headline?: string
+  subline?: string
+}
+
+export function ClosingCTA({ headline = DEFAULT_HEADLINE, subline = DEFAULT_SUBLINE }: ClosingCTAProps) {
   const prefersReducedMotion = useReducedMotion()
 
   return (
@@ -22,7 +29,7 @@ export function ClosingCTA() {
           {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
           className="mb-6 px-2 font-[family-name:var(--font-serif)] text-[clamp(1.75rem,4vw,3rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] sm:px-0"
         >
-          Ready to keep your infrastructure reliable?
+          {headline}
         </motion.h2>
 
         <motion.p
@@ -30,7 +37,7 @@ export function ClosingCTA() {
           {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.08 } })}
           className="mx-auto mb-10 max-w-xl px-2 font-[family-name:var(--font-mono)] text-sm font-light leading-relaxed text-[var(--mid)] sm:px-0 sm:text-[15px]"
         >
-          Put Site Reliability Intelligence to work in your stack.
+          {subline}
         </motion.p>
 
         <motion.div
@@ -38,7 +45,7 @@ export function ClosingCTA() {
           {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.15 } })}
           className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
         >
-          <CalendlyBooking url={CALENDLY} variant="primary" size="lg" className="inline-flex items-center gap-2">
+          <CalendlyBooking url={CALENDLY_DEMO_URL} variant="primary" size="lg" className="inline-flex items-center gap-2">
             Schedule Demo
             <ArrowRight className="h-4 w-4 shrink-0" />
           </CalendlyBooking>

@@ -19,7 +19,7 @@ const navigation = [
   { name: 'Pricing', href: '/pricing' },
   { name: 'Resources', href: '/resources' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Our Story', href: '/about' },
+  { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ] as const
 

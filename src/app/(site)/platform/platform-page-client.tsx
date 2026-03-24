@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { BrainIntegrationStrip } from '@/components/landing/brain-integration-strip'
+import { BuiltOnSection } from '@/components/landing/built-on-section'
 
 export function PlatformPageClient() {
   // Ordered to match bento spans: wide [0,3,4] get richer copy; narrow [1,2,5] get one punchy sentence
@@ -150,6 +151,8 @@ export function PlatformPageClient() {
         {/* Gradient fade — screenshot dissolves into the next section rather than hard-cutting */}
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 h-64 bg-gradient-to-t from-[var(--bg)] to-transparent" />
       </section>
+
+      <BuiltOnSection />
 
       {/* Talk to Infra Section */}
       <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
@@ -374,7 +377,10 @@ export function PlatformPageClient() {
       </section>
 
       {/* CTA Section */}
-      <ClosingCTA />
+      <ClosingCTA
+        headline="See the architecture in action"
+        subline="Book a walkthrough of the platform."
+      />
 
       <Footer />
     </>

@@ -50,6 +50,6 @@ export const dynamicOgPageContent = {
     title: 'Simple, transparent pricing',
     description:
       'Start free. Scale when you’re ready. Enterprise when reliability is mission-critical.',
-    accent: 'Free tier · Starter · Enterprise',
+    accent: 'Free tier · Business · Enterprise',
   },
 } as const

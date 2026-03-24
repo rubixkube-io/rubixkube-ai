@@ -233,7 +233,7 @@ export function SolutionsPageClient() {
               <span className="italic text-[var(--blue)]">SRI.</span>
             </h2>
             <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
-              We secure businesses across every industry. From high-growth startups to Fortune 500 enterprises, eliminating their toughest infrastructure challenges.
+              AWS, GCP, Kubernetes, or even VMs. RubixKube connects where your production actually runs.
             </p>
           </motion.div>
 
@@ -337,7 +337,10 @@ export function SolutionsPageClient() {
         </div>
       </section>
 
-      <ClosingCTA />
+      <ClosingCTA
+        headline="See RubixKube solve your use case"
+        subline="Book a 30-minute demo."
+      />
       <Footer />
     </>
   )

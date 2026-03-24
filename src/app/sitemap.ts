@@ -53,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
+      // Public URL /about; site chrome labels this page "About" (nav, footer, llms.txt).
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

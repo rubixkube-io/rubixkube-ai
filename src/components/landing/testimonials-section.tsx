@@ -4,7 +4,26 @@ import { useEffect, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Reveal } from './reveal'
 
+// TODO: Replace Kishore and Sachin quotes below with approved final copy when provided.
 const slides = [
+  {
+    quote: (
+      <>
+        RubixKube is on the short list of tools our platform team actually trusts in production.
+      </>
+    ),
+    name: 'Kishore',
+    role: 'CTO, Yellow.ai',
+  },
+  {
+    quote: (
+      <>
+        The RCA depth and evidence trail are what I would expect from a serious reliability product.
+      </>
+    ),
+    name: 'Sachin',
+    role: 'Google',
+  },
   {
     quote: (
       <>

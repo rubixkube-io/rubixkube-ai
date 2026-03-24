@@ -78,7 +78,7 @@ const GROUPS: { title: string; items: StackItem[] }[] = [
     title: 'Cloud & edge',
     items: [
       { type: 'icon', Icon: SiGooglecloud, color: SiGooglecloudHex, label: 'Google Cloud' },
-      { type: 'logo', src: '/logos/aws.svg', label: 'AWS', width: 37, height: 22, imgClassName: 'max-w-[40px]' },
+      { type: 'logo', src: '/logos/aws.svg', label: 'AWS', width: 56, height: 32, imgClassName: 'max-w-[72px]' },
       { type: 'icon', Icon: SiCloudflare, color: SiCloudflareHex, label: 'Cloudflare' },
     ],
   },
@@ -141,12 +141,12 @@ function IntegrationMark({ item }: { item: StackItem }) {
         alt=""
         width={item.width}
         height={item.height}
-        className={`h-[22px] w-auto object-contain object-center ${item.imgClassName ?? ''}`}
+        className={`h-[22px] w-auto max-h-[24px] object-contain object-center sm:h-[24px] sm:max-h-[26px] lg:h-[26px] lg:max-h-[28px] ${item.imgClassName ?? ''}`}
         aria-hidden
       />
     )
   }
-  return <item.Icon size={22} color={item.color} aria-hidden />
+  return <item.Icon size={26} color={item.color} aria-hidden />
 }
 
 export function BrainIntegrationStrip({ hideHeader = false }: { hideHeader?: boolean } = {}) {
@@ -175,7 +175,7 @@ export function BrainIntegrationStrip({ hideHeader = false }: { hideHeader?: boo
             <ul className="flex list-none flex-wrap items-center gap-x-3.5 gap-y-3 p-0 sm:gap-x-4">
               {group.items.map((item) => (
                 <li key={`${group.title}-${item.label}`} className="m-0 flex shrink-0 p-0" aria-label={item.label}>
-                  <span className="inline-flex min-h-[22px] min-w-[22px] items-center justify-center opacity-[0.55] grayscale transition-[filter,opacity] duration-300 ease-out group-hover:opacity-100 group-hover:grayscale-0">
+                  <span className="inline-flex min-h-[28px] min-w-[28px] items-center justify-center opacity-[0.55] grayscale transition-[filter,opacity] duration-300 ease-out group-hover:opacity-100 group-hover:grayscale-0">
                     <IntegrationMark item={item} />
                   </span>
                 </li>

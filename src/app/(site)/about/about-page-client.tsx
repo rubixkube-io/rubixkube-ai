@@ -63,7 +63,7 @@ export function AboutPageClient() {
               variants={fadeUpVariants}
               className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase"
             >
-              Our Story
+              About
             </motion.p>
 
             <motion.h1
@@ -263,7 +263,10 @@ export function AboutPageClient() {
         </div>
       </section>
 
-      <ClosingCTA />
+      <ClosingCTA
+        headline="Meet the team behind the platform"
+        subline="Book a call."
+      />
       <Footer />
     </>
   )

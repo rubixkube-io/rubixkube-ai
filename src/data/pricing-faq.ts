@@ -14,7 +14,7 @@ export const pricingFaqItems = [
   },
   {
     q: 'What happens when I hit my investigation limit?',
-    a: "On Free, you're paused until next month. On Starter, we keep going at $8 per investigation or grab a Boost Pack if you'd rather pay upfront at a lower rate.",
+    a: "On Free, you're paused until next month. On Business, we keep going at $8 per investigation or grab a Boost Pack if you'd rather pay upfront at a lower rate.",
   },
   {
     q: 'Does RubixKube touch my infrastructure?',

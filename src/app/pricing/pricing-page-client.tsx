@@ -430,7 +430,7 @@ export function PricingPageClient() {
                   rkMono13,
                 )}
               >
-                Boost Packs are one-time add-ons. Unused investigations expire at end of month. For consistent high volume, Enterprise is the better value.
+                Boost Packs are one-time add-ons. Unused investigations roll over to the next month. For consistent high volume, Enterprise is the better value.
               </p>
             </div>
 
@@ -533,7 +533,10 @@ export function PricingPageClient() {
         </div>
       </section>
 
-      <ClosingCTA />
+      <ClosingCTA
+        headline="Calculate your ROI"
+        subline="See what RubixKube saves your team every month."
+      />
       <Footer />
     </>
   )

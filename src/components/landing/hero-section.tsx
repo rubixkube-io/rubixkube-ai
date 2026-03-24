@@ -6,7 +6,7 @@ import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { rkMono13 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
-import { PartnerLogoRow } from './partner-logos'
+import { CustomerLogoGrid } from './partner-logos'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const SRI_MANIFESTO_HREF = '/blog/the-age-of-site-reliability-intelligence-sri'
@@ -126,12 +126,12 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="rk-marquee-bar">
-        <span className="rk-marquee-label">Trusted by</span>
-        <div className="rk-marquee-track">
-          <div className="rk-marquee-inner">
-            <PartnerLogoRow />
-          </div>
+      <div className="flex w-full shrink-0 flex-col border-t border-[var(--rule)] bg-[var(--bg)] sm:flex-row sm:items-center">
+        <span className="rk-marquee-label max-sm:!border-r-0 max-sm:border-b max-sm:border-[var(--rule)] max-sm:py-3 sm:py-0">
+          Trusted by
+        </span>
+        <div className="flex min-h-0 flex-1 items-center overflow-hidden px-[var(--pad)] py-5 sm:py-4 md:px-8">
+          <CustomerLogoGrid />
         </div>
       </div>
     </div>
