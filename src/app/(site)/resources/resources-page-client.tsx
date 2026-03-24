@@ -9,7 +9,7 @@ import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { cn } from '@/lib/utils'
-import { rkMono9, rkMono10, rkMono11, rkMono13, rkMonoXs } from '@/lib/landing-responsive-type'
+import { rkMono9, rkMono10, rkMono13 } from '@/lib/landing-responsive-type'
 import {
   BookOpen,
   FileText,

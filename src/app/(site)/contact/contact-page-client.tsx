@@ -8,7 +8,7 @@ import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
-import { Mail, MapPin, Send, Check, ArrowRight } from 'lucide-react'
+import { Mail, MapPin, Check, ArrowRight } from 'lucide-react'
 import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
 
 export function ContactPageClient() {
@@ -20,18 +20,15 @@ export function ContactPageClient() {
 
   const calendlyUrl = `${CALENDLY_DEMO_URL}?hide_event_type_details=1&hide_gdpr_banner=1&hide_landing_page_details=1`
 
-  const initCalendly = () => {
-    if (calendlyRef.current && (window as any).Calendly) {
-      (window as any).Calendly.initInlineWidget({
+  useEffect(() => {
+    const win = window as unknown as Record<string, { initInlineWidget: (opts: { url: string; parentElement: HTMLElement }) => void }>
+    if (calendlyRef.current && win.Calendly) {
+      win.Calendly.initInlineWidget({
         url: calendlyUrl,
         parentElement: calendlyRef.current,
       })
     }
-  }
-
-  useEffect(() => {
-    if ((window as any).Calendly) initCalendly()
-  }, [])
+  }, [calendlyUrl])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -166,7 +163,15 @@ export function ContactPageClient() {
                 <Script
                   src="https://assets.calendly.com/assets/external/widget.js"
                   strategy="afterInteractive"
-                  onLoad={initCalendly}
+                  onLoad={() => {
+                    const win = window as unknown as Record<string, { initInlineWidget: (opts: { url: string; parentElement: HTMLElement }) => void }>
+                    if (calendlyRef.current && win.Calendly) {
+                      win.Calendly.initInlineWidget({
+                        url: calendlyUrl,
+                        parentElement: calendlyRef.current,
+                      })
+                    }
+                  }}
                 />
               </motion.div>
 

@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants } from '@/lib/animations'
 import {
