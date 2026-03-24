@@ -10,8 +10,8 @@ import { ArrowRight, Download } from 'lucide-react'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 
-const DEFAULT_HEADLINE = 'Ready to keep your infrastructure reliable?'
-const DEFAULT_SUBLINE = 'Put Site Reliability Intelligence to work in your stack.'
+const DEFAULT_HEADLINE = 'See how it works.'
+const DEFAULT_SUBLINE = 'Book a 30-minute demo. No slides, just your stack.'
 
 export type ClosingCTAProps = {
   headline?: string
