@@ -102,7 +102,7 @@ export function Navbar() {
                     'whitespace-nowrap font-[family-name:var(--font-mono)] text-[12px] tracking-[0.14em] uppercase transition-colors min-[1600px]:text-[13px] min-[1920px]:text-[14px] min-[2560px]:text-[15px]',
                     isActive
                       ? 'text-[var(--blue)]'
-                      : 'text-[var(--mid)] hover:text-[var(--ink)]',
+                      : 'text-[var(--ink)] hover:text-[var(--blue)]',
                   )}
                 >
                   {item.name}

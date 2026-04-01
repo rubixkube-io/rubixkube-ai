@@ -46,12 +46,12 @@ export function HeroSection() {
     <div className="landing-hero-slide relative">
       <Link
         href={SRI_MANIFESTO_HREF}
-        className="absolute top-1/2 left-[var(--pad)] z-10 hidden -translate-y-1/2 -rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[9px] tracking-[0.2em] text-[var(--text-muted)] uppercase transition-colors hover:text-[var(--ink)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] min-[1920px]:text-[11px] min-[2560px]:text-[12px] sm:block"
+        className="absolute top-1/2 left-[var(--pad)] z-10 hidden -translate-y-1/2 -rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--text-muted)] uppercase transition-colors hover:text-[var(--ink)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] min-[1920px]:text-[13px] min-[2560px]:text-[14px] lg:block"
       >
         Site Reliability Intelligence
       </Link>
       <span
-        className="pointer-events-none absolute top-1/2 right-[var(--pad)] z-10 hidden -translate-y-1/2 rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[9px] tracking-[0.2em] text-[var(--text-muted)] uppercase min-[1920px]:text-[11px] min-[2560px]:text-[12px] sm:block"
+        className="pointer-events-none absolute top-1/2 right-[var(--pad)] z-10 hidden -translate-y-1/2 rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--text-muted)] uppercase min-[1920px]:text-[13px] min-[2560px]:text-[14px] lg:block"
         aria-hidden
       >
         Memory · Safety · Resilience

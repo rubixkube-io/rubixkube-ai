@@ -372,9 +372,7 @@ export function IntelligenceSection() {
                 {c.time}
               </p>
               <h3 className="mb-2 font-[family-name:var(--font-serif)] text-2xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)]">
-                {c.title}
-                <br />
-                <em className="italic text-[var(--blue)]">{c.em}</em>
+                {c.title} <em className="italic text-[var(--blue)]">{c.em}</em>
               </h3>
               <p
                 className={cn(
