@@ -1,16 +1,22 @@
 import { ImageResponse } from 'next/og'
+import { getOgDynamicTemplateDataUrl } from '@/lib/og-background'
+import { DynamicOgTextOverlay } from '@/lib/og-dynamic-overlay'
 
 export interface OGImageParams {
+  eyebrow?: string
   title: string
-  subtitle?: string
   description?: string
-  stats?: string
+  accent?: string | null
 }
 
+/**
+ * Page-specific OG: `og-template.png` + editorial type (matches site, not the full og.png card).
+ */
 export function generateOGImage({
+  eyebrow,
   title,
-  description = 'Detect, diagnose, and heal issues before customers feel them.',
-  stats = 'Time saved: 90%'
+  description = 'Infrastructure that heals itself. Detect, diagnose, and resolve autonomously.',
+  accent,
 }: OGImageParams) {
   return new ImageResponse(
     (
@@ -20,93 +26,37 @@ export function generateOGImage({
           width: '100%',
           display: 'flex',
           position: 'relative',
+          backgroundColor: '#f2f0eb',
         }}
       >
-        {/* Background Image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://rubixkube.ai/og.jpg"
-          alt="RubixKube Background"
+          src={getOgDynamicTemplateDataUrl()}
+          alt=""
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            objectPosition: 'center',
             position: 'absolute',
             top: 0,
             left: 0,
           }}
         />
-        
-        {/* Overlay Text */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '40px',
-            left: '40px',
-            color: 'white',
-            zIndex: 10,
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-            padding: '20px',
-            borderRadius: '12px',
-            maxWidth: '400px',
-          }}
-        >
-          <div
-            style={{
-              fontSize: '56px',
-              fontWeight: 'bold',
-              lineHeight: 1.1,
-              marginBottom: '20px',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-            }}
-          >
-            {title}
-          </div>
-          <div
-            style={{
-              fontSize: '18px',
-              color: '#d1d5db',
-              lineHeight: 1.4,
-              maxWidth: '400px',
-              textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-            }}
-          >
-            {description}
-          </div>
-        </div>
-
-        {/* Bottom Right Stats */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '40px',
-            right: '40px',
-            backgroundColor: 'rgba(30, 58, 138, 0.9)',
-            borderRadius: '12px',
-            padding: '16px 20px',
-            color: 'white',
-            fontSize: '14px',
-            fontWeight: '600',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-            display: 'flex',
-            flexDirection: 'column',
-            zIndex: 10,
-          }}
-        >
-          <div style={{ marginBottom: '4px' }}>{title}</div>
-          <div style={{ color: '#60a5fa' }}>{stats}</div>
-        </div>
+        <DynamicOgTextOverlay
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+          accent={accent ?? null}
+        />
       </div>
     ),
     {
       width: 1200,
       height: 630,
-      // Add caching headers
       headers: {
         'Cache-Control': 'public, max-age=31536000, immutable',
       },
-    }
+    },
   )
 }

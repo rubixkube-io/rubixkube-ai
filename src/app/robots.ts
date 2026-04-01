@@ -1,42 +1,15 @@
 import { MetadataRoute } from 'next'
 
+/**
+ * Allow all crawlers (including AI/answer-engine bots). Blocks were removed so
+ * llms.txt, llms-full.txt, and on-page copy can be discovered and cited broadly.
+ */
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [
-      // AI/LLM Training Crawlers - Block model training
-      {
-        userAgent: 'GPTBot',
-        disallow: '/',
-      },
-      {
-        userAgent: 'ClaudeBot',
-        disallow: '/',
-      },
-      {
-        userAgent: 'Google-Extended',
-        disallow: '/',
-      },
-      {
-        userAgent: 'Applebot-Extended',
-        disallow: '/',
-      },
-      {
-        userAgent: 'CCBot',
-        disallow: '/',
-      },
-      
-      // Chat/Search Bots - Allow discovery and citation
-      {
-        userAgent: 'PerplexityBot',
-        allow: '/',
-      },
-      
-      // Default rule - Allow everything else (search, social, etc.)
-      {
-        userAgent: '*',
-        allow: '/',
-      },
-    ],
+    rules: {
+      userAgent: '*',
+      allow: '/',
+    },
     sitemap: 'https://rubixkube.ai/sitemap.xml',
   }
 }

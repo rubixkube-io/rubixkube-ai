@@ -1,41 +1,71 @@
 @import "tailwindcss";
 
+/* RubixKube redesign — warm editorial palette (light only for now) */
 :root {
-  /* Light mode colors */
-  --background: #FFFFFF;
-  --background-secondary: #f8fafc;
-  --background-tertiary: #f1f5f9;
-  --foreground: #101214;
-  --foreground-muted: #64748b;
-  --primary: #2457E6;
-  --accent: #2F5BFF;
-  --cta-green: #059669;
-  --border: #e2e8f0;
-  --border-muted: #cbd5e1;
-  --card-background: #ffffff;
-  --input: #e2e8f0;
-  --ring: #2457E6;
-  --muted-foreground: #64748b;
-  --hero-grid: #E9EEF9;
+  /* Same family names as redesign.html Google Fonts CSS (not next/font — avoids heavier fallbacks / subset mismatch) */
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
+
+  --bg: #f2f0eb;
+  --ink: #111318;
+  /* Stepped down from #6b6d78 for contrast on warm backgrounds */
+  --mid: #5e616b;
+  /* Hairlines, borders, dots — not for body copy (too low contrast on --bg) */
+  --faint: #c4c5cc;
+  /* Small mono / captions: ~4.6:1 on #f2f0eb (replaces faint for readable text) */
+  --text-muted: #767986;
+  /* Large display tertiary (hero line 3, closing dim) — softer than mid, clearer than faint */
+  --text-soft: #9396a2;
+  --rule: rgba(17, 19, 24, 0.08);
+  --blue: #2f5bff;
+  --green: #1a9060;
+  --red: #c83030;
+  --pad: clamp(48px, 8vw, 140px);
+  /* Fixed header: bar height + optional inset from top of viewport (large screens) */
+  --nav-gap-top: 0px;
+  --nav-height: 4rem;
+  --nav-stack: calc(var(--nav-height) + var(--nav-gap-top));
+
+  /* Bridge legacy Tailwind token names */
+  --background: var(--bg);
+  --background-secondary: #ebe8e1;
+  --background-tertiary: #e4e1da;
+  --foreground: var(--ink);
+  --foreground-muted: var(--mid);
+  --primary: #2457e6;
+  --accent: var(--blue);
+  --cta-green: var(--blue);
+  --border: rgba(17, 19, 24, 0.12);
+  --border-muted: rgba(17, 19, 24, 0.08);
+  --card-background: var(--bg);
+  --input: rgba(17, 19, 24, 0.12);
+  --ring: var(--blue);
+  --muted-foreground: var(--mid);
+  --hero-grid: rgba(47, 91, 255, 0.06);
 }
 
-.dark {
-  /* Dark mode colors */
-  --background: #0B1220;
-  --background-secondary: #1e293b;
-  --background-tertiary: #334155;
-  --foreground: #ffffff;
-  --foreground-muted: #94a3b8;
-  --primary: #2457E6;
-  --accent: #2F5BFF;
-  --cta-green: #00C853;
-  --border: #334155;
-  --border-muted: #475569;
-  --card-background: #1e293b;
-  --input: #475569;
-  --ring: #2F5BFF;
-  --muted-foreground: #94a3b8;
-  --hero-grid: #2F5BFF;
+@media (min-width: 1536px) {
+  :root {
+    --nav-gap-top: 8px;
+    --nav-height: 4.5rem;
+    --pad: clamp(52px, 8.5vw, 168px);
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --nav-gap-top: 14px;
+    --nav-height: 5rem;
+    --pad: clamp(56px, 9vw, 200px);
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --nav-gap-top: 18px;
+    --nav-height: 5.5rem;
+    --pad: clamp(64px, 10vw, 260px);
+  }
 }
 
 @theme inline {
@@ -54,51 +84,65 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-muted-foreground: var(--muted-foreground);
-  
-  --color-white: #ffffff;
-  --color-black: #101214;
-  --color-slate-50: #f8fafc;
-  --color-slate-100: #f1f5f9;
-  --color-slate-200: #e2e8f0;
-  --color-slate-300: #cbd5e1;
-  --color-slate-400: #94a3b8;
-  --color-slate-500: #64748b;
-  --color-slate-600: #475569;
-  --color-slate-700: #334155;
-  --color-slate-800: #1e293b;
-  --color-slate-900: #0f172a;
-  --color-indigo-50: #eef2ff;
-  --color-indigo-600: #4f46e5;
-  
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+  --color-rk-bg: var(--bg);
+  --color-rk-ink: var(--ink);
+  --color-rk-mid: var(--mid);
+  --color-rk-faint: var(--faint);
+  --color-rk-text-muted: var(--text-muted);
+  --color-rk-text-soft: var(--text-soft);
+  --color-rk-blue: var(--blue);
+  --color-rk-green: var(--green);
+  --color-rk-red: var(--red);
+
+  --font-sans: var(--font-mono), ui-monospace, monospace;
+  /* Omit ui-serif — system display serifs read much heavier than Cormorant 300 */
+  --font-heading: var(--font-serif);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Home landing: single scroll container (matches redesign.html body/html + main) */
+html.rk-landing-active,
+html.rk-landing-active body {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+html.light,
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--ink);
   font-family: var(--font-sans);
-  line-height: 1.75;
+  font-weight: 300;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-}
-
-h2 {
-  letter-spacing: -0.015em;
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -110,21 +154,24 @@ h2 {
   }
 }
 
-/* Mobile text overflow prevention */
 @media (max-width: 640px) {
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: none;
   }
-  
+
   p {
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
 }
 
-/* Blog-specific utilities */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -139,20 +186,386 @@ h2 {
   overflow: hidden;
 }
 
-/* Smooth scroll behavior */
-html {
+/* Landing: scroll snap container — sole vertical scroll on homepage */
+.landing-scroll {
+  margin-top: var(--nav-stack);
+  height: calc(100vh - var(--nav-stack));
+  max-height: calc(100vh - var(--nav-stack));
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+/* One viewport per beat (prototype .snap { height: 100% } of main) */
+.landing-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+  min-height: calc(100vh - var(--nav-stack));
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .landing-snap-section {
+    height: calc(100vh - var(--nav-stack));
   }
 }
 
-/* Blog content improvements */
+/*
+ * Landing width cap — use with horizontal padding on the parent section:
+ *   <section class="… px-[var(--pad)]"><div class="rk-landing-max">…</div></section>
+ * Do not add px here; padding inside max-width shrinks content vs other sections on wide viewports.
+ */
+.rk-landing-max {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: min(100%, 120rem);
+}
+
+/*
+ * Blog index inner column — matches article pages’ max-w-[1120px] mx-auto.
+ * Put px-[var(--pad)] on the parent <section>, not on this element; otherwise padding
+ * eats into the 1120px cap and the listing reads tighter than /blog/[slug].
+ */
+.rk-blog-listing-shell {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1120px;
+}
+
+/* First slide: hero + marquee = exactly one viewport */
+.landing-hero-slide {
+  display: flex;
+  height: calc(100vh - var(--nav-stack));
+  min-height: calc(100vh - var(--nav-stack));
+  flex-direction: column;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+
+/* prototype .marquee-bar { height: 56px } */
+.rk-marquee-bar {
+  height: 56px;
+  flex-shrink: 0;
+  border-top: 1px solid var(--rule);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.rk-marquee-label {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 0 28px 0 var(--pad);
+  border-right: 1px solid var(--rule);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (min-width: 1920px) {
+  .rk-marquee-bar {
+    height: 64px;
+  }
+
+  .rk-marquee-label {
+    font-size: 13px;
+    padding-right: 32px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-marquee-bar {
+    height: 72px;
+  }
+
+  .rk-marquee-label {
+    font-size: 14px;
+  }
+}
+
+.rk-marquee-track {
+  overflow: hidden;
+  flex: 1;
+}
+
+.rk-marquee-inner {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 48px;
+  padding: 0 48px;
+  animation: rk-marquee 28s linear infinite;
+}
+
+/* prototype hero entrance */
+@keyframes rk-hero-fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rk-hero-eyebrow {
+  animation: rk-hero-fadeup 1s 0.1s forwards;
+  opacity: 0;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+/* Matches redesign.html .headline: same font files + weight 300 + real italic */
+.rk-hero-headline {
+  animation: rk-hero-fadeup 1.2s 0.3s forwards;
+  opacity: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 1;
+  font-synthesis: none;
+  font-synthesis-weight: none;
+  font-synthesis-style: none;
+  text-rendering: geometricPrecision;
+}
+
+.rk-hero-headline .rk-hero-headline-accent {
+  font-weight: 300;
+  font-style: italic;
+  font-synthesis: none;
+}
+
+.rk-hero-headline .rk-hero-headline-muted {
+  font-weight: 300;
+  color: var(--text-soft);
+}
+
+/* Hero display: cap lifts on ultra-wide / 4K so type doesn’t stay “laptop sized” */
+.rk-hero-display {
+  font-size: clamp(4rem, 8.5vw, 7.5rem);
+}
+
+@media (min-width: 1600px) {
+  .rk-hero-display {
+    font-size: clamp(4.25rem, 7.5vw, 8.5rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-hero-display {
+    font-size: clamp(4.5rem, 6.8vw, 10rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-hero-display {
+    font-size: clamp(4.75rem, 5.8vw, 11.5rem);
+  }
+}
+
+/* Landing section H2 — higher caps on ultra-wide / 4K (metrics, RCA, closing, …) */
+.rk-landing-h2-std {
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+}
+
+@media (min-width: 1600px) {
+  .rk-landing-h2-std {
+    font-size: clamp(2.65rem, 4vw, 4.85rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-landing-h2-std {
+    font-size: clamp(2.85rem, 3.65vw, 5.35rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-landing-h2-std {
+    font-size: clamp(3rem, 3.15vw, 6.25rem);
+  }
+}
+
+/* Brain: smaller minimum, same large-screen lift */
+.rk-landing-h2-wide {
+  font-size: clamp(2rem, 4.5vw, 4rem);
+}
+
+@media (min-width: 1600px) {
+  .rk-landing-h2-wide {
+    font-size: clamp(2.35rem, 4vw, 4.85rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-landing-h2-wide {
+    font-size: clamp(2.55rem, 3.65vw, 5.35rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-landing-h2-wide {
+    font-size: clamp(2.75rem, 3.15vw, 6.25rem);
+  }
+}
+
+/* Intelligence: tighter default max, still scales up on 4K */
+.rk-landing-h2-compact {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+}
+
+@media (min-width: 1600px) {
+  .rk-landing-h2-compact {
+    font-size: clamp(2.4rem, 3.55vw, 4.25rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-landing-h2-compact {
+    font-size: clamp(2.55rem, 3.15vw, 4.95rem);
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-landing-h2-compact {
+    font-size: clamp(2.7rem, 2.75vw, 5.75rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .rk-hero-eyebrow {
+    font-size: 14px;
+    margin-bottom: 2.25rem;
+  }
+
+  .rk-hero-rule {
+    margin-top: 2.25rem;
+    margin-bottom: 2.25rem;
+    height: 3.5rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-hero-eyebrow {
+    font-size: 15px;
+  }
+}
+
+.rk-hero-rule {
+  animation: rk-hero-fadeup 1s 0.8s forwards;
+  opacity: 0;
+}
+
+.rk-hero-sub {
+  animation: rk-hero-fadeup 1s 1s forwards;
+  opacity: 0;
+  font-weight: 300;
+}
+
+.rk-hero-cta {
+  animation: rk-hero-fadeup 1s 1.2s forwards;
+  opacity: 0;
+}
+
+.rk-hero-status {
+  animation: rk-hero-fadeup 1s 1.4s forwards;
+  opacity: 0;
+}
+
+.rk-hero-status-text {
+  font-weight: 300;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-hero-eyebrow,
+  .rk-hero-headline,
+  .rk-hero-rule,
+  .rk-hero-sub,
+  .rk-hero-cta,
+  .rk-hero-status {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .rk-marquee-inner {
+    animation: none;
+  }
+}
+
+.rk-landing-footer {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-scroll {
+    scroll-snap-type: none;
+  }
+}
+
+/* CSS reveal (optional alongside Framer) */
+.rk-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.rk-reveal.rk-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes rk-fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rk-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes rk-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+/* Prose — blog & legal */
 .prose {
   color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
 }
 
 .prose h1,
@@ -163,35 +576,34 @@ html {
 .prose h6 {
   color: var(--foreground);
   font-family: var(--font-heading);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 .prose p {
-  color: var(--foreground);
-  line-height: 1.7;
+  color: var(--foreground-muted);
 }
 
 .prose a {
-  color: var(--accent);
+  color: var(--blue);
   text-decoration: underline;
   text-decoration-color: transparent;
   transition: text-decoration-color 0.2s ease;
 }
 
 .prose a:hover {
-  text-decoration-color: var(--accent);
+  text-decoration-color: var(--blue);
 }
 
 .prose blockquote {
-  border-left-color: var(--accent);
+  border-left: 2px solid var(--blue);
   color: var(--foreground);
 }
 
 .prose code {
   color: var(--foreground);
-  background-color: var(--card-background);
+  background-color: var(--background-secondary);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 2px 6px;
@@ -199,7 +611,7 @@ html {
 }
 
 .prose pre {
-  background-color: var(--card-background);
+  background-color: var(--background-secondary);
   border: 1px solid var(--border);
   color: var(--foreground);
 }
@@ -210,16 +622,14 @@ html {
   padding: 0;
 }
 
-/* Focus improvements for accessibility */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--blue);
   outline-offset: 2px;
 }
 
-/* Smooth hover transitions */
 .transition-colors {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -232,59 +642,51 @@ textarea:focus-visible {
   transition-duration: 150ms;
 }
 
-/* Hide scrollbars while maintaining functionality */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
+  display: none;
 }
 
-/* Professional blog enhancements */
 .blog-card-hover {
-  transform: translateY(-4px);
-  box-shadow: 0 25px 50px -12px rgba(47, 91, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -12px rgba(17, 19, 24, 0.12);
 }
 
 .blog-featured-hover {
   transform: scale(1.01);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 25px 50px -12px rgba(17, 19, 24, 0.18);
 }
 
-/* Smooth backdrop blur animation */
 @supports (backdrop-filter: blur(8px)) {
   .backdrop-blur-sm {
     backdrop-filter: blur(8px);
   }
 }
 
-/* Enhanced focus states for blog elements */
 .blog-filter:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--blue);
   outline-offset: 2px;
-  transform: scale(1.05);
 }
 
-/* Professional gradient animations */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .gradient-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--accent) 0%,
-    var(--primary) 50%,
-    var(--accent) 100%
-  );
+  background: linear-gradient(90deg, var(--blue) 0%, var(--primary) 50%, var(--blue) 100%);
   background-size: 200% 100%;
   animation: shimmer 3s ease-in-out infinite;
 }
 
-/* Flowing animation for connection lines */
 @keyframes flow {
   0% {
     transform: translateX(-100%);

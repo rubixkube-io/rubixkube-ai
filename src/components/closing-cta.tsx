@@ -1,101 +1,67 @@
 'use client'
 
-import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
+import { outlineBlueAccentLg } from '@/lib/outline-blue-cta'
+import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
 import { ArrowRight, Download } from 'lucide-react'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
-import { HeroVideo } from './hero-video'
 
-// Declare the spline-viewer custom element for TypeScript
-declare module 'react' {
-  interface IntrinsicElements {
-    'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-      url: string;
-    };
-  }
+const DEFAULT_HEADLINE = 'See how it works.'
+const DEFAULT_SUBLINE = 'Book a 30-minute demo. No slides, just your stack.'
+
+export type ClosingCTAProps = {
+  headline?: string
+  subline?: string
 }
 
-export function ClosingCTA() {
+export function ClosingCTA({ headline = DEFAULT_HEADLINE, subline = DEFAULT_SUBLINE }: ClosingCTAProps) {
   const prefersReducedMotion = useReducedMotion()
 
-  // Load Spline viewer script
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.type = 'module'
-    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.51/build/spline-viewer.js'
-    document.head.appendChild(script)
-
-    return () => {
-      // Clean up script on component unmount
-      if (document.head.contains(script)) {
-        document.head.removeChild(script)
-      }
-    }
-  }, [])
-
   return (
-    <section className="relative py-24 md:py-20 sm:py-14 overflow-hidden">
-      {/* Spline 3D Background */}
-      {/* <div className="absolute inset-0 w-full h-full">
-        {React.createElement('spline-viewer', {
-          url: '/reactive-bg.spline',
-          className: 'w-full h-full object-cover scale-150',
-        })}
-      </div> */}
-      
-      {/* Content overlay */}
-      <div className="relative z-10">
-      <div className="mx-auto max-w-[1200px] xl:max-w-[1400px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] px-4 sm:px-6 md:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="p-8 rounded-2xl">
-            <motion.h2
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
-              className="text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-extrabold tracking-[-0.015em] text-foreground mb-6 leading-[0.95] px-4 sm:px-0"
-            >
-              Ready to keep your infrastructure reliable?
-            </motion.h2>
-            
-            <motion.p
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.1 } })}
-              className="text-base sm:text-lg text-foreground-muted mb-8 leading-relaxed px-4 sm:px-0"
-            >
-              Put Site Reliability Intelligence to work in your stack.
-            </motion.p>
+    <section className="relative overflow-hidden border-t border-[var(--rule)] bg-[var(--bg)] px-[var(--pad)] py-20 sm:py-16 md:py-24">
+      <div className="relative z-10 mx-auto max-w-[min(100%,48rem)] text-center lg:max-w-[min(100%,56rem)]">
+        <motion.h2
+          variants={fadeUpVariants}
+          {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
+          className="mb-6 px-2 font-[family-name:var(--font-serif)] text-[clamp(1.75rem,4vw,3rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] sm:px-0"
+        >
+          {headline}
+        </motion.h2>
 
-            <motion.div
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
-              className="flex flex-col sm:flex-row gap-3 items-start"
-            >
-              <Button size="lg" asChild>
-                <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min">
-                  Schedule Demo
-                  <ArrowRight className="w-4 h-4 flex-shrink-0" />
-                </CalendlyBooking>
-              </Button>
-              
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/assets/whitepaper.pdf" download="The Reliability Layer | Rubixkube Whitepaper.pdf" target="_blank" className="flex items-center gap-2 whitespace-nowrap">
-                  Download Whitepaper
-                  <Download className="w-4 h-4 flex-shrink-0" />
-                </Link>
-              </Button>
-            </motion.div>
-          </div>
+        <motion.p
+          variants={fadeUpVariants}
+          {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.08 } })}
+          className="mx-auto mb-10 max-w-xl px-2 font-[family-name:var(--font-mono)] text-sm font-light leading-relaxed text-[var(--mid)] sm:px-0 sm:text-[15px]"
+        >
+          {subline}
+        </motion.p>
 
-          {/* Right Visual - Video */}
-          <div className="flex items-center justify-center">
-              <HeroVideo prefersReducedMotion={prefersReducedMotion} />
-          </div>
-        </div>
-      </div>
+        <motion.div
+          variants={fadeUpVariants}
+          {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.15 } })}
+          className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+        >
+          <CalendlyBooking url={CALENDLY_DEMO_URL} variant="primary" size="lg" className="inline-flex items-center gap-2">
+            Schedule Demo
+            <ArrowRight className="h-4 w-4 shrink-0" />
+          </CalendlyBooking>
+
+          <Button asChild variant="outline" size="lg" className={`gap-2 ${outlineBlueAccentLg}`}>
+            <Link
+              href="/assets/whitepaper.pdf"
+              download="The Reliability Layer | Rubixkube Whitepaper.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download Whitepaper
+              <Download className="h-4 w-4 shrink-0" />
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   )

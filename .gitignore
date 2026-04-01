@@ -131,4 +131,4 @@ jspm_packages/
 # DynamoDB Local files
 .dynamodb/
 .next/
-context/seo_audit_report.md
+context/

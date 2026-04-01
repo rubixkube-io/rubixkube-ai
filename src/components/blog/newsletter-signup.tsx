@@ -47,9 +47,9 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
   if (compact) {
     return (
       <motion.div
-        className={`bg-accent/5 border border-accent/20 rounded-2xl p-6 ${className}`}
+        className={`rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-6 ${className}`}
         variants={fadeUpVariants}
-        {...(prefersReducedMotion ? { initial: "visible" } : { 
+        {...(prefersReducedMotion ? { initial: "visible" } : {
           initial: "hidden",
           animate: "visible",
           transition: { delay: 0.8 }
@@ -57,22 +57,28 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
       >
         {subscribed ? (
           <div className="text-center">
-            <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Check className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <div className="w-10 h-10 bg-[var(--green)]/10 flex items-center justify-center mx-auto mb-3 rounded-lg">
+              <Check className="w-5 h-5 text-[var(--green)]" />
             </div>
-            <h3 className="font-heading text-lg font-bold text-foreground mb-2">
+            <h3
+              className="text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)] mb-2"
+              style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+            >
               You&apos;re subscribed!
             </h3>
-            <p className="text-sm text-foreground-muted">
+            <p className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]">
               Welcome to the reliability era.
             </p>
           </div>
         ) : (
           <>
-            <h3 className="font-heading text-lg font-bold text-foreground mb-2">
+            <h3
+              className="text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)] mb-2"
+              style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+            >
               Stay Updated
             </h3>
-            <p className="text-sm text-foreground-muted mb-4">
+            <p className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-4">
               Get the latest insights on infrastructure reliability.
             </p>
             <form
@@ -92,19 +98,14 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-colors"
+                className="w-full rounded-lg px-3 py-2 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-xs font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
                 required
               />
-              <Button
-                type="submit"
-                disabled={isLoading}
-                size="md"
-                className="w-full"
-              >
+              <Button type="submit" disabled={isLoading} size="sm" className="w-full">
                 {isLoading ? 'Subscribing...' : 'Subscribe'}
               </Button>
               {error && (
-                <p className="text-xs text-red-500 text-center">{error}</p>
+                <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--red)] text-center">{error}</p>
               )}
             </form>
           </>
@@ -115,9 +116,9 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
 
   return (
     <motion.div
-      className={`bg-card-background border border-border rounded-2xl p-4 sm:p-6 md:p-8 ${className}`}
+      className={`rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-6 sm:p-8 md:p-10 ${className}`}
       variants={fadeUpVariants}
-      {...(prefersReducedMotion ? { initial: "visible" } : { 
+      {...(prefersReducedMotion ? { initial: "visible" } : {
         initial: "hidden",
         animate: "visible",
         transition: { delay: 0.5 }
@@ -125,31 +126,27 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
     >
       {subscribed ? (
         <div className="text-center">
-          <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Check className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+          <div className="w-14 h-14 bg-[var(--green)]/10 flex items-center justify-center mx-auto mb-4 rounded-xl">
+            <Check className="w-7 h-7 text-[var(--green)]" />
           </div>
-          <h3 className="font-heading text-2xl font-bold text-foreground mb-3">
+          <h3 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2rem)] font-light leading-[1.1] text-[var(--ink)] mb-3">
             Welcome aboard!
           </h3>
-          <p className="text-foreground-muted">
+          <p className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-relaxed text-[var(--mid)]">
             You&apos;ll receive our latest insights on infrastructure reliability and AI operations.
           </p>
         </div>
       ) : (
         <>
-          <div className="text-center mb-4 sm:mb-6">
-            <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-              <Mail className="w-6 h-6 text-accent" />
+          <div className="text-center mb-6">
+            <div className="w-12 h-12 bg-[var(--blue)]/10 flex items-center justify-center mx-auto mb-4 rounded-xl">
+              <Mail className="w-6 h-6 text-[var(--blue)]" />
             </div>
-            <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2 sm:mb-3 px-2">
-            Stay ahead of the{" "}
-              <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
-                reliability
-              </span>{" "}
-              curve
+            <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mb-3">
+              Stay ahead of the <span className="italic text-[var(--blue)]">reliability</span> curve
             </h2>
-            <p className="text-sm sm:text-base text-foreground-muted max-w-md mx-auto px-2">
-              Join thousands of engineers getting insights on infrastructure reliability, 
+            <p className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-relaxed text-[var(--mid)] max-w-md mx-auto">
+              Join engineers getting insights on infrastructure reliability,
               AI operations, and the future of SRE.
             </p>
           </div>
@@ -159,7 +156,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
             name="newsletter"
             data-netlify="true"
             data-netlify-honeypot="bot-field"
-            className="flex flex-col sm:flex-row gap-3"
+            className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
           >
             <input type="hidden" name="form-name" value="newsletter" />
             <div style={{ display: 'none' }}>
@@ -171,18 +168,11 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="flex-1 px-4 py-3 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-colors"
+              className="flex-1 rounded-lg px-4 py-3 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-xs font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
               required
             />
-            <Button
-              type="submit"
-              disabled={isLoading}
-              size="lg"
-              className="w-full sm:w-auto whitespace-nowrap"
-            >
-              {isLoading ? (
-                'Subscribing...'
-              ) : (
+            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto whitespace-nowrap flex items-center gap-2">
+              {isLoading ? 'Subscribing...' : (
                 <>
                   Subscribe
                   <ArrowRight className="w-4 h-4" />
@@ -192,12 +182,12 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
           </form>
 
           {error && (
-            <p className="text-xs text-red-500 mt-2 text-center">{error}</p>
+            <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--red)] mt-2 text-center">{error}</p>
           )}
 
-          <p className="text-xs text-foreground-muted mt-4 text-center">
+          <p className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mt-4 text-center">
             No spam, unsubscribe at any time. Read our{" "}
-            <a href="/legal/privacy" className="text-accent hover:text-accent/80 transition-colors">
+            <a href="/legal/privacy" className="text-[var(--blue)] hover:underline transition-colors">
               privacy policy
             </a>
             .

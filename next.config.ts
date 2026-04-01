@@ -1,11 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  transpilePackages: ['@sanity/image-url'],
+
+  async redirects() {
+    return [
+      // Legacy OG asset was JPEG; marketing card is now exported as PNG.
+      { source: '/og.jpg', destination: '/og.png', permanent: true },
+      { source: '/og.jpeg', destination: '/og.png', permanent: true },
+    ]
+  },
+
   // Enable experimental features for better SSR
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
-  
+
   // Optimize images
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -31,8 +41,8 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers: [
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' https://*.sanity.studio",
           },
           {
             key: 'X-Content-Type-Options',
