@@ -47,7 +47,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
   if (compact) {
     return (
       <motion.div
-        className={`border border-[var(--rule)] bg-[var(--bg)] p-6 ${className}`}
+        className={`rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-6 ${className}`}
         variants={fadeUpVariants}
         {...(prefersReducedMotion ? { initial: "visible" } : {
           initial: "hidden",
@@ -57,7 +57,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
       >
         {subscribed ? (
           <div className="text-center">
-            <div className="w-10 h-10 bg-[var(--green)]/10 flex items-center justify-center mx-auto mb-3">
+            <div className="w-10 h-10 bg-[var(--green)]/10 flex items-center justify-center mx-auto mb-3 rounded-lg">
               <Check className="w-5 h-5 text-[var(--green)]" />
             </div>
             <h3
@@ -98,7 +98,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full px-3 py-2 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-xs font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
+                className="w-full rounded-lg px-3 py-2 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-xs font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
                 required
               />
               <Button type="submit" disabled={isLoading} size="sm" className="w-full">
@@ -116,7 +116,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
 
   return (
     <motion.div
-      className={`border border-[var(--rule)] bg-[var(--bg)] p-6 sm:p-8 md:p-10 ${className}`}
+      className={`rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-6 sm:p-8 md:p-10 ${className}`}
       variants={fadeUpVariants}
       {...(prefersReducedMotion ? { initial: "visible" } : {
         initial: "hidden",
@@ -126,7 +126,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
     >
       {subscribed ? (
         <div className="text-center">
-          <div className="w-14 h-14 bg-[var(--green)]/10 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 bg-[var(--green)]/10 flex items-center justify-center mx-auto mb-4 rounded-xl">
             <Check className="w-7 h-7 text-[var(--green)]" />
           </div>
           <h3 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2rem)] font-light leading-[1.1] text-[var(--ink)] mb-3">
@@ -139,7 +139,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
       ) : (
         <>
           <div className="text-center mb-6">
-            <div className="w-12 h-12 bg-[var(--blue)]/10 flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-[var(--blue)]/10 flex items-center justify-center mx-auto mb-4 rounded-xl">
               <Mail className="w-6 h-6 text-[var(--blue)]" />
             </div>
             <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mb-3">
@@ -168,7 +168,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="flex-1 px-4 py-3 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-xs font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
+              className="flex-1 rounded-lg px-4 py-3 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-xs font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
               required
             />
             <Button type="submit" disabled={isLoading} className="w-full sm:w-auto whitespace-nowrap flex items-center gap-2">

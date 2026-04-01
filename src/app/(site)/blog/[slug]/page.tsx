@@ -1,6 +1,7 @@
 import { type SanityDocument } from "next-sanity"
 import type { Metadata } from "next"
 import { client } from "@/lib/sanity.client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { notFound } from "next/navigation"
 import { BlogPostClient } from "./blog-post-client"
 import type { SanityPost } from "@/types/sanity"
@@ -31,27 +32,24 @@ const RELATED_POSTS_QUERY = `*[_type == "post" && defined(slug.current) && _id !
     "author": author->name
   }`
 
-const options = { next: { revalidate: 30 } }
-
 export default async function PostPage({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = await client.fetch<SanityDocument>(POST_QUERY, { slug }, options)
-  
+  const { data: post } = await sanityFetch({ query: POST_QUERY, params: { slug } })
+
   if (!post) {
     notFound()
   }
 
-  const relatedPosts = await client.fetch<SanityDocument[]>(
-    RELATED_POSTS_QUERY,
-    { postId: post._id, categories: post.categories || [] },
-    options
-  )
+  const { data: relatedPosts } = await sanityFetch({
+    query: RELATED_POSTS_QUERY,
+    params: { postId: post._id, categories: post.categories || [] },
+  })
 
-  return <BlogPostClient post={post as unknown as SanityPost} relatedPosts={relatedPosts} />
+  return <BlogPostClient post={post as unknown as SanityPost} relatedPosts={relatedPosts as SanityDocument[]} />
 }
 
 export async function generateMetadata({
@@ -60,7 +58,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const post = await client.fetch<SanityDocument>(POST_QUERY, { slug }, options)
+  const { data: post } = await sanityFetch({ query: POST_QUERY, params: { slug } })
   if (!post) return {}
 
   const title = post.seoTitle || post.title

@@ -3,6 +3,7 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {codeInput} from '@sanity/code-input'
 import {schemaTypes} from './schemas'
+import {previewAction} from './actions/previewAction'
 
 export default defineConfig({
   name: 'default',
@@ -21,5 +22,14 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+  },
+
+  document: {
+    actions: (prev, { schemaType }) => {
+      if (schemaType === 'post') {
+        return [previewAction, ...prev]
+      }
+      return prev
+    },
   },
 })

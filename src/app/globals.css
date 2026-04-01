@@ -225,6 +225,18 @@ h6 {
   max-width: min(100%, 120rem);
 }
 
+/*
+ * Blog index inner column — matches article pages’ max-w-[1120px] mx-auto.
+ * Put px-[var(--pad)] on the parent <section>, not on this element; otherwise padding
+ * eats into the 1120px cap and the listing reads tighter than /blog/[slug].
+ */
+.rk-blog-listing-shell {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1120px;
+}
+
 /* First slide: hero + marquee = exactly one viewport */
 .landing-hero-slide {
   display: flex;

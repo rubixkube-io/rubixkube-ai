@@ -53,31 +53,31 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
     <>
       <Navbar />
 
-      {/* Hero */}
-      <section className="relative bg-[var(--bg)]">
-        <div className="rk-landing-max px-[var(--pad)] pt-[calc(var(--nav-stack)+5rem)] pb-16 sm:pb-20 text-center">
+      {/* Hero — section padding + inner max-w matches /blog/[slug] header/article */}
+      <section className="relative bg-[var(--bg)] px-[var(--pad)]">
+        <div className="rk-blog-listing-shell pt-[calc(var(--nav-stack)+2.5rem)] pb-10 sm:pb-12 text-center">
           <motion.div
             variants={fadeUpVariants}
             initial={prefersReducedMotion ? 'visible' : 'hidden'}
             animate="visible"
-            className="flex flex-col items-center"
+            className="flex w-full flex-col items-stretch text-center"
           >
             <span
               className={cn(
-                'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase mb-10',
+                'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase mb-5',
                 rkMono10,
               )}
             >
               RubixKube Blog
             </span>
 
-            <h1 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] w-full max-w-none">
+            <h1 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] w-full">
               Stories from the <span className="italic text-[var(--blue)]">Reliability</span> Era
             </h1>
 
             <p
               className={cn(
-                'font-[family-name:var(--font-mono)] font-light leading-[1.75] text-[var(--mid)] w-full max-w-3xl mt-10',
+                'font-[family-name:var(--font-mono)] font-light leading-[1.75] text-[var(--mid)] w-full mt-6',
                 rkMono13,
               )}
             >
@@ -90,7 +90,7 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
             <motion.div
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.15 } })}
-              className="flex flex-wrap gap-2 justify-center mt-10"
+              className="flex flex-wrap gap-2 justify-center mt-8"
             >
               <Button
                 variant={selectedCategory === '' ? 'primary' : 'outline'}
@@ -115,8 +115,8 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
       </section>
 
       {/* Content */}
-      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-16 sm:py-24">
-        <div className="rk-landing-max px-[var(--pad)]">
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] px-[var(--pad)] py-12 sm:py-16">
+        <div className="rk-blog-listing-shell">
           {filteredPosts.length === 0 ? (
             <motion.div
               className="text-center py-20"
@@ -157,7 +157,7 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
               </div>
             </motion.div>
           ) : (
-            <div className="space-y-16 sm:space-y-20">
+            <div className="space-y-14 sm:space-y-16">
               {/* Featured Article */}
               {featuredPost && (
                 <motion.div
@@ -195,7 +195,7 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
                       <span className={cn('font-[family-name:var(--font-mono)] font-light text-[var(--mid)]', rkMono11)}>
                         {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''}
                       </span>
-                      <div className="border border-[var(--rule)] flex">
+                      <div className="flex overflow-hidden rounded-lg border border-[var(--rule)]">
                         <button
                           aria-label="Grid view"
                           onClick={() => setView('grid')}
@@ -268,8 +268,8 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
       </section>
 
       {/* Newsletter */}
-      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-16 sm:py-24">
-        <div className="rk-landing-max px-[var(--pad)]">
+      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] py-12 sm:py-16">
+        <div className="rk-blog-listing-shell">
           <motion.div
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}

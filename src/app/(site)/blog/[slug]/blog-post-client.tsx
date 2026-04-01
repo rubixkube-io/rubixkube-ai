@@ -112,8 +112,10 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
   }, [post])
   
   const postImageUrl = post.image
-    ? urlFor(post.image)?.width(1200).height(675).url()
+    ? urlFor(post.image)?.width(1440).height(810).url()
     : null
+  const coverAlt = post.image?.alt?.trim() || post.title
+  const coverCaption = post.image?.caption?.trim()
 
   // Track scroll progress
   useEffect(() => {
@@ -142,8 +144,8 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       <Navbar />
       
       {/* Header Section */}
-      <section className="bg-[var(--bg)] pt-[calc(var(--nav-stack)+3rem)] pb-12">
-        <div className="rk-landing-max px-[var(--pad)]">
+      <section className="bg-[var(--bg)] pt-[calc(var(--nav-stack)+3rem)] pb-12 px-[var(--pad)]">
+        <div className="max-w-[1120px] mx-auto w-full">
           {/* Breadcrumb */}
           <motion.div variants={fadeUpVariants}>
             <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-8">
@@ -159,51 +161,60 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             </nav>
           </motion.div>
 
-          {/* Cover Image */}
+          {/* Cover image: centered column (narrower than headline), LCP-friendly, optional Sanity caption/alt */}
           {postImageUrl && (
-            <motion.div 
-              className="mb-12"
+            <motion.div
+              className="mb-10 mx-auto w-full max-w-[720px]"
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.1 } })}
             >
-              <div className="relative aspect-[16/9] overflow-hidden border border-[var(--rule)] bg-[var(--bg)]">
-                <Image
-                  src={postImageUrl}
-                  alt={post.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              <figure className="m-0">
+                <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[var(--rule)] bg-[var(--bg)] shadow-sm">
+                  <Image
+                    src={postImageUrl}
+                    alt={coverAlt}
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 768px) 100vw, 720px"
+                  />
+                </div>
+                {coverCaption ? (
+                  <figcaption className="mt-3 text-center font-[family-name:var(--font-mono)] text-xs font-light leading-relaxed text-[var(--mid)]">
+                    {coverCaption}
+                  </figcaption>
+                ) : null}
+              </figure>
             </motion.div>
           )}
 
           {/* Title */}
-          <motion.div 
-            className="mb-8"
+          <motion.div
+            className="mb-6"
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
           >
-            <h1 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,5vw,4rem)] font-light leading-[1.05] tracking-[-0.01em] text-[var(--ink)]">
+            <h1 className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,4vw,3rem)] font-light leading-[1.1] tracking-[-0.02em] text-[var(--ink)]">
               {post.title}
             </h1>
           </motion.div>
 
           {/* Excerpt */}
           {post.excerpt && (
-            <motion.div 
-              className="mb-8"
+            <motion.div
+              className="mb-6"
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.3 } })}
             >
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-3xl">
+              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-[680px]">
                 {post.excerpt}
               </p>
             </motion.div>
           )}
 
           {/* Meta row */}
-          <motion.div 
-            className="flex flex-wrap items-center gap-4 sm:gap-6 py-6 border-b border-[var(--rule)] mb-12 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
+          <motion.div
+            className="flex flex-wrap items-center gap-4 sm:gap-6 py-5 border-b border-[var(--rule)] mb-10 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
           >
@@ -225,8 +236,8 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
               <div className="flex items-center gap-3">
                 <div className="w-7 h-7 bg-[var(--bg)] border border-[var(--rule)] rounded-full flex items-center justify-center overflow-hidden">
                   {post.author?.image ? (
-                    <Image 
-                      src={urlFor(post.author.image)?.width(32).height(32).url()} 
+                    <Image
+                      src={urlFor(post.author.image)?.width(32).height(32).url()}
                       alt={post.author.name}
                       width={32}
                       height={32}
@@ -246,11 +257,11 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       </section>
       
       {/* Article Content */}
-      <section className="pb-24 bg-[var(--bg)]">
-        <div className="rk-landing-max px-[var(--pad)]">
-          <div className="grid lg:grid-cols-[1fr_280px] gap-10 xl:gap-16">
+      <section className="pb-24 bg-[var(--bg)] px-[var(--pad)]">
+        <div className="max-w-[1120px] mx-auto w-full">
+          <div className="grid lg:grid-cols-[1fr_260px] gap-12 xl:gap-16">
             {/* Main Content */}
-            <motion.article 
+            <motion.article
               className="prose prose-lg max-w-none"
               initial="hidden"
               whileInView="visible"
@@ -285,7 +296,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const imageUrl = urlFor(value)
                         return (
                           <figure className="my-12 not-prose">
-                            <div className="relative overflow-hidden bg-[var(--bg)] border border-[var(--rule)]">
+                            <div className="relative overflow-hidden rounded-2xl bg-[var(--bg)] border border-[var(--rule)]">
                               <Image
                                 src={imageUrl?.width(1000).height(562).url()}
                                 alt={value.alt || "Blog image"}
@@ -354,7 +365,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         )
                       },
                       normal: ({children}) => (
-                        <p className="text-foreground leading-relaxed mb-6 text-lg">
+                        <p className="text-[var(--ink)] leading-[1.8] mb-6 text-[17px]">
                           {children}
                         </p>
                       ),
@@ -380,29 +391,29 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                     },
                     listItem: {
                       bullet: ({children}) => (
-                        <li className="text-foreground leading-relaxed text-lg">
+                        <li className="text-[var(--ink)] leading-[1.8] text-[17px]">
                           {children}
                         </li>
                       ),
                       number: ({children}) => (
-                        <li className="text-foreground leading-relaxed text-lg">
+                        <li className="text-[var(--ink)] leading-[1.8] text-[17px]">
                           {children}
                         </li>
                       ),
                     },
                     marks: {
                       strong: ({children}) => (
-                        <strong className="font-bold text-foreground">
+                        <strong className="font-semibold text-[var(--ink)]">
                           {children}
                         </strong>
                       ),
                       em: ({children}) => (
-                        <em className="italic text-foreground">
+                        <em className="italic text-[var(--ink)]">
                           {children}
                         </em>
                       ),
                       code: ({children}) => (
-                        <code className="bg-card-background border border-border px-2 py-1 rounded text-sm font-mono text-foreground">
+                        <code className="bg-[var(--rule)]/40 border border-[var(--rule)] px-1.5 py-0.5 rounded text-[0.875em] font-[family-name:var(--font-mono)] text-[var(--ink)]">
                           {children}
                         </code>
                       ),
@@ -411,7 +422,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                           href={value.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-accent hover:text-accent/80 transition-colors underline underline-offset-4 decoration-accent/50 hover:decoration-accent"
+                          className="text-[var(--blue)] hover:text-[var(--blue)]/80 transition-colors underline underline-offset-4 decoration-[var(--blue)]/40 hover:decoration-[var(--blue)]"
                         >
                           {children}
                         </a>
@@ -443,7 +454,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.9 } })}
           >
-            <div className="border border-[var(--rule)] bg-[var(--bg)] p-8">
+            <div className="rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-8">
               <div className="flex items-start gap-6">
                 <div className="w-14 h-14 bg-[var(--background-secondary)] border border-[var(--rule)] rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                   {post.author?.image ? (
@@ -501,7 +512,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             >
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-xs font-light"
+                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-xs font-light"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 All stories
@@ -512,8 +523,8 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       </section>
 
       {/* Related Posts */}
-      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
-        <div className="rk-landing-max px-[var(--pad)]">
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32 px-[var(--pad)]">
+        <div className="max-w-[1120px] mx-auto w-full">
           <motion.div
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}

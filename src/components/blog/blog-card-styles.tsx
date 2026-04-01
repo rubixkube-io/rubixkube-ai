@@ -18,7 +18,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
   if (variant === 'hero') {
     return (
       <Link href={`/blog/${post.slug.current}`} className={`group block ${className}`}>
-        <article className="relative overflow-hidden h-[500px] md:h-[600px] border border-[var(--rule)]">
+        <article className="relative overflow-hidden rounded-2xl h-[500px] md:h-[600px] border border-[var(--rule)]">
           <div className="absolute inset-0">
             {post.image ? (
               <Image
@@ -77,7 +77,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
   if (variant === 'featured') {
     return (
       <Link href={`/blog/${post.slug.current}`} className={`group block ${className}`}>
-        <article className="grid md:grid-cols-2 gap-0 border border-[var(--rule)] overflow-hidden transition-shadow hover:shadow-md">
+        <article className="grid md:grid-cols-2 gap-0 rounded-2xl border border-[var(--rule)] overflow-hidden transition-shadow hover:shadow-md">
           <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden">
             {post.image ? (
               <Image
@@ -94,6 +94,18 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
           </div>
 
           <div className="p-8 md:p-10 lg:p-12 flex flex-col justify-center bg-[var(--bg)]">
+            {post.publishedAt && (
+              <time
+                dateTime={typeof post.publishedAt === 'string' ? post.publishedAt : undefined}
+                className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-3 block"
+              >
+                {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+            )}
             {post.categories && post.categories.length > 0 && (
               <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase mb-4 self-start">
                 {post.categories[0]}
@@ -107,18 +119,16 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
                 {post.excerpt}
               </p>
             )}
-            <div className="flex items-center gap-4 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]">
               <div className="flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5" />
-                <time>{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</time>
+                <Clock className="w-3.5 h-3.5 shrink-0" />
+                <span>5 min read</span>
               </div>
-              <span className="text-[var(--faint)]">&middot;</span>
-              <span>5 min read</span>
               {post.author && (
                 <>
-                  <span className="text-[var(--faint)]">&middot;</span>
+                  <span className="text-[var(--faint)] hidden sm:inline">&middot;</span>
                   <div className="flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5" />
+                    <User className="w-3.5 h-3.5 shrink-0" />
                     <span>{post.author}</span>
                   </div>
                 </>
@@ -134,7 +144,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
     return (
       <Link href={`/blog/${post.slug.current}`} className={`group block ${className}`}>
         <article className="flex items-start gap-4 md:gap-6 py-5 border-b border-[var(--rule)] last:border-b-0 transition-colors hover:bg-white/50 px-2 -mx-2">
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border border-[var(--rule)] bg-[var(--bg)] flex-shrink-0">
+          <div className="relative w-16 h-16 sm:w-20 sm:h-20 overflow-hidden rounded-lg border border-[var(--rule)] bg-[var(--bg)] flex-shrink-0">
             {post.image ? (
               <Image
                 src={urlFor(post.image)?.width(160).height(160).url()}
@@ -183,7 +193,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
   if (variant === 'compact') {
     return (
       <Link href={`/blog/${post.slug.current}`} className={`group block ${className}`}>
-        <article className="border border-[var(--rule)] bg-[var(--bg)] p-4 transition-shadow hover:shadow-md">
+        <article className="rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-4 transition-shadow hover:shadow-md">
           {post.categories && post.categories.length > 0 && (
             <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase">
               {post.categories[0]}
@@ -207,7 +217,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
   // Default card
   return (
     <Link href={`/blog/${post.slug.current}`} className={`group block h-full ${className}`}>
-      <article className="h-full border border-[var(--rule)] bg-[var(--bg)] overflow-hidden transition-shadow hover:shadow-md">
+      <article className="h-full rounded-2xl border border-[var(--rule)] bg-[var(--bg)] overflow-hidden transition-shadow hover:shadow-md">
         <div className="aspect-[16/10] relative overflow-hidden">
           {post.image ? (
             <Image

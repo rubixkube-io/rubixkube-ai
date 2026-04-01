@@ -1,20 +1,20 @@
 import { type SanityDocument } from "next-sanity"
 import type { Metadata } from "next"
-import { client } from "@/lib/sanity.client"
+import { sanityFetch } from "@/sanity/lib/live"
 import { BlogPageClient } from "./blog-page-client"
 
 const POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
 ]|order(featured desc, publishedAt desc)[0...12]{
-  _id, 
-  title, 
-  slug, 
-  publishedAt, 
-  excerpt, 
-  image, 
+  _id,
+  title,
+  slug,
+  publishedAt,
+  excerpt,
+  image,
   featured,
-  "categories": categories[]->title, 
+  "categories": categories[]->title,
   "author": author->name
 }`
 
@@ -23,24 +23,24 @@ const FILTERED_POSTS_QUERY = `*[
   && defined(slug.current)
   && $category in categories[]->title
 ]|order(featured desc, publishedAt desc)[0...12]{
-  _id, 
-  title, 
-  slug, 
-  publishedAt, 
-  excerpt, 
-  image, 
+  _id,
+  title,
+  slug,
+  publishedAt,
+  excerpt,
+  image,
   featured,
-  "categories": categories[]->title, 
+  "categories": categories[]->title,
   "author": author->name
 }`
 
-const options = { next: { revalidate: 30 } }
-
 async function getBlogPosts(category?: string) {
   if (category && category.trim() !== '') {
-    return await client.fetch<SanityDocument[]>(FILTERED_POSTS_QUERY, { category }, options)
+    const { data } = await sanityFetch({ query: FILTERED_POSTS_QUERY, params: { category } })
+    return data as SanityDocument[]
   } else {
-    return await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options)
+    const { data } = await sanityFetch({ query: POSTS_QUERY })
+    return data as SanityDocument[]
   }
 }
 
