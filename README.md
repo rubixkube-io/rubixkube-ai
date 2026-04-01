@@ -1,161 +1,95 @@
 <div align="center">
-  <img src="/public/og.png" alt="RubixKube - Site Reliability Intelligence for the AI Era" width="100%" />
+  <img src="/public/og.png" alt="RubixKube - Site Reliability Intelligence" width="100%" />
 </div>
 
 <h1>RubixKube</h1>
-<p><strong>Site Reliability Intelligence for the AI Era</strong></p>
+<p><strong>Beyond Observability. Your infra, healing itself.</strong></p>
 
 [![Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.rubixkube.ai%2Fstatus%2Fbadge)](https://rubixkube.ai/status)
 
+RubixKube is the Site Reliability Intelligence (SRI) platform. An AI-native system that detects anomalies, diagnoses root cause, and resolves failures — autonomously. Most tools see your infrastructure for the first time, every time. RubixKube remembers.
 
-RubixKube is the reliability brain for modern systems. An AI-native mesh of agents that watch, plan, act, and learn — 24/7. Keep revenue online. RubixKube watches your stack, finds the real cause, and fixes it safely with approvals.
+## What is Site Reliability Intelligence?
 
-## 🎯 What is Site Reliability Intelligence?
+Site Reliability Intelligence goes beyond observability. It closes the full loop: detect, diagnose, act, and learn — with a system that compounds knowledge over time rather than starting from scratch on every incident.
 
-Site Reliability Intelligence (SRI) uses agents, context, and memory to detect, diagnose, and heal issues across your stack. It closes the Observe → Plan → Act → Learn loop and turns RCAs into reusable knowledge.
+### Key Capabilities
 
-### Key Capabilities:
-- **Detect, diagnose, and heal** before customers feel it
-- **Human-in-the-loop guardrails** for safe autonomous operations
-- **Works with Kubernetes, cloud, and your existing tools** through intelligent integrations
-- **Continuous learning** from every incident and resolution
+- **Autonomous remediation** — detects, diagnoses, and resolves failures without waking your team
+- **Compounding memory** — every signal, session, and resolution builds a deeper model of your system
+- **Human-in-the-loop guardrails** — approvals and policy checks when you want them
+- **Zero new tooling** — plugs into your existing stack on day one
 
-## 🚀 Why Choose RubixKube?
+## Results
 
-### Unify Operations in One Command Center
-- **One command center**: Unify incidents, signals, and actions in one place
-- **Predict and prevent**: Catch risky rollouts and regressions early
-- **De-risk deployments**: Plan safe rollbacks and patches with context
-- **MTTR that actually drops**: Correlate signals to evidence. No alert fatigue
-- **Protect revenue and trust**: SLOs stay green. Customers stay happy
+- **2.8 min** mean time to understand — not hours, minutes
+- **98%** detection rate — nothing slips through
+- **90% less** alert noise — your team only sees what matters
+- **55 hrs** engineering hours saved per week
+- **Gets smarter** with every incident — the longer it runs, the better it gets
 
-### Built for Modern Engineering Teams
-RubixKube transforms operations from firefighting to foresight:
+## How It Works: Compounding Memory
 
-- **AI-Powered Analytics**: Machine learning models trained on global infrastructure patterns
-- **Conversational Control**: Manage clusters and apps through chat, CLI, or web with natural language
-- **Smart Agent Operations**: Agents detect incidents, triage root cause, and propose fixes with evidence
-- **Evolving Memory**: Snapshot and historical memory improve every decision and RCA
+Most tools treat every incident as a fresh start. RubixKube builds a persistent model of your infrastructure that deepens over time:
 
-## 🔍 How Site Reliability Intelligence Works
+| Milestone | What RubixKube learns |
+|---|---|
+| **Day 1** | Topology mapped — every service, node, and edge, automatically |
+| **Week 1** | Dependencies understood — upstream and downstream relationships known |
+| **Month 1** | Causality emerging — failure patterns surface before they fire |
+| **Always** | Yours, entirely — a model no other tool has, built only by being there |
 
-### The SRI Process: Observe → Plan → Act → Learn
+## Core Platform
 
-1. **Observe**: Continuously maps your infra across Kubernetes, cloud, code, and configs. Pulls context from Prometheus, Loki, GitHub, and more
-2. **Plan**: Agents reason over live data and history to propose safe, auditable actions
-3. **Act**: Execute fixes behind guardrails. Approve PRs or apply controlled changes with policy checks
-4. **Learn**: Every incident updates memory and playbooks. RCAs become knowledge, not documents you forget
+### Intelligent Agent Mesh
+Specialized agents coordinate across your stack — observing continuously, reasoning over live data and history, and executing fixes behind guardrails.
 
-### Core Platform Features
+### Multi-Dimensional Memory
+Every conversation, RCA, and human correction feeds the same growing model. Indexes rebuild, connections deepen, and the system's understanding of your stack expands every day.
 
-#### 🤖 Intelligent Agent Mesh
-- **Modular Agents**: Observer, Planner, Executor, Historian, Collaborator — each focused on their specialty
-- **Agent Mesh**: Specialized agents coordinate across your stack to investigate and remediate faster
-- **Distributed Coordination**: Goal-oriented agent collaboration ensures cohesive action across complex operations
+### Governed Autonomy
+Least-privilege actions, policy checks, and human approvals. Full audit trail of who did what and why.
 
-#### 🧠 Multi-Dimensional Memory System  
-- **Evolving Memory**: Snapshot and historical memory improve every decision and RCA
-- **Evidence-Linked RCA**: Timelines, queries, diffs, and actions captured automatically and shared with teams
-- **Context Enrichment**: CI/CD metadata, architecture docs, FAQs, support tickets automatically linked to infrastructure nodes
+## What RubixKube Handles
 
-#### 🛡️ Governed Autonomy Framework
-- **Guardrails and Approvals**: Least-privilege actions, policy checks, and human approvals when you want them
-- **Visual RCA Flow**: Infrastructure graph animates investigation paths and remediation steps in real time
-- **Conversational Control**: Manage clusters and apps through chat, CLI, or web. Natural language with real action
+**Incident Response** — agents correlate signals, pinpoint root cause, and apply safe fixes. MTTR that actually drops.
 
-<div align="center">
-  <img src="/public/139_1x_shots_so.png" alt="RubixKube Platform Screenshot - Site Reliability Intelligence Dashboard" width="100%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
-  <p><em>RubixKube Platform: Real-time infrastructure monitoring and AI-powered incident response</em></p>
-</div>
+**Release Safety** — validates deployments and rolls back at the first sign of risk. Safe launches, always.
 
-## 🎯 What RubixKube Handles
+**Cost & Performance** — continuously optimizes resources before they bottleneck. Capacity without chaos.
 
-### Incident Response & Resolution
-**Incidents that finish themselves** — agents correlate signals, pinpoint root cause, and apply safe fixes
-- Auto-triage and correlation across logs, metrics, traces
-- Proposed fixes with risk and blast radius assessment
-- MTTR reduced by 80%, on-call stress down
-- Eliminate alert fatigue with intelligent correlation
+**Compliance & Audit** — action logs, RCAs, and policies in one place. SOC-friendly by design.
 
-### Release Reliability & Deployment Safety
-**Safe launches, always** — validates deployments and automatically rolls back at the first sign of risk
-- Detect bad rollouts right after deploy
-- Rollback or patch with context and approvals
-- Protect customer experience during releases
-- Zero-downtime deployments with health monitoring
+## What Teams Say
 
-### Cost & Performance Optimization
-**Capacity without chaos** — continuously optimizes resources before they bottleneck
-- Spot regressions and noisy neighbors
-- Right-size workloads with evidence-based recommendations
-- Keep SLOs and budgets in line
-- Predict capacity needs before issues arise
-
-### Compliance & Audit
-**SOC-friendly by design** — comprehensive audit trails and policy enforcement
-- Action logs, RCAs, and policies in one place
-- Prove who did what and why with complete audit trails
-- Automated compliance for SOC 2, PCI DSS, HIPAA, and more
-- Evidence-linked documentation for regulatory requirements
-
-## 🌟 Success Stories
-
-> *"RubixKube brought calm and clarity to our operations. Instead of noise, we got actions that made sense. We moved from reacting to anticipating."*  
+> *"RubixKube brought calm and clarity to our operations. Instead of noise, we got actions that made sense. We moved from reacting to anticipating."*
 > **— Ganesh Kumar, CEO Sheshi AI**
 
-> *"It's rare that something makes seasoned SREs pause mid-standup. RubixKube did. Confident impact with low risk."*  
+> *"It's rare that something makes seasoned SREs pause mid-standup. RubixKube did. Confident impact with low risk."*
 > **— Richie Sebastian, DevOps Lead**
 
-> *"The value wasn't a dashboard. It was the system fixing the right things at the right time with proof."*  
+> *"The value wasn't a dashboard. It was the system fixing the right things at the right time with proof."*
 > **— Kartik Pawar, Staff Engineer, Fellow.ai**
 
-### Key Metrics from Early Adopters:
-- **MTTR reduction by 80%** across incident response
-- **Prevent 70% of incidents** through proactive monitoring  
-- **99.9%+ uptime** with autonomous remediation
-- **Zero revenue loss** from infrastructure issues
+## Integrations
 
-## 🚀 Ready to Keep Revenue Online?
+Works with your existing stack — Kubernetes, AWS/GCP/Azure, Prometheus, Grafana, Loki, GitHub, GitLab, Jenkins, GitHub Actions.
 
-Put Site Reliability Intelligence to work in your stack.
+## Get Started
 
-### Get Started Today:
-- 🎯 **[Schedule a Deep Dive](mailto:connect@rubixkube.io)**: See RubixKube catch failures before they cascade
-- 📋 **[Request Early Access](mailto:connect@rubixkube.io)**: Limited seats for teams who want reliability on autopilot
-- 📄 **[Get the One-Pager](mailto:connect@rubixkube.io)**: Learn more about our platform capabilities
-
-### What to Expect:
-- **Personalized demonstration** with real-world scenarios
-- **Integration examples** with your existing tools and workflows  
-- **ROI discussion** and business impact analysis
-- **Implementation roadmap** tailored to your infrastructure
+- **[Book a Demo](https://calendly.com/rubixkube-ai/30min)** — see RubixKube catch failures before they cascade
+- **[Launch Console](https://console.rubixkube.ai)** — log in to your account
+- **[Contact](mailto:connect@rubixkube.io)** — connect@rubixkube.io
 
 ---
 
-## 🔧 Technical Integration
+## Development
 
-### Works with Your Stack:
-- **Kubernetes** - Native integration with any K8s distribution
-- **Cloud Platforms** - AWS, GCP, Azure, hybrid, and on-premises
-- **Observability** - Prometheus, Grafana, Loki, and custom metrics
-- **Version Control** - GitHub, GitLab integration for context
-- **CI/CD** - Jenkins, GitHub Actions, and custom pipelines
-
-### SEO Keywords:
-`site reliability intelligence` • `AI SRE` • `AIOps` • `autonomous remediation` • `incident response automation` • `root cause analysis` • `Kubernetes reliability` • `reduce MTTR` • `SLO management` • `observability` • `AI operations` • `infrastructure automation`
+See [setup.md](setup.md) for local dev instructions.
 
 ---
 
-## 📚 Documentation
+**RubixKube** — *Site Reliability Intelligence*
 
-- **[Brand Guidelines](brand-guidelines.md)**: Visual identity and design system
-- **[Setup Guide](setup.md)**: Technical setup and development instructions
-
----
-
-**RubixKube** — *Site Reliability Intelligence is the future*
-
-*Agents that see more, plan better, act safely, and learn forever.*
-
-📧 **Contact**: [connect@rubixkube.io](mailto:connect@rubixkube.io) | 📍 **Location**: Bengaluru, India  
-🔗 **[LinkedIn](https://linkedin.com/company/rubixkube)** • **[X (Twitter)](https://x.com/rubixkube)**
+📧 [connect@rubixkube.io](mailto:connect@rubixkube.io) | 📍 Bengaluru, India
+🔗 [LinkedIn](https://linkedin.com/company/rubixkube) • [GitHub](https://github.com/rubixkube-io)
