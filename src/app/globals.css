@@ -44,6 +44,12 @@
   --hero-grid: rgba(47, 91, 255, 0.06);
 }
 
+@media (max-width: 640px) {
+  :root {
+    --pad: 20px;
+  }
+}
+
 @media (min-width: 1536px) {
   :root {
     --nav-gap-top: 8px;
@@ -198,6 +204,15 @@ h6 {
   -webkit-overflow-scrolling: touch;
 }
 
+@supports (height: 100dvh) {
+  @media (max-width: 640px) {
+    .landing-scroll {
+      height: calc(100dvh - var(--nav-stack));
+      max-height: calc(100dvh - var(--nav-stack));
+    }
+  }
+}
+
 /* One viewport per beat (prototype .snap { height: 100% } of main) */
 .landing-snap-section {
   scroll-snap-align: start;
@@ -205,6 +220,14 @@ h6 {
   min-height: calc(100vh - var(--nav-stack));
   flex-shrink: 0;
   box-sizing: border-box;
+}
+
+@supports (height: 100dvh) {
+  @media (max-width: 640px) {
+    .landing-snap-section {
+      min-height: calc(100dvh - var(--nav-stack));
+    }
+  }
 }
 
 @media (min-width: 1024px) {
@@ -246,6 +269,15 @@ h6 {
   flex-shrink: 0;
   scroll-snap-align: start;
   box-sizing: border-box;
+}
+
+@supports (height: 100dvh) {
+  @media (max-width: 640px) {
+    .landing-hero-slide {
+      height: calc(100dvh - var(--nav-stack));
+      min-height: calc(100dvh - var(--nav-stack));
+    }
+  }
 }
 
 /* prototype .marquee-bar { height: 56px } */
@@ -352,6 +384,12 @@ h6 {
 /* Hero display: cap lifts on ultra-wide / 4K so type doesn’t stay “laptop sized” */
 .rk-hero-display {
   font-size: clamp(4rem, 8.5vw, 7.5rem);
+}
+
+@media (max-width: 640px) {
+  .rk-hero-display {
+    font-size: clamp(3rem, 14vw, 4.5rem);
+  }
 }
 
 @media (min-width: 1600px) {
@@ -483,6 +521,12 @@ h6 {
 
 .rk-hero-status-text {
   font-weight: 300;
+}
+
+@media (max-width: 640px) {
+  .rk-hero-eyebrow {
+    font-size: 11px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
