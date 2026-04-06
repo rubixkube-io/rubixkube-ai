@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { rkMono13 } from '@/lib/landing-responsive-type'
@@ -9,6 +10,13 @@ import { cn } from '@/lib/utils'
 import { CustomerLogoGrid } from './partner-logos'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
+const CONSOLE_URL = 'https://console.rubixkube.ai'
+
+const heroPrimaryCtaClass =
+  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-light !tracking-[0.1em] !text-white !uppercase min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
+
+const heroOutlineCtaClass =
+  'font-[family-name:var(--font-mono)] !rounded-[6px] !border !border-[var(--faint)] !bg-transparent !px-6 !py-[13px] !text-[11px] !font-light !tracking-[0.1em] !text-[var(--mid)] !uppercase transition-colors hover:!border-[var(--mid)] min-[1920px]:!px-7 min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
 const SRI_MANIFESTO_HREF = '/blog/the-age-of-site-reliability-intelligence-sri'
 
 const TRUTHS = [
@@ -37,10 +45,6 @@ export function HeroSection() {
   }, [])
 
   const t = TRUTHS[si]
-
-  const scrollToMetrics = () => {
-    document.getElementById('landing-metrics')?.scrollIntoView({ behavior: 'smooth' })
-  }
 
   return (
     <div className="landing-hero-slide relative">
@@ -86,20 +90,14 @@ export function HeroSection() {
           </p>
 
           <div className="rk-hero-cta mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-8 sm:gap-4">
-            <CalendlyBooking
-              url={CALENDLY}
-              variant="primary"
-              className="!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-light !tracking-[0.1em] !text-white !uppercase min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm"
-            >
+            <Button asChild variant="primary" className={heroPrimaryCtaClass}>
+              <Link href={CONSOLE_URL} target="_blank" rel="noopener noreferrer">
+                Start for Free →
+              </Link>
+            </Button>
+            <CalendlyBooking url={CALENDLY} variant="outline" className={heroOutlineCtaClass}>
               Book a Demo
             </CalendlyBooking>
-            <button
-              type="button"
-              onClick={scrollToMetrics}
-              className="cursor-pointer rounded-[6px] border border-[var(--faint)] bg-transparent px-6 py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--mid)] uppercase transition-colors hover:border-[var(--mid)] min-[1920px]:px-7 min-[1920px]:py-[15px] min-[1920px]:text-[13px] min-[2560px]:text-sm"
-            >
-              See how it works ↓
-            </button>
           </div>
 
           <div className="rk-hero-status mt-5 flex items-center justify-center gap-2 sm:mt-10 sm:gap-3">

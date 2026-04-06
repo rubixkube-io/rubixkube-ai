@@ -30,6 +30,7 @@ const footerColumns = [
       { label: 'Resources', href: '/resources' },
       { label: 'Blog', href: '/blog' },
       { label: 'Docs', href: 'https://docs.rubixkube.ai/' },
+      { label: 'Rubix CLI (npm)', href: 'https://www.npmjs.com/package/@rubixkube/rubix' },
     ],
   },
   {
@@ -90,17 +91,17 @@ export function FooterBody() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h3 className="mb-4 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--ink)] uppercase">
+            <h3 className="border-b border-[var(--rule)] pb-3 mb-4 font-[family-name:var(--font-serif)] text-[1.0625rem] font-light leading-none tracking-[-0.02em] text-[var(--ink)] sm:text-lg min-[1920px]:text-[1.25rem]">
               {column.title}
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2 pt-1">
                 {column.links.map((link) => {
                   const external = link.href.startsWith('http')
                   return (
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] transition-colors hover:text-[var(--ink)]"
+                        className="font-[family-name:var(--font-mono)] text-[10px] font-light leading-relaxed tracking-[0.04em] text-[var(--text-muted)] transition-colors hover:text-[var(--ink)] sm:text-[11px] min-[1920px]:text-xs"
                         {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       >
                         {link.label}
@@ -121,9 +122,9 @@ export function FooterBody() {
           <Image
             src="/logos/nvidia-inception-program-badge-rgb-for-screen.png"
             alt="NVIDIA Inception Program"
-            width={280}
-            height={112}
-            className="h-10 w-auto max-w-full object-contain object-left sm:h-11 md:h-12 lg:h-14"
+            width={320}
+            height={128}
+            className="h-12 w-auto max-w-full object-contain object-left sm:h-14 md:h-16 lg:h-[4.5rem] min-[1920px]:h-[5rem] min-[2560px]:h-[5.25rem]"
           />
         </motion.div>
       </div>

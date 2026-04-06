@@ -18,6 +18,7 @@ import {
   ArrowRight,
   Lightbulb,
   TrendingUp,
+  Terminal,
 } from 'lucide-react'
 
 const documentationCategories = [
@@ -57,6 +58,17 @@ const documentationCategories = [
       { title: 'Managing Agents', link: 'https://docs.rubixkube.ai/using/agents' },
       { title: 'Connect Clusters', link: 'https://docs.rubixkube.ai/using/clusters' },
       { title: 'Integrations', link: 'https://docs.rubixkube.ai/using/integrations' },
+    ],
+  },
+  {
+    title: 'Rubix CLI',
+    copy: 'The same SRI chat experience in your terminal. Install from npm, sign in once in the browser, then run rubix.',
+    icon: Terminal,
+    link: 'https://www.npmjs.com/package/@rubixkube/rubix',
+    linkLabel: 'View on npm',
+    guides: [
+      { title: 'Package & README', link: 'https://www.npmjs.com/package/@rubixkube/rubix' },
+      { title: 'Source on GitHub', link: 'https://github.com/rubixkube-io/rubix-cli' },
     ],
   },
 ]
@@ -207,7 +219,7 @@ export function ResourcesPageClient() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
             {documentationCategories.map((cat, i) => {
               const Icon = cat.icon
               return (
@@ -256,7 +268,7 @@ export function ResourcesPageClient() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
                     >
-                      View Documentation
+                      {'linkLabel' in cat && cat.linkLabel ? cat.linkLabel : 'View Documentation'}
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </Link>
                   </div>
