@@ -12,6 +12,7 @@ import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { cn } from '@/lib/utils'
 import { rkMono9, rkMono10, rkMono11, rkMono13, rkMonoXs } from '@/lib/landing-responsive-type'
 import { pricingFaqItems } from '@/data/pricing-faq'
+import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 
@@ -167,10 +168,12 @@ export function PricingPageClient() {
 
             <div className="flex flex-col sm:flex-row gap-3 mt-10">
               <Button asChild variant="primary">
-                <a href="#pricing-grid">View plans</a>
+                <a href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
+                  Start for Free
+                </a>
               </Button>
-              <CalendlyBooking url={CALENDLY} asChild>
-                <Button variant="outline">Book Demo</Button>
+              <CalendlyBooking url={CALENDLY} variant="outline" className={outlineBlueAccentMd}>
+                Talk to Us
               </CalendlyBooking>
             </div>
           </motion.div>

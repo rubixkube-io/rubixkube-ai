@@ -18,12 +18,20 @@ export default defineConfig({
   basePath: '/studio',
   projectId,
   dataset,
-  // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
+  document: {
+    productionUrl: async (prev, context) => {
+      const doc = context.document
+      const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
+      const slug = (doc.slug as undefined | {current?: string})?.current
+      if (!slug) return prev
+      if (doc._type === 'post') return `${origin}/blog/${slug}`
+      if (doc._type === 'referencePage') return `${origin}/${doc.category || 'learn'}/${slug}`
+      return prev
+    },
+  },
   plugins: [
     structureTool({structure}),
-    // Vision is for querying with GROQ from inside the Studio
-    // https://www.sanity.io/docs/the-vision-plugin
     visionTool({defaultApiVersion: apiVersion}),
     codeInput(),
   ],

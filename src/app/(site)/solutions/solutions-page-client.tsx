@@ -4,9 +4,10 @@ import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { ClosingCTA } from '@/components/closing-cta'
+import { Button } from '@/components/ui/button'
+import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { fadeUpVariants } from '@/lib/animations'
 import {
-  ArrowRight,
   RefreshCw,
   ShieldCheck,
   GitMerge,
@@ -139,21 +140,16 @@ export function SolutionsPageClient() {
               variants={fadeUpVariants}
               className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
-              <Link
-                href="https://calendly.com/rubixkube-ai/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-[6px] bg-[var(--blue)] px-[30px] py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-white uppercase transition-colors hover:bg-blue-700"
-              >
-                Book a Demo
-                <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-              </Link>
-              <Link
-                href="/platform"
-                className="rounded-[6px] border border-[var(--faint)] bg-transparent px-6 py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--mid)] uppercase transition-colors hover:border-[var(--mid)]"
-              >
-                See the Platform
-              </Link>
+              <Button asChild variant="primary">
+                <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
+                  Start Free
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className={outlineBlueAccentMd}>
+                <Link href="https://calendly.com/rubixkube-ai/30min" target="_blank" rel="noopener noreferrer">
+                  Talk to Sales
+                </Link>
+              </Button>
             </motion.div>
           </motion.div>
         </div>

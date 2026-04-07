@@ -6,17 +6,18 @@ import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { rkMono13 } from '@/lib/landing-responsive-type'
+import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 import { CustomerLogoGrid } from './partner-logos'
+import { Rocket } from 'lucide-react'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const CONSOLE_URL = 'https://console.rubixkube.ai'
 
 const heroPrimaryCtaClass =
-  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-light !tracking-[0.1em] !text-white !uppercase min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
+  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-medium !tracking-[0.12em] !text-white !uppercase shadow-[0_1px_2px_rgba(17,19,24,0.06)] !transition-[box-shadow,opacity] !duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
 
-const heroOutlineCtaClass =
-  'font-[family-name:var(--font-mono)] !rounded-[6px] !border !border-[var(--faint)] !bg-transparent !px-6 !py-[13px] !text-[11px] !font-light !tracking-[0.1em] !text-[var(--mid)] !uppercase transition-colors hover:!border-[var(--mid)] min-[1920px]:!px-7 min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
+
 const SRI_MANIFESTO_HREF = '/blog/the-age-of-site-reliability-intelligence-sri'
 
 const TRUTHS = [
@@ -92,10 +93,11 @@ export function HeroSection() {
           <div className="rk-hero-cta mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-8 sm:gap-4">
             <Button asChild variant="primary" className={heroPrimaryCtaClass}>
               <Link href={CONSOLE_URL} target="_blank" rel="noopener noreferrer">
-                Start for Free →
+                Start for Free 
+                <Rocket className="h-3.5 w-3.5 shrink-0 opacity-95" strokeWidth={2.25} aria-hidden />
               </Link>
             </Button>
-            <CalendlyBooking url={CALENDLY} variant="outline" className={heroOutlineCtaClass}>
+            <CalendlyBooking url={CALENDLY} variant="outline" className={outlineBlueAccentMd}>
               Book a Demo
             </CalendlyBooking>
           </div>
