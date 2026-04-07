@@ -89,18 +89,14 @@ export function AboutPageClient() {
               variants={fadeUpVariants}
               className="flex flex-col sm:flex-row gap-3"
             >
-              <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" asChild>
-                <Button variant="primary">Book Demo</Button>
-              </CalendlyBooking>
-              <Button asChild variant="outline" className={outlineBlueAccentMd}>
-                <a
-                  href="https://console.rubixkube.ai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  See it in Action
+              <Button asChild variant="primary">
+                <a href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
+                  Get Started
                 </a>
               </Button>
+              <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" variant="outline" className={outlineBlueAccentMd}>
+                Book a Demo
+              </CalendlyBooking>
             </motion.div>
           </motion.div>
         </div>

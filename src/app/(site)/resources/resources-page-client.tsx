@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
+import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
@@ -188,13 +189,15 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
 
             <div className="flex flex-col sm:flex-row gap-3 mt-10">
               <Button asChild variant="primary">
+                <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
+                  Start Free
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className={outlineBlueAccentMd}>
                 <Link href="https://docs.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                   <BookOpen className="w-4 h-4 flex-shrink-0" />
                   Read the Docs
                 </Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <a href="#resources">Explore Resources</a>
               </Button>
             </div>
           </motion.div>

@@ -98,12 +98,14 @@ export function PlatformPageClient() {
             >
               <Button asChild variant="primary">
                 <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
-                  Launch Console
+                  Start Free
                   <Rocket className="h-4 w-4 shrink-0" strokeWidth={1.5} />
                 </Link>
               </Button>
               <Button asChild variant="outline" className={outlineBlueAccentMd}>
-                <Link href="/contact">Contact Sales</Link>
+                <Link href="https://calendly.com/rubixkube-ai/30min" target="_blank" rel="noopener noreferrer">
+                  Book a Demo
+                </Link>
               </Button>
             </motion.div>
           </motion.div>

@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { fadeUpVariants } from '@/lib/animations'
 import {
-  ArrowRight,
   RefreshCw,
   ShieldCheck,
   GitMerge,
@@ -142,13 +141,14 @@ export function SolutionsPageClient() {
               className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
               <Button asChild variant="primary">
-                <Link href="https://calendly.com/rubixkube-ai/30min" target="_blank" rel="noopener noreferrer">
-                  Book a Demo
-                  <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+                <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
+                  Start Free
                 </Link>
               </Button>
               <Button asChild variant="outline" className={outlineBlueAccentMd}>
-                <Link href="/platform">See the Platform</Link>
+                <Link href="https://calendly.com/rubixkube-ai/30min" target="_blank" rel="noopener noreferrer">
+                  Talk to Sales
+                </Link>
               </Button>
             </motion.div>
           </motion.div>
