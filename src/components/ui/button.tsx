@@ -15,11 +15,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={cn(
-          'inline-flex min-w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md font-[family-name:var(--font-mono)] font-normal uppercase tracking-[0.1em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] disabled:pointer-events-none disabled:opacity-50',
+          'inline-flex min-w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md font-[family-name:var(--font-mono)] font-medium uppercase tracking-[0.12em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] disabled:pointer-events-none disabled:opacity-50',
           {
-            'border-none bg-[var(--blue)] text-white hover:opacity-92':
+            'border-none bg-[var(--blue)] text-white shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)]':
               variant === 'primary' || variant === 'cta',
-            'border border-[var(--ink)] bg-transparent text-[var(--ink)] hover:bg-[var(--ink)]/5':
+            'border border-[var(--ink)] bg-transparent text-[var(--ink)] shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:bg-[var(--ink)]/5 hover:shadow-[0_4px_16px_rgba(17,19,24,0.12)] active:translate-y-px active:shadow-[0_1px_4px_rgba(17,19,24,0.1)]':
               variant === 'secondary',
             'border border-[var(--faint)] bg-transparent text-[var(--mid)] hover:border-[var(--mid)]/40':
               variant === 'outline',

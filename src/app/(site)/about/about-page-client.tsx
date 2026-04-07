@@ -9,6 +9,7 @@ import { ClosingCTA } from '@/components/closing-cta'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { SynapseAnimation } from '@/components/ui/synapse-animation'
 import { fadeUpVariants, staggerContainer, fadeUp } from '@/lib/animations'
+import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 
 
 const BELIEFS = [
@@ -91,7 +92,7 @@ export function AboutPageClient() {
               <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" asChild>
                 <Button variant="primary">Book Demo</Button>
               </CalendlyBooking>
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className={outlineBlueAccentMd}>
                 <a
                   href="https://console.rubixkube.ai"
                   target="_blank"

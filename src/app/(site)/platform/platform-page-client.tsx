@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { ClosingCTA } from '@/components/closing-cta'
+import { Button } from '@/components/ui/button'
+import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { fadeUpVariants } from '@/lib/animations'
 import {
   CheckCircle,
@@ -94,21 +96,15 @@ export function PlatformPageClient() {
               variants={fadeUpVariants}
               className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
-              <Link
-                href="https://console.rubixkube.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-[6px] bg-[var(--blue)] px-[30px] py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-white uppercase transition-colors hover:bg-blue-700 min-[1920px]:px-[34px] min-[1920px]:py-[15px] min-[1920px]:text-[13px] min-[2560px]:text-sm"
-              >
-                Launch Console
-                <Rocket className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-              </Link>
-              <Link
-                href="/contact"
-                className="rounded-[6px] border border-[var(--faint)] bg-transparent px-6 py-[13px] font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--mid)] uppercase transition-colors hover:border-[var(--mid)] min-[1920px]:px-7 min-[1920px]:py-[15px] min-[1920px]:text-[13px] min-[2560px]:text-sm"
-              >
-                Contact Sales
-              </Link>
+              <Button asChild variant="primary">
+                <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
+                  Launch Console
+                  <Rocket className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className={outlineBlueAccentMd}>
+                <Link href="/contact">Contact Sales</Link>
+              </Button>
             </motion.div>
           </motion.div>
         </div>

@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
@@ -20,6 +21,7 @@ import {
   TrendingUp,
   Terminal,
 } from 'lucide-react'
+import type { ReferenceGuideListItem } from './types'
 
 const documentationCategories = [
   {
@@ -32,18 +34,6 @@ const documentationCategories = [
       { title: 'Cloud Installation', link: 'https://docs.rubixkube.ai/getting-started/installation-cloud' },
       { title: 'First Steps Tutorial', link: 'https://docs.rubixkube.ai/tutorials/first-steps' },
       { title: 'Sign Up & Login', link: 'https://docs.rubixkube.ai/getting-started/sign-up' },
-    ],
-  },
-  {
-    title: 'Core Concepts',
-    copy: 'Site Reliability Intelligence, Agent Mesh, Memory Engine, and Safety Guardrails',
-    icon: FileText,
-    link: 'https://docs.rubixkube.ai/concepts/what-is-sri',
-    guides: [
-      { title: 'What is SRI?', link: 'https://docs.rubixkube.ai/concepts/what-is-sri' },
-      { title: 'Agent Mesh', link: 'https://docs.rubixkube.ai/concepts/agent-mesh' },
-      { title: 'Memory Engine', link: 'https://docs.rubixkube.ai/concepts/memory-engine' },
-      { title: 'Safety Guardrails', link: 'https://docs.rubixkube.ai/concepts/guardrails' },
     ],
   },
   {
@@ -147,8 +137,19 @@ const supportResources = [
   },
 ]
 
-export function ResourcesPageClient() {
+const LEARN_CARD_COPY =
+  'Site Reliability Intelligence, Agent Mesh, Memory Engine, and safety guardrails — long-form reads on this site.'
+
+export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem[] }) {
   const prefersReducedMotion = useReducedMotion()
+  const learnGuidesSorted = useMemo(
+    () =>
+      [...guides].sort((a, b) => {
+        const c = (a.category || '').localeCompare(b.category || '')
+        return c !== 0 ? c : a.title.localeCompare(b.title)
+      }),
+    [guides],
+  )
 
   return (
     <>
@@ -275,6 +276,56 @@ export function ResourcesPageClient() {
                 </motion.div>
               )
             })}
+
+            {/* Learn — replaces Core Concepts; lists on-site reference pages from Sanity */}
+            <motion.div
+              variants={fadeUpVariants}
+              {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.24 } })}
+              className="flex flex-col rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-10 transition-shadow hover:shadow-md"
+            >
+              <div className="mb-6 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10">
+                <FileText className="h-5 w-5 text-[var(--blue)]" strokeWidth={1.5} />
+              </div>
+              <h3
+                className="mb-4 text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)]"
+                style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+              >
+                Learn
+              </h3>
+              <p className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-5">
+                {LEARN_CARD_COPY}
+              </p>
+
+              <div className="space-y-1.5 mb-5 flex-1">
+                {learnGuidesSorted.length > 0 ? (
+                  learnGuidesSorted.map((item) => (
+                    <Link
+                      key={`${item.category}-${item.slug}`}
+                      href={`/${item.category}/${item.slug}`}
+                      className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] hover:text-[var(--blue)] transition-colors border-l border-[var(--rule)] hover:border-[var(--blue)] pl-3 py-0.5"
+                    >
+                      {item.title}
+                    </Link>
+                  ))
+                ) : (
+                  <span className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]/50 pl-3 border-l border-[var(--rule)]">
+                    New articles appear here when published.
+                  </span>
+                )}
+              </div>
+
+              <div className="border-t border-[var(--rule)] pt-4 mt-auto">
+                <Link
+                  href="https://docs.rubixkube.ai/concepts/what-is-sri"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                >
+                  View Documentation
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
