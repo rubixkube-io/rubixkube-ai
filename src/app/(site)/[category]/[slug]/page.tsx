@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { client } from '@/lib/sanity.client'
 import { sanityFetch } from '@/sanity/lib/live'
 import { urlFor } from '@/sanity/lib/image'
 import { ReferencePageClient } from './dynamic-page-client'
@@ -147,7 +148,7 @@ export async function generateMetadata({
     title: `${title} — RubixKube`,
     description,
     openGraph: { title, description, url, type: 'article', siteName: 'RubixKube' },
-    twitter: { card: 'summary_large_image', title },
+    twitter: { card: 'summary_large_image', title, description },
     alternates: { canonical: url },
     robots: { index: true, follow: true },
   }
@@ -187,4 +188,16 @@ export default async function MarketingPage({
   }
 
   return <ReferencePageClient page={page} />
+}
+
+export async function generateStaticParams() {
+  const pages = await client.fetch<{ category: string; slug: { current: string } }[]>(
+    `*[_type == "referencePage" && defined(slug.current) && defined(category)]{ category, slug }`,
+    {},
+    { next: { revalidate: 60 } }
+  )
+
+  return pages
+    .filter((p) => !KNOWN_ROUTES.has(p.category))
+    .map((p) => ({ category: p.category, slug: p.slug.current }))
 }

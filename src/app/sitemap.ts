@@ -13,6 +13,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { next: { revalidate: 0 } }
   )
 
+  const KNOWN_ROUTES = new Set([
+    'blog', 'platform', 'solutions', 'resources', 'about',
+    'contact', 'legal', 'status', 'studio', 'pricing',
+  ])
+
+  // Fetch dynamic reference pages
+  const referencePages: { category: string; slug: { current: string }; lastUpdated?: string }[] =
+    await client.fetch(
+      `*[_type == "referencePage" && defined(slug.current) && defined(category)]{ category, slug, lastUpdated }`,
+      {},
+      { next: { revalidate: 0 } }
+    )
+
   const staticEntries: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -96,5 +109,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticEntries, ...blogEntries]
+  const referenceEntries: MetadataRoute.Sitemap = referencePages
+    .filter((p) => !KNOWN_ROUTES.has(p.category))
+    .map((p) => ({
+      url: `${baseUrl}/${p.category}/${p.slug.current}`,
+      lastModified: p.lastUpdated ? new Date(p.lastUpdated) : new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }))
+
+  return [...staticEntries, ...blogEntries, ...referenceEntries]
 }
