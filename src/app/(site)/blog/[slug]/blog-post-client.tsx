@@ -144,17 +144,17 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       <Navbar />
       
       {/* Header Section */}
-      <section className="bg-[var(--bg)] pt-[calc(var(--nav-stack)+3rem)] pb-12 px-[var(--pad)]">
-        <div className="max-w-[1120px] mx-auto w-full">
+      <header className="bg-[var(--bg)] pt-[calc(var(--nav-stack)+3.5rem)] pb-12 px-[var(--pad)]">
+        <div className="rk-landing-max">
           {/* Breadcrumb */}
           <motion.div variants={fadeUpVariants}>
             <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-8">
               <Link href="/" className="hover:text-[var(--ink)] transition-colors">Home</Link>
-              <span className="text-[var(--faint)]">→</span>
+              <span className="text-[var(--faint)]">/</span>
               <Link href="/blog" className="hover:text-[var(--ink)] transition-colors">Blog</Link>
               {post.categories && post.categories.length > 0 && (
                 <>
-                  <span className="text-[var(--faint)]">→</span>
+                  <span className="text-[var(--faint)]">/</span>
                   <span className="text-[var(--blue)]">{post.categories[0]}</span>
                 </>
               )}
@@ -194,7 +194,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
           >
-            <h1 className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,4vw,3rem)] font-light leading-[1.1] tracking-[-0.02em] text-[var(--ink)]">
+            <h1 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-light leading-[1.1] tracking-[-0.015em] text-[var(--ink)]">
               {post.title}
             </h1>
           </motion.div>
@@ -206,7 +206,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.3 } })}
             >
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-[680px]">
+              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-[60ch]">
                 {post.excerpt}
               </p>
             </motion.div>
@@ -254,7 +254,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             )}
           </motion.div>
         </div>
-      </section>
+      </header>
       
       {/* Article Content */}
       <section className="pb-24 bg-[var(--bg)] px-[var(--pad)]">
