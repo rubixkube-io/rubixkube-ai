@@ -1,16 +1,20 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, type ComponentProps } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
+import ReactMarkdown, { type Components } from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { ArrowRight, Check, X, Minus, ChevronDown, ChevronRight } from 'lucide-react'
+
+type PortableTextValue = NonNullable<ComponentProps<typeof PortableText>['value']>
 
 /* ─────────────────────────────────────────────
    Content block types — mixed editorial + marketing
@@ -27,7 +31,8 @@ interface ProseBlock {
 interface HighlightBlock {
   _type: 'highlight'
   heading?: string
-  body?: string
+  /** Portable text or legacy plain string from Sanity */
+  body?: string | unknown[]
 }
 
 interface StatsBlock {
@@ -48,7 +53,7 @@ interface SplitBlock {
   _type: 'split'
   id: string
   heading?: string
-  body?: string
+  body?: string | unknown[]
   imageSrc?: string
   imageAlt?: string
   layout?: 'imageLeft' | 'imageRight'
@@ -68,12 +73,13 @@ interface CardsBlock {
   _type: 'cards'
   id: string
   heading?: string
-  items?: { title?: string; body?: string }[]
+  items?: { title?: string; body?: string | unknown[] }[]
 }
 
 interface QuoteBlock {
   _type: 'quote'
-  text?: string
+  /** Portable text or legacy plain string */
+  text?: string | unknown[]
   attribution?: string
   role?: string
 }
@@ -82,13 +88,13 @@ interface FaqBlock {
   _type: 'faq'
   id: string
   heading?: string
-  items?: { question?: string; answer?: string }[]
+  items?: { question?: string; answer?: string | unknown[] }[]
 }
 
 interface InlineCtaBlock {
   _type: 'inlineCta'
   heading?: string
-  body?: string
+  body?: string | unknown[]
   cta?: { label?: string; href?: string }
 }
 
@@ -96,8 +102,15 @@ interface ChecklistBlock {
   _type: 'checklist'
   id: string
   heading?: string
-  body?: string
+  body?: string | unknown[]
   items?: string[]
+}
+
+interface MarkdownSectionBlock {
+  _type: 'markdownSection'
+  id: string
+  caption?: string
+  content?: string
 }
 
 export type ContentBlock =
@@ -112,6 +125,7 @@ export type ContentBlock =
   | InlineCtaBlock
   | ImageBlock
   | ChecklistBlock
+  | MarkdownSectionBlock
 
 export interface ReferencePage {
   category: string
@@ -147,6 +161,92 @@ function FeatureCell({ value }: { value: true | false | 'partial' | string }) {
 
 function textToId(text: string): string {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+}
+
+/** Shared portable text (matches Sanity reference page blocks + nested custom block bodies). */
+const referencePagePortableComponents: PortableTextComponents = {
+  block: {
+    normal: ({children}) => <p className="mt-5 first:mt-0">{children}</p>,
+    h2: ({children, value}) => {
+      const text = (value?.children || [])
+        .map((c) => (typeof c === 'object' && c !== null && 'text' in c ? String((c as { text?: string }).text ?? '') : ''))
+        .join('')
+      const id = text ? textToId(text) : undefined
+      return (
+        <h2
+          id={id}
+          className="mt-10 scroll-mt-[calc(var(--nav-stack)+2rem)] font-[family-name:var(--font-serif)] text-[clamp(1.2rem,2.2vw,1.55rem)] leading-[1.2] font-light tracking-[-0.01em] text-[var(--ink)]"
+        >
+          {children}
+        </h2>
+      )
+    },
+    h3: ({children, value}) => {
+      const text = (value?.children || [])
+        .map((c) => (typeof c === 'object' && c !== null && 'text' in c ? String((c as { text?: string }).text ?? '') : ''))
+        .join('')
+      const id = text ? textToId(text) : undefined
+      return (
+        <h3 id={id} className="mt-10 scroll-mt-[calc(var(--nav-stack)+2rem)] font-[family-name:var(--font-serif)] text-[clamp(1.12rem,1.9vw,1.35rem)] leading-[1.25] font-light tracking-[-0.01em] text-[var(--ink)]">
+          {children}
+        </h3>
+      )
+    },
+    h4: ({children}) => (
+      <h4 className="mt-8 font-[family-name:var(--font-serif)] text-[clamp(1rem,1.6vw,1.15rem)] leading-[1.3] font-medium text-[var(--ink)]">
+        {children}
+      </h4>
+    ),
+    blockquote: ({children}) => (
+      <blockquote className="mt-8 border-l-2 border-[var(--blue)] pl-5 font-[family-name:var(--font-serif)] text-[1.05rem] italic leading-[1.6] text-[var(--ink)]">
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({children}) => <ul className="mt-5 list-disc space-y-2 pl-6">{children}</ul>,
+    number: ({children}) => <ol className="mt-5 list-decimal space-y-2 pl-6">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({children}) => <li>{children}</li>,
+    number: ({children}) => <li>{children}</li>,
+  },
+  marks: {
+    strong: ({children}) => <strong className="font-medium text-[var(--ink)]">{children}</strong>,
+    em: ({children}) => <em>{children}</em>,
+    underline: ({children}) => <u className="underline underline-offset-2">{children}</u>,
+    'strike-through': ({children}) => <s className="text-[var(--mid)]">{children}</s>,
+    code: ({children}) => (
+      <code className="rounded bg-[var(--background-secondary)] px-1.5 py-0.5 text-[0.92em] text-[var(--ink)]">{children}</code>
+    ),
+    link: ({children, value}) => (
+      <a href={value?.href} className="text-[var(--blue)] underline underline-offset-4" target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    ),
+  },
+}
+
+function FormattedInline({
+  value,
+  className,
+}: {
+  value?: string | unknown[] | null
+  className?: string
+}) {
+  if (value == null) return null
+  if (typeof value === 'string') {
+    if (!value.trim()) return null
+    return <p className={className}>{value}</p>
+  }
+  if (Array.isArray(value) && value.length > 0) {
+    return (
+      <div className={className}>
+        <PortableText value={value as PortableTextValue} components={referencePagePortableComponents} />
+      </div>
+    )
+  }
+  return null
 }
 
 /* ─────────────────────────────────────────────
@@ -206,88 +306,43 @@ function TOC({ headings, activeId }: { headings: TocEntry[]; activeId: string })
 
 /* ─────────────────────────────────────────────
    Block renderers
+   (Vertical rhythm between blocks: parent <article className="... gap-*">)
    ───────────────────────────────────────────── */
 
 function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
-  const proseComponents: PortableTextComponents = {
-    block: {
-      normal: ({children}) => (
-        <p className="mt-5 first:mt-0">{children}</p>
-      ),
-      h3: ({children, value}) => {
-        const text = (value?.children || [])
-          .map((c) => (typeof c === 'object' && c !== null && 'text' in c ? String((c as { text?: string }).text ?? '') : ''))
-          .join('')
-        const id = text ? textToId(text) : undefined
-        return (
-          <h3 id={id} className="mt-10 scroll-mt-[calc(var(--nav-stack)+2rem)] font-[family-name:var(--font-serif)] text-[clamp(1.12rem,1.9vw,1.35rem)] leading-[1.25] font-light tracking-[-0.01em] text-[var(--ink)]">
-            {children}
-          </h3>
-        )
-      },
-      h4: ({children}) => (
-        <h4 className="mt-8 font-[family-name:var(--font-serif)] text-[clamp(1rem,1.6vw,1.15rem)] leading-[1.3] font-medium text-[var(--ink)]">
-          {children}
-        </h4>
-      ),
-      blockquote: ({children}) => (
-        <blockquote className="mt-8 border-l-2 border-[var(--blue)] pl-5 font-[family-name:var(--font-serif)] text-[1.05rem] italic leading-[1.6] text-[var(--ink)]">
-          {children}
-        </blockquote>
-      ),
-    },
-    list: {
-      bullet: ({children}) => <ul className="mt-5 list-disc space-y-2 pl-6">{children}</ul>,
-      number: ({children}) => <ol className="mt-5 list-decimal space-y-2 pl-6">{children}</ol>,
-    },
-    listItem: {
-      bullet: ({children}) => <li>{children}</li>,
-      number: ({children}) => <li>{children}</li>,
-    },
-    marks: {
-      strong: ({children}) => <strong className="font-medium text-[var(--ink)]">{children}</strong>,
-      em: ({children}) => <em>{children}</em>,
-      code: ({children}) => (
-        <code className="rounded bg-[var(--background-secondary)] px-1.5 py-0.5 text-[0.92em] text-[var(--ink)]">
-          {children}
-        </code>
-      ),
-      link: ({children, value}) => (
-        <a href={value?.href} className="text-[var(--blue)] underline underline-offset-4" target="_blank" rel="noopener noreferrer">
-          {children}
-        </a>
-      ),
-    },
-  }
-
+  const hasBody = Array.isArray(block.body) && block.body.length > 0
   return (
-    <div id={block.id} className="mb-20 last:mb-0 scroll-mt-[calc(var(--nav-stack)+2rem)]">
+    <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.div variants={fadeUpVariants} {...anim}>
         {block.heading ? (
-          <h2 className="mb-5 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
+          <h2
+            className={`font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)] ${hasBody ? 'mb-5' : 'mb-6'}`}
+          >
             {block.heading}
           </h2>
         ) : null}
-        <div className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--mid)] min-[1920px]:text-[16px]">
-          <PortableText value={block.body} components={proseComponents} />
-        </div>
+        {hasBody ? (
+          <div className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--mid)] min-[1920px]:text-[16px]">
+            <PortableText value={block.body} components={referencePagePortableComponents} />
+          </div>
+        ) : null}
       </motion.div>
     </div>
   )
 }
 
 function HighlightRenderer({ block, anim }: { block: HighlightBlock; anim: object }) {
+  const bodyClass =
+    'font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]'
   return (
-    <motion.div variants={fadeUpVariants} {...anim} className="mb-20">
+    <motion.div variants={fadeUpVariants} {...anim}>
       <div className="rounded-[6px] border border-[var(--blue)]/15 bg-[var(--blue)]/[0.025] px-7 py-6 sm:px-9 sm:py-8">
         {block.heading && (
           <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1.1rem,2vw,1.35rem)] font-light text-[var(--ink)]">
             {block.heading}
           </h3>
         )}
-        <p className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]">
-          {block.body}
-        </p>
+        <FormattedInline value={block.body} className={bodyClass} />
       </div>
     </motion.div>
   )
@@ -295,7 +350,7 @@ function HighlightRenderer({ block, anim }: { block: HighlightBlock; anim: objec
 
 function StatsRenderer({ block, anim, prefersReducedMotion }: { block: StatsBlock; anim: object; prefersReducedMotion: boolean }) {
   return (
-    <motion.div variants={fadeUpVariants} {...anim} className="mb-20">
+    <motion.div variants={fadeUpVariants} {...anim}>
       <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 rounded-[6px] border border-[var(--rule)] bg-[var(--background-secondary)] px-6 py-8 sm:px-8 sm:py-10">
         {(block.items ?? []).map((item, i) => (
           <motion.div
@@ -320,7 +375,7 @@ function StatsRenderer({ block, anim, prefersReducedMotion }: { block: StatsBloc
 function ComparisonRenderer({ block, anim }: { block: ComparisonBlock; anim: object }) {
   const rows = block.rows || []
   return (
-    <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
+    <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.div variants={fadeUpVariants} {...anim}>
         {block.heading && (
           <h2 className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
@@ -355,7 +410,7 @@ function ComparisonRenderer({ block, anim }: { block: ComparisonBlock; anim: obj
 function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
   const imageRight = block.layout !== 'imageLeft'
   return (
-    <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
+    <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.div variants={fadeUpVariants} {...anim}>
         <div className={`grid items-start gap-8 md:grid-cols-2 md:gap-12`}>
           <div className={imageRight ? '' : 'md:order-2'}>
@@ -364,11 +419,10 @@ function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
                 {block.heading}
               </h2>
             )}
-            {block.body && (
-              <p className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]">
-                {block.body}
-              </p>
-            )}
+            <FormattedInline
+              value={block.body}
+              className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]"
+            />
             {block.bullets && block.bullets.length > 0 && (
               <ul className="mt-6 space-y-2.5">
                 {block.bullets.map((b) => (
@@ -399,17 +453,23 @@ function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
 
 function ChecklistRenderer({ block, anim }: { block: ChecklistBlock; anim: object }) {
   return (
-    <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
+    <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.div variants={fadeUpVariants} {...anim}>
         {block.heading && (
           <h2 className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
             {block.heading}
           </h2>
         )}
-        {block.body && (
-          <p className="mb-6 font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--mid)] min-[1920px]:text-[16px]">
-            {block.body}
-          </p>
+        {block.body != null &&
+          (typeof block.body === 'string'
+            ? block.body.trim()
+            : Array.isArray(block.body) && block.body.length > 0) && (
+          <div className="mb-6">
+            <FormattedInline
+              value={block.body}
+              className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--mid)] min-[1920px]:text-[16px]"
+            />
+          </div>
         )}
         {block.items && block.items.length > 0 && (
           <ul className="space-y-3">
@@ -431,7 +491,7 @@ function ChecklistRenderer({ block, anim }: { block: ChecklistBlock; anim: objec
 function CardsRenderer({ block, anim, prefersReducedMotion }: { block: CardsBlock; anim: object; prefersReducedMotion: boolean }) {
   const items = block.items || []
   return (
-    <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
+    <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
       {block.heading && (
         <motion.div variants={fadeUpVariants} {...anim}>
           <h2 className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
@@ -448,7 +508,10 @@ function CardsRenderer({ block, anim, prefersReducedMotion }: { block: CardsBloc
             className="rounded-[6px] border border-[var(--rule)] bg-[var(--background-secondary)] p-6"
           >
             <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1rem,1.5vw,1.2rem)] font-light text-[var(--ink)]">{item.title}</h3>
-            <p className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)] min-[1920px]:text-[15px]">{item.body}</p>
+            <FormattedInline
+              value={item.body}
+              className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)] min-[1920px]:text-[15px]"
+            />
           </motion.div>
         ))}
       </div>
@@ -457,14 +520,22 @@ function CardsRenderer({ block, anim, prefersReducedMotion }: { block: CardsBloc
 }
 
 function QuoteRenderer({ block, anim }: { block: QuoteBlock; anim: object }) {
+  const quoteTextClass =
+    'mb-4 font-[family-name:var(--font-serif)] text-[clamp(1.15rem,2vw,1.5rem)] leading-[1.4] font-light text-[var(--ink)]'
   return (
-    <motion.div variants={fadeUpVariants} {...anim} className="mb-20">
+    <motion.div variants={fadeUpVariants} {...anim}>
       <div className="border-l-2 border-[var(--blue)] pl-6 sm:pl-8">
-        {block.text && (
-          <p className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(1.15rem,2vw,1.5rem)] leading-[1.4] font-light text-[var(--ink)]">
-            &ldquo;{block.text}&rdquo;
-          </p>
-        )}
+        {block.text != null &&
+          (typeof block.text === 'string'
+            ? block.text.trim()
+            : Array.isArray(block.text) && block.text.length > 0) &&
+          (typeof block.text === 'string' ? (
+            <p className={quoteTextClass}>&ldquo;{block.text}&rdquo;</p>
+          ) : (
+            <div className={quoteTextClass}>
+              <PortableText value={block.text as PortableTextValue} components={referencePagePortableComponents} />
+            </div>
+          ))}
         {(block.attribution || block.role) && (
           <div>
             {block.attribution && (
@@ -483,7 +554,7 @@ function QuoteRenderer({ block, anim }: { block: QuoteBlock; anim: object }) {
 function FaqRenderer({ block, anim }: { block: FaqBlock; anim: object }) {
   const items = block.items || []
   return (
-    <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
+    <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
       {block.heading && (
         <motion.div variants={fadeUpVariants} {...anim}>
           <h2 className="mb-10 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
@@ -502,9 +573,10 @@ function FaqRenderer({ block, anim }: { block: FaqBlock; anim: object }) {
           <h3 className="mb-2.5 font-[family-name:var(--font-serif)] text-[clamp(1.05rem,1.8vw,1.25rem)] font-light leading-[1.25] text-[var(--ink)]">
             {item.question}
           </h3>
-          <p className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--mid)] min-[1920px]:text-[16px]">
-            {item.answer}
-          </p>
+          <FormattedInline
+            value={item.answer}
+            className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--mid)] min-[1920px]:text-[16px]"
+          />
         </motion.div>
       ))}
     </div>
@@ -513,17 +585,23 @@ function FaqRenderer({ block, anim }: { block: FaqBlock; anim: object }) {
 
 function InlineCtaRenderer({ block, anim }: { block: InlineCtaBlock; anim: object }) {
   return (
-    <motion.div variants={fadeUpVariants} {...anim} className="mb-20">
+    <motion.div variants={fadeUpVariants} {...anim}>
       <div className="rounded-[6px] border border-[var(--blue)]/15 bg-[var(--blue)]/[0.025] px-7 py-8 sm:px-9 sm:py-10 text-center">
         {block.heading && (
           <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1.15rem,2vw,1.5rem)] font-light text-[var(--ink)]">
             {block.heading}
           </h3>
         )}
-        {block.body && (
-          <p className="mx-auto mb-6 max-w-[50ch] font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)]">
-            {block.body}
-          </p>
+        {block.body != null &&
+          (typeof block.body === 'string'
+            ? block.body.trim()
+            : Array.isArray(block.body) && block.body.length > 0) && (
+          <div className="mx-auto mb-6 max-w-[50ch]">
+            <FormattedInline
+              value={block.body}
+              className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)] text-center [&_p]:text-center [&_ul]:text-left [&_ol]:text-left"
+            />
+          </div>
         )}
         {block.cta?.href && (
           <Link
@@ -541,7 +619,7 @@ function InlineCtaRenderer({ block, anim }: { block: InlineCtaBlock; anim: objec
 
 function ImageRenderer({ block, anim }: { block: ImageBlock; anim: object }) {
   return (
-    <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
+    <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.figure variants={fadeUpVariants} {...anim} className="m-0">
         {block.src && (
           <Image
@@ -558,6 +636,98 @@ function ImageRenderer({ block, anim }: { block: ImageBlock; anim: object }) {
           </figcaption>
         )}
       </motion.figure>
+    </div>
+  )
+}
+
+const gfmMarkdownComponents: Components = {
+  h1: ({children}) => (
+    <h1 className="mt-10 first:mt-0 scroll-mt-[calc(var(--nav-stack)+2rem)] font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
+      {children}
+    </h1>
+  ),
+  h2: ({children}) => (
+    <h2 className="mt-10 first:mt-0 scroll-mt-[calc(var(--nav-stack)+2rem)] font-[family-name:var(--font-serif)] text-[clamp(1.2rem,2.2vw,1.55rem)] leading-[1.2] font-light text-[var(--ink)]">
+      {children}
+    </h2>
+  ),
+  h3: ({children}) => (
+    <h3 className="mt-8 font-[family-name:var(--font-serif)] text-[clamp(1.05rem,1.8vw,1.25rem)] font-light leading-[1.25] text-[var(--ink)]">{children}</h3>
+  ),
+  p: ({children}) => (
+    <p className="mt-4 first:mt-0 font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]">{children}</p>
+  ),
+  ul: ({children}) => <ul className="mt-4 list-disc space-y-2 pl-6 first:mt-0">{children}</ul>,
+  ol: ({children}) => <ol className="mt-4 list-decimal space-y-2 pl-6 first:mt-0">{children}</ol>,
+  li: ({children}) => <li className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--ink)]">{children}</li>,
+  a: ({href, children}) => (
+    <a
+      href={href}
+      className="text-[var(--blue)] underline underline-offset-4"
+      {...(typeof href === 'string' && /^https?:\/\//i.test(href) ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
+    >
+      {children}
+    </a>
+  ),
+  strong: ({children}) => <strong className="font-medium text-[var(--ink)]">{children}</strong>,
+  em: ({children}) => <em>{children}</em>,
+  code: ({className, children, ...props}) => {
+    const isBlock = typeof className === 'string' && className.includes('language-')
+    if (isBlock) {
+      return (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      )
+    }
+    return (
+      <code className="rounded bg-[var(--background-secondary)] px-1.5 py-0.5 text-[0.92em] text-[var(--ink)]">{children}</code>
+    )
+  },
+  pre: ({children}) => (
+    <pre className="my-6 overflow-x-auto rounded-[6px] border border-[var(--rule)] bg-[var(--background-secondary)] p-4 font-[family-name:var(--font-mono)] text-[13px] leading-relaxed">
+      {children}
+    </pre>
+  ),
+  blockquote: ({children}) => (
+    <blockquote className="mt-6 border-l-2 border-[var(--blue)] pl-5 font-[family-name:var(--font-serif)] text-[1.05rem] italic leading-[1.6] text-[var(--ink)] first:mt-0">
+      {children}
+    </blockquote>
+  ),
+  hr: () => <hr className="my-8 border-[var(--rule)]" />,
+  table: ({children}) => (
+    <div className="my-6 overflow-x-auto rounded-[6px] border border-[var(--rule)] first:mt-0">
+      <table className="w-full min-w-[min(100%,36rem)] border-collapse text-left">{children}</table>
+    </div>
+  ),
+  thead: ({children}) => <thead className="bg-[var(--background-secondary)]">{children}</thead>,
+  tbody: ({children}) => <tbody>{children}</tbody>,
+  tr: ({children}) => <tr className="border-b border-[var(--rule)]/80 last:border-b-0">{children}</tr>,
+  th: ({children}) => (
+    <th className="px-4 py-3 text-left font-[family-name:var(--font-mono)] text-[11px] font-light uppercase tracking-[0.08em] text-[var(--mid)]">{children}</th>
+  ),
+  td: ({children}) => (
+    <td className="px-4 py-3 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)] min-[1920px]:text-[15px]">{children}</td>
+  ),
+}
+
+function MarkdownSectionRenderer({ block, anim }: { block: MarkdownSectionBlock; anim: object }) {
+  const content = block.content?.trim()
+  if (!content) return null
+  return (
+    <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
+      <motion.div variants={fadeUpVariants} {...anim}>
+        {block.caption ? (
+          <p className="mb-4 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">
+            {block.caption}
+          </p>
+        ) : null}
+        <div className="min-w-0 [&_table+p]:mt-6">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={gfmMarkdownComponents}>
+            {content}
+          </ReactMarkdown>
+        </div>
+      </motion.div>
     </div>
   )
 }
@@ -702,7 +872,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
       <section className="bg-[var(--bg)] px-[var(--pad)] py-16 sm:py-20">
         <div className="rk-landing-max grid gap-12 lg:grid-cols-[1fr_200px] xl:gap-16">
           {/* Content column */}
-          <article className="min-w-0">
+          <article className="min-w-0 flex flex-col gap-10">
             {page.blocks.map((block, i) => {
               switch (block._type) {
                 case 'prose': return <ProseRenderer key={i} block={block} anim={anim} />
@@ -715,6 +885,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
                 case 'quote': return <QuoteRenderer key={i} block={block} anim={anim} />
                 case 'faq': return <FaqRenderer key={i} block={block} anim={anim} />
                 case 'inlineCta': return <InlineCtaRenderer key={i} block={block} anim={anim} />
+                case 'markdownSection': return <MarkdownSectionRenderer key={i} block={block} anim={anim} />
                 case 'imageBlock': return <ImageRenderer key={i} block={block} anim={anim} />
               }
             })}

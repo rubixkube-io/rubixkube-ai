@@ -1,4 +1,5 @@
 import {defineField, defineType, defineArrayMember} from 'sanity'
+import {inlineBodyBlocks} from './blocks'
 import {
   HighlightIcon,
   BarChartIcon,
@@ -9,6 +10,7 @@ import {
   HelpCircleIcon,
   RocketIcon,
   UlistIcon,
+  BlockContentIcon,
 } from '@sanity/icons'
 
 const CELL_OPTIONS = [
@@ -92,7 +94,7 @@ export const referencePageType = defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      description: 'Write content and drop in special sections anywhere in the flow.',
+      description: 'Rich text, images, code, Markdown (tables via GFM), and special sections.',
       type: 'array',
       group: 'content',
       of: [
@@ -162,6 +164,37 @@ export const referencePageType = defineType({
             withFilename: true,
           },
         }),
+        // ── Markdown (GFM: tables, task lists, strikethrough, …) ──
+        defineArrayMember({
+          name: 'markdownSection',
+          title: 'Markdown',
+          type: 'object',
+          icon: BlockContentIcon,
+          fields: [
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+              description: 'Optional label shown above the block.',
+            },
+            {
+              name: 'content',
+              title: 'Markdown source',
+              type: 'text',
+              rows: 14,
+              description:
+                'GitHub Flavored Markdown — tables use | pipes | with a header separator row (|---|---|). Also supports **bold**, lists, links, ~~strike~~.',
+              validation: (rule) => rule.required(),
+            },
+          ],
+          preview: {
+            select: {title: 'caption', content: 'content'},
+            prepare({title, content}: {title?: string; content?: string}) {
+              const line = typeof content === 'string' ? content.replace(/\s+/g, ' ').trim() : ''
+              return {title: title || 'Markdown', subtitle: line.slice(0, 72) + (line.length > 72 ? '…' : '')}
+            },
+          },
+        }),
         // ── Highlight Box ──
         defineArrayMember({
           name: 'highlight',
@@ -176,12 +209,13 @@ export const referencePageType = defineType({
               description: 'e.g. "TL;DR" or "Key Takeaway"',
               initialValue: 'Key Takeaway',
             },
-            {name: 'body', title: 'Body', type: 'text', rows: 3},
+            {name: 'body', title: 'Body', type: 'array', of: inlineBodyBlocks},
           ],
           preview: {
             select: {title: 'heading', subtitle: 'body'},
             prepare({title, subtitle}) {
-              return {title: title || 'Highlight Box', subtitle: subtitle?.slice(0, 80)}
+              const sub = typeof subtitle === 'string' ? subtitle?.slice(0, 80) : 'Rich text'
+              return {title: title || 'Highlight Box', subtitle: sub}
             },
           },
         }),
@@ -317,7 +351,7 @@ export const referencePageType = defineType({
           icon: MasterDetailIcon,
           fields: [
             {name: 'heading', title: 'Heading', type: 'string'},
-            {name: 'body', title: 'Body', type: 'text', rows: 4},
+            {name: 'body', title: 'Body', type: 'array', of: inlineBodyBlocks},
             {
               name: 'image',
               title: 'Image',
@@ -363,7 +397,7 @@ export const referencePageType = defineType({
           icon: UlistIcon,
           fields: [
             {name: 'heading', title: 'Heading', type: 'string'},
-            {name: 'body', title: 'Body', type: 'text', rows: 3, description: 'Optional supporting paragraph.'},
+            {name: 'body', title: 'Body', type: 'array', of: inlineBodyBlocks, description: 'Optional supporting copy.'},
             {
               name: 'items',
               title: 'Items',
@@ -397,12 +431,14 @@ export const referencePageType = defineType({
                 type: 'object',
                 fields: [
                   {name: 'title', title: 'Title', type: 'string'},
-                  {name: 'body', title: 'Body', type: 'text', rows: 3},
+                  {name: 'body', title: 'Body', type: 'array', of: inlineBodyBlocks},
                 ],
                 preview: {
                   select: {title: 'title', subtitle: 'body'},
-                  prepare({title, subtitle}: {title?: string; subtitle?: string}) {
-                    return {title: title || 'Card', subtitle: subtitle?.slice(0, 60) || ''}
+                  prepare({title, subtitle}: {title?: string; subtitle?: unknown}) {
+                    const sub =
+                      typeof subtitle === 'string' ? subtitle?.slice(0, 60) || '' : subtitle ? 'Rich text' : ''
+                    return {title: title || 'Card', subtitle: sub}
                   },
                 },
               }],
@@ -422,14 +458,17 @@ export const referencePageType = defineType({
           type: 'object',
           icon: BlockquoteIcon,
           fields: [
-            {name: 'text', title: 'Quote', type: 'text', rows: 3},
+            {name: 'text', title: 'Quote', type: 'array', of: inlineBodyBlocks},
             {name: 'attribution', title: 'Name', type: 'string', description: 'e.g. "Jane Smith"'},
             {name: 'role', title: 'Title / Role', type: 'string', description: 'e.g. "Head of Platform, Acme"'},
           ],
           preview: {
             select: {title: 'text', subtitle: 'attribution'},
-            prepare({title, subtitle}: {title?: string; subtitle?: string}) {
-              return {title: title ? `"${title.slice(0, 55)}…"` : 'Pull Quote', subtitle}
+            prepare({title, subtitle}: {title?: unknown; subtitle?: string}) {
+              return {
+                title: typeof title === 'string' && title ? `"${title.slice(0, 55)}…"` : 'Pull Quote',
+                subtitle,
+              }
             },
           },
         }),
@@ -454,7 +493,7 @@ export const referencePageType = defineType({
                 type: 'object',
                 fields: [
                   {name: 'question', title: 'Question', type: 'string'},
-                  {name: 'answer', title: 'Answer', type: 'text', rows: 3},
+                  {name: 'answer', title: 'Answer', type: 'array', of: inlineBodyBlocks},
                 ],
                 preview: {
                   select: {title: 'question'},
@@ -480,7 +519,7 @@ export const referencePageType = defineType({
           icon: RocketIcon,
           fields: [
             {name: 'heading', title: 'Heading', type: 'string'},
-            {name: 'body', title: 'Supporting text', type: 'text', rows: 2},
+            {name: 'body', title: 'Supporting text', type: 'array', of: inlineBodyBlocks},
             {
               name: 'cta',
               title: 'Button',

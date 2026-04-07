@@ -55,7 +55,9 @@ function sanityBodyToBlocks(body: unknown): ContentBlock[] {
   let currentProse: { heading: string; id: string; body: SanityPortableNode[] } | null = null
 
   function flushProse() {
-    if (currentProse && currentProse.body.length > 0) {
+    const hasBody = currentProse && currentProse.body.length > 0
+    const hasHeading = currentProse && currentProse.heading.trim().length > 0
+    if (currentProse && (hasBody || hasHeading)) {
       blocks.push({
         _type: 'prose',
         id: currentProse.id,
@@ -99,7 +101,18 @@ function sanityBodyToBlocks(body: unknown): ContentBlock[] {
       })
     } else if (
       node._type &&
-      ['highlight', 'stats', 'comparison', 'split', 'checklist', 'cards', 'quote', 'faq', 'inlineCta'].includes(node._type)
+      [
+        'highlight',
+        'stats',
+        'comparison',
+        'split',
+        'checklist',
+        'cards',
+        'quote',
+        'faq',
+        'inlineCta',
+        'markdownSection',
+      ].includes(node._type)
     ) {
       flushProse()
 
@@ -120,6 +133,18 @@ function sanityBodyToBlocks(body: unknown): ContentBlock[] {
         const id = (node.heading || '')
           .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `checklist-${blocks.length}`
         blocks.push({ ...node, id } as ContentBlock)
+      } else if (node._type === 'markdownSection') {
+        const cap = typeof node.caption === 'string' ? node.caption.trim() : ''
+        const id =
+          (cap
+            ? cap.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+            : '') || `markdown-${blocks.length}`
+        blocks.push({
+          _type: 'markdownSection',
+          id,
+          caption: typeof node.caption === 'string' ? node.caption : undefined,
+          content: typeof node.content === 'string' ? node.content : '',
+        } as ContentBlock)
       } else {
         blocks.push(node as ContentBlock)
       }
