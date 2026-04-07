@@ -20,7 +20,7 @@ export default defineConfig({
   dataset,
   schema,
   document: {
-    productionUrl: (prev, context) => {
+    productionUrl: async (prev, context) => {
       const doc = context.document
       const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
       const slug = (doc.slug as undefined | {current?: string})?.current

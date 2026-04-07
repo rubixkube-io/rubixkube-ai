@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Script from 'next/script'
+import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
@@ -312,13 +313,13 @@ export function ContactPageClient() {
                   <div className="flex items-center justify-between gap-6 pt-2">
                     <p className="font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]">
                       By submitting you agree to our{' '}
-                      <a href="/legal/privacy" className="underline underline-offset-2 hover:text-[var(--ink)]">
+                      <Link href="/legal/privacy" className="underline underline-offset-2 hover:text-[var(--ink)]">
                         Privacy Policy
-                      </a>
+                      </Link>
                       {' '}and{' '}
-                      <a href="/legal/terms" className="underline underline-offset-2 hover:text-[var(--ink)]">
+                      <Link href="/legal/terms" className="underline underline-offset-2 hover:text-[var(--ink)]">
                         Terms
-                      </a>.
+                      </Link>.
                     </p>
                     <Button type="submit" disabled={isLoading} size="lg" className="shrink-0">
                       {isLoading ? 'Sending…' : 'Send Message'}

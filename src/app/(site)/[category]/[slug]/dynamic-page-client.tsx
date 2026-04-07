@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useMemo } from 'react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
@@ -215,7 +215,9 @@ function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
         <p className="mt-5 first:mt-0">{children}</p>
       ),
       h3: ({children, value}) => {
-        const text = (value?.children || []).map((c: {text?: string}) => c.text || '').join('')
+        const text = (value?.children || [])
+          .map((c) => (typeof c === 'object' && c !== null && 'text' in c ? String((c as { text?: string }).text ?? '') : ''))
+          .join('')
         const id = text ? textToId(text) : undefined
         return (
           <h3 id={id} className="mt-10 scroll-mt-[calc(var(--nav-stack)+2rem)] font-[family-name:var(--font-serif)] text-[clamp(1.12rem,1.9vw,1.35rem)] leading-[1.25] font-light tracking-[-0.01em] text-[var(--ink)]">
@@ -295,7 +297,7 @@ function StatsRenderer({ block, anim, prefersReducedMotion }: { block: StatsBloc
   return (
     <motion.div variants={fadeUpVariants} {...anim} className="mb-20">
       <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 rounded-[6px] border border-[var(--rule)] bg-[var(--background-secondary)] px-6 py-8 sm:px-8 sm:py-10">
-        {block.items.map((item, i) => (
+        {(block.items ?? []).map((item, i) => (
           <motion.div
             key={item.label}
             variants={fadeUpVariants}
@@ -544,7 +546,7 @@ function ImageRenderer({ block, anim }: { block: ImageBlock; anim: object }) {
         {block.src && (
           <Image
             src={block.src}
-            alt={block.alt}
+            alt={block.alt ?? ''}
             width={1200}
             height={800}
             className="w-full h-auto"
@@ -583,8 +585,8 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
             if (text) entries.push({ id: textToId(text), text, level: 3 })
           }
         }
-      } else if ('id' in block && 'heading' in block && block.heading && block._type !== 'highlight' && block._type !== 'stats' && block._type !== 'quote' && block._type !== 'inlineCta') {
-        entries.push({ id: (block as {id: string}).id, text: block.heading as string, level: 2 })
+      } else if ('id' in block && 'heading' in block && block.heading) {
+        entries.push({ id: (block as { id: string }).id, text: block.heading, level: 2 })
       }
     }
     return entries

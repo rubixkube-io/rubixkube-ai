@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Mail, ArrowRight, Check } from "lucide-react"
@@ -187,9 +188,9 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
 
           <p className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mt-4 text-center">
             No spam, unsubscribe at any time. Read our{" "}
-            <a href="/legal/privacy" className="text-[var(--blue)] hover:underline transition-colors">
+            <Link href="/legal/privacy" className="text-[var(--blue)] hover:underline transition-colors">
               privacy policy
-            </a>
+            </Link>
             .
           </p>
         </>

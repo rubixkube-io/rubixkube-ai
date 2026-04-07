@@ -34,12 +34,24 @@ const PAGE_QUERY = `*[_type == "referencePage" && category == $category && slug.
   seoDescription,
 }`
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sanityBodyToBlocks(body: any[]): ContentBlock[] {
+/** Loose shape for raw Sanity portable text / custom blocks while transforming */
+type SanityPortableNode = Record<string, unknown> & {
+  _type?: string
+  style?: string
+  listItem?: string
+  children?: { text?: string }[]
+  asset?: unknown
+  alt?: string
+  caption?: string
+  image?: { asset?: unknown; alt?: string }
+  heading?: string
+}
+
+function sanityBodyToBlocks(body: unknown): ContentBlock[] {
   if (!body || !Array.isArray(body)) return []
 
   const blocks: ContentBlock[] = []
-  let currentProse: { heading: string; id: string; body: any[] } | null = null
+  let currentProse: { heading: string; id: string; body: SanityPortableNode[] } | null = null
 
   function flushProse() {
     if (currentProse && currentProse.body.length > 0) {
@@ -53,7 +65,8 @@ function sanityBodyToBlocks(body: any[]): ContentBlock[] {
     }
   }
 
-  for (const node of body) {
+  for (const raw of body) {
+    const node = raw as SanityPortableNode
     if (node._type === 'block') {
       const text = (node.children || []).map((c: { text?: string }) => c.text || '').join('')
 
@@ -83,15 +96,25 @@ function sanityBodyToBlocks(body: any[]): ContentBlock[] {
         alt: node.alt || '',
         caption: node.caption || '',
       })
-    } else if (['highlight', 'stats', 'comparison', 'split', 'checklist', 'cards', 'quote', 'faq', 'inlineCta'].includes(node._type)) {
+    } else if (
+      node._type &&
+      ['highlight', 'stats', 'comparison', 'split', 'checklist', 'cards', 'quote', 'faq', 'inlineCta'].includes(node._type)
+    ) {
       flushProse()
 
       if (node._type === 'split' && node.image?.asset) {
+        const splitId =
+          (node.heading || '')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '') || `split-${blocks.length}`
         blocks.push({
           ...node,
+          _type: 'split' as const,
+          id: splitId,
           imageSrc: urlFor(node.image.asset).width(800).url(),
           imageAlt: node.image?.alt || '',
-        })
+        } as ContentBlock)
       } else if (node._type === 'checklist') {
         const id = (node.heading || '')
           .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `checklist-${blocks.length}`
