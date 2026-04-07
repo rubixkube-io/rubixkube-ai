@@ -650,7 +650,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
           </motion.h1>
 
           <motion.p
-            className="mb-10 max-w-[60ch] font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] min-[1920px]:text-[17px]"
+            className="mb-10 max-w-4xl whitespace-pre-line font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] min-[1920px]:text-[17px]"
             variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
           >
             {page.subtitle}
