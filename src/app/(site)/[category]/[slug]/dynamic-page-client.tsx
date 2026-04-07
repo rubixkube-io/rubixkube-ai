@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -27,28 +27,28 @@ interface ProseBlock {
 interface HighlightBlock {
   _type: 'highlight'
   heading?: string
-  body: string
+  body?: string
 }
 
 interface StatsBlock {
   _type: 'stats'
-  items: { value: string; label: string }[]
+  items?: { value?: string; label?: string }[]
 }
 
 interface ComparisonBlock {
   _type: 'comparison'
   id: string
-  heading: string
-  usLabel: string
-  themLabel: string
-  rows: { feature: string; us: true | false | 'partial' | string; them: true | false | 'partial' | string }[]
+  heading?: string
+  usLabel?: string
+  themLabel?: string
+  rows?: { feature?: string; us?: true | false | 'partial' | string; them?: true | false | 'partial' | string }[]
 }
 
 interface SplitBlock {
   _type: 'split'
   id: string
-  heading: string
-  body: string
+  heading?: string
+  body?: string
   imageSrc?: string
   imageAlt?: string
   layout?: 'imageLeft' | 'imageRight'
@@ -59,7 +59,7 @@ interface ImageBlock {
   _type: 'imageBlock'
   id: string
   src?: string
-  alt: string
+  alt?: string
   caption?: string
   aspectRatio?: '16/9' | '4/3' | 'auto'
 }
@@ -67,29 +67,37 @@ interface ImageBlock {
 interface CardsBlock {
   _type: 'cards'
   id: string
-  heading: string
-  items: { title: string; body: string }[]
+  heading?: string
+  items?: { title?: string; body?: string }[]
 }
 
 interface QuoteBlock {
   _type: 'quote'
-  text: string
-  attribution: string
+  text?: string
+  attribution?: string
   role?: string
 }
 
 interface FaqBlock {
   _type: 'faq'
   id: string
-  heading: string
-  items: { question: string; answer: string }[]
+  heading?: string
+  items?: { question?: string; answer?: string }[]
 }
 
 interface InlineCtaBlock {
   _type: 'inlineCta'
-  heading: string
+  heading?: string
   body?: string
-  cta: { label: string; href: string }
+  cta?: { label?: string; href?: string }
+}
+
+interface ChecklistBlock {
+  _type: 'checklist'
+  id: string
+  heading?: string
+  body?: string
+  items?: string[]
 }
 
 export type ContentBlock =
@@ -103,6 +111,7 @@ export type ContentBlock =
   | FaqBlock
   | InlineCtaBlock
   | ImageBlock
+  | ChecklistBlock
 
 export interface ReferencePage {
   category: string
@@ -133,13 +142,40 @@ function FeatureCell({ value }: { value: true | false | 'partial' | string }) {
 }
 
 /* ─────────────────────────────────────────────
+   Shared helpers
+   ───────────────────────────────────────────── */
+
+function textToId(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+}
+
+/* ─────────────────────────────────────────────
    Sticky TOC
    ───────────────────────────────────────────── */
 
-function TOC({ headings, activeId }: { headings: { id: string; text: string }[]; activeId: string }) {
+interface TocEntry { id: string; text: string; level: 2 | 3 }
+
+function TOC({ headings, activeId }: { headings: TocEntry[]; activeId: string }) {
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   if (headings.length === 0) return null
+
+  const renderItem = (h: TocEntry, onClickExtra?: () => void) => (
+    <li key={h.id}>
+      <button
+        onClick={() => { scrollTo(h.id); onClickExtra?.() }}
+        className={`block w-full text-left font-[family-name:var(--font-mono)] font-light leading-snug transition-colors ${
+          h.level === 3 ? 'pl-7 text-[11px]' : 'pl-4 text-[12px]'
+        } ${
+          activeId === h.id
+            ? 'text-[var(--blue)] border-l-2 border-[var(--blue)] -ml-px'
+            : 'text-[var(--mid)] hover:text-[var(--ink)]'
+        }`}
+      >
+        {h.text}
+      </button>
+    </li>
+  )
 
   return (
     <>
@@ -148,20 +184,7 @@ function TOC({ headings, activeId }: { headings: { id: string; text: string }[];
           On this page
         </span>
         <ul className="space-y-2 border-l border-[var(--rule)]">
-          {headings.map((h) => (
-            <li key={h.id}>
-              <button
-                onClick={() => scrollTo(h.id)}
-                className={`block w-full pl-4 text-left font-[family-name:var(--font-mono)] text-[12px] font-light leading-snug transition-colors ${
-                  activeId === h.id
-                    ? 'text-[var(--blue)] border-l-2 border-[var(--blue)] -ml-px'
-                    : 'text-[var(--mid)] hover:text-[var(--ink)]'
-                }`}
-              >
-                {h.text}
-              </button>
-            </li>
-          ))}
+          {headings.map((h) => renderItem(h))}
         </ul>
       </nav>
 
@@ -171,16 +194,10 @@ function TOC({ headings, activeId }: { headings: { id: string; text: string }[];
           <ChevronDown className="h-4 w-4" strokeWidth={1.5} />
         </summary>
         <ul className="space-y-1 px-5 pb-4">
-          {headings.map((h) => (
-            <li key={h.id}>
-              <button
-                onClick={(e) => { scrollTo(h.id); (e.currentTarget.closest('details') as HTMLDetailsElement).open = false }}
-                className="block w-full py-1 text-left font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)] hover:text-[var(--ink)] transition-colors"
-              >
-                {h.text}
-              </button>
-            </li>
-          ))}
+          {headings.map((h) => renderItem(h, () => {
+            const el = document.querySelector('details[open]') as HTMLDetailsElement | null
+            if (el) el.open = false
+          }))}
         </ul>
       </details>
     </>
@@ -197,11 +214,15 @@ function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
       normal: ({children}) => (
         <p className="mt-5 first:mt-0">{children}</p>
       ),
-      h3: ({children}) => (
-        <h3 className="mt-10 font-[family-name:var(--font-serif)] text-[clamp(1.12rem,1.9vw,1.35rem)] leading-[1.25] font-light tracking-[-0.01em] text-[var(--ink)]">
-          {children}
-        </h3>
-      ),
+      h3: ({children, value}) => {
+        const text = (value?.children || []).map((c: {text?: string}) => c.text || '').join('')
+        const id = text ? textToId(text) : undefined
+        return (
+          <h3 id={id} className="mt-10 scroll-mt-[calc(var(--nav-stack)+2rem)] font-[family-name:var(--font-serif)] text-[clamp(1.12rem,1.9vw,1.35rem)] leading-[1.25] font-light tracking-[-0.01em] text-[var(--ink)]">
+            {children}
+          </h3>
+        )
+      },
       h4: ({children}) => (
         <h4 className="mt-8 font-[family-name:var(--font-serif)] text-[clamp(1rem,1.6vw,1.15rem)] leading-[1.3] font-medium text-[var(--ink)]">
           {children}
@@ -295,27 +316,30 @@ function StatsRenderer({ block, anim, prefersReducedMotion }: { block: StatsBloc
 }
 
 function ComparisonRenderer({ block, anim }: { block: ComparisonBlock; anim: object }) {
+  const rows = block.rows || []
   return (
     <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.div variants={fadeUpVariants} {...anim}>
-        <h2 className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
-          {block.heading}
-        </h2>
+        {block.heading && (
+          <h2 className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
+            {block.heading}
+          </h2>
+        )}
         <div className="overflow-x-auto rounded-[6px] border border-[var(--rule)]">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-[var(--rule)] bg-[var(--background-secondary)]">
                 <th className="py-3 px-5 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">Feature</th>
-                <th className="py-3 px-4 text-center font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--blue)] uppercase">{block.usLabel}</th>
-                <th className="py-3 px-4 text-center font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">{block.themLabel}</th>
+                <th className="py-3 px-4 text-center font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--blue)] uppercase">{block.usLabel || 'Us'}</th>
+                <th className="py-3 px-4 text-center font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">{block.themLabel || 'Them'}</th>
               </tr>
             </thead>
             <tbody>
-              {block.rows.map((row) => (
-                <tr key={row.feature} className="border-b border-[var(--rule)]/50 last:border-b-0">
+              {rows.map((row, i) => (
+                <tr key={i} className="border-b border-[var(--rule)]/50 last:border-b-0">
                   <td className="py-3 px-5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)] min-[1920px]:text-[15px]">{row.feature}</td>
-                  <td className="py-3 px-4 text-center"><FeatureCell value={row.us} /></td>
-                  <td className="py-3 px-4 text-center"><FeatureCell value={row.them} /></td>
+                  <td className="py-3 px-4 text-center"><FeatureCell value={row.us ?? ''} /></td>
+                  <td className="py-3 px-4 text-center"><FeatureCell value={row.them ?? ''} /></td>
                 </tr>
               ))}
             </tbody>
@@ -331,14 +355,18 @@ function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
   return (
     <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.div variants={fadeUpVariants} {...anim}>
-        <div className={`grid items-center gap-8 md:grid-cols-2 md:gap-12`}>
+        <div className={`grid items-start gap-8 md:grid-cols-2 md:gap-12`}>
           <div className={imageRight ? '' : 'md:order-2'}>
-            <h2 className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
-              {block.heading}
-            </h2>
-            <p className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]">
-              {block.body}
-            </p>
+            {block.heading && (
+              <h2 className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
+                {block.heading}
+              </h2>
+            )}
+            {block.body && (
+              <p className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]">
+                {block.body}
+              </p>
+            )}
             {block.bullets && block.bullets.length > 0 && (
               <ul className="mt-6 space-y-2.5">
                 {block.bullets.map((b) => (
@@ -367,16 +395,50 @@ function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
   )
 }
 
-function CardsRenderer({ block, anim, prefersReducedMotion }: { block: CardsBlock; anim: object; prefersReducedMotion: boolean }) {
+function ChecklistRenderer({ block, anim }: { block: ChecklistBlock; anim: object }) {
   return (
     <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.div variants={fadeUpVariants} {...anim}>
-        <h2 className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
-          {block.heading}
-        </h2>
+        {block.heading && (
+          <h2 className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
+            {block.heading}
+          </h2>
+        )}
+        {block.body && (
+          <p className="mb-6 font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--mid)] min-[1920px]:text-[16px]">
+            {block.body}
+          </p>
+        )}
+        {block.items && block.items.length > 0 && (
+          <ul className="space-y-3">
+            {block.items.map((item, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--blue)]" strokeWidth={2} />
+                <span className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--ink)] min-[1920px]:text-[16px]">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </motion.div>
+    </div>
+  )
+}
+
+function CardsRenderer({ block, anim, prefersReducedMotion }: { block: CardsBlock; anim: object; prefersReducedMotion: boolean }) {
+  const items = block.items || []
+  return (
+    <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
+      {block.heading && (
+        <motion.div variants={fadeUpVariants} {...anim}>
+          <h2 className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
+            {block.heading}
+          </h2>
+        </motion.div>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
-        {block.items.map((item, i) => (
+        {items.map((item, i) => (
           <motion.div
             key={item.title}
             variants={fadeUpVariants}
@@ -396,28 +458,39 @@ function QuoteRenderer({ block, anim }: { block: QuoteBlock; anim: object }) {
   return (
     <motion.div variants={fadeUpVariants} {...anim} className="mb-20">
       <div className="border-l-2 border-[var(--blue)] pl-6 sm:pl-8">
-        <p className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(1.15rem,2vw,1.5rem)] leading-[1.4] font-light text-[var(--ink)]">
-          &ldquo;{block.text}&rdquo;
-        </p>
-        <div>
-          <span className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)]">{block.attribution}</span>
-          {block.role && <span className="ml-2 font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]">— {block.role}</span>}
-        </div>
+        {block.text && (
+          <p className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(1.15rem,2vw,1.5rem)] leading-[1.4] font-light text-[var(--ink)]">
+            &ldquo;{block.text}&rdquo;
+          </p>
+        )}
+        {(block.attribution || block.role) && (
+          <div>
+            {block.attribution && (
+              <span className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)]">{block.attribution}</span>
+            )}
+            {block.role && (
+              <span className="ml-2 font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]">— {block.role}</span>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   )
 }
 
 function FaqRenderer({ block, anim }: { block: FaqBlock; anim: object }) {
+  const items = block.items || []
   return (
     <div id={block.id} className="mb-20 scroll-mt-[calc(var(--nav-stack)+2rem)]">
-      <motion.div variants={fadeUpVariants} {...anim}>
-        <h2 className="mb-10 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
-          {block.heading}
-        </h2>
-      </motion.div>
+      {block.heading && (
+        <motion.div variants={fadeUpVariants} {...anim}>
+          <h2 className="mb-10 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]">
+            {block.heading}
+          </h2>
+        </motion.div>
+      )}
 
-      {block.items.map((item, i) => (
+      {items.map((item, i) => (
         <motion.div
           key={i}
           variants={fadeUpVariants}
@@ -440,21 +513,25 @@ function InlineCtaRenderer({ block, anim }: { block: InlineCtaBlock; anim: objec
   return (
     <motion.div variants={fadeUpVariants} {...anim} className="mb-20">
       <div className="rounded-[6px] border border-[var(--blue)]/15 bg-[var(--blue)]/[0.025] px-7 py-8 sm:px-9 sm:py-10 text-center">
-        <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1.15rem,2vw,1.5rem)] font-light text-[var(--ink)]">
-          {block.heading}
-        </h3>
+        {block.heading && (
+          <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1.15rem,2vw,1.5rem)] font-light text-[var(--ink)]">
+            {block.heading}
+          </h3>
+        )}
         {block.body && (
           <p className="mx-auto mb-6 max-w-[50ch] font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)]">
             {block.body}
           </p>
         )}
-        <Link
-          href={block.cta.href}
-          className="inline-flex items-center gap-2 rounded-[6px] bg-[var(--blue)] px-6 py-3 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-white uppercase transition-colors hover:bg-blue-700"
-        >
-          {block.cta.label}
-          <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
-        </Link>
+        {block.cta?.href && (
+          <Link
+            href={block.cta.href}
+            className="inline-flex items-center gap-2 rounded-[6px] bg-[var(--blue)] px-6 py-3 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-white uppercase transition-colors hover:bg-blue-700"
+          >
+            {block.cta.label || 'Get started'}
+            <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
+          </Link>
+        )}
       </div>
     </motion.div>
   )
@@ -493,10 +570,25 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeId, setActiveId] = useState('')
 
-  const tocHeadings = page.blocks
-    .filter((b): b is ProseBlock | ComparisonBlock | SplitBlock | CardsBlock | FaqBlock =>
-      'id' in b && 'heading' in b && b._type !== 'highlight' && b._type !== 'stats' && b._type !== 'quote' && b._type !== 'inlineCta')
-    .map((b) => ({ id: b.id, text: b.heading }))
+  const tocHeadings = useMemo<TocEntry[]>(() => {
+    const entries: TocEntry[] = []
+    for (const block of page.blocks) {
+      if (block._type === 'prose') {
+        if (block.heading && block.id) {
+          entries.push({ id: block.id, text: block.heading, level: 2 })
+        }
+        for (const node of block.body || []) {
+          if (node._type === 'block' && node.style === 'h3') {
+            const text = (node.children || []).map((c: {text?: string}) => c.text || '').join('')
+            if (text) entries.push({ id: textToId(text), text, level: 3 })
+          }
+        }
+      } else if ('id' in block && 'heading' in block && block.heading && block._type !== 'highlight' && block._type !== 'stats' && block._type !== 'quote' && block._type !== 'inlineCta') {
+        entries.push({ id: (block as {id: string}).id, text: block.heading as string, level: 2 })
+      }
+    }
+    return entries
+  }, [page.blocks])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -616,6 +708,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
                 case 'stats': return <StatsRenderer key={i} block={block} anim={anim} prefersReducedMotion={prefersReducedMotion} />
                 case 'comparison': return <ComparisonRenderer key={i} block={block} anim={anim} />
                 case 'split': return <SplitRenderer key={i} block={block} anim={anim} />
+                case 'checklist': return <ChecklistRenderer key={i} block={block} anim={anim} />
                 case 'cards': return <CardsRenderer key={i} block={block} anim={anim} prefersReducedMotion={prefersReducedMotion} />
                 case 'quote': return <QuoteRenderer key={i} block={block} anim={anim} />
                 case 'faq': return <FaqRenderer key={i} block={block} anim={anim} />

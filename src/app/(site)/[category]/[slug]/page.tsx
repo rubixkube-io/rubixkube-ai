@@ -83,7 +83,7 @@ function sanityBodyToBlocks(body: any[]): ContentBlock[] {
         alt: node.alt || '',
         caption: node.caption || '',
       })
-    } else if (['highlight', 'stats', 'comparison', 'split', 'cards', 'quote', 'faq', 'inlineCta'].includes(node._type)) {
+    } else if (['highlight', 'stats', 'comparison', 'split', 'checklist', 'cards', 'quote', 'faq', 'inlineCta'].includes(node._type)) {
       flushProse()
 
       if (node._type === 'split' && node.image?.asset) {
@@ -92,6 +92,10 @@ function sanityBodyToBlocks(body: any[]): ContentBlock[] {
           imageSrc: urlFor(node.image.asset).width(800).url(),
           imageAlt: node.image?.alt || '',
         })
+      } else if (node._type === 'checklist') {
+        const id = (node.heading || '')
+          .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `checklist-${blocks.length}`
+        blocks.push({ ...node, id } as ContentBlock)
       } else {
         blocks.push(node as ContentBlock)
       }
