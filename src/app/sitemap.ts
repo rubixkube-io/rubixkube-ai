@@ -1,12 +1,16 @@
 import { MetadataRoute } from 'next'
 import { client } from '@/lib/sanity.client'
 
+export const dynamic = 'force-dynamic'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://rubixkube.ai'
 
   // Fetch post slugs and dates from Sanity for blog URLs
   const posts: { slug: { current: string }, publishedAt?: string }[] = await client.fetch(
-    `*[_type == "post" && defined(slug.current)]{ slug, publishedAt }`
+    `*[_type == "post" && defined(slug.current)]{ slug, publishedAt }`,
+    {},
+    { next: { revalidate: 0 } }
   )
 
   const staticEntries: MetadataRoute.Sitemap = [
