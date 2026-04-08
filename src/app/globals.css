@@ -1,32 +1,31 @@
 @import "tailwindcss";
 
-/* RubixKube redesign — warm editorial palette (light only for now) */
+/* RubixKube redesign — warm editorial palette; theme tokens live on <html> so .dark always wins over :root-only Tailwind theme. */
 :root {
   /* Same family names as redesign.html Google Fonts CSS (not next/font — avoids heavier fallbacks / subset mismatch) */
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-mono: "DM Mono", ui-monospace, monospace;
+  --pad: clamp(48px, 8vw, 140px);
+  --nav-gap-top: 0px;
+  --nav-height: 4rem;
+  --nav-stack: calc(var(--nav-height) + var(--nav-gap-top));
+}
+
+/* Light palette — scoped to non-dark html (class "light" or absent dark) */
+html:not(.dark) {
+  color-scheme: light;
 
   --bg: #f2f0eb;
   --ink: #111318;
-  /* Stepped down from #6b6d78 for contrast on warm backgrounds */
   --mid: #5e616b;
-  /* Hairlines, borders, dots — not for body copy (too low contrast on --bg) */
   --faint: #c4c5cc;
-  /* Small mono / captions: ~4.6:1 on #f2f0eb (replaces faint for readable text) */
   --text-muted: #767986;
-  /* Large display tertiary (hero line 3, closing dim) — softer than mid, clearer than faint */
   --text-soft: #9396a2;
   --rule: rgba(17, 19, 24, 0.08);
   --blue: #2f5bff;
   --green: #1a9060;
   --red: #c83030;
-  --pad: clamp(48px, 8vw, 140px);
-  /* Fixed header: bar height + optional inset from top of viewport (large screens) */
-  --nav-gap-top: 0px;
-  --nav-height: 4rem;
-  --nav-stack: calc(var(--nav-height) + var(--nav-gap-top));
 
-  /* Bridge legacy Tailwind token names */
   --background: var(--bg);
   --background-secondary: #ebe8e1;
   --background-tertiary: #e4e1da;
@@ -42,6 +41,39 @@
   --ring: var(--blue);
   --muted-foreground: var(--mid);
   --hero-grid: rgba(47, 91, 255, 0.06);
+}
+
+/* Dark — :root.dark matches the same node as html.dark in HTML documents (higher specificity vs :root light tokens from Tailwind @theme). */
+:root.dark,
+html.dark {
+  color-scheme: dark;
+
+  --bg: #13141a;
+  --ink: #ebe8e0;
+  --mid: #a7aab6;
+  --faint: rgba(235, 232, 224, 0.16);
+  --text-muted: #8c909c;
+  --text-soft: #74788a;
+  --rule: rgba(235, 232, 224, 0.1);
+  --blue: #6d8cff;
+  --green: #34c891;
+  --red: #e85c5c;
+
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --foreground-muted: var(--mid);
+  --background-secondary: #1a1b22;
+  --background-tertiary: #22232c;
+  --primary: #5b7ef5;
+  --accent: var(--blue);
+  --cta-green: var(--blue);
+  --border: rgba(235, 232, 224, 0.14);
+  --border-muted: rgba(235, 232, 224, 0.09);
+  --card-background: var(--bg);
+  --input: rgba(235, 232, 224, 0.14);
+  --ring: var(--blue);
+  --muted-foreground: var(--mid);
+  --hero-grid: rgba(109, 140, 255, 0.1);
 }
 
 @media (max-width: 640px) {
@@ -107,6 +139,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Ensure canvas follows theme when body/main are transparent (landing scroll) */
+  background-color: var(--bg);
 }
 
 /* Home landing: single scroll container (matches redesign.html body/html + main) */
@@ -115,11 +149,6 @@ html.rk-landing-active body {
   height: 100%;
   max-height: 100%;
   overflow: hidden;
-}
-
-html.light,
-html {
-  color-scheme: light;
 }
 
 body {
@@ -202,6 +231,7 @@ h6 {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  background-color: var(--bg);
 }
 
 @supports (height: 100dvh) {
@@ -747,4 +777,22 @@ textarea:focus-visible {
 
 .animate-flow {
   animation: flow 2s ease-in-out infinite;
+}
+
+/*
+ * Dark mode document paint — last in the stylesheet so it wins over Tailwind preflight / @theme.
+ * (Inherited var(--bg) alone was not reliably painting the viewport in dev.)
+ */
+html.dark {
+  background-color: #13141a !important;
+  color: #ebe8e0 !important;
+}
+
+html.dark body {
+  background-color: #13141a !important;
+  color: #ebe8e0 !important;
+}
+
+html.dark .landing-scroll {
+  background-color: #13141a !important;
 }

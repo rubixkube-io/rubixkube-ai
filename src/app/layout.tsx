@@ -49,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="light" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -64,6 +64,12 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileImage" content="https://rubixkube.ai/logo-icon.png" />
         <meta name="format-detection" content="telephone=no" />
+        {/* Apply saved theme before paint so first frame matches localStorage (pairs with ThemeProvider). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var k='rubixkube-theme',t=localStorage.getItem(k)||'light';if(t!=='dark'&&t!=='light')t='light';var r=document.documentElement;r.classList.remove('light','dark');r.classList.add(t);r.style.colorScheme=t;}catch(e){}`,
+          }}
+        />
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="light" storageKey="rubixkube-theme">

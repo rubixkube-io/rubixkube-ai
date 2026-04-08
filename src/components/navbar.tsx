@@ -26,6 +26,7 @@ import {
   Building2,
   Workflow,
 } from 'lucide-react'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { Button } from '@/components/ui/button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
@@ -504,7 +505,7 @@ export function Navbar() {
       className={cn(
         'fixed top-0 right-0 left-0 z-[100] overflow-visible pt-[var(--nav-gap-top)] transition-[background-color,border-color,backdrop-filter] duration-300',
         scrolled || megaDesktop
-          ? 'border-b border-[var(--rule)] bg-[rgba(242,240,235,0.92)] backdrop-blur-[14px]'
+          ? 'border-b border-[var(--rule)] bg-[color-mix(in_oklab,var(--bg)_92%,transparent)] backdrop-blur-[14px]'
           : 'border-b border-transparent bg-transparent',
       )}
     >
@@ -629,6 +630,7 @@ export function Navbar() {
         </div>
 
         <div className="hidden items-center gap-2 justify-self-end min-[1377px]:flex min-[1377px]:gap-3">
+          <ThemeToggle />
           <div className="mr-1 hidden min-[1601px]:flex items-center gap-0.5 border-r border-[var(--rule)] pr-3 min-[1601px]:mr-2 min-[1601px]:pr-4">
             {socialLinks.map(({ name, href, icon: Icon }) => (
               <Link
@@ -655,15 +657,18 @@ export function Navbar() {
           </Button>
         </div>
 
-        <button
-          type="button"
-          className="relative z-10 shrink-0 rounded-md p-2 text-[var(--ink)] min-[1377px]:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-expanded={isOpen}
-          aria-label={isOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="relative z-10 flex shrink-0 items-center gap-2 min-[1377px]:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="rounded-md p-2 text-[var(--ink)]"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-expanded={isOpen}
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </nav>
 
       {megaPortal}
