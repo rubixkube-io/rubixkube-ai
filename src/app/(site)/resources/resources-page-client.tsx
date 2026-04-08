@@ -23,6 +23,7 @@ import {
   Terminal,
 } from 'lucide-react'
 import type { ReferenceGuideListItem } from './types'
+import { referenceGuideNavDisplayTitle } from '@/lib/reference-nav'
 
 const documentationCategories = [
   {
@@ -147,7 +148,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
     () =>
       [...guides].sort((a, b) => {
         const c = (a.category || '').localeCompare(b.category || '')
-        return c !== 0 ? c : a.title.localeCompare(b.title)
+        return c !== 0 ? c : referenceGuideNavDisplayTitle(a).localeCompare(referenceGuideNavDisplayTitle(b))
       }),
     [guides],
   )
@@ -307,7 +308,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                       href={`/${item.category}/${item.slug}`}
                       className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] hover:text-[var(--blue)] transition-colors border-l border-[var(--rule)] hover:border-[var(--blue)] pl-3 py-0.5"
                     >
-                      {item.title}
+                      {referenceGuideNavDisplayTitle(item)}
                     </Link>
                   ))
                 ) : (

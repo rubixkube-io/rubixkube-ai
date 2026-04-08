@@ -107,7 +107,7 @@ export function SolutionsPageClient() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative bg-[var(--bg)] pb-0">
+      <section id="overview" className="relative bg-[var(--bg)] pb-0 scroll-mt-[var(--nav-stack)]">
         <div className="rk-landing-max relative z-10 w-full px-[var(--pad)] pt-[calc(var(--nav-stack)+5rem)] pb-20 text-center">
           <motion.div
             className="mx-auto max-w-4xl"
@@ -156,7 +156,10 @@ export function SolutionsPageClient() {
       </section>
 
       {/* Use Cases — bento grid */}
-      <section id="use-cases" className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+      <section
+        id="use-cases"
+        className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32"
+      >
         <div className="rk-landing-max px-[var(--pad)]">
           <motion.div
             variants={fadeUpVariants}
@@ -212,7 +215,10 @@ export function SolutionsPageClient() {
       </section>
 
       {/* Industries */}
-      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+      <section
+        id="industries"
+        className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32"
+      >
         <div className="rk-landing-max px-[var(--pad)]">
           <motion.div
             variants={fadeUpVariants}
@@ -276,7 +282,10 @@ export function SolutionsPageClient() {
       </section>
 
       {/* How it works — Observe → Diagnose → Act */}
-      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
+      <section
+        id="how-it-works"
+        className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32"
+      >
         <div className="rk-landing-max px-[var(--pad)]">
           <motion.div
             variants={fadeUpVariants}

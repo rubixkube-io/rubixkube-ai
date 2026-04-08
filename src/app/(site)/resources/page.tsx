@@ -1,18 +1,8 @@
 import { Metadata } from 'next'
+import { NAV_GUIDES_QUERY } from '@/lib/reference-nav'
 import { sanityFetch } from '@/sanity/lib/live'
 import { ResourcesPageClient } from './resources-page-client'
 import type { ReferenceGuideListItem } from './types'
-
-const GUIDES_QUERY = `*[
-  _type == "referencePage"
-  && defined(slug.current)
-]|order(category asc, title asc){
-  title,
-  "slug": slug.current,
-  category,
-  subtitle,
-  lastUpdated
-}`
 
 export const metadata: Metadata = {
   title: 'Resources - Docs, Playbooks, Case Studies',
@@ -34,7 +24,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ResourcesPage() {
-  const { data } = await sanityFetch({ query: GUIDES_QUERY })
+  const { data } = await sanityFetch({ query: NAV_GUIDES_QUERY })
   const guides = (data ?? []) as ReferenceGuideListItem[]
 
   return <ResourcesPageClient guides={guides} />
