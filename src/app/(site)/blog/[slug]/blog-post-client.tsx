@@ -258,11 +258,11 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       
       {/* Article Content */}
       <section className="pb-24 bg-[var(--bg)] px-[var(--pad)]">
-        <div className="max-w-[1120px] mx-auto w-full">
-          <div className="grid lg:grid-cols-[1fr_260px] gap-12 xl:gap-16">
+        <div className="rk-landing-max w-full">
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_260px] gap-12 xl:gap-16">
             {/* Main Content */}
             <motion.article
-              className="prose prose-lg max-w-none"
+              className="prose prose-lg max-w-none min-w-0"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -524,7 +524,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
 
       {/* Related Posts */}
       <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32 px-[var(--pad)]">
-        <div className="max-w-[1120px] mx-auto w-full">
+        <div className="rk-landing-max w-full">
           <motion.div
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}

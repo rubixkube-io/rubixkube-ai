@@ -249,9 +249,9 @@ h6 {
 }
 
 /*
- * Blog index inner column — matches article pages’ max-w-[1120px] mx-auto.
+ * Blog index inner column — listing grid width cap (article pages use rk-landing-max for header+body alignment).
  * Put px-[var(--pad)] on the parent <section>, not on this element; otherwise padding
- * eats into the 1120px cap and the listing reads tighter than /blog/[slug].
+ * eats into the cap and the listing reads tighter than intended.
  */
 .rk-blog-listing-shell {
   margin-left: auto;
