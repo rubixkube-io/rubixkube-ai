@@ -365,7 +365,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         )
                       },
                       normal: ({children}) => (
-                        <p className="text-[var(--ink)] leading-[1.8] mb-6 text-[17px]">
+                        <p className="text-[var(--ink)] leading-[1.8] mb-6 text-[16px]">
                           {children}
                         </p>
                       ),
@@ -391,12 +391,12 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                     },
                     listItem: {
                       bullet: ({children}) => (
-                        <li className="text-[var(--ink)] leading-[1.8] text-[17px]">
+                        <li className="text-[var(--ink)] leading-[1.8] text-[16px]">
                           {children}
                         </li>
                       ),
                       number: ({children}) => (
-                        <li className="text-[var(--ink)] leading-[1.8] text-[17px]">
+                        <li className="text-[var(--ink)] leading-[1.8] text-[16px]">
                           {children}
                         </li>
                       ),

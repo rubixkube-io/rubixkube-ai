@@ -12,7 +12,7 @@ import { Footer } from '@/components/footer'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
-import { ArrowRight, Check, X, Minus, ChevronDown, ChevronRight } from 'lucide-react'
+import { ArrowRight, Check, X, Minus, ChevronDown, ChevronRight, Calendar, Clock } from 'lucide-react'
 
 type PortableTextValue = NonNullable<ComponentProps<typeof PortableText>['value']>
 
@@ -265,7 +265,7 @@ function TOC({ headings, activeId }: { headings: TocEntry[]; activeId: string })
       <button
         onClick={() => { scrollTo(h.id); onClickExtra?.() }}
         className={`block w-full text-left font-[family-name:var(--font-mono)] font-light leading-snug transition-colors ${
-          h.level === 3 ? 'pl-7 text-[11px]' : 'pl-4 text-[12px]'
+          h.level === 3 ? 'pl-7 text-[12px]' : 'pl-4 text-[13px]'
         } ${
           activeId === h.id
             ? 'text-[var(--blue)] border-l-2 border-[var(--blue)] -ml-px'
@@ -322,7 +322,7 @@ function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
           </h2>
         ) : null}
         {hasBody ? (
-          <div className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]">
+          <div className="text-[16px] leading-[1.8] text-[var(--ink)]">
             <PortableText value={block.body} components={referencePagePortableComponents} />
           </div>
         ) : null}
@@ -333,7 +333,7 @@ function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
 
 function HighlightRenderer({ block, anim }: { block: HighlightBlock; anim: object }) {
   const bodyClass =
-    'font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]'
+    'text-[16px] leading-[1.8] text-[var(--ink)]'
   return (
     <motion.div variants={fadeUpVariants} {...anim}>
       <div className="rounded-[6px] border border-[var(--blue)]/15 bg-[var(--blue)]/[0.025] px-7 py-6 sm:px-9 sm:py-8">
@@ -386,15 +386,15 @@ function ComparisonRenderer({ block, anim }: { block: ComparisonBlock; anim: obj
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-[var(--rule)] bg-[var(--background-secondary)]">
-                <th className="py-3 px-5 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">Feature</th>
-                <th className="py-3 px-4 text-center font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--blue)] uppercase">{block.usLabel || 'Us'}</th>
-                <th className="py-3 px-4 text-center font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">{block.themLabel || 'Them'}</th>
+                <th className="py-3 px-5 font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">Feature</th>
+                <th className="py-3 px-4 text-center font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.12em] text-[var(--blue)] uppercase">{block.usLabel || 'Us'}</th>
+                <th className="py-3 px-4 text-center font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">{block.themLabel || 'Them'}</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((row, i) => (
                 <tr key={i} className="border-b border-[var(--rule)]/50 last:border-b-0">
-                  <td className="py-3 px-5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)] min-[1920px]:text-[15px]">{row.feature}</td>
+                  <td className="py-3 px-5 text-[15px] font-light text-[var(--ink)]">{row.feature}</td>
                   <td className="py-3 px-4 text-center"><FeatureCell value={row.us ?? ''} /></td>
                   <td className="py-3 px-4 text-center"><FeatureCell value={row.them ?? ''} /></td>
                 </tr>
@@ -421,14 +421,14 @@ function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
             )}
             <FormattedInline
               value={block.body}
-              className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]"
+              className="text-[16px] leading-[1.8] text-[var(--ink)]"
             />
             {block.bullets && block.bullets.length > 0 && (
               <ul className="mt-6 space-y-2.5">
                 {block.bullets.map((b) => (
                   <li key={b} className="flex items-start gap-3">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--blue)]" strokeWidth={2} />
-                    <span className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)] min-[1920px]:text-[15px]">{b}</span>
+                    <span className="text-[16px] leading-[1.8] text-[var(--ink)]">{b}</span>
                   </li>
                 ))}
               </ul>
@@ -467,7 +467,7 @@ function ChecklistRenderer({ block, anim }: { block: ChecklistBlock; anim: objec
           <div className="mb-6">
             <FormattedInline
               value={block.body}
-              className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]"
+              className="text-[16px] leading-[1.8] text-[var(--ink)]"
             />
           </div>
         )}
@@ -476,7 +476,7 @@ function ChecklistRenderer({ block, anim }: { block: ChecklistBlock; anim: objec
             {block.items.map((item, i) => (
               <li key={i} className="flex items-start gap-3">
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--blue)]" strokeWidth={2} />
-                <span className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--ink)] min-[1920px]:text-[16px]">
+                <span className="text-[16px] leading-[1.8] text-[var(--ink)]">
                   {item}
                 </span>
               </li>
@@ -510,7 +510,7 @@ function CardsRenderer({ block, anim, prefersReducedMotion }: { block: CardsBloc
             <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1rem,1.5vw,1.2rem)] font-light text-[var(--ink)]">{item.title}</h3>
             <FormattedInline
               value={item.body}
-              className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--ink)]/[0.85] min-[1920px]:text-[15px]"
+              className="text-[16px] leading-[1.8] text-[var(--ink)]"
             />
           </motion.div>
         ))}
@@ -575,7 +575,7 @@ function FaqRenderer({ block, anim }: { block: FaqBlock; anim: object }) {
           </h3>
           <FormattedInline
             value={item.answer}
-            className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]"
+            className="text-[16px] leading-[1.8] text-[var(--ink)]"
           />
         </motion.div>
       ))}
@@ -599,7 +599,7 @@ function InlineCtaRenderer({ block, anim }: { block: InlineCtaBlock; anim: objec
           <div className="mx-auto mb-6 max-w-[50ch]">
             <FormattedInline
               value={block.body}
-              className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--ink)]/[0.85] text-center [&_p]:text-center [&_ul]:text-left [&_ol]:text-left"
+              className="text-[16px] leading-[1.8] text-[var(--ink)] text-center [&_p]:text-center [&_ul]:text-left [&_ol]:text-left"
             />
           </div>
         )}
@@ -655,11 +655,11 @@ const gfmMarkdownComponents: Components = {
     <h3 className="mt-8 font-[family-name:var(--font-serif)] text-[clamp(1.05rem,1.8vw,1.25rem)] font-light leading-[1.25] text-[var(--ink)]">{children}</h3>
   ),
   p: ({children}) => (
-    <p className="mt-4 first:mt-0 font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]">{children}</p>
+    <p className="mt-4 first:mt-0 text-[16px] leading-[1.8] text-[var(--ink)]">{children}</p>
   ),
   ul: ({children}) => <ul className="mt-4 list-disc space-y-2 pl-6 first:mt-0">{children}</ul>,
   ol: ({children}) => <ol className="mt-4 list-decimal space-y-2 pl-6 first:mt-0">{children}</ol>,
-  li: ({children}) => <li className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--ink)]">{children}</li>,
+  li: ({children}) => <li className="text-[16px] leading-[1.8] text-[var(--ink)]">{children}</li>,
   a: ({href, children}) => (
     <a
       href={href}
@@ -685,7 +685,7 @@ const gfmMarkdownComponents: Components = {
     )
   },
   pre: ({children}) => (
-    <pre className="my-6 overflow-x-auto rounded-[6px] border border-[var(--rule)] bg-[var(--background-secondary)] p-4 font-[family-name:var(--font-mono)] text-[13px] leading-relaxed">
+    <pre className="my-6 overflow-x-auto rounded-[6px] border border-[var(--rule)] bg-[var(--background-secondary)] p-4 font-[family-name:var(--font-mono)] text-[14px] leading-relaxed">
       {children}
     </pre>
   ),
@@ -704,10 +704,10 @@ const gfmMarkdownComponents: Components = {
   tbody: ({children}) => <tbody>{children}</tbody>,
   tr: ({children}) => <tr className="border-b border-[var(--rule)]/80 last:border-b-0">{children}</tr>,
   th: ({children}) => (
-    <th className="px-4 py-3 text-left font-[family-name:var(--font-mono)] text-[11px] font-light uppercase tracking-[0.08em] text-[var(--mid)]">{children}</th>
+    <th className="px-4 py-3 text-left font-[family-name:var(--font-mono)] text-[12px] font-light uppercase tracking-[0.08em] text-[var(--mid)]">{children}</th>
   ),
   td: ({children}) => (
-    <td className="px-4 py-3 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)] min-[1920px]:text-[15px]">{children}</td>
+    <td className="px-4 py-3 text-[15px] font-light text-[var(--ink)]">{children}</td>
   ),
 }
 
@@ -829,11 +829,21 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
           </motion.p>
 
           <motion.div
-            className="flex flex-wrap items-center gap-4 font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]"
+            className="flex flex-wrap items-center gap-4 sm:gap-6 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
             variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
           >
-            {page.lastUpdated && <span>Updated {page.lastUpdated}</span>}
-            {page.readingTime && <><span className="text-[var(--faint)]">·</span><span>{page.readingTime}</span></>}
+            {page.lastUpdated && (
+              <div className="flex items-center gap-2">
+                <Calendar className="w-3.5 h-3.5" />
+                <span>{page.lastUpdated}</span>
+              </div>
+            )}
+            {page.readingTime && (
+              <div className="flex items-center gap-2">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{page.readingTime}</span>
+              </div>
+            )}
           </motion.div>
 
           {page.heroImage && (
