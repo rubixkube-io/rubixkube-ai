@@ -322,7 +322,7 @@ function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
           </h2>
         ) : null}
         {hasBody ? (
-          <div className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--mid)] min-[1920px]:text-[16px]">
+          <div className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]">
             <PortableText value={block.body} components={referencePagePortableComponents} />
           </div>
         ) : null}
@@ -333,7 +333,7 @@ function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
 
 function HighlightRenderer({ block, anim }: { block: HighlightBlock; anim: object }) {
   const bodyClass =
-    'font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]'
+    'font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]'
   return (
     <motion.div variants={fadeUpVariants} {...anim}>
       <div className="rounded-[6px] border border-[var(--blue)]/15 bg-[var(--blue)]/[0.025] px-7 py-6 sm:px-9 sm:py-8">
@@ -421,7 +421,7 @@ function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
             )}
             <FormattedInline
               value={block.body}
-              className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]"
+              className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]"
             />
             {block.bullets && block.bullets.length > 0 && (
               <ul className="mt-6 space-y-2.5">
@@ -467,7 +467,7 @@ function ChecklistRenderer({ block, anim }: { block: ChecklistBlock; anim: objec
           <div className="mb-6">
             <FormattedInline
               value={block.body}
-              className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--mid)] min-[1920px]:text-[16px]"
+              className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.9] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]"
             />
           </div>
         )}
@@ -510,7 +510,7 @@ function CardsRenderer({ block, anim, prefersReducedMotion }: { block: CardsBloc
             <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1rem,1.5vw,1.2rem)] font-light text-[var(--ink)]">{item.title}</h3>
             <FormattedInline
               value={item.body}
-              className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)] min-[1920px]:text-[15px]"
+              className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--ink)]/[0.85] min-[1920px]:text-[15px]"
             />
           </motion.div>
         ))}
@@ -575,7 +575,7 @@ function FaqRenderer({ block, anim }: { block: FaqBlock; anim: object }) {
           </h3>
           <FormattedInline
             value={item.answer}
-            className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--mid)] min-[1920px]:text-[16px]"
+            className="font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.75] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]"
           />
         </motion.div>
       ))}
@@ -599,7 +599,7 @@ function InlineCtaRenderer({ block, anim }: { block: InlineCtaBlock; anim: objec
           <div className="mx-auto mb-6 max-w-[50ch]">
             <FormattedInline
               value={block.body}
-              className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)] text-center [&_p]:text-center [&_ul]:text-left [&_ol]:text-left"
+              className="font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--ink)]/[0.85] text-center [&_p]:text-center [&_ul]:text-left [&_ol]:text-left"
             />
           </div>
         )}
@@ -655,7 +655,7 @@ const gfmMarkdownComponents: Components = {
     <h3 className="mt-8 font-[family-name:var(--font-serif)] text-[clamp(1.05rem,1.8vw,1.25rem)] font-light leading-[1.25] text-[var(--ink)]">{children}</h3>
   ),
   p: ({children}) => (
-    <p className="mt-4 first:mt-0 font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--mid)] min-[1920px]:text-[16px]">{children}</p>
+    <p className="mt-4 first:mt-0 font-[family-name:var(--font-mono)] text-[14px] font-light leading-[1.85] text-[var(--ink)]/[0.85] min-[1920px]:text-[16px]">{children}</p>
   ),
   ul: ({children}) => <ul className="mt-4 list-disc space-y-2 pl-6 first:mt-0">{children}</ul>,
   ol: ({children}) => <ol className="mt-4 list-decimal space-y-2 pl-6 first:mt-0">{children}</ol>,
@@ -822,7 +822,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
           </motion.h1>
 
           <motion.p
-            className="mb-10 max-w-4xl whitespace-pre-line font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] min-[1920px]:text-[17px]"
+            className="mb-10 max-w-4xl whitespace-pre-line font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--ink)]/80 min-[1920px]:text-[17px]"
             variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
           >
             {page.subtitle}

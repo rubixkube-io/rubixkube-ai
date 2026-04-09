@@ -164,15 +164,15 @@ function MegaLinkRow({
   const fullLabel = [title, (subtitle ?? '').trim()].filter(Boolean).join(' — ')
   const inner = (
     <>
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10">
-        <Icon className="h-4 w-4 text-[var(--blue)]" strokeWidth={1.5} />
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10 transition-colors group-hover:bg-[var(--blue)]/[0.12]">
+        <Icon className="h-4 w-4 text-[var(--blue)] transition-transform duration-300 group-hover:scale-110" strokeWidth={1.5} />
       </span>
       <span className="min-w-0 flex-1 text-left">
-        <span className="line-clamp-2 block font-[family-name:var(--font-mono)] text-[13px] font-medium leading-snug tracking-[-0.02em] text-[var(--ink)]">
+        <span className="line-clamp-2 block font-[family-name:var(--font-mono)] text-[13px] font-medium leading-snug tracking-[-0.02em] text-[var(--ink)] transition-colors group-hover:text-[var(--blue)]">
           {title}
         </span>
         {(subtitle ?? '').trim() ? (
-          <span className="mt-0.5 line-clamp-3 block font-[family-name:var(--font-mono)] text-[11px] font-light leading-snug text-[var(--mid)]">
+          <span className="mt-0.5 line-clamp-3 block font-[family-name:var(--font-mono)] text-[11px] font-light leading-snug text-[var(--mid)] transition-colors group-hover:text-[var(--ink)]">
             {subtitle}
           </span>
         ) : null}
@@ -180,7 +180,7 @@ function MegaLinkRow({
     </>
   )
   const className =
-    'flex gap-3 rounded-lg p-2 transition-colors hover:bg-[rgba(17,19,24,0.04)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)]'
+    'group flex gap-3 rounded-lg p-2 transition-colors hover:bg-[rgba(17,19,24,0.03)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)]'
   if (external) {
     return (
       <a
@@ -241,13 +241,10 @@ function MegaCategoryColumn({
 
 function SolutionsMegaPanel({ onNavigate }: { onNavigate?: () => void }) {
   const guides = useReferenceGuidesNav()
-  const byCategory = useMemo(() => {
-    const list = guidesForCategories(guides, SOLUTIONS_CATEGORIES)
-    return SOLUTIONS_CATEGORIES.map((cat) => ({
-      category: cat,
-      items: list.filter((g) => g.category === cat),
-    }))
-  }, [guides])
+  const solutionsPages = useMemo(
+    () => guidesForCategories(guides, SOLUTIONS_CATEGORIES),
+    [guides],
+  )
 
   return (
     <div className="flex min-w-0 flex-col gap-6 lg:flex-row lg:gap-0">
@@ -267,14 +264,18 @@ function SolutionsMegaPanel({ onNavigate }: { onNavigate?: () => void }) {
           ))}
         </ul>
       </div>
-      <div className="min-w-0 flex-1 lg:pl-6">
-        <p className={megaSectionLabel}>Case studies & glossary</p>
-        <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 sm:gap-5">
-          {byCategory.map(({ category, items }) => (
-            <MegaCategoryColumn key={category} category={category} items={items} onNavigate={onNavigate} />
-          ))}
+      {solutionsPages.length > 0 ? (
+        <div className="min-w-0 flex-1 lg:pl-6 lg:border-l lg:border-[var(--rule)]">
+          <p className={megaSectionLabel}>Case studies & glossary</p>
+          <ul className="flex flex-col gap-3">
+            {solutionsPages.map((item) => (
+              <li key={`${item.category}-${item.slug}`}>
+                <ResourcesFeaturedArticle item={item} onNavigate={onNavigate} />
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }
@@ -355,7 +356,7 @@ function ResourcesMegaPanel({ onNavigate }: { onNavigate?: () => void }) {
         </ul>
       </div>
       {resourcePages.length > 0 ? (
-        <div className="min-w-0 flex-1 lg:pl-6">
+        <div className="min-w-0 flex-1 lg:pl-6 lg:border-l lg:border-[var(--rule)]">
           <p className={megaSectionLabel}>Featured on this site</p>
           <ul className="flex flex-col gap-3">
             {resourcePages.map((item) => (
