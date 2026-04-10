@@ -18,6 +18,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   guide: 'Guide',
   'case-study': 'Case Study',
   glossary: 'Glossary',
+  products: 'Products',
 }
 
 const PAGE_QUERY = `*[_type == "referencePage" && category == $category && slug.current == $slug][0]{

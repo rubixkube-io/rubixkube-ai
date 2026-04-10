@@ -14,6 +14,7 @@ import {apiVersion, dataset, projectId} from './src/sanity/env'
 import {schema} from './src/sanity/schemaTypes'
 import {structure} from './src/sanity/structure'
 
+
 export default defineConfig({
   basePath: '/studio',
   projectId,
@@ -23,10 +24,22 @@ export default defineConfig({
     productionUrl: async (prev, context) => {
       const doc = context.document
       const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
-      const slug = (doc.slug as undefined | {current?: string})?.current
+      const slug = (doc.slug as {current?: string})?.current
+      
       if (!slug) return prev
-      if (doc._type === 'post') return `${origin}/blog/${slug}`
-      if (doc._type === 'referencePage') return `${origin}/${doc.category || 'learn'}/${slug}`
+      
+      if (doc._type === 'post') {
+        return `${origin}/blog/${slug}`
+      }
+      
+      if (doc._type === 'referencePage') {
+        let cat = 'learn'
+        if (typeof doc.category === 'string' && doc.category.trim() !== '') {
+          cat = doc.category
+        }
+        return `${origin}/${cat}/${slug}`
+      }
+      
       return prev
     },
   },

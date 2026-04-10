@@ -26,7 +26,7 @@ export default defineConfig({
 
   document: {
     actions: (prev, { schemaType }) => {
-      if (schemaType === 'post') {
+      if (schemaType === 'post' || schemaType === 'referencePage') {
         return [previewAction, ...prev]
       }
       return prev

@@ -34,7 +34,7 @@ export const NAV_GUIDES_QUERY = `*[
   heroImage
 }`
 
-export const SOLUTIONS_CATEGORIES = ['case-study', 'glossary'] as const
+export const SOLUTIONS_CATEGORIES = ['case-study', 'glossary', 'products'] as const
 export const RESOURCES_CATEGORIES = ['learn', 'compare', 'tools', 'guide'] as const
 
 export const REFERENCE_CATEGORY_LABELS: Record<string, string> = {
@@ -44,6 +44,7 @@ export const REFERENCE_CATEGORY_LABELS: Record<string, string> = {
   guide: 'Guide',
   'case-study': 'Case Study',
   glossary: 'Glossary',
+  products: 'Products',
 }
 
 export function guidesForCategories(

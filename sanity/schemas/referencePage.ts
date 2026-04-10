@@ -64,6 +64,7 @@ export const referencePageType = defineType({
           {title: 'Guide', value: 'guide'},
           {title: 'Case Study', value: 'case-study'},
           {title: 'Glossary', value: 'glossary'},
+          {title: 'Products', value: 'products'},
         ],
         layout: 'radio',
         direction: 'horizontal',
@@ -563,6 +564,7 @@ export const referencePageType = defineType({
                 {title: 'Guide', value: 'guide'},
                 {title: 'Case Study', value: 'case-study'},
                 {title: 'Glossary', value: 'glossary'},
+                {title: 'Products', value: 'products'},
               ],
               layout: 'dropdown',
             },
@@ -623,6 +625,7 @@ export const referencePageType = defineType({
       const labels: Record<string, string> = {
         learn: 'Learn', compare: 'Compare', tools: 'Tools',
         guide: 'Guide', 'case-study': 'Case Study', glossary: 'Glossary',
+        products: 'Products',
       }
       return {title, subtitle: category ? labels[category] || category : '', media}
     },

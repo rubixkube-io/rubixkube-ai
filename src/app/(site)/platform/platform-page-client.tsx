@@ -303,6 +303,86 @@ export function PlatformPageClient() {
         </div>
       </section>
 
+      {/* Rubix CLI Section */}
+      <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
+        <div className="rk-landing-max px-[var(--pad)]">
+          <div className="grid items-center gap-12 lg:grid-cols-[2fr_1fr] lg:gap-20">
+            {/* Left: Content */}
+            <motion.div
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="order-1 lg:order-1"
+            >
+              <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                Terminal Interface
+              </span>
+              <h2 className="mb-6 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
+                Intelligence in your <span className="italic text-[var(--blue)]">workflow.</span>
+              </h2>
+              <p className="mb-8 font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                Bring Site Reliability Intelligence into the workflow where engineers actually live. Investigate incidents, understand blast radius, and get intelligent RCAs without leaving your terminal.
+              </p>
+              <div className="mb-8 space-y-4 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)]">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-4 w-4 text-[var(--blue)]" strokeWidth={1.5} />
+                  <span>No context switching</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-4 w-4 text-[var(--blue)]" strokeWidth={1.5} />
+                  <span>Resume previous investigations</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-4 w-4 text-[var(--blue)]" strokeWidth={1.5} />
+                  <span>Manage multiple clusters</span>
+                </div>
+              </div>
+              <Button asChild variant="outline" className={outlineBlueAccentMd}>
+                <Link href="/products/rubix-cli">
+                  Explore Rubix CLI
+                </Link>
+              </Button>
+            </motion.div>
+
+            {/* Right: Terminal Screenshot Placeholder */}
+            <motion.div
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="order-2 lg:order-2"
+            >
+              <div>
+                <div className="rounded-t-xl border border-b-0 border-[var(--rule)] bg-[var(--background-secondary)] px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex gap-1.5">
+                      <div className="h-3 w-3 rounded-full bg-[var(--faint)]" />
+                      <div className="h-3 w-3 rounded-full bg-[var(--faint)]" />
+                      <div className="h-3 w-3 rounded-full bg-[var(--faint)]" />
+                    </div>
+                    <div className="flex-1 rounded-md bg-[var(--bg)] px-3 py-1.5 font-[family-name:var(--font-mono)] text-[11px] text-[var(--text-muted)]">
+                      terminal — rubix chat
+                    </div>
+                  </div>
+                </div>
+                <div className="relative overflow-hidden border border-t-0 border-[var(--rule)] bg-[rgba(17,19,24,0.06)] p-6 shadow-sm min-h-[300px] flex items-center justify-center">
+                  <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--mid)] tracking-widest uppercase">
+                    CLI Image Placeholder
+                  </span>
+                  {/* <Image
+                    src="/screenshots/cli-action.png"
+                    alt="Rubix CLI Interface"
+                    fill
+                    className="object-cover"
+                  /> */}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* The Agentic Mesh Section */}
       <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">

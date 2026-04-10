@@ -12,7 +12,18 @@ export const previewAction: DocumentActionComponent = (props) => {
   return {
     label: 'Preview',
     onHandle: () => {
-      const url = `${SITE_URL}/api/draft-mode/enable?secret=${PREVIEW_SECRET}&redirect=/blog/${slugValue}`
+      let redirectPath = ''
+      if (props.type === 'post') {
+        redirectPath = `/blog/${slugValue}`
+      } else if (props.type === 'referencePage') {
+        const doc = props.draft ?? props.published
+        const category = (doc as any)?.category || 'learn'
+        redirectPath = `/${category}/${slugValue}`
+      }
+
+      if (!redirectPath) return
+
+      const url = `${SITE_URL}/api/draft-mode/enable?secret=${PREVIEW_SECRET}&redirect=${redirectPath}`
       window.open(url, '_blank')
     },
   }

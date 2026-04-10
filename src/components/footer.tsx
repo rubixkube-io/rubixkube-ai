@@ -30,7 +30,7 @@ const footerColumns = [
       { label: 'Resources', href: '/resources' },
       { label: 'Blog', href: '/blog' },
       { label: 'Docs', href: 'https://docs.rubixkube.ai/' },
-      { label: 'Rubix CLI (npm)', href: 'https://www.npmjs.com/package/@rubixkube/rubix' },
+      { label: 'Rubix CLI', href: '/products/rubix-cli' },
     ],
   },
   {

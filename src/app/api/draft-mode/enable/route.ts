@@ -8,6 +8,21 @@ const clientWithToken = client.withConfig({
 })
 
 export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const secret = searchParams.get('secret')
+  const redirectPath = searchParams.get('redirect')
+
+  // Handle custom previewAction queries
+  if (secret && redirectPath) {
+    if (secret !== process.env.NEXT_PUBLIC_SANITY_PREVIEW_SECRET) {
+      return new Response('Invalid secret', { status: 401 })
+    }
+    const dm = await draftMode()
+    dm.enable()
+    redirect(redirectPath)
+  }
+
+  // Fallback to standard Sanity preview URL secret format
   const { isValid, redirectTo = '/' } = await validatePreviewUrl(
     clientWithToken,
     request.url,
@@ -17,6 +32,7 @@ export async function GET(request: Request) {
     return new Response('Invalid secret', { status: 401 })
   }
 
-  ;(await draftMode()).enable()
+  const dm = await draftMode()
+  dm.enable()
   redirect(redirectTo)
 }
