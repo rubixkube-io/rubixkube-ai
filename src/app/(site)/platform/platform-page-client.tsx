@@ -307,16 +307,21 @@ export function PlatformPageClient() {
       <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
           <div className="grid items-center gap-12 lg:grid-cols-[2fr_1fr] lg:gap-20">
-            {/* Left: Content */}
-            <motion.div
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="order-1 lg:order-1"
-            >
+            {/* Left: Terminal Screenshot */}
+            <div className="order-1 lg:order-1">
+              <Image
+                src="/screenshots/rubix-cli.png"
+                alt="Rubix CLI Interface"
+                width={1600}
+                height={1200}
+                className="h-auto w-full"
+              />
+            </div>
+
+            {/* Right: Content */}
+            <div className="order-2 lg:order-2">
               <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
-                Terminal Interface
+                Rubix CLI
               </span>
               <h2 className="mb-6 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
                 Intelligence in your <span className="italic text-[var(--blue)]">workflow.</span>
@@ -343,42 +348,7 @@ export function PlatformPageClient() {
                   Explore Rubix CLI
                 </Link>
               </Button>
-            </motion.div>
-
-            {/* Right: Terminal Screenshot Placeholder */}
-            <motion.div
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="order-2 lg:order-2"
-            >
-              <div>
-                <div className="rounded-t-xl border border-b-0 border-[var(--rule)] bg-[var(--background-secondary)] px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <div className="flex gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-[var(--faint)]" />
-                      <div className="h-3 w-3 rounded-full bg-[var(--faint)]" />
-                      <div className="h-3 w-3 rounded-full bg-[var(--faint)]" />
-                    </div>
-                    <div className="flex-1 rounded-md bg-[var(--bg)] px-3 py-1.5 font-[family-name:var(--font-mono)] text-[11px] text-[var(--text-muted)]">
-                      terminal — rubix chat
-                    </div>
-                  </div>
-                </div>
-                <div className="relative overflow-hidden border border-t-0 border-[var(--rule)] bg-[rgba(17,19,24,0.06)] p-6 shadow-sm min-h-[300px] flex items-center justify-center">
-                  <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--mid)] tracking-widest uppercase">
-                    CLI Image Placeholder
-                  </span>
-                  {/* <Image
-                    src="/screenshots/cli-action.png"
-                    alt="Rubix CLI Interface"
-                    fill
-                    className="object-cover"
-                  /> */}
-                </div>
-              </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -446,7 +416,7 @@ export function PlatformPageClient() {
               RubixKube plugs directly into your existing stack. No new agents to deploy, no new dashboards to build. It reads what you already have.
             </p>
           </div>
-          
+
           <div className="w-full">
             <BrainIntegrationStrip hideHeader />
           </div>
