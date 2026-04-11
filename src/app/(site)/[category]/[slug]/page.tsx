@@ -5,6 +5,7 @@ import { sanityFetch } from '@/sanity/lib/live'
 import { urlFor } from '@/sanity/lib/image'
 import { ReferencePageClient } from './dynamic-page-client'
 import type { ReferencePage, ContentBlock } from './dynamic-page-client'
+import { articleJsonLd, faqPageJsonLd } from '@/components/structured-data'
 
 const KNOWN_ROUTES = new Set([
   'blog', 'platform', 'solutions', 'resources', 'about',
@@ -156,6 +157,36 @@ function sanityBodyToBlocks(body: unknown): ContentBlock[] {
   return blocks
 }
 
+/** Extract FAQ items from raw Sanity body nodes for structured data. */
+function extractFaqItems(body: unknown): { question: string; answer: string }[] {
+  if (!body || !Array.isArray(body)) return []
+  const results: { question: string; answer: string }[] = []
+  for (const node of body) {
+    if (node?._type !== 'faq' || !Array.isArray(node.items)) continue
+    for (const item of node.items) {
+      const q = (item.question || '').trim()
+      if (!q) continue
+      let a: string
+      if (typeof item.answer === 'string') {
+        a = item.answer.trim()
+      } else if (Array.isArray(item.answer)) {
+        a = item.answer
+          .flatMap((block: Record<string, unknown>) =>
+            Array.isArray(block.children)
+              ? block.children.map((c: { text?: string }) => c.text || '')
+              : []
+          )
+          .join(' ')
+          .trim()
+      } else {
+        continue
+      }
+      if (a) results.push({ question: q, answer: a })
+    }
+  }
+  return results
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -173,7 +204,17 @@ export async function generateMetadata({
   return {
     title: `${title}`,
     description,
-    openGraph: { title, description, url, type: 'article', siteName: 'RubixKube' },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+      siteName: 'RubixKube',
+      ...(page?.lastUpdated && {
+        publishedTime: page.lastUpdated,
+        modifiedTime: page.lastUpdated,
+      }),
+    },
     twitter: { card: 'summary_large_image', title, description },
     alternates: { canonical: url },
     robots: { index: true, follow: true },
@@ -213,7 +254,32 @@ export default async function MarketingPage({
     relatedPages: sanityPage.relatedPages,
   }
 
-  return <ReferencePageClient page={page} />
+  const url = `https://rubixkube.ai/${category}/${slug}`
+  const description = sanityPage.seoDescription || sanityPage.subtitle || ''
+  const article = articleJsonLd({
+    headline: sanityPage.title,
+    description,
+    dateModified: sanityPage.lastUpdated,
+    url,
+  })
+
+  const faqItems = extractFaqItems(sanityPage.body)
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(article) }}
+      />
+      {faqItems.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(faqItems)) }}
+        />
+      )}
+      <ReferencePageClient page={page} />
+    </>
+  )
 }
 
 export async function generateStaticParams() {

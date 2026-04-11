@@ -144,3 +144,72 @@ export function PricingPageJsonLd() {
     />
   )
 }
+
+/* ---------------------------------------------------------------------------
+ * Per-page schema builders for AEO (server-rendered JSON-LD)
+ * --------------------------------------------------------------------------- */
+
+export function blogPostingJsonLd(input: {
+  headline: string
+  description?: string
+  datePublished: string
+  authorName?: string
+  imageUrl?: string
+  url: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: input.headline,
+    description: input.description,
+    datePublished: input.datePublished,
+    dateModified: input.datePublished,
+    author: input.authorName
+      ? { '@type': 'Person', name: input.authorName }
+      : { '@type': 'Organization', name: 'RubixKube' },
+    image: input.imageUrl,
+    publisher: {
+      '@type': 'Organization',
+      name: 'RubixKube',
+      logo: { '@type': 'ImageObject', url: `${SITE}/logo-icon.png` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': input.url },
+  }
+}
+
+export function articleJsonLd(input: {
+  headline: string
+  description?: string
+  dateModified?: string
+  url: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    ...(input.dateModified && {
+      dateModified: input.dateModified,
+      datePublished: input.dateModified,
+    }),
+    author: { '@type': 'Organization', name: 'RubixKube' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'RubixKube',
+      logo: { '@type': 'ImageObject', url: `${SITE}/logo-icon.png` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': input.url },
+  }
+}
+
+export function faqPageJsonLd(items: { question: string; answer: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  }
+}

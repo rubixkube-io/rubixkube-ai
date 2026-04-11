@@ -86,31 +86,6 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
     return items
   }, [post.body, headingTextToId])
   
-  // Inject BlogPosting JSON-LD for SEO
-  useEffect(() => {
-    const jsonLd = {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": post.title,
-      "description": post.excerpt || undefined,
-      "datePublished": post.publishedAt,
-      "dateModified": post.publishedAt,
-      "author": post.author?.name ? { "@type": "Person", name: post.author.name } : { "@type": "Organization", name: "RubixKube" },
-      "image": post.image ? urlFor(post.image)?.width(1200).height(630).url() : undefined,
-      "publisher": { "@type": "Organization", name: "RubixKube", logo: { "@type": "ImageObject", url: "https://rubixkube.ai/logo-icon.png" } },
-      "mainEntityOfPage": { "@type": "WebPage", "@id": typeof window !== 'undefined' ? window.location.href : '' }
-    }
-    const el = document.createElement('script')
-    el.type = 'application/ld+json'
-    el.id = 'rk-blog-jsonld'
-    el.text = JSON.stringify(jsonLd)
-    document.head.appendChild(el)
-    return () => {
-      const existing = document.getElementById('rk-blog-jsonld')
-      if (existing) existing.remove()
-    }
-  }, [post])
-  
   const postImageUrl = post.image
     ? urlFor(post.image)?.width(1440).height(810).url()
     : null

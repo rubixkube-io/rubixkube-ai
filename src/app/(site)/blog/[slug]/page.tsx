@@ -1,9 +1,10 @@
 import { type SanityDocument } from "next-sanity"
 import type { Metadata } from "next"
-import { client } from "@/lib/sanity.client"
+import { client, urlFor } from "@/lib/sanity.client"
 import { sanityFetch } from "@/sanity/lib/live"
 import { notFound } from "next/navigation"
 import { BlogPostClient } from "./blog-post-client"
+import { blogPostingJsonLd } from "@/components/structured-data"
 import type { SanityPost } from "@/types/sanity"
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
@@ -49,7 +50,27 @@ export default async function PostPage({
     params: { postId: post._id, categories: post.categories || [] },
   })
 
-  return <BlogPostClient post={post as unknown as SanityPost} relatedPosts={relatedPosts as SanityDocument[]} />
+  const url = `https://rubixkube.ai/blog/${slug}`
+  const imageUrl = post.image ? urlFor(post.image)?.width(1200).height(630).url() : undefined
+
+  const jsonLd = blogPostingJsonLd({
+    headline: post.title,
+    description: post.excerpt || undefined,
+    datePublished: post.publishedAt,
+    authorName: post.author?.name,
+    imageUrl: imageUrl || undefined,
+    url,
+  })
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BlogPostClient post={post as unknown as SanityPost} relatedPosts={relatedPosts as SanityDocument[]} />
+    </>
+  )
 }
 
 export async function generateMetadata({
@@ -74,6 +95,8 @@ export async function generateMetadata({
       url,
       type: 'article',
       siteName: 'RubixKube',
+      publishedTime: post.publishedAt,
+      modifiedTime: post.publishedAt,
     },
     twitter: {
       card: 'summary_large_image',
