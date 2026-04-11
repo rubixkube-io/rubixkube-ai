@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { ContactPageClient } from './contact-page-client'
+import { webPageJsonLd } from '@/components/structured-data'
 
 export const metadata: Metadata = {
   title: "Contact RubixKube - Talk to the Team",
@@ -21,6 +22,21 @@ export const metadata: Metadata = {
   },
 }
 
+const pageJsonLd = webPageJsonLd({
+  name: 'Contact RubixKube - Talk to the Team',
+  description: 'Plan your reliability path with us. From your first cluster to billions in transactions, we help you keep infra and customer trust intact.',
+  url: 'https://rubixkube.ai/contact',
+  type: 'ContactPage',
+})
+
 export default function ContactPage() {
-  return <ContactPageClient />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}
+      />
+      <ContactPageClient />
+    </>
+  )
 }

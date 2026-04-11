@@ -15,7 +15,9 @@ export default async function SiteLayout({
   return (
     <>
       <SiteGraphJsonLd />
-      <ReferencePagesNavProvider guides={guides}>{children}</ReferencePagesNavProvider>
+      <ReferencePagesNavProvider guides={guides}>
+        <main>{children}</main>
+      </ReferencePagesNavProvider>
       <SanityLive />
     </>
   )

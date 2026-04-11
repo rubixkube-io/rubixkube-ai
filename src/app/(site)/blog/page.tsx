@@ -2,6 +2,7 @@ import { type SanityDocument } from "next-sanity"
 import type { Metadata } from "next"
 import { sanityFetch } from "@/sanity/lib/live"
 import { BlogPageClient } from "./blog-page-client"
+import { webPageJsonLd } from "@/components/structured-data"
 
 const POSTS_QUERY = `*[
   _type == "post"
@@ -77,6 +78,13 @@ export async function generateMetadata({
   }
 }
 
+const pageJsonLd = webPageJsonLd({
+  name: 'RubixKube Blog',
+  description: 'Deep dives into AI-native infrastructure, SRE, and autonomous reliability.',
+  url: 'https://rubixkube.ai/blog',
+  type: 'CollectionPage',
+})
+
 export default async function BlogPage({
   searchParams,
 }: {
@@ -85,5 +93,13 @@ export default async function BlogPage({
   const { category } = await searchParams
   const posts = await getBlogPosts(category)
 
-  return <BlogPageClient posts={posts} category={category} />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}
+      />
+      <BlogPageClient posts={posts} category={category} />
+    </>
+  )
 }

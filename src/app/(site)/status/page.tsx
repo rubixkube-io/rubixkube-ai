@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 import { StatusPageClient } from './status-page-client'
+import { webPageJsonLd } from '@/components/structured-data'
 
 export const metadata: Metadata = {
   title: 'System Status - RubixKube',
@@ -29,6 +30,20 @@ export const metadata: Metadata = {
   },
 }
 
+const pageJsonLd = webPageJsonLd({
+  name: 'System Status - RubixKube',
+  description: 'Real-time health status of all RubixKube platform services.',
+  url: 'https://rubixkube.ai/status',
+})
+
 export default function StatusPage() {
-  return <StatusPageClient />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}
+      />
+      <StatusPageClient />
+    </>
+  )
 }

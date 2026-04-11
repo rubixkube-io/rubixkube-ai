@@ -202,6 +202,25 @@ export function articleJsonLd(input: {
   }
 }
 
+export type WebPageType = 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage'
+
+export function webPageJsonLd(input: {
+  name: string
+  description: string
+  url: string
+  type?: WebPageType
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': input.type || 'WebPage',
+    name: input.name,
+    description: input.description,
+    url: input.url,
+    isPartOf: { '@type': 'WebSite', name: 'RubixKube', url: SITE },
+    publisher: { '@type': 'Organization', name: 'RubixKube', url: SITE },
+  }
+}
+
 export function faqPageJsonLd(items: { question: string; answer: string }[]) {
   return {
     '@context': 'https://schema.org',

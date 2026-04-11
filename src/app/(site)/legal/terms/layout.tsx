@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
+import { webPageJsonLd } from '@/components/structured-data'
 
 export const metadata: Metadata = {
   title: "Terms of Service - RubixKube",
@@ -36,10 +37,24 @@ export const metadata: Metadata = {
   },
 }
 
+const pageJsonLd = webPageJsonLd({
+  name: 'Terms of Service - RubixKube',
+  description: "Read RubixKube's terms of service. Understand your rights and responsibilities when using our platform and services.",
+  url: 'https://rubixkube.ai/legal/terms',
+})
+
 export default function TermsLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return children
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}
+      />
+      {children}
+    </>
+  )
 }
