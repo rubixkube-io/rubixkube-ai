@@ -3,6 +3,8 @@ import { ReferencePagesNavProvider } from '@/components/reference-pages-nav-prov
 import { fetchReferenceGuidesForNav } from '@/lib/fetch-reference-guides-for-nav'
 import { SanityLive } from '@/sanity/lib/live'
 
+export const revalidate = 60
+
 export default async function SiteLayout({
   children,
 }: Readonly<{

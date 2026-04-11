@@ -171,7 +171,7 @@ export async function generateMetadata({
   const url = `https://rubixkube.ai/${category}/${slug}`
 
   return {
-    title: `${title} — RubixKube`,
+    title: `${title}`,
     description,
     openGraph: { title, description, url, type: 'article', siteName: 'RubixKube' },
     twitter: { card: 'summary_large_image', title, description },
