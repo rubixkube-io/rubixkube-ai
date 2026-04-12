@@ -3,7 +3,8 @@ import { LandingPage } from '@/components/landing'
 import { HomeScrollLock } from '@/components/landing/home-scroll-lock'
 import type { Metadata } from 'next'
 import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
-import { webPageJsonLd } from '@/components/structured-data'
+import { webPageJsonLd, faqPageJsonLd } from '@/components/structured-data'
+import { homepageFaqItems } from '@/data/homepage-faq'
 
 export const metadata: Metadata = {
   title: 'RubixKube | Site Reliability Intelligence',
@@ -66,12 +67,18 @@ const pageJsonLd = webPageJsonLd({
   url: 'https://rubixkube.ai',
 })
 
+const faqItems = homepageFaqItems.map((item) => ({ question: item.q, answer: item.a }))
+
 export default function Home() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(faqItems)) }}
       />
       <HomeScrollLock />
       <Navbar />
