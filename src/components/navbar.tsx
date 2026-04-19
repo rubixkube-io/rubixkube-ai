@@ -39,7 +39,6 @@ import {
   RESOURCES_CATEGORIES,
   REFERENCE_CATEGORY_LABELS,
   guidesForCategories,
-  referenceGuideNavDisplayTitle,
   isSolutionsNavActive,
   isResourcesNavActive,
   type ReferenceGuideNavItem,
@@ -143,9 +142,6 @@ const navLinkClass =
 const megaSectionLabel =
   'mb-3 font-[family-name:var(--font-mono)] text-[10px] font-medium tracking-[0.2em] text-[var(--blue)] uppercase'
 
-const megaColumnLabel =
-  'mb-3 font-[family-name:var(--font-mono)] text-[10px] font-medium tracking-[0.18em] text-[var(--blue)] uppercase'
-
 function MegaLinkRow({
   href,
   external,
@@ -199,43 +195,6 @@ function MegaLinkRow({
     <Link href={href} className={className} title={fullLabel} onClick={onNavigate}>
       {inner}
     </Link>
-  )
-}
-
-function MegaCategoryColumn({
-  category,
-  items,
-  onNavigate,
-}: {
-  category: string
-  items: ReferenceGuideNavItem[]
-  onNavigate?: () => void
-}) {
-  const Icon = CATEGORY_ICONS[category] ?? FileText
-  const label = REFERENCE_CATEGORY_LABELS[category] ?? category
-  return (
-    <div className="min-w-0">
-      <p className={megaColumnLabel}>{label}</p>
-      <ul className="flex flex-col gap-0.5">
-        {items.length === 0 ? (
-          <li className="px-2 py-1 font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]/75">
-            Coming soon.
-          </li>
-        ) : (
-          items.map((item) => (
-            <li key={`${item.category}-${item.slug}`}>
-              <MegaLinkRow
-                href={`/${item.category}/${item.slug}`}
-                title={referenceGuideNavDisplayTitle(item)}
-                subtitle={item.subtitle}
-                Icon={Icon}
-                onNavigate={onNavigate}
-              />
-            </li>
-          ))
-        )}
-      </ul>
-    </div>
   )
 }
 

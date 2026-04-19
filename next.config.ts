@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@sanity/image-url'],
+  transpilePackages: ['@sanity/image-url', '@lobehub/icons'],
 
   async redirects() {
     return [

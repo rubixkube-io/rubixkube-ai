@@ -1,14 +1,34 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { CalendlyBooking } from '@/components/ui/calendly-booking'
-import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
+import OpenAI from '@lobehub/icons/es/OpenAI/components/Mono'
+import Claude from '@lobehub/icons/es/Claude/components/Color'
+import Perplexity from '@lobehub/icons/es/Perplexity/components/Color'
 import { rkMono9, rkMono13 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
-const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
+const ASK_PROMPT = encodeURIComponent(
+  'Tell me about RubixKube (rubixkube.ai) — what it does, how it helps SRE teams, and whether it would be a good fit for improving my incident management and reliability workflows.',
+)
+
+const askAiLinks = [
+  {
+    label: 'Ask ChatGPT',
+    href: `https://chatgpt.com/?q=${ASK_PROMPT}&hints=search`,
+    Icon: OpenAI,
+  },
+  {
+    label: 'Ask Claude',
+    href: `https://claude.ai/new?q=${ASK_PROMPT}`,
+    Icon: Claude,
+  },
+  {
+    label: 'Ask Perplexity',
+    href: `https://www.perplexity.ai/?q=${ASK_PROMPT}`,
+    Icon: Perplexity,
+  },
+]
 
 export function ClosingLandingSection() {
   return (
@@ -44,13 +64,29 @@ export function ClosingLandingSection() {
             Every incident you resolve without RubixKube is context it never learns from.
           </p>
         </Reveal>
-        <Reveal delay={0.22} className="mt-10 flex flex-wrap items-center justify-center gap-3.5">
-          <CalendlyBooking url={CALENDLY} variant="primary" size="md">
-            Book a Demo
-          </CalendlyBooking>
-          <Button asChild variant="outline" size="md" className={outlineBlueAccentMd}>
-            <Link href="/assets/whitepaper.pdf">Read the whitepaper →</Link>
-          </Button>
+        <Reveal delay={0.22} className="mt-12 flex flex-col items-center gap-5">
+          <p
+            className={cn(
+              'font-[family-name:var(--font-mono)] tracking-[0.28em] text-[var(--text-muted)] uppercase',
+              rkMono9,
+            )}
+          >
+            Don&apos;t take our word for it
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {askAiLinks.map(({ label, href, Icon }) => (
+              <Link
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 rounded-[5px] border border-[var(--ink)]/15 bg-[var(--bg)] px-5 py-3 font-[family-name:var(--font-mono)] text-[12px] font-medium tracking-[-0.01em] text-[var(--ink)] shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,border-color,transform,color] duration-200 hover:-translate-y-px hover:border-[var(--blue)]/40 hover:text-[var(--blue)] hover:shadow-[0_4px_18px_rgba(47,91,255,0.14)] active:translate-y-px min-[1920px]:px-6 min-[1920px]:py-3.5 min-[1920px]:text-[13px] min-[2560px]:text-[14px]"
+              >
+                <Icon size={18} className="shrink-0" />
+                {label}
+              </Link>
+            ))}
+          </div>
         </Reveal>
       </div>
       </div>
