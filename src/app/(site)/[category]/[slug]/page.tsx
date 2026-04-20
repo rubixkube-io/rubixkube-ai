@@ -5,7 +5,7 @@ import { sanityFetch } from '@/sanity/lib/live'
 import { urlFor } from '@/sanity/lib/image'
 import { ReferencePageClient } from './dynamic-page-client'
 import type { ReferencePage, ContentBlock } from './dynamic-page-client'
-import { articleJsonLd, faqPageJsonLd } from '@/components/structured-data'
+import { articleJsonLd, faqPageJsonLd, toIsoDate } from '@/components/structured-data'
 
 const KNOWN_ROUTES = new Set([
   'blog', 'platform', 'solutions', 'resources', 'about',
@@ -29,6 +29,8 @@ const PAGE_QUERY = `*[_type == "referencePage" && category == $category && slug.
   subtitle,
   category,
   lastUpdated,
+  publishedAt,
+  updatedAt,
   readingTime,
   heroImage,
   body,
@@ -201,6 +203,9 @@ export async function generateMetadata({
   const description = page?.seoDescription || page?.subtitle || ''
   const url = `https://rubixkube.ai/${category}/${slug}`
 
+  const publishedTime = toIsoDate(page?.publishedAt)
+  const modifiedTime = toIsoDate(page?.updatedAt) ?? publishedTime
+
   return {
     title: `${title}`,
     description,
@@ -210,10 +215,8 @@ export async function generateMetadata({
       url,
       type: 'article',
       siteName: 'RubixKube',
-      ...(page?.lastUpdated && {
-        publishedTime: page.lastUpdated,
-        modifiedTime: page.lastUpdated,
-      }),
+      ...(publishedTime && { publishedTime }),
+      ...(modifiedTime && { modifiedTime }),
     },
     twitter: { card: 'summary_large_image', title, description },
     alternates: { canonical: url },
@@ -259,7 +262,8 @@ export default async function MarketingPage({
   const article = articleJsonLd({
     headline: sanityPage.title,
     description,
-    dateModified: sanityPage.lastUpdated,
+    datePublished: sanityPage.publishedAt,
+    dateModified: sanityPage.updatedAt,
     url,
   })
 

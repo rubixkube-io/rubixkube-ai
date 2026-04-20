@@ -588,9 +588,23 @@ export const referencePageType = defineType({
     // ── Meta tab ──
     defineField({
       name: 'lastUpdated',
-      title: 'Last Updated',
+      title: 'Last Updated (display)',
       type: 'string',
-      description: 'Displayed on the page, e.g. "April 2026"',
+      description: 'Human-readable label shown on the page, e.g. "April 2026". Not used for SEO — set Published / Updated below for structured data.',
+      group: 'meta',
+    }),
+    defineField({
+      name: 'publishedAt',
+      title: 'Published (canonical)',
+      type: 'datetime',
+      description: 'First-published timestamp. Emitted as Article.datePublished in JSON-LD and og:article:published_time. Required for valid rich results.',
+      group: 'meta',
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: 'Last Modified (canonical)',
+      type: 'datetime',
+      description: 'Last substantive revision. Emitted as Article.dateModified and og:article:modified_time. Falls back to Published if blank.',
       group: 'meta',
     }),
     defineField({

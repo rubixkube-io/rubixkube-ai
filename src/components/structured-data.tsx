@@ -177,21 +177,35 @@ export function blogPostingJsonLd(input: {
   }
 }
 
+/**
+ * Returns a valid ISO 8601 string if `value` parses to a real date, otherwise undefined.
+ * Guards against free-text values like "April 2026" leaking into JSON-LD
+ * or OpenGraph date fields, which Google's Rich Results validator rejects.
+ */
+export function toIsoDate(value?: string): string | undefined {
+  if (!value) return undefined
+  const ms = Date.parse(value)
+  if (Number.isNaN(ms)) return undefined
+  return new Date(ms).toISOString()
+}
+
 export function articleJsonLd(input: {
   headline: string
   description?: string
+  datePublished?: string
   dateModified?: string
   url: string
 }) {
+  const datePublished = toIsoDate(input.datePublished)
+  const dateModified = toIsoDate(input.dateModified) ?? datePublished
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: input.headline,
     description: input.description,
-    ...(input.dateModified && {
-      dateModified: input.dateModified,
-      datePublished: input.dateModified,
-    }),
+    ...(datePublished && { datePublished }),
+    ...(dateModified && { dateModified }),
     author: { '@type': 'Organization', name: 'RubixKube' },
     publisher: {
       '@type': 'Organization',
