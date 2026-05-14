@@ -130,6 +130,25 @@ export function FooterBody() {
         </motion.div>
       </div>
 
+      {/* Large subtle footer logo */}
+      <motion.div
+        variants={fadeUpVariants}
+        initial={prefersReducedMotion ? 'visible' : 'hidden'}
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="pointer-events-none mb-12 flex select-none justify-center px-4"
+        aria-hidden="true"
+      >
+        <Image
+          src="/light-logo.svg"
+          alt="RubixKube"
+          width={1720}
+          height={200}
+          className="h-auto w-full object-contain brightness-0 opacity-20 transition-opacity duration-500 hover:opacity-30"
+          priority={false}
+        />
+      </motion.div>
+
       <motion.div
         variants={fadeUpVariants}
         initial={prefersReducedMotion ? 'visible' : 'hidden'}
@@ -139,8 +158,7 @@ export function FooterBody() {
       >
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link href="/" className="flex items-center gap-2.5">
-            <Image src="/logo-icon.png" alt="" width={24} height={24} className="h-6 w-6 rounded" />
-            <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] text-[var(--ink)] uppercase">
+            <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] text-[var(--ink)] uppercase hover:text-[var(--blue)] transition-colors">
               RubixKube
             </span>
           </Link>
