@@ -40,6 +40,10 @@ export default defineConfig({
         return `${origin}/${cat}/${slug}`
       }
       
+      if (doc._type === 'podcastEpisode') {
+        return `${origin}/podcast`
+      }
+      
       return prev
     },
   },

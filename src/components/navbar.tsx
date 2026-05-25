@@ -25,6 +25,7 @@ import {
   Target,
   Building2,
   Workflow,
+  Mic,
 } from 'lucide-react'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { Button } from '@/components/ui/button'
@@ -95,6 +96,12 @@ const RESOURCE_QUICK: {
     href: '/blog',
     subtitle: 'Deep dives, SRI practice, and product updates.',
     icon: FileText,
+  },
+  {
+    title: 'Podcast',
+    href: '/podcast',
+    subtitle: 'Tune in to our podcast on the future of systems.',
+    icon: Mic,
   },
   {
     title: 'Documentation',
