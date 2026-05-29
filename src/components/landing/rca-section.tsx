@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { SectionLabel } from '@/components/ui/section-label'
 import { landingCtaArrowSmClass, landingCtaLinkSm } from '@/lib/landing-inline-cta'
-import { rkMono8, rkMono9, rkMono11, rkMono13, rkMonoXs } from '@/lib/landing-responsive-type'
+import { rkMono9, rkMono10, rkMono11, rkMono13, rkMonoXs } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
@@ -61,7 +61,7 @@ export function RcaSection() {
               </span>
             </div>
             <div className="border-b border-[var(--rule)] px-[18px] py-3.5">
-              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono8)}>
+              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono10)}>
                 Root Cause
               </p>
               <div
@@ -85,7 +85,7 @@ export function RcaSection() {
               </div>
             </div>
             <div className="border-b border-[var(--rule)] px-[18px] py-3.5">
-              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono8)}>
+              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono10)}>
                 Observed Conditions
               </p>
               <ul className={cn('space-y-1 leading-snug text-[var(--mid)]', rkMono11)}>
@@ -101,7 +101,7 @@ export function RcaSection() {
               </ul>
             </div>
             <div className="px-[18px] py-3.5">
-              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono8)}>
+              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono10)}>
                 Recommended Actions
               </p>
               <div className="space-y-1">
@@ -109,7 +109,7 @@ export function RcaSection() {
                   <span
                     className={cn(
                       'mt-0.5 shrink-0 rounded border border-[rgba(200,48,48,0.2)] bg-[rgba(200,48,48,0.08)] px-1.5 py-0.5 tracking-[0.14em] text-[var(--red)]',
-                      rkMono8,
+                      rkMono10,
                     )}
                   >
                     HIGH
@@ -122,7 +122,7 @@ export function RcaSection() {
                   <span
                     className={cn(
                       'mt-0.5 shrink-0 rounded border border-[rgba(180,120,0,0.2)] bg-[rgba(180,120,0,0.08)] px-1.5 py-0.5 tracking-[0.14em] text-[#b47800]',
-                      rkMono8,
+                      rkMono10,
                     )}
                   >
                     MED
@@ -135,7 +135,7 @@ export function RcaSection() {
                   <span
                     className={cn(
                       'mt-0.5 shrink-0 rounded border border-[rgba(180,120,0,0.2)] bg-[rgba(180,120,0,0.08)] px-1.5 py-0.5 tracking-[0.14em] text-[#b47800]',
-                      rkMono8,
+                      rkMono10,
                     )}
                   >
                     MED

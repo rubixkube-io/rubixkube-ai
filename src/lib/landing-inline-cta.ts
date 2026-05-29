@@ -6,14 +6,14 @@ const landingCtaLinkBase =
 
 export const landingCtaLinkSm = cn(
   landingCtaLinkBase,
-  'text-[11px] min-[1920px]:text-[13px] min-[2560px]:text-[15px]',
+  'text-[13px] min-[1920px]:text-[15px] min-[2560px]:text-[17px]',
 )
 
 export const landingCtaLinkSmCaps = cn(landingCtaLinkSm, 'uppercase tracking-[0.14em]')
 
 export const landingCtaLinkLg = cn(
   landingCtaLinkBase,
-  'text-[12px] tracking-[0.1em] min-[1920px]:text-sm min-[2560px]:text-base',
+  'text-[14px] tracking-[0.1em] min-[1920px]:text-[15px] min-[2560px]:text-[17px]',
 )
 
 export const landingCtaArrowSmClass =

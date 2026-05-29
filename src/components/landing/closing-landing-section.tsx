@@ -4,7 +4,7 @@ import Link from 'next/link'
 import OpenAI from '@lobehub/icons/es/OpenAI/components/Mono'
 import Claude from '@lobehub/icons/es/Claude/components/Color'
 import Perplexity from '@lobehub/icons/es/Perplexity/components/Color'
-import { rkMono9, rkMono13 } from '@/lib/landing-responsive-type'
+import { rkMono10, rkMono11, rkMono13 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
@@ -39,7 +39,7 @@ export function ClosingLandingSection() {
           <p
             className={cn(
               'mb-10 font-[family-name:var(--font-mono)] tracking-[0.28em] text-[var(--text-muted)] uppercase',
-              rkMono9,
+              rkMono10,
             )}
           >
             The result
@@ -68,7 +68,7 @@ export function ClosingLandingSection() {
           <p
             className={cn(
               'font-[family-name:var(--font-mono)] tracking-[0.28em] text-[var(--text-muted)] uppercase',
-              rkMono9,
+              rkMono10,
             )}
           >
             Don&apos;t take our word for it
@@ -80,7 +80,10 @@ export function ClosingLandingSection() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-[5px] border border-[var(--ink)]/15 bg-[var(--bg)] px-5 py-3 font-[family-name:var(--font-mono)] text-[12px] font-medium tracking-[-0.01em] text-[var(--ink)] shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,border-color,transform,color] duration-200 hover:-translate-y-px hover:border-[var(--blue)]/40 hover:text-[var(--blue)] hover:shadow-[0_4px_18px_rgba(47,91,255,0.14)] active:translate-y-px min-[1920px]:px-6 min-[1920px]:py-3.5 min-[1920px]:text-[13px] min-[2560px]:text-[14px]"
+                className={cn(
+                  'inline-flex items-center gap-2.5 rounded-[5px] border border-[var(--ink)]/15 bg-[var(--bg)] px-5 py-3 font-[family-name:var(--font-mono)] font-medium tracking-[-0.01em] text-[var(--ink)] shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,border-color,transform,color] duration-200 hover:-translate-y-px hover:border-[var(--blue)]/40 hover:text-[var(--blue)] hover:shadow-[0_4px_18px_rgba(47,91,255,0.14)] active:translate-y-px min-[1920px]:px-6 min-[1920px]:py-3.5',
+                  rkMono11,
+                )}
               >
                 <Icon size={18} className="shrink-0" />
                 {label}

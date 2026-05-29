@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { rkMono10 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 
 export type CustomerMark =
@@ -43,7 +44,12 @@ function LogoItem({ mark, aria }: { mark: CustomerMark; aria?: string }) {
         aria-label={aria}
         className="inline-flex shrink-0 items-center justify-center opacity-[0.55] grayscale"
       >
-        <span className="font-[family-name:var(--font-mono)] text-[10px] font-light tracking-[0.12em] text-[var(--ink)] uppercase sm:text-[11px]">
+        <span
+          className={cn(
+            'font-[family-name:var(--font-mono)] font-light tracking-[0.12em] text-[var(--ink)] uppercase',
+            rkMono10,
+          )}
+        >
           {mark.name}
         </span>
       </span>

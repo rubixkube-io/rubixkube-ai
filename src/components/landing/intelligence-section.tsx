@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { SectionLabel } from '@/components/ui/section-label'
 import { landingCtaArrowSmClass, landingCtaLinkSm } from '@/lib/landing-inline-cta'
-import { rkMono9, rkMono11, rkMono13, rkMono15Lead } from '@/lib/landing-responsive-type'
+import { rkMono10, rkMono11, rkMono13, rkMono15Lead } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
@@ -352,7 +352,7 @@ export function IntelligenceSection() {
         <span
           className={cn(
             'font-[family-name:var(--font-mono)] tracking-[0.22em] text-[var(--text-muted)] uppercase',
-            rkMono9,
+            rkMono10,
           )}
         >
           Compounding memory
@@ -366,12 +366,12 @@ export function IntelligenceSection() {
               <p
                 className={cn(
                   'mb-5 font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--blue)] uppercase',
-                  rkMono9,
+                  rkMono10,
                 )}
               >
                 {c.time}
               </p>
-              <h3 className="mb-2 font-[family-name:var(--font-serif)] text-2xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)]">
+              <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2vw,1.75rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] min-[1920px]:text-[1.875rem]">
                 {c.title} <em className="italic text-[var(--blue)]">{c.em}</em>
               </h3>
               <p

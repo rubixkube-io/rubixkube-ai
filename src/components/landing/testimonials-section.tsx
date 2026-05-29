@@ -59,7 +59,10 @@ export function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease }}
-          className="mb-12 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.22em] text-[var(--text-muted)] uppercase min-[1920px]:text-[12px]"
+          className={cn(
+            'mb-12 font-[family-name:var(--font-mono)] tracking-[0.22em] text-[var(--text-muted)] uppercase',
+            rkMono10,
+          )}
         >
           What our customers are saying
         </motion.p>

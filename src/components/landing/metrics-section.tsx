@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { landingCtaArrowSmClass, landingCtaLinkSmCaps } from '@/lib/landing-inline-cta'
-import { rkMono9, rkMono10, rkMono11, rkMonoXs } from '@/lib/landing-responsive-type'
+import { rkMono10, rkMono11, rkMonoXs } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
@@ -119,7 +119,7 @@ export function MetricsSection() {
                   <p
                     className={cn(
                       'font-[family-name:var(--font-mono)] tracking-[0.16em] text-[var(--mid)] uppercase',
-                      rkMono9,
+                      rkMono10,
                     )}
                   >
                     {s.l}

@@ -297,7 +297,7 @@ h6 {
   padding: 0 28px 0 var(--pad);
   border-right: 1px solid var(--rule);
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -309,7 +309,7 @@ h6 {
   }
 
   .rk-marquee-label {
-    font-size: 13px;
+    font-size: 14px;
     padding-right: 32px;
   }
 }
@@ -320,7 +320,7 @@ h6 {
   }
 
   .rk-marquee-label {
-    font-size: 14px;
+    font-size: 15px;
   }
 }
 
@@ -354,7 +354,19 @@ h6 {
   animation: rk-hero-fadeup 1s 0.1s forwards;
   opacity: 0;
   font-weight: 300;
-  font-size: 13px;
+  font-size: 14px;
+}
+
+@media (min-width: 1920px) {
+  .rk-hero-eyebrow {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .rk-hero-eyebrow {
+    font-size: 16px;
+  }
 }
 
 /* Matches redesign.html .headline: same font files + weight 300 + real italic */

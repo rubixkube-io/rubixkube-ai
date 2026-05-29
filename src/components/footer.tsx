@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
+import { rkMono10, rkMono11, rkMono13 } from '@/lib/landing-responsive-type'
+import { cn } from '@/lib/utils'
 import { Linkedin, Github, Slack } from 'lucide-react'
 
 const footerColumns = [
@@ -77,7 +79,10 @@ export function FooterBody() {
         initial={prefersReducedMotion ? 'visible' : 'hidden'}
         whileInView="visible"
         viewport={{ once: true }}
-        className="mx-auto mb-14 max-w-2xl text-center font-[family-name:var(--font-mono)] text-sm font-light leading-relaxed text-[var(--mid)]"
+        className={cn(
+          'mx-auto mb-14 max-w-2xl text-center font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)]',
+          rkMono13,
+        )}
       >
         RubixKube is Site Reliability Intelligence: see more, plan better, act safely, and learn with every
         incident.
@@ -92,7 +97,7 @@ export function FooterBody() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h3 className="border-b border-[var(--rule)] pb-3 mb-4 font-[family-name:var(--font-serif)] text-[1.0625rem] font-light leading-none tracking-[-0.02em] text-[var(--ink)] sm:text-lg min-[1920px]:text-[1.25rem]">
+            <h3 className="border-b border-[var(--rule)] pb-3 mb-4 font-[family-name:var(--font-serif)] text-lg font-light leading-none tracking-[-0.02em] text-[var(--ink)] sm:text-xl min-[1920px]:text-[1.35rem]">
               {column.title}
             </h3>
             <ul className="space-y-2 pt-1">
@@ -102,7 +107,10 @@ export function FooterBody() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="font-[family-name:var(--font-mono)] text-[10px] font-light leading-relaxed tracking-[0.04em] text-[var(--text-muted)] transition-colors hover:text-[var(--ink)] sm:text-[11px] min-[1920px]:text-xs"
+                        className={cn(
+                          'font-[family-name:var(--font-mono)] font-light leading-relaxed tracking-[0.04em] text-[var(--text-muted)] transition-colors hover:text-[var(--ink)]',
+                          rkMono11,
+                        )}
                         {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       >
                         {link.label}
@@ -158,11 +166,18 @@ export function FooterBody() {
       >
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link href="/" className="flex items-center gap-2.5">
-            <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] text-[var(--ink)] uppercase hover:text-[var(--blue)] transition-colors">
+            <span
+              className={cn(
+                'font-[family-name:var(--font-mono)] tracking-[0.1em] text-[var(--ink)] uppercase hover:text-[var(--blue)] transition-colors',
+                rkMono10,
+              )}
+            >
               RubixKube
             </span>
           </Link>
-          <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--text-muted)]">
+          <span
+            className={cn('font-[family-name:var(--font-mono)] text-[var(--text-muted)]', rkMono10)}
+          >
             © {new Date().getFullYear()} All rights reserved.
           </span>
         </div>
@@ -179,7 +194,12 @@ export function FooterBody() {
               <SocialIcon type={social.iconType} />
             </Link>
           ))}
-          <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.08em] text-[var(--text-muted)] uppercase">
+          <span
+            className={cn(
+              'font-[family-name:var(--font-mono)] tracking-[0.08em] text-[var(--text-muted)] uppercase',
+              rkMono10,
+            )}
+          >
             <Link href="/llms.txt" className="hover:text-[var(--mid)]">
               llms.txt
             </Link>
