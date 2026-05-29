@@ -5,6 +5,15 @@ import type { Metadata } from 'next'
 import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 import { webPageJsonLd, faqPageJsonLd } from '@/components/structured-data'
 import { homepageFaqItems } from '@/data/homepage-faq'
+import { sanityFetch } from '@/sanity/lib/live'
+import {
+  LATEST_BLOG_FOR_HOME_QUERY,
+  LATEST_PODCAST_FOR_HOME_QUERY,
+  toBlogFeaturedCard,
+  toPodcastFeaturedCard,
+} from '@/lib/landing-featured-content'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'RubixKube | Site Reliability Intelligence',
@@ -69,7 +78,12 @@ const pageJsonLd = webPageJsonLd({
 
 const faqItems = homepageFaqItems.map((item) => ({ question: item.q, answer: item.a }))
 
-export default function Home() {
+export default async function Home() {
+  const [{ data: latestPodcast }, { data: latestBlog }] = await Promise.all([
+    sanityFetch({ query: LATEST_PODCAST_FOR_HOME_QUERY }),
+    sanityFetch({ query: LATEST_BLOG_FOR_HOME_QUERY }),
+  ])
+
   return (
     <>
       <script
@@ -82,7 +96,10 @@ export default function Home() {
       />
       <HomeScrollLock />
       <Navbar />
-      <LandingPage />
+      <LandingPage
+        latestPodcast={toPodcastFeaturedCard(latestPodcast)}
+        latestBlog={toBlogFeaturedCard(latestBlog)}
+      />
     </>
   )
 }

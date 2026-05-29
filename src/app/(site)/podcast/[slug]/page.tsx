@@ -1,6 +1,7 @@
 import { type SanityDocument } from "next-sanity"
 import type { Metadata } from "next"
 import { client } from "@/lib/sanity.client"
+import { podcastCoverOgFields } from "@/lib/podcast-cover-og"
 import { sanityFetch } from "@/sanity/lib/live"
 import { notFound } from "next/navigation"
 import { PodcastEpisodeClient } from "./podcast-episode-client"
@@ -64,6 +65,7 @@ export async function generateMetadata({
   const title = episode.seoTitle || episode.title
   const description = episode.seoDescription || episode.excerpt || 'Podcast episode from RubixKube.'
   const url = `https://rubixkube.ai/podcast/${slug}`
+  const coverOg = podcastCoverOgFields(episode.image, title)
 
   return {
     title,
@@ -76,11 +78,12 @@ export async function generateMetadata({
       siteName: 'RubixKube',
       publishedTime: episode.publishedAt,
       modifiedTime: episode.publishedAt,
+      ...coverOg.openGraph,
     },
     twitter: {
-      card: 'summary_large_image',
       title,
       description,
+      ...coverOg.twitter,
     },
     alternates: {
       canonical: url,

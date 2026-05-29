@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Reveal } from './reveal'
+import type { LandingFeaturedCard } from '@/lib/landing-featured-content'
 
 /** Mask fades frost (gradient + blur) to transparent so blur doesn’t end in a hard band; text sits above in a separate layer. */
 const frostMask =
@@ -33,37 +34,59 @@ const titleHero =
 const titleSide =
   'text-balance font-[family-name:var(--font-serif)] text-[clamp(1.05rem,2.4vw,1.4rem)] font-semibold leading-[1.28] tracking-[0.015em] text-white antialiased [text-shadow:0_1px_2px_rgba(0,0,0,1),0_2px_10px_rgba(0,0,0,1),0_6px_28px_rgba(0,0,0,0.92),0_14px_48px_rgba(0,0,0,0.76)] sm:text-[clamp(1.125rem,2.2vw,1.5rem)]'
 
+const cornerArrow =
+  'absolute top-6 right-6 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-black/30 text-sm text-white/80 backdrop-blur-sm'
+
+function FeaturedContentCard({
+  card,
+  variant,
+  className,
+}: {
+  card: LandingFeaturedCard
+  variant: 'hero' | 'side'
+  className: string
+}) {
+  const titleClass = variant === 'hero' ? titleHero : titleSide
+
+  return (
+    <Link href={card.href} className={className}>
+      <Image
+        src={card.imageUrl}
+        alt={card.imageAlt}
+        fill
+        className="object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.03]"
+        sizes={variant === 'hero' ? '(max-width:768px) 100vw, 50vw' : '(max-width:768px) 100vw, 25vw'}
+      />
+      <div className={textPanelShell}>
+        <div className={textPanelFrost} aria-hidden />
+        <div className="relative z-10 [text-rendering:optimizeLegibility]">
+          <p className={eyebrow}>{card.eyebrow}</p>
+          <p className={titleClass}>{card.title}</p>
+        </div>
+      </div>
+      <span className={cornerArrow} aria-hidden>
+        ↗
+      </span>
+    </Link>
+  )
+}
+
+export type LandingContentCardsProps = {
+  latestPodcast: LandingFeaturedCard
+  latestBlog: LandingFeaturedCard
+}
+
 /**
- * Full-bleed three-up (blog / whitepaper / blog) — lives in the top half of homepage `LandingFooter`.
+ * Full-bleed three-up (podcast / whitepaper / blog) — top half of homepage `LandingFooter`.
  */
-export function LandingContentCards() {
+export function LandingContentCards({ latestPodcast, latestBlog }: LandingContentCardsProps) {
   return (
     <Reveal className="grid min-h-[min(100%,50vh)] w-full flex-1 grid-cols-1 md:min-h-0 md:grid-cols-[2fr_1fr_1fr] md:h-full">
-      <Link
-        href="/blog/beyond-observability-building-systems-that-think-with-you"
+      <FeaturedContentCard
+        card={latestPodcast}
+        variant="hero"
         className="group relative isolate block min-h-[40vh] overflow-hidden md:min-h-0 md:h-full"
-      >
-        <Image
-          src="/beyond-observability.webp"
-          alt=""
-          fill
-          className="object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.03]"
-          sizes="(max-width:768px) 100vw, 50vw"
-        />
-        <div className={textPanelShell}>
-          <div className={textPanelFrost} aria-hidden />
-          <div className="relative z-10 [text-rendering:optimizeLegibility]">
-            <p className={eyebrow}>SRI Diaries · 5 min read</p>
-            <p className={titleHero}>Beyond Observability: Building Systems That Think With You</p>
-          </div>
-        </div>
-        <span
-          className="absolute top-6 right-6 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-black/30 text-sm text-white/80 backdrop-blur-sm"
-          aria-hidden
-        >
-          ↗
-        </span>
-      </Link>
+      />
 
       <Link
         href="/assets/whitepaper.pdf"
@@ -91,33 +114,11 @@ export function LandingContentCards() {
         </span>
       </Link>
 
-      <Link
-        href="/blog/the-evolution-of-reliability-from-firefighting-to-intelligence"
+      <FeaturedContentCard
+        card={latestBlog}
+        variant="side"
         className="group relative isolate block min-h-[32vh] overflow-hidden md:h-full md:min-h-0"
-      >
-        <Image
-          src="/deepmind.jpg"
-          alt=""
-          fill
-          className="object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.03]"
-          sizes="(max-width:768px) 100vw, 25vw"
-        />
-        <div className={textPanelShell}>
-          <div className={textPanelFrost} aria-hidden />
-          <div className="relative z-10 [text-rendering:optimizeLegibility]">
-            <p className={eyebrow}>Infrastructure Reliability · 5 min read</p>
-            <p className={titleSide}>
-              The Evolution of Reliability: From Firefighting to Intelligence
-            </p>
-          </div>
-        </div>
-        <span
-          className="absolute top-6 right-6 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-black/30 text-sm text-white/80 backdrop-blur-sm"
-          aria-hidden
-        >
-          ↗
-        </span>
-      </Link>
+      />
     </Reveal>
   )
 }

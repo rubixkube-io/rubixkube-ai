@@ -6,6 +6,7 @@ import { urlFor } from '@/sanity/lib/image'
 import { ReferencePageClient } from './dynamic-page-client'
 import type { ReferencePage, ContentBlock } from './dynamic-page-client'
 import { articleJsonLd, faqPageJsonLd, toIsoDate } from '@/components/structured-data'
+import { sanityCoverOgFields } from '@/lib/sanity-cover-og'
 
 const KNOWN_ROUTES = new Set([
   'blog', 'platform', 'solutions', 'resources', 'about',
@@ -32,7 +33,11 @@ const PAGE_QUERY = `*[_type == "referencePage" && category == $category && slug.
   publishedAt,
   updatedAt,
   readingTime,
-  heroImage,
+  heroImage{
+    asset,
+    alt,
+    caption
+  },
   body,
   relatedPages,
   seoTitle,
@@ -205,6 +210,7 @@ export async function generateMetadata({
 
   const publishedTime = toIsoDate(page?.publishedAt)
   const modifiedTime = toIsoDate(page?.updatedAt) ?? publishedTime
+  const coverOg = sanityCoverOgFields(page?.heroImage, title)
 
   return {
     title: `${title}`,
@@ -217,8 +223,9 @@ export async function generateMetadata({
       siteName: 'RubixKube',
       ...(publishedTime && { publishedTime }),
       ...(modifiedTime && { modifiedTime }),
+      ...coverOg.openGraph,
     },
-    twitter: { card: 'summary_large_image', title, description },
+    twitter: { title, description, ...coverOg.twitter },
     alternates: { canonical: url },
     robots: { index: true, follow: true },
   }

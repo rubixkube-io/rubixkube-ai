@@ -10,8 +10,9 @@ import { RcaSection } from './rca-section'
 import { TestimonialsSection } from './testimonials-section'
 import { ClosingLandingSection } from './closing-landing-section'
 import { LandingFooter } from './landing-footer'
+import type { LandingContentCardsProps } from './content-cards-section'
 
-export function LandingPage() {
+export function LandingPage({ latestPodcast, latestBlog }: LandingContentCardsProps) {
   const mainRef = useRef<HTMLElement | null>(null)
 
   return (
@@ -28,7 +29,7 @@ export function LandingPage() {
         <RcaSection />
         <TestimonialsSection />
         <ClosingLandingSection />
-        <LandingFooter />
+        <LandingFooter latestPodcast={latestPodcast} latestBlog={latestBlog} />
       </main>
     </LandingScrollRootRefContext.Provider>
   )

@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { sanityFetch } from "@/sanity/lib/live"
 import { BlogPageClient } from "./blog-page-client"
 import { webPageJsonLd } from "@/components/structured-data"
+import { sanityCoverOgFields } from "@/lib/sanity-cover-og"
 
 const POSTS_QUERY = `*[
   _type == "post"
@@ -57,6 +58,15 @@ export async function generateMetadata({
   const title = category && category !== '' ? `${baseTitle} – ${category}` : baseTitle
   const url = category && category !== '' ? `https://rubixkube.ai/blog?category=${encodeURIComponent(category)}` : 'https://rubixkube.ai/blog'
 
+  const coverQuery = category
+    ? `*[_type == "post" && defined(slug.current) && $category in categories[]->title]|order(featured desc, publishedAt desc)[0]{ title, image }`
+    : `*[_type == "post" && defined(slug.current)]|order(featured desc, publishedAt desc)[0]{ title, image }`
+  const { data: leadPost } = await sanityFetch({
+    query: coverQuery,
+    params: category ? { category } : {},
+  })
+  const coverOg = sanityCoverOgFields(leadPost?.image, leadPost?.title || baseTitle)
+
   return {
     title,
     description: baseDescription,
@@ -66,11 +76,12 @@ export async function generateMetadata({
       url,
       type: 'website',
       siteName: 'RubixKube',
+      ...coverOg.openGraph,
     },
     twitter: {
-      card: 'summary_large_image',
       title,
       description: baseDescription,
+      ...coverOg.twitter,
     },
     alternates: {
       canonical: url,

@@ -1,6 +1,7 @@
 import { type SanityDocument } from "next-sanity"
 import type { Metadata } from "next"
 import { client, urlFor } from "@/lib/sanity.client"
+import { sanityCoverOgFields } from "@/lib/sanity-cover-og"
 import { sanityFetch } from "@/sanity/lib/live"
 import { notFound } from "next/navigation"
 import { BlogPostClient } from "./blog-post-client"
@@ -85,6 +86,7 @@ export async function generateMetadata({
   const title = post.seoTitle || post.title
   const description = post.seoDescription || post.excerpt || 'Article from RubixKube.'
   const url = `https://rubixkube.ai/blog/${slug}`
+  const coverOg = sanityCoverOgFields(post.image, title)
 
   return {
     title,
@@ -97,11 +99,12 @@ export async function generateMetadata({
       siteName: 'RubixKube',
       publishedTime: post.publishedAt,
       modifiedTime: post.publishedAt,
+      ...coverOg.openGraph,
     },
     twitter: {
-      card: 'summary_large_image',
       title,
       description,
+      ...coverOg.twitter,
     },
     alternates: {
       canonical: url,

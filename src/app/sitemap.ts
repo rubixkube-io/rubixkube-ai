@@ -13,6 +13,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { next: { revalidate: 0 } }
   )
 
+  const podcastEpisodes: { slug: { current: string }, publishedAt?: string }[] = await client.fetch(
+    `*[_type == "podcastEpisode" && defined(slug.current)]{ slug, publishedAt }`,
+    {},
+    { next: { revalidate: 0 } }
+  )
+
   const KNOWN_ROUTES = new Set([
     'blog', 'platform', 'solutions', 'resources', 'about',
     'contact', 'legal', 'status', 'studio', 'pricing',
@@ -70,6 +76,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/podcast`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
       // Public URL /about; site chrome labels this page "About" (nav, footer, llms.txt).
       url: `${baseUrl}/about`,
       lastModified: new Date(),
@@ -118,5 +130,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }))
 
-  return [...staticEntries, ...blogEntries, ...referenceEntries]
+  const podcastEntries: MetadataRoute.Sitemap = podcastEpisodes.map((ep) => ({
+    url: `${baseUrl}/podcast/${ep.slug.current}`,
+    lastModified: ep.publishedAt ? new Date(ep.publishedAt) : new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }))
+
+  return [...staticEntries, ...blogEntries, ...podcastEntries, ...referenceEntries]
 }

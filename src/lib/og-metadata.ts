@@ -1,6 +1,7 @@
 /**
  * Canonical URLs for static OG assets and site origin.
  * Routes with `opengraph-image.tsx` should omit `openGraph.images` so Next.js emits the hashed image URL.
+ * Blog, podcast, and reference pages use Sanity cover/hero images via `sanity-cover-og.ts` instead.
  */
 export const SITE_URL = 'https://rubixkube.ai' as const
 
