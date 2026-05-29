@@ -1,6 +1,7 @@
-import { rkMono10 } from '@/lib/landing-responsive-type'
+import { landingSectionKickerClass } from '@/lib/landing-section-kicker'
 import { cn } from '@/lib/utils'
 
+/** Editorial kicker above a section headline (homepage + marketing pages). */
 export function SectionLabel({
   children,
   className,
@@ -8,16 +9,5 @@ export function SectionLabel({
   children: React.ReactNode
   className?: string
 }) {
-  return (
-    <div
-      className={cn(
-        'mb-9 flex items-center gap-3.5 font-[family-name:var(--font-mono)] font-normal uppercase tracking-[0.22em] text-[var(--mid)]',
-        rkMono10,
-        className,
-      )}
-    >
-      <span className="h-px w-5 shrink-0 bg-[var(--blue)]" aria-hidden />
-      {children}
-    </div>
-  )
+  return <p className={cn('mb-4 max-w-prose', landingSectionKickerClass, className)}>{children}</p>
 }

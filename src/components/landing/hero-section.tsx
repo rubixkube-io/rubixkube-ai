@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
-import { rkMono10, rkMono13 } from '@/lib/landing-responsive-type'
+import { rkMono13 } from '@/lib/landing-responsive-type'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 import { CustomerLogoGrid } from './partner-logos'
@@ -15,7 +15,7 @@ const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const CONSOLE_URL = 'https://console.rubixkube.ai'
 
 const heroPrimaryCtaClass =
-  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[12px] !font-medium !tracking-[0.12em] !text-white !uppercase shadow-[0_1px_2px_rgba(17,19,24,0.06)] !transition-[box-shadow,opacity] !duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[14px] min-[2560px]:!text-[15px]'
+  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-medium !tracking-[0.12em] !text-white !uppercase shadow-[0_1px_2px_rgba(17,19,24,0.06)] !transition-[box-shadow,opacity] !duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
 
 
 const SRI_MANIFESTO_HREF = '/blog/the-age-of-site-reliability-intelligence-sri'
@@ -51,18 +51,12 @@ export function HeroSection() {
     <div className="landing-hero-slide relative">
       <Link
         href={SRI_MANIFESTO_HREF}
-        className={cn(
-          'absolute top-1/2 left-[var(--pad)] z-10 hidden -translate-y-1/2 -rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--text-muted)] uppercase transition-colors hover:text-[var(--ink)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] lg:block',
-          rkMono10,
-        )}
+        className="absolute top-1/2 left-[var(--pad)] z-10 hidden -translate-y-1/2 -rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--text-muted)] uppercase transition-colors hover:text-[var(--ink)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] min-[1920px]:text-[13px] min-[2560px]:text-[14px] lg:block"
       >
         Site Reliability Intelligence
       </Link>
       <span
-        className={cn(
-          'pointer-events-none absolute top-1/2 right-[var(--pad)] z-10 hidden -translate-y-1/2 rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--text-muted)] uppercase lg:block',
-          rkMono10,
-        )}
+        className="pointer-events-none absolute top-1/2 right-[var(--pad)] z-10 hidden -translate-y-1/2 rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--text-muted)] uppercase min-[1920px]:text-[13px] min-[2560px]:text-[14px] lg:block"
         aria-hidden
       >
         Memory · Safety · Resilience
@@ -87,7 +81,7 @@ export function HeroSection() {
 
           <p
             className={cn(
-              'rk-hero-sub mt-7 font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)] sm:mt-0',
+              'rk-hero-sub mt-7 font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)] max-sm:text-[13px] sm:mt-0',
               rkMono13,
             )}
           >
@@ -117,7 +111,7 @@ export function HeroSection() {
             />
             <p
               className={cn(
-                'rk-hero-status-text font-[family-name:var(--font-mono)] text-[var(--mid)] transition-opacity duration-300',
+                'rk-hero-status-text font-[family-name:var(--font-mono)] text-[var(--mid)] transition-opacity duration-300 max-sm:text-[11px]',
                 rkMono13,
               )}
               style={{ opacity }}
@@ -136,7 +130,7 @@ export function HeroSection() {
       </div>
 
       <div className="flex w-full shrink-0 flex-row items-center border-t border-[var(--rule)] bg-[var(--bg)]">
-        <span className="rk-marquee-label max-sm:px-3 sm:py-0">
+        <span className="rk-marquee-label max-sm:px-3 max-sm:text-[10px] sm:py-0">
           Trusted by
         </span>
         <div className="flex min-h-0 flex-1 items-center overflow-hidden px-3 py-3 sm:px-[var(--pad)] sm:py-4 md:px-8">

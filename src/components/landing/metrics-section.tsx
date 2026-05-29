@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { landingCtaArrowSmClass, landingCtaLinkSmCaps } from '@/lib/landing-inline-cta'
-import { rkMono10, rkMono11, rkMonoXs } from '@/lib/landing-responsive-type'
+import { landingCtaArrowSmClass, landingCtaLinkSm } from '@/lib/landing-inline-cta'
+import { landingSectionKickerClass, landingSectionMetaClass } from '@/lib/landing-section-kicker'
+import { rkMono10, rkMonoXs } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
@@ -24,23 +25,9 @@ export function MetricsSection() {
         </Reveal>
         <Reveal delay={0.08}>
           <div className="flex flex-col items-start">
-            <p
-              className={cn(
-                'font-[family-name:var(--font-mono)] tracking-[0.22em] text-[var(--mid)] uppercase',
-                rkMono10,
-              )}
-            >
-              Early results from production deployments
-            </p>
-            <p
-              className={cn(
-                'mt-2 font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--text-muted)]',
-                rkMono11,
-              )}
-            >
-              Measured avg across 12 teams
-            </p>
-            <Link href="/pricing" className={`mt-8 ${landingCtaLinkSmCaps}`}>
+            <p className={landingSectionKickerClass}>Early results from production deployments</p>
+            <p className={cn('mt-2', landingSectionMetaClass)}>Measured avg across 12 teams</p>
+            <Link href="/pricing" className={`mt-8 ${landingCtaLinkSm}`}>
               View pricing
               <ArrowRight className={landingCtaArrowSmClass} strokeWidth={2} aria-hidden />
             </Link>
@@ -64,8 +51,8 @@ export function MetricsSection() {
               </div>
               <p
                 className={cn(
-                  'font-[family-name:var(--font-mono)] tracking-[0.16em] text-[var(--mid)] uppercase',
-                  rkMono10,
+                  landingSectionKickerClass,
+                  'text-[var(--mid)]',
                 )}
               >
                 Eng-hrs saved / month
@@ -87,8 +74,8 @@ export function MetricsSection() {
               </div>
               <p
                 className={cn(
-                  'font-[family-name:var(--font-mono)] tracking-[0.16em] text-[var(--mid)] uppercase',
-                  rkMono10,
+                  landingSectionKickerClass,
+                  'text-[var(--mid)]',
                 )}
               >
                 Avg engineering cost saved
@@ -116,14 +103,7 @@ export function MetricsSection() {
                     {s.n}
                     <span className="text-[0.4em] font-light tracking-normal text-[var(--mid)]">{s.u}</span>
                   </div>
-                  <p
-                    className={cn(
-                      'font-[family-name:var(--font-mono)] tracking-[0.16em] text-[var(--mid)] uppercase',
-                      rkMono10,
-                    )}
-                  >
-                    {s.l}
-                  </p>
+                  <p className={cn(landingSectionKickerClass, 'text-[var(--mid)]')}>{s.l}</p>
                 </div>
               )
             })}

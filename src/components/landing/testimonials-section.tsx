@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { SectionLabel } from '@/components/ui/section-label'
 import { rkMono9, rkMono10 } from '@/lib/landing-responsive-type'
 
 // TODO: Replace Kishore and Sachin quotes with approved final copy when provided.
@@ -54,18 +55,14 @@ export function TestimonialsSection() {
       <div className="rk-landing-max w-full">
 
         {/* Label */}
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease }}
-          className={cn(
-            'mb-12 font-[family-name:var(--font-mono)] tracking-[0.22em] text-[var(--text-muted)] uppercase',
-            rkMono10,
-          )}
         >
-          What our customers are saying
-        </motion.p>
+          <SectionLabel className="mb-12">What customers say</SectionLabel>
+        </motion.div>
 
         {/* Featured quote — rotates */}
         <div className="mb-16 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_auto]">

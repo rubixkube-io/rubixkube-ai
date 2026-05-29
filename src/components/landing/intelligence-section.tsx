@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { SectionLabel } from '@/components/ui/section-label'
 import { landingCtaArrowSmClass, landingCtaLinkSm } from '@/lib/landing-inline-cta'
-import { rkMono10, rkMono11, rkMono13, rkMono15Lead } from '@/lib/landing-responsive-type'
+import { landingSectionKickerClass } from '@/lib/landing-section-kicker'
+import { rkMono11, rkMono13, rkMono15Lead } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
@@ -287,9 +288,22 @@ const cards = [
   { time: 'Always', title: 'Yours,', em: 'entirely.', desc: 'A model no other tool has. Built only by being there.', stage: 3 as const },
 ] as const
 
+const intelCardTimeClass = cn(
+  'mb-4 font-[family-name:var(--font-mono)] font-medium text-[var(--blue)]',
+  rkMono11,
+)
+
+const intelCardTitleClass =
+  'mb-3 font-[family-name:var(--font-serif)] text-[clamp(1.5rem,2.35vw,2.25rem)] font-light leading-[1.12] tracking-[-0.02em] text-[var(--ink)] min-[1920px]:text-[2.5rem] min-[2560px]:text-[2.75rem]'
+
+const intelCardDescClass = cn(
+  'mb-7 max-w-[26ch] font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+  rkMono13,
+)
+
 function intelCardClass(i: number) {
   /* lg:flex-1 = equal column widths; no flex-1 on inner blocks so card height stays content-sized */
-  const base = 'flex flex-col py-10 lg:min-w-0 lg:flex-1 lg:py-8'
+  const base = 'flex flex-col py-10 lg:min-w-0 lg:flex-1 lg:py-10'
   /* Horizontal padding lives on the section — only gutters between columns here */
   if (i === 0)
     return `${base} border-b border-[var(--rule)] max-lg:last:border-b-0 lg:border-b-0 lg:border-r lg:pl-0 lg:pr-12`
@@ -348,41 +362,21 @@ export function IntelligenceSection() {
         </Reveal>
         </div>
 
-        <div className="flex h-9 shrink-0 items-center border-b border-[var(--rule)]">
-        <span
-          className={cn(
-            'font-[family-name:var(--font-mono)] tracking-[0.22em] text-[var(--text-muted)] uppercase',
-            rkMono10,
-          )}
-        >
-          Compounding memory
-        </span>
+        <div className="shrink-0 border-b border-[var(--rule)] pb-3 pt-1">
+          <p className={landingSectionKickerClass}>Compounding memory</p>
         </div>
 
         {/* Content-sized row; section justify-center vertically centers the whole block */}
         <div className="flex shrink-0 flex-col pt-8 pb-10 lg:flex-row lg:items-start">
           {cards.map((c, i) => (
             <Reveal key={c.time} delay={0.05 * i} className={intelCardClass(i)}>
-              <p
-                className={cn(
-                  'mb-5 font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--blue)] uppercase',
-                  rkMono10,
-                )}
-              >
-                {c.time}
-              </p>
-              <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2vw,1.75rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] min-[1920px]:text-[1.875rem]">
-                {c.title} <em className="italic text-[var(--blue)]">{c.em}</em>
+              <p className={intelCardTimeClass}>{c.time}</p>
+              <h3 className={intelCardTitleClass}>
+                {c.title}{' '}
+                <em className="font-normal italic text-[var(--blue)]">{c.em}</em>
               </h3>
-              <p
-                className={cn(
-                  'mb-6 font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
-                  rkMono11,
-                )}
-              >
-                {c.desc}
-              </p>
-              <div className="card-graph flex h-[120px] shrink-0 items-center justify-center">
+              <p className={intelCardDescClass}>{c.desc}</p>
+              <div className="card-graph mt-auto flex h-[128px] shrink-0 items-center justify-center sm:h-[136px]">
                 <IntelligenceStoryGraph stage={c.stage} />
               </div>
             </Reveal>

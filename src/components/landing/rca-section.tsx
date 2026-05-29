@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { SectionLabel } from '@/components/ui/section-label'
 import { landingCtaArrowSmClass, landingCtaLinkSm } from '@/lib/landing-inline-cta'
+import { landingSectionKickerClass } from '@/lib/landing-section-kicker'
 import { rkMono9, rkMono10, rkMono11, rkMono13, rkMonoXs } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
@@ -12,7 +13,7 @@ export function RcaSection() {
   return (
     <section className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] flex-col justify-center px-[var(--pad)] py-20 lg:h-[calc(100vh-var(--nav-stack))]">
       <div className="rk-landing-max w-full">
-      <SectionLabel className="mb-6">Magic insights</SectionLabel>
+      <SectionLabel className="mb-6">Investigation</SectionLabel>
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20">
         <Reveal>
           <h2 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
@@ -61,9 +62,7 @@ export function RcaSection() {
               </span>
             </div>
             <div className="border-b border-[var(--rule)] px-[18px] py-3.5">
-              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono10)}>
-                Root Cause
-              </p>
+              <p className={cn('mb-2', landingSectionKickerClass)}>Root cause</p>
               <div
                 className={cn(
                   'rounded-r border-l-2 border-[var(--blue)] bg-[rgba(47,91,255,0.05)] px-3 py-2.5 leading-relaxed text-[var(--mid)]',
@@ -85,9 +84,7 @@ export function RcaSection() {
               </div>
             </div>
             <div className="border-b border-[var(--rule)] px-[18px] py-3.5">
-              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono10)}>
-                Observed Conditions
-              </p>
+              <p className={cn('mb-2', landingSectionKickerClass)}>Observed conditions</p>
               <ul className={cn('space-y-1 leading-snug text-[var(--mid)]', rkMono11)}>
                 <li className="flex gap-2 before:content-['·'] before:text-[var(--text-muted)]">
                   redis-cluster memory at 98.4%; eviction policy active
@@ -101,9 +98,7 @@ export function RcaSection() {
               </ul>
             </div>
             <div className="px-[18px] py-3.5">
-              <p className={cn('mb-2 tracking-[0.22em] text-[var(--text-muted)] uppercase', rkMono10)}>
-                Recommended Actions
-              </p>
+              <p className={cn('mb-2', landingSectionKickerClass)}>Recommended actions</p>
               <div className="space-y-1">
                 <div className="flex gap-2.5 py-1">
                   <span

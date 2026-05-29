@@ -4,7 +4,8 @@ import Link from 'next/link'
 import OpenAI from '@lobehub/icons/es/OpenAI/components/Mono'
 import Claude from '@lobehub/icons/es/Claude/components/Color'
 import Perplexity from '@lobehub/icons/es/Perplexity/components/Color'
-import { rkMono10, rkMono11, rkMono13 } from '@/lib/landing-responsive-type'
+import { landingSectionKickerClass } from '@/lib/landing-section-kicker'
+import { rkMono11, rkMono13 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
 
@@ -37,10 +38,7 @@ export function ClosingLandingSection() {
       <div className="mx-auto w-full max-w-4xl text-center">
         <Reveal>
           <p
-            className={cn(
-              'mb-10 font-[family-name:var(--font-mono)] tracking-[0.28em] text-[var(--text-muted)] uppercase',
-              rkMono10,
-            )}
+            className={cn('mb-10', landingSectionKickerClass)}
           >
             The result
           </p>
@@ -66,10 +64,7 @@ export function ClosingLandingSection() {
         </Reveal>
         <Reveal delay={0.22} className="mt-12 flex flex-col items-center gap-5">
           <p
-            className={cn(
-              'font-[family-name:var(--font-mono)] tracking-[0.28em] text-[var(--text-muted)] uppercase',
-              rkMono10,
-            )}
+            className={landingSectionKickerClass}
           >
             Don&apos;t take our word for it
           </p>
