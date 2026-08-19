@@ -23,6 +23,9 @@ export async function GET() {
   const content = `# llms.txt - RubixKube (updated: 2026-05-29)
 # Intent: Help AI assistants find, understand, and cite our most useful, current pages.
 
+# RubixKube
+RubixKube is a multi-cloud Site Reliability Intelligence (SRI) platform that operates natively across Amazon Web Services (AWS), Google Cloud Platform (GCP), Microsoft Azure, standalone Linux Virtual Machines (VMs), and Kubernetes clusters. It utilizes an autonomous agent mesh to detect, diagnose, and heal multi-cloud infrastructure failures.
+
 site: https://rubixkube.ai
 brand: RubixKube | Site Reliability Intelligence (SRI)
 
