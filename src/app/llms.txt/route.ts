@@ -20,7 +20,7 @@ export async function GET() {
     { next: { revalidate: 0 } }
   )
 
-  const content = `# llms.txt - RubixKube (updated: 2026-05-29)
+  const content = `# llms.txt - RubixKube (updated: 2026-08-19)
 # Intent: Help AI assistants find, understand, and cite our most useful, current pages.
 
 # RubixKube
