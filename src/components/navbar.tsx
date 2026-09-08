@@ -34,6 +34,7 @@ import { fadeUpVariants } from '@/lib/animations'
 import { outlineBlueAccentNav } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 import { useReferenceGuidesNav } from '@/components/reference-pages-nav-provider'
+import { AnnouncementBar } from '@/components/announcement-bar'
 import { urlFor } from '@/lib/sanity.client'
 import {
   SOLUTIONS_CATEGORIES,
@@ -463,13 +464,15 @@ export function Navbar() {
     )
 
   return (
+    <>
+    <AnnouncementBar />
     <motion.header
       ref={navShellRef}
       variants={fadeUpVariants}
       initial={prefersReducedMotion ? 'visible' : 'hidden'}
       animate="visible"
       className={cn(
-        'fixed top-0 right-0 left-0 z-[100] overflow-visible pt-[var(--nav-gap-top)] transition-[background-color,border-color,backdrop-filter] duration-300',
+        'fixed top-[var(--announce-h)] right-0 left-0 z-[100] overflow-visible pt-[var(--nav-gap-top)] transition-[background-color,border-color,backdrop-filter] duration-300',
         scrolled || megaDesktop
           ? 'border-b border-[var(--rule)] bg-[rgba(242,240,235,0.92)] backdrop-blur-[14px]'
           : 'border-b border-transparent bg-transparent',
@@ -791,5 +794,6 @@ export function Navbar() {
         )}
       </AnimatePresence>
     </motion.header>
+    </>
   )
 }

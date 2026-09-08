@@ -3,16 +3,15 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { rkMono13 } from '@/lib/landing-responsive-type'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 import { CustomerLogoGrid } from './partner-logos'
-import { Rocket } from 'lucide-react'
+import { ArrowRight, Rocket } from 'lucide-react'
 
-const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const CONSOLE_URL = 'https://console.rubixkube.ai'
+const KEPLER_URL = 'https://trykepler.rubixkube.ai'
 
 const heroPrimaryCtaClass =
   '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-medium !tracking-[0.12em] !text-white !uppercase shadow-[0_1px_2px_rgba(17,19,24,0.06)] !transition-[box-shadow,opacity] !duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
@@ -20,14 +19,31 @@ const heroPrimaryCtaClass =
 
 const SRI_MANIFESTO_HREF = '/blog/the-age-of-site-reliability-intelligence-sri'
 
-const TRUTHS = [
+type Truth = { metric: string; label: string; truth: string; href?: string }
+
+const TRUTHS: Truth[] = [
+  { metric: 'new', label: 'Kepler, the SRE IDE, is out', truth: 'the desktop app for on-call engineers.', href: KEPLER_URL },
   { metric: '2.8 min', label: 'mean time to understand', truth: 'not hours. minutes.' },
   { metric: '98%', label: 'detection rate', truth: 'nothing slips through.' },
   { metric: '90% less', label: 'alert noise', truth: 'your team only sees what matters.' },
   { metric: '55 hrs', label: 'team eng-hrs saved per week', truth: 'focuse on shipping features, not fixing' },
   { metric: 'zero', label: 'new tools to adopt', truth: 'plugs into your existing stack on day one.' },
   { metric: 'gets smarter', label: 'with every incident', truth: 'the longer it runs, the better it gets.' },
-] as const
+]
+
+function TruthLine({ t }: { t: Truth }) {
+  return (
+    <>
+      <span className="text-[var(--blue)]">{t.metric}</span>
+      <span className="mx-1 text-[var(--text-muted)] sm:mx-[10px]">·</span>
+      <span className="text-[var(--ink)]">{t.label}</span>
+      <span className="hidden sm:inline">
+        <span className="mx-[10px] text-[var(--text-muted)]">·</span>
+        <span className="text-[var(--mid)]">{t.truth}</span>
+      </span>
+    </>
+  )
+}
 
 export function HeroSection() {
   const prefersReducedMotion = useReducedMotion()
@@ -97,9 +113,11 @@ export function HeroSection() {
                 <Rocket className="h-3.5 w-3.5 shrink-0 opacity-95" strokeWidth={2.25} aria-hidden />
               </Link>
             </Button>
-            <CalendlyBooking url={CALENDLY} variant="outline" className={outlineBlueAccentMd}>
-              Book a Demo
-            </CalendlyBooking>
+            <Button asChild variant="outline" className={outlineBlueAccentMd}>
+              <Link href={KEPLER_URL} target="_blank" rel="noopener noreferrer">
+                Try Kepler
+              </Link>
+            </Button>
           </div>
 
           <div className="rk-hero-status mt-5 flex items-center justify-center gap-2 sm:mt-10 sm:gap-3">
@@ -116,13 +134,18 @@ export function HeroSection() {
               )}
               style={{ opacity }}
             >
-              <span className="text-[var(--blue)]">{t.metric}</span>
-              <span className="mx-1 text-[var(--text-muted)] sm:mx-[10px]">·</span>
-              <span className="text-[var(--ink)]">{t.label}</span>
-              <span className="hidden sm:inline">
-                <span className="mx-[10px] text-[var(--text-muted)]">·</span>
-                <span className="text-[var(--mid)]">{t.truth}</span>
-              </span>
+              {t.href ? (
+                <Link href={t.href} target="_blank" rel="noopener noreferrer" className="group">
+                  <TruthLine t={t} />
+                  <ArrowRight
+                    className="ml-1.5 inline h-3 w-3 text-[var(--blue)] transition-transform group-hover:translate-x-0.5"
+                    strokeWidth={2}
+                    aria-hidden
+                  />
+                </Link>
+              ) : (
+                <TruthLine t={t} />
+              )}
             </p>
           </div>
 

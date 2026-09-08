@@ -306,7 +306,7 @@ export function PlatformPageClient() {
       </section>
 
       {/* Kepler Section */}
-      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
+      <section id="kepler" className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
           <div className="grid items-center gap-12 lg:grid-cols-[2fr_1fr] lg:gap-20">
             {/* Left: App Screenshot */}
@@ -359,7 +359,7 @@ export function PlatformPageClient() {
               </div>
               <Button asChild variant="outline" className={outlineBlueAccentMd}>
                 <Link href={KEPLER_URL} target="_blank" rel="noopener noreferrer">
-                  Get Kepler
+                  Try Kepler
                 </Link>
               </Button>
             </motion.div>

@@ -24,7 +24,9 @@
   /* Fixed header: bar height + optional inset from top of viewport (large screens) */
   --nav-gap-top: 0px;
   --nav-height: 4rem;
-  --nav-stack: calc(var(--nav-height) + var(--nav-gap-top));
+  /* Launch announcement bar above the header; html.rk-announce-off collapses it */
+  --announce-h: 36px;
+  --nav-stack: calc(var(--nav-height) + var(--nav-gap-top) + var(--announce-h));
 
   /* Bridge legacy Tailwind token names */
   --background: var(--bg);
@@ -48,6 +50,10 @@
   :root {
     --pad: 20px;
   }
+}
+
+html.rk-announce-off {
+  --announce-h: 0px;
 }
 
 @media (min-width: 1536px) {
