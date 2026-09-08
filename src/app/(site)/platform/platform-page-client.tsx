@@ -21,6 +21,8 @@ import Link from 'next/link'
 import { BrainIntegrationStrip } from '@/components/landing/brain-integration-strip'
 import { BuiltOnSection } from '@/components/landing/built-on-section'
 
+const KEPLER_URL = 'https://trykepler.rubixkube.ai'
+
 export function PlatformPageClient() {
   // Ordered to match bento spans: wide [0,3,4] get richer copy; narrow [1,2,5] get one punchy sentence
   const platformFeatures = [
@@ -303,12 +305,74 @@ export function PlatformPageClient() {
         </div>
       </section>
 
+      {/* Kepler Section */}
+      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
+        <div className="rk-landing-max px-[var(--pad)]">
+          <div className="grid items-center gap-12 lg:grid-cols-[2fr_1fr] lg:gap-20">
+            {/* Left: App Screenshot */}
+            <motion.div
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="order-1"
+            >
+              <Image
+                src="/screenshots/kepler.png"
+                alt="Kepler, the SRE IDE by RubixKube"
+                width={1920}
+                height={1080}
+                className="h-auto w-full rounded-xl border border-[var(--rule)] shadow-sm"
+              />
+            </motion.div>
+
+            {/* Right: Content */}
+            <motion.div
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="order-2"
+            >
+              <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                Kepler · New
+              </span>
+              <h2 className="mb-6 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
+                The SRE IDE, <span className="italic text-[var(--blue)]">on your machine.</span>
+              </h2>
+              <p className="mb-8 font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                A desktop AI agent for operators. Kepler learns your systems, remembers every incident, and works your clusters with your credentials, so you stay clear when it counts.
+              </p>
+              <div className="mb-8 space-y-4 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)]">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-4 w-4 text-[var(--blue)]" strokeWidth={1.5} />
+                  <span>Runs locally, nothing leaves your machine</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-4 w-4 text-[var(--blue)]" strokeWidth={1.5} />
+                  <span>Memory that carries across incidents</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-4 w-4 text-[var(--blue)]" strokeWidth={1.5} />
+                  <span>Observe, Assist, or Yolo: you set the autonomy</span>
+                </div>
+              </div>
+              <Button asChild variant="outline" className={outlineBlueAccentMd}>
+                <Link href={KEPLER_URL} target="_blank" rel="noopener noreferrer">
+                  Get Kepler
+                </Link>
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Rubix CLI Section */}
       <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
-          <div className="grid items-center gap-12 lg:grid-cols-[2fr_1fr] lg:gap-20">
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_2fr] lg:gap-20">
             {/* Left: Terminal Screenshot */}
-            <div className="order-1 lg:order-1">
+            <div className="order-1 lg:order-2">
               <Image
                 src="/screenshots/rubix-cli.png"
                 alt="Rubix CLI Interface"
@@ -319,7 +383,7 @@ export function PlatformPageClient() {
             </div>
 
             {/* Right: Content */}
-            <div className="order-2 lg:order-2">
+            <div className="order-2 lg:order-1">
               <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 Rubix CLI
               </span>
