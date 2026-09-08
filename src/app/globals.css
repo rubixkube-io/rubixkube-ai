@@ -626,7 +626,7 @@ h6 {
 }
 
 .prose p {
-  color: var(--foreground-muted);
+  color: var(--foreground);
 }
 
 .prose a {

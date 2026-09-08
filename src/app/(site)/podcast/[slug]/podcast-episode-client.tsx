@@ -188,7 +188,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
               variants={fadeUpVariants}
               initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
             >
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-[60ch]">
+              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--ink)]/80 max-w-[60ch]">
                 {episode.excerpt}
               </p>
             </motion.div>

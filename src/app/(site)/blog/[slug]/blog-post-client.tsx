@@ -181,7 +181,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.3 } })}
             >
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-[60ch]">
+              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--ink)]/80 max-w-[60ch]">
                 {post.excerpt}
               </p>
             </motion.div>
