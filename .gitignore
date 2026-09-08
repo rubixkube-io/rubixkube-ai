@@ -131,4 +131,10 @@ jspm_packages/
 # DynamoDB Local files
 .dynamodb/
 .next/
-context/
+context/.ds-sync/
+ds-bundle/
+.design-sync/.cache/
+.design-sync/learnings/
+.design-sync/node_modules
+
+.ds-sync/

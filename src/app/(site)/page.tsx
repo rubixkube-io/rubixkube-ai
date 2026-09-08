@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/navbar'
 import { LandingPage } from '@/components/landing'
 import { HomeScrollLock } from '@/components/landing/home-scroll-lock'
+import { KeplerLaunch } from '@/components/kepler-launch'
 import type { Metadata } from 'next'
 import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 import { webPageJsonLd, faqPageJsonLd } from '@/components/structured-data'
@@ -96,6 +97,7 @@ export default async function Home() {
       />
       <HomeScrollLock />
       <Navbar />
+      <KeplerLaunch />
       <LandingPage
         latestPodcast={toPodcastFeaturedCard(latestPodcast)}
         latestBlog={toBlogFeaturedCard(latestBlog)}
