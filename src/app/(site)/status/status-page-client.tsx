@@ -10,9 +10,8 @@ import { Activity, RefreshCw, CheckCircle } from 'lucide-react'
 
 const STATUS_API = 'https://api.rubixkube.ai/status'
 
-// Maps internal Gatus names → public-facing display names and groups.
-// Internal infra names (NATS, Neo4j etc.) are intentionally remapped here
-// so Gatus config stays true to real infra for the dev team.
+// Maps endpoint names returned by the status API to display names and groups.
+// Keys must match the API's endpoint names exactly.
 const SERVICE_MAP: Record<string, { name: string; group: string }> = {
   'Orchestrator':    { name: 'API',               group: 'Platform'       },
   'Console':         { name: 'Dashboard',          group: 'Platform'       },
