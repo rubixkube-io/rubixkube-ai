@@ -60,7 +60,6 @@ const documentationCategories = [
     linkLabel: 'View on npm',
     guides: [
       { title: 'Package & README', link: 'https://www.npmjs.com/package/@rubixkube/rubix' },
-      { title: 'Source on GitHub', link: 'https://github.com/rubixkube-io/rubix-cli' },
     ],
   },
 ]

@@ -79,7 +79,7 @@ Works with your existing stack — Kubernetes, AWS/GCP/Azure, Prometheus, Grafan
 
 - **[Book a Demo](https://calendly.com/rubixkube-ai/30min)** — see RubixKube catch failures before they cascade
 - **[Launch Console](https://console.rubixkube.ai)** — log in to your account
-- **[Contact](mailto:connect@rubixkube.io)** — connect@rubixkube.io
+- **[Contact](mailto:connect@rubixkube.ai)** — connect@rubixkube.ai
 
 ---
 
@@ -91,5 +91,5 @@ See [setup.md](setup.md) for local dev instructions.
 
 **RubixKube** — *Site Reliability Intelligence*
 
-📧 [connect@rubixkube.io](mailto:connect@rubixkube.io) | 📍 Bengaluru, India
+📧 [connect@rubixkube.ai](mailto:connect@rubixkube.ai) | 📍 Bengaluru, India
 🔗 [LinkedIn](https://linkedin.com/company/rubixkube) • [GitHub](https://github.com/rubixkube-io)
