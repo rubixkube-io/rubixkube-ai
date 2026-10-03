@@ -2,16 +2,14 @@
  * After Hours: one letter per challenge. To add Challenge 002, add an entry here and set it to 'open'.
  * /after-hours shows the newest open challenge, /after-hours/<id> shows any challenge.
  *
+ * Page order: poster, header (same as the other inner pages), then the letter.
+ *
  * Letter blocks:
  *   lead  - a short line set large, on its own
  *   p     - a paragraph. Wrap a phrase in [text](url) to link it.
- *   image - the challenge image (see `image`)
  */
 
-export type AfterHoursBlock =
-  | { type: 'lead'; text: string }
-  | { type: 'p'; text: string }
-  | { type: 'image' }
+export type AfterHoursBlock = { type: 'lead'; text: string } | { type: 'p'; text: string }
 
 export interface AfterHoursChallenge {
   id: string
@@ -20,7 +18,11 @@ export interface AfterHoursChallenge {
   date: string
   url: string
   description: string
-  image: { src: string; alt: string; caption: string; width: number; height: number }
+  /** Page headline. `accent` is the part of `text` set in blue italic. */
+  headline: { text: string; accent: string }
+  subtitle: string
+  /** Shown first, above the headline. */
+  poster: { src: string; alt: string; width: number; height: number }
   letter: AfterHoursBlock[]
   signoff: string
   postscript?: string
@@ -35,16 +37,18 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     url: 'https://afterhours.rubixkube.ai',
     description:
       'Rubix was last seen at 03:17:42 UTC. He left no note. Everything you need is public. Find Rubix and win.',
-    image: {
-      src: '/assets/after-hours/001-night-watch.png',
-      alt: 'Comic: Rubix on night watch, checking logs, falling quiet, and an empty desk with a note that says RUBIX WAS HERE at 03:17:42 UTC',
-      caption: 'The night of 30 September, as far as we can piece it together.',
+    headline: { text: 'Rubix is missing.', accent: 'missing.' },
+    subtitle:
+      'Last seen 03:17:42 UTC, on night watch. He left no note and no instructions. Everything you need to find him is public.',
+    poster: {
+      src: '/assets/after-hours/001-rubix-is-missing.png',
+      alt: 'Missing poster pinned to a wall: RUBIX IS MISSING. Have you seen him? Rubix at his laptop, last seen on night watch, with tear-off tabs that say FIND RUBIX.',
       width: 1254,
       height: 1254,
     },
     letter: [
       { type: 'p', text: 'Dear builders,' },
-      { type: 'lead', text: 'Rubix is missing.' },
+      { type: 'lead', text: 'We need your help.' },
       {
         type: 'p',
         text: "If you haven't met him, Rubix is the AI SRE inside RubixKube. He takes the night shift. He watches the deploys, the metrics, the logs and the traces while the rest of us sleep, and he has never once complained about it.",
@@ -54,10 +58,9 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
         text: "On the night of 30 September he was on watch for a service called after-hours. It was a quiet night. Then something felt off. A small blip. A deploy that didn't sit right. He started digging.",
       },
       { type: 'lead', text: 'At 03:17:42 UTC, he went silent.' },
-      { type: 'image' },
       {
         type: 'p',
-        text: 'We found his desk the next morning. Laptop open, coffee cold, and a note that said RUBIX WAS HERE. No message for us. No instructions. Nothing in the chat.',
+        text: 'We found his desk the next morning. Laptop open, coffee cold, and a note that said RUBIX WAS HERE. No message for us. No instructions. Nothing in the chat. We put up posters around the office. Nobody has called.',
       },
       {
         type: 'p',
