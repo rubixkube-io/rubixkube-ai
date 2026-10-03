@@ -17,7 +17,7 @@ const serif = 'font-[family-name:var(--font-serif)]'
 export function afterHoursMetadata(challenge: AfterHoursChallenge, path: string): Metadata {
   const title = `Challenge ${challenge.id}: ${challenge.title} - RubixKube After Hours`
   const ogTitle = `After Hours, Challenge ${challenge.id}: ${challenge.headline.text}`
-  const ogImage = { url: `https://rubixkube.ai${challenge.poster.src}`, width: challenge.poster.width, height: challenge.poster.height, alt: challenge.poster.alt }
+  const ogImage = { url: `https://rubixkube.ai${challenge.ogImage}`, width: 1200, height: 630, alt: challenge.poster.alt }
   return {
     title,
     description: challenge.description,
