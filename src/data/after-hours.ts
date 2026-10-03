@@ -23,6 +23,8 @@ export interface AfterHoursChallenge {
   subtitle: string
   /** Shown first, above the headline. */
   poster: { src: string; alt: string; width: number; height: number }
+  /** Link preview image: 1200x630 JPEG, under 300 KB, so X, LinkedIn, Slack and WhatsApp show it whole. */
+  ogImage: string
   letter: AfterHoursBlock[]
   signoff: string
   postscript?: string
@@ -46,6 +48,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       width: 1254,
       height: 1254,
     },
+    ogImage: '/assets/after-hours/001-og.jpg',
     letter: [
       { type: 'p', text: 'Dear builders,' },
       { type: 'lead', text: 'We need your help.' },
