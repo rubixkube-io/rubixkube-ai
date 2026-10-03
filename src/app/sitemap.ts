@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { client } from '@/lib/sanity.client'
+import { AFTER_HOURS_CHALLENGES } from '@/data/after-hours'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const KNOWN_ROUTES = new Set([
     'blog', 'platform', 'solutions', 'resources', 'about',
-    'contact', 'legal', 'status', 'studio', 'pricing',
+    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours',
   ])
 
   // Fetch dynamic reference pages
@@ -100,6 +101,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/after-hours`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    ...AFTER_HOURS_CHALLENGES.map((c) => ({
+      url: `${baseUrl}/after-hours/${c.id}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    })),
     {
       url: `${baseUrl}/legal/privacy`,
       lastModified: new Date(),
