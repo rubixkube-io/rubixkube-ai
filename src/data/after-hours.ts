@@ -33,10 +33,11 @@ export interface AfterHoursChallenge {
   signoff: string
   postscript?: string
   /**
-   * Verified solvers, fastest first. Add one after checking their key with
-   * GET https://afterhours.rubixkube.ai/api/verify?key=... and that the claim came from the same GitHub account.
-   * `solvedAt` and `elapsed` (seconds since launch) come straight from that response.
+   * Live leaderboard JSON. A webhook on the challenge repo verifies each claim and adds it, so the page
+   * updates on its own (re-fetched at most once a minute).
    */
+  leaderboardUrl?: string
+  /** Fallback if the live leaderboard can't be reached. Fastest first. */
   solvers: { github: string; solvedAt: string; elapsed: number }[]
 }
 
@@ -50,6 +51,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     launchedAt: '2026-10-03T19:11:30Z',
     prize: 'M5Stack Cardputer and the RubixKube kit',
     needs: 'A terminal, git and Docker',
+    leaderboardUrl: 'https://afterhours.rubixkube.ai/api/leaderboard',
     description:
       'Rubix was last seen at 03:17:42 UTC. He left no note. Everything you need is public. Find Rubix and win.',
     headline: { text: 'Rubix is missing.', accent: 'missing.' },
@@ -105,6 +107,22 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       "Rubix is real, and he's very good at his job. If you'd like to see him on your own systems, [book a demo](/contact).",
   },
 ]
+
+export type AfterHoursSolver = AfterHoursChallenge['solvers'][number]
+
+/** Live solvers for a challenge, falling back to the list above. */
+export async function getAfterHoursSolvers(challenge: AfterHoursChallenge): Promise<AfterHoursSolver[]> {
+  if (!challenge.leaderboardUrl) return challenge.solvers
+  try {
+    const res = await fetch(challenge.leaderboardUrl, { next: { revalidate: 60 } })
+    if (!res.ok) return challenge.solvers
+    const data = (await res.json()) as { solvers?: { github: string; solved_at: string; elapsed: number }[] }
+    if (!Array.isArray(data.solvers)) return challenge.solvers
+    return data.solvers.map((s) => ({ github: s.github, solvedAt: s.solved_at, elapsed: s.elapsed }))
+  } catch {
+    return challenge.solvers
+  }
+}
 
 export const latestAfterHoursChallenge = (): AfterHoursChallenge =>
   AFTER_HOURS_CHALLENGES.filter((c) => c.status === 'open').at(-1) ?? AFTER_HOURS_CHALLENGES.at(-1)!

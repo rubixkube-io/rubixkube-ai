@@ -9,7 +9,7 @@ import { webPageJsonLd } from '@/components/structured-data'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { rkMono10, rkMono13 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
-import { AFTER_HOURS_CHALLENGES, type AfterHoursChallenge } from '@/data/after-hours'
+import { AFTER_HOURS_CHALLENGES, getAfterHoursSolvers, type AfterHoursChallenge, type AfterHoursSolver } from '@/data/after-hours'
 
 const mono = 'font-[family-name:var(--font-mono)]'
 const serif = 'font-[family-name:var(--font-serif)]'
@@ -62,8 +62,7 @@ function formatUtc(iso: string): string {
 const cardTitle = `${mono} mb-4 text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`
 const card = 'rounded-[6px] border border-[var(--rule)] bg-[var(--bg)]'
 
-function Leaderboard({ challenge }: { challenge: AfterHoursChallenge }) {
-  const solvers = challenge.solvers
+function Leaderboard({ solvers }: { solvers: AfterHoursSolver[] }) {
   return (
     <div className={card}>
       <div className="flex items-baseline justify-between gap-4 border-b border-[var(--rule)] px-5 pt-5 pb-4">
@@ -110,9 +109,9 @@ function Leaderboard({ challenge }: { challenge: AfterHoursChallenge }) {
   )
 }
 
-function Details({ challenge }: { challenge: AfterHoursChallenge }) {
+function Details({ challenge, solvers }: { challenge: AfterHoursChallenge; solvers: AfterHoursSolver[] }) {
   const open = challenge.status === 'open'
-  const winner = challenge.solvers[0]
+  const winner = solvers[0]
   const rows: [string, ReactNode][] = [
     [
       'Status',
@@ -164,8 +163,9 @@ function Headline({ text, accent }: { text: string; accent: string }) {
   )
 }
 
-export function AfterHoursLetter({ challenge, path }: { challenge: AfterHoursChallenge; path: string }) {
+export async function AfterHoursLetter({ challenge, path }: { challenge: AfterHoursChallenge; path: string }) {
   const open = challenge.status === 'open'
+  const solvers = await getAfterHoursSolvers(challenge)
   const jsonLd = webPageJsonLd({
     name: `After Hours, Challenge ${challenge.id}: ${challenge.title}`,
     description: challenge.description,
@@ -216,9 +216,9 @@ export function AfterHoursLetter({ challenge, path }: { challenge: AfterHoursCha
               </Button>
             </div>
 
-            {challenge.solvers.length > 0 && (
+            {solvers.length > 0 && (
               <a href="#found" className={`${mono} mt-8 text-[12px] font-light text-[var(--mid)] underline-offset-4 hover:text-[var(--blue)] hover:underline`}>
-                Found by {challenge.solvers.length} so far. Fastest: {formatElapsed(challenge.solvers[0].elapsed)}.
+                Found by {solvers.length} so far. Fastest: {formatElapsed(solvers[0].elapsed)}.
               </a>
             )}
           </div>
@@ -232,8 +232,8 @@ export function AfterHoursLetter({ challenge, path }: { challenge: AfterHoursCha
       >
         <div className="rk-landing-max grid items-start gap-8 lg:grid-cols-[minmax(0,680px)_340px] lg:justify-center lg:gap-12">
           <aside id="found" className="scroll-mt-[calc(var(--nav-stack)+1.5rem)] space-y-6 lg:sticky lg:top-[calc(var(--nav-stack)+1.5rem)] lg:order-2">
-            <Leaderboard challenge={challenge} />
-            <Details challenge={challenge} />
+            <Leaderboard solvers={solvers} />
+            <Details challenge={challenge} solvers={solvers} />
           </aside>
 
           <div className="lg:order-1">
