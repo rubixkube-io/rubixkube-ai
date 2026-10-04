@@ -17,6 +17,10 @@ export interface AfterHoursChallenge {
   status: 'open' | 'closed'
   date: string
   url: string
+  /** When the challenge went live (UTC). Leaderboard times count from here. */
+  launchedAt: string
+  prize: string
+  needs: string
   description: string
   /** Page headline. `accent` is the part of `text` set in blue italic. */
   headline: { text: string; accent: string }
@@ -28,6 +32,13 @@ export interface AfterHoursChallenge {
   letter: AfterHoursBlock[]
   signoff: string
   postscript?: string
+  /**
+   * Live leaderboard JSON. A webhook on the challenge repo verifies each claim and adds it, so the page
+   * updates on its own (re-fetched at most once a minute).
+   */
+  leaderboardUrl?: string
+  /** Fallback if the live leaderboard can't be reached. Fastest first. */
+  solvers: { github: string; solvedAt: string; elapsed: number }[]
 }
 
 export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
@@ -37,6 +48,10 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     status: 'open',
     date: '4 October 2026',
     url: 'https://afterhours.rubixkube.ai',
+    launchedAt: '2026-10-03T19:11:30Z',
+    prize: 'M5Stack Cardputer and the RubixKube kit',
+    needs: 'A terminal, git and Docker',
+    leaderboardUrl: 'https://afterhours.rubixkube.ai/api/leaderboard',
     description:
       'Rubix was last seen at 03:17:42 UTC. He left no note. Everything you need is public. Find Rubix and win.',
     headline: { text: 'Rubix is missing.', accent: 'missing.' },
@@ -79,15 +94,35 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       },
       {
         type: 'p',
-        text: "When you find him, open an issue on [rubixkube-io/after-hours](https://github.com/rubixkube-io/after-hours/issues) with your Operator Key, from the same GitHub account. Please don't post the answer or the steps while the hunt is on. Let the next person have the night you're about to have.",
+        text: "When you find him, he'll tell you how to claim. Please don't post the answer or the steps while the hunt is on. Let the next person have the night you're about to have.",
       },
       { type: 'lead', text: 'Find Rubix.' },
     ],
     signoff: 'The RubixKube team',
+    solvers: [
+      { github: 'MAVRICK-1', solvedAt: '2026-10-04T05:59:09Z', elapsed: 38859 },
+      { github: 'sksaec', solvedAt: '2026-10-04T08:20:23Z', elapsed: 47333 },
+    ],
     postscript:
       "Rubix is real, and he's very good at his job. If you'd like to see him on your own systems, [book a demo](/contact).",
   },
 ]
+
+export type AfterHoursSolver = AfterHoursChallenge['solvers'][number]
+
+/** Live solvers for a challenge, falling back to the list above. */
+export async function getAfterHoursSolvers(challenge: AfterHoursChallenge): Promise<AfterHoursSolver[]> {
+  if (!challenge.leaderboardUrl) return challenge.solvers
+  try {
+    const res = await fetch(challenge.leaderboardUrl, { next: { revalidate: 60 } })
+    if (!res.ok) return challenge.solvers
+    const data = (await res.json()) as { solvers?: { github: string; solved_at: string; elapsed: number }[] }
+    if (!Array.isArray(data.solvers)) return challenge.solvers
+    return data.solvers.map((s) => ({ github: s.github, solvedAt: s.solved_at, elapsed: s.elapsed }))
+  } catch {
+    return challenge.solvers
+  }
+}
 
 export const latestAfterHoursChallenge = (): AfterHoursChallenge =>
   AFTER_HOURS_CHALLENGES.filter((c) => c.status === 'open').at(-1) ?? AFTER_HOURS_CHALLENGES.at(-1)!
