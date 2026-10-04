@@ -52,7 +52,6 @@ function formatElapsed(seconds: number): string {
   return h > 0 ? `${h}h ${String(m).padStart(2, '0')}m` : `${m}m`
 }
 
-const CLAIMS_URL = 'https://github.com/rubixkube-io/after-hours/issues'
 
 function Leaderboard({ challenge }: { challenge: AfterHoursChallenge }) {
   const solvers = challenge.solvers
@@ -83,15 +82,10 @@ function Leaderboard({ challenge }: { challenge: AfterHoursChallenge }) {
                 )}
               >
                 <span className={i === 0 ? 'text-[var(--blue)]' : 'text-[var(--mid)]'}>{String(i + 1).padStart(2, '0')}</span>
-                <a
-                  href={`${CLAIMS_URL}/${s.issue}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="truncate text-[var(--ink)] underline-offset-4 hover:text-[var(--blue)] hover:underline"
-                >
+                <span className="truncate text-[var(--ink)]">
                   @{s.github}
                   {i === 0 && <span className="ml-3 text-[11px] tracking-[0.12em] text-[var(--blue)] uppercase">First</span>}
-                </a>
+                </span>
                 <span className="text-right text-[var(--mid)]">
                   {formatElapsed(s.elapsed)}
                   <span className="hidden sm:inline"> · {s.solvedAt.slice(11, 16)} UTC, {Number(s.solvedAt.slice(8, 10))} Oct</span>
@@ -102,11 +96,7 @@ function Leaderboard({ challenge }: { challenge: AfterHoursChallenge }) {
         )}
 
         <p className={`${mono} mt-4 text-[12px] leading-relaxed font-light text-[var(--mid)]`}>
-          Time is counted from launch. Every entry is a verified Operator Key, claimed on{' '}
-          <a href={CLAIMS_URL} target="_blank" rel="noopener noreferrer" className="text-[var(--blue)] underline underline-offset-4">
-            GitHub
-          </a>
-          .
+          Time is counted from launch. Every entry is a verified Operator Key.
         </p>
       </div>
     </section>

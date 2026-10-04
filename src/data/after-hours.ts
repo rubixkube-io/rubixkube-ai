@@ -30,10 +30,10 @@ export interface AfterHoursChallenge {
   postscript?: string
   /**
    * Verified solvers, fastest first. Add one after checking their key with
-   * GET https://afterhours.rubixkube.ai/api/verify?key=... and that the claim issue came from the same account.
+   * GET https://afterhours.rubixkube.ai/api/verify?key=... and that the claim came from the same GitHub account.
    * `solvedAt` and `elapsed` (seconds since launch) come straight from that response.
    */
-  solvers: { github: string; solvedAt: string; elapsed: number; issue: number }[]
+  solvers: { github: string; solvedAt: string; elapsed: number }[]
 }
 
 export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
@@ -85,14 +85,14 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       },
       {
         type: 'p',
-        text: "When you find him, open an issue on [rubixkube-io/after-hours](https://github.com/rubixkube-io/after-hours/issues) with your Operator Key, from the same GitHub account. Please don't post the answer or the steps while the hunt is on. Let the next person have the night you're about to have.",
+        text: "When you find him, he'll tell you how to claim. Please don't post the answer or the steps while the hunt is on. Let the next person have the night you're about to have.",
       },
       { type: 'lead', text: 'Find Rubix.' },
     ],
     signoff: 'The RubixKube team',
     solvers: [
-      { github: 'MAVRICK-1', solvedAt: '2026-10-04T05:59:09Z', elapsed: 38859, issue: 1 },
-      { github: 'sksaec', solvedAt: '2026-10-04T08:20:23Z', elapsed: 47333, issue: 2 },
+      { github: 'MAVRICK-1', solvedAt: '2026-10-04T05:59:09Z', elapsed: 38859 },
+      { github: 'sksaec', solvedAt: '2026-10-04T08:20:23Z', elapsed: 47333 },
     ],
     postscript:
       "Rubix is real, and he's very good at his job. If you'd like to see him on your own systems, [book a demo](/contact).",
