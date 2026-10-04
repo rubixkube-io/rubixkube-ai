@@ -82,8 +82,15 @@ function Leaderboard({ challenge }: { challenge: AfterHoursChallenge }) {
                 )}
               >
                 <span className={i === 0 ? 'text-[var(--blue)]' : 'text-[var(--mid)]'}>{String(i + 1).padStart(2, '0')}</span>
-                <span className="truncate text-[var(--ink)]">
-                  @{s.github}
+                <span className="truncate">
+                  <a
+                    href={`https://github.com/${s.github}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--ink)] underline-offset-4 hover:text-[var(--blue)] hover:underline"
+                  >
+                    @{s.github}
+                  </a>
                   {i === 0 && <span className="ml-3 text-[11px] tracking-[0.12em] text-[var(--blue)] uppercase">First</span>}
                 </span>
                 <span className="text-right text-[var(--mid)]">
