@@ -46,6 +46,73 @@ function withLinks(text: string): ReactNode {
   })
 }
 
+function formatElapsed(seconds: number): string {
+  const h = Math.floor(seconds / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  return h > 0 ? `${h}h ${String(m).padStart(2, '0')}m` : `${m}m`
+}
+
+const CLAIMS_URL = 'https://github.com/rubixkube-io/after-hours/issues'
+
+function Leaderboard({ challenge }: { challenge: AfterHoursChallenge }) {
+  const solvers = challenge.solvers
+  return (
+    <section className="border-t border-[var(--rule)] bg-[var(--bg)] px-[var(--pad)] py-16 sm:py-20">
+      <div className="mx-auto max-w-[680px]">
+        <div className="mb-6 flex items-baseline justify-between gap-4">
+          <h2 className={`${serif} text-[clamp(1.35rem,2.5vw,1.85rem)] leading-[1.15] font-light tracking-[-0.01em] text-[var(--ink)]`}>
+            Found <span className="italic text-[var(--blue)]">him.</span>
+          </h2>
+          <span className={`${mono} text-[12px] font-light text-[var(--mid)]`}>
+            {solvers.length} {solvers.length === 1 ? 'operator' : 'operators'}
+          </span>
+        </div>
+
+        {solvers.length === 0 ? (
+          <p className={`${mono} rounded-[6px] border border-[var(--rule)] px-5 py-6 text-center text-[13px] font-light text-[var(--mid)]`}>
+            Nobody yet. Be the first.
+          </p>
+        ) : (
+          <ol className="overflow-hidden rounded-[6px] border border-[var(--rule)]">
+            {solvers.map((s, i) => (
+              <li
+                key={s.github}
+                className={cn(
+                  `${mono} grid grid-cols-[2.5rem_1fr_auto] items-center gap-3 border-b border-[var(--rule)] px-5 py-4 text-[14px] font-light last:border-b-0`,
+                  i === 0 && 'bg-[var(--blue)]/[0.035]',
+                )}
+              >
+                <span className={i === 0 ? 'text-[var(--blue)]' : 'text-[var(--mid)]'}>{String(i + 1).padStart(2, '0')}</span>
+                <a
+                  href={`${CLAIMS_URL}/${s.issue}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="truncate text-[var(--ink)] underline-offset-4 hover:text-[var(--blue)] hover:underline"
+                >
+                  @{s.github}
+                  {i === 0 && <span className="ml-3 text-[11px] tracking-[0.12em] text-[var(--blue)] uppercase">First</span>}
+                </a>
+                <span className="text-right text-[var(--mid)]">
+                  {formatElapsed(s.elapsed)}
+                  <span className="hidden sm:inline"> · {s.solvedAt.slice(11, 16)} UTC, {Number(s.solvedAt.slice(8, 10))} Oct</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        )}
+
+        <p className={`${mono} mt-4 text-[12px] leading-relaxed font-light text-[var(--mid)]`}>
+          Time is counted from launch. Every entry is a verified Operator Key, claimed on{' '}
+          <a href={CLAIMS_URL} target="_blank" rel="noopener noreferrer" className="text-[var(--blue)] underline underline-offset-4">
+            GitHub
+          </a>
+          .
+        </p>
+      </div>
+    </section>
+  )
+}
+
 /** Headline with the accent phrase in blue italic, like the other inner pages. */
 function Headline({ text, accent }: { text: string; accent: string }) {
   const at = text.indexOf(accent)
@@ -113,6 +180,8 @@ export function AfterHoursLetter({ challenge, path }: { challenge: AfterHoursCha
           </div>
         </div>
       </section>
+
+      <Leaderboard challenge={challenge} />
 
       {/* ── The letter ── */}
       <section

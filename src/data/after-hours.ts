@@ -28,6 +28,12 @@ export interface AfterHoursChallenge {
   letter: AfterHoursBlock[]
   signoff: string
   postscript?: string
+  /**
+   * Verified solvers, fastest first. Add one after checking their key with
+   * GET https://afterhours.rubixkube.ai/api/verify?key=... and that the claim issue came from the same account.
+   * `solvedAt` and `elapsed` (seconds since launch) come straight from that response.
+   */
+  solvers: { github: string; solvedAt: string; elapsed: number; issue: number }[]
 }
 
 export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
@@ -84,6 +90,10 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       { type: 'lead', text: 'Find Rubix.' },
     ],
     signoff: 'The RubixKube team',
+    solvers: [
+      { github: 'MAVRICK-1', solvedAt: '2026-10-04T05:59:09Z', elapsed: 38859, issue: 1 },
+      { github: 'sksaec', solvedAt: '2026-10-04T08:20:23Z', elapsed: 47333, issue: 2 },
+    ],
     postscript:
       "Rubix is real, and he's very good at his job. If you'd like to see him on your own systems, [book a demo](/contact).",
   },
