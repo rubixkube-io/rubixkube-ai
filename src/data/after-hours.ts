@@ -17,6 +17,10 @@ export interface AfterHoursChallenge {
   status: 'open' | 'closed'
   date: string
   url: string
+  /** When the challenge went live (UTC). Leaderboard times count from here. */
+  launchedAt: string
+  prize: string
+  needs: string
   description: string
   /** Page headline. `accent` is the part of `text` set in blue italic. */
   headline: { text: string; accent: string }
@@ -43,6 +47,9 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     status: 'open',
     date: '4 October 2026',
     url: 'https://afterhours.rubixkube.ai',
+    launchedAt: '2026-10-03T19:11:30Z',
+    prize: 'M5Stack Cardputer and the RubixKube kit',
+    needs: 'A terminal, git and Docker',
     description:
       'Rubix was last seen at 03:17:42 UTC. He left no note. Everything you need is public. Find Rubix and win.',
     headline: { text: 'Rubix is missing.', accent: 'missing.' },
