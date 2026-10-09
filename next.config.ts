@@ -3,6 +3,18 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   transpilePackages: ['@sanity/image-url', '@lobehub/icons'],
 
+  // PostHog through this site's own address, so ad blockers don't drop it.
+  // Per posthog.com/docs/advanced/proxy/nextjs: static and array before the catch-all.
+  async rewrites() {
+    return [
+      { source: '/ingest/static/:path*', destination: 'https://us-assets.i.posthog.com/static/:path*' },
+      { source: '/ingest/array/:path*', destination: 'https://us-assets.i.posthog.com/array/:path*' },
+      { source: '/ingest/:path*', destination: 'https://us.i.posthog.com/:path*' },
+    ]
+  },
+  // PostHog's API paths end in a slash; a redirect would drop the event
+  skipTrailingSlashRedirect: true,
+
   async redirects() {
     return [
       // Legacy OG asset was JPEG; marketing card is now exported as PNG.
