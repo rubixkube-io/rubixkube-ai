@@ -58,7 +58,7 @@ export function PrivacyPageClient() {
               </div>
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4" />
-                <span>Last Updated: June 25, 2025</span>
+                <span>Last Updated: October 9, 2026</span>
               </div>
             </motion.div>
 
@@ -255,6 +255,38 @@ export function PrivacyPageClient() {
                   </div>
                 </div>
               </div>
+            </motion.section>
+
+            {/* Rubix in Slack */}
+            <motion.section 
+              id="slack"
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-12"
+            >
+              <h2 className="text-2xl font-semibold text-foreground mb-4">Rubix in Slack</h2>
+              <p className="text-foreground-muted leading-relaxed">
+                When your organization connects Slack, the Rubix app reads only what it needs to answer:
+                the message that mentions it or is sent to it directly, the recent messages of the thread
+                it was mentioned in (read at that moment, at most fifteen), the name of the person who
+                asked, and RubixKube incident links pasted in Slack. It does not read channels it was not
+                invited to, does not join channels on its own, and stores no Slack messages.
+              </p>
+              <p className="text-foreground-muted leading-relaxed mt-4">
+                What you say to Rubix, and the thread messages sent along as context, become part of that
+                conversation in your RubixKube organization, kept for as long as your organization keeps
+                the conversation and deleted with it. Rubix writes one thing into Slack: a conversation
+                identifier in the metadata of its own replies. Approvals and questions you answer in Slack
+                are recorded in your organization&apos;s activity log with your Slack name.
+              </p>
+              <p className="text-foreground-muted leading-relaxed mt-4">
+                Rubix answers with the model your organization chose in RubixKube (our hosted models, or
+                your own provider). No Slack data is used to train models. To remove Rubix, disconnect
+                Slack in the console or remove the app in Slack; either stops all reading at once. Data
+                requests go to the address below.
+              </p>
             </motion.section>
 
             {/* Updates */}

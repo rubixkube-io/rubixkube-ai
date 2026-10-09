@@ -34,6 +34,7 @@ const footerColumns = [
       { label: 'Glossary', href: '/glossary' },
       { label: 'Docs', href: 'https://docs.rubixkube.ai/' },
       { label: 'Rubix CLI', href: '/products/rubix-cli' },
+      { label: 'Rubix for Slack', href: '/slack' },
     ],
   },
   {
