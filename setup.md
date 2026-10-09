@@ -117,11 +117,7 @@ Edit CSS custom properties in `src/app/globals.css` (`--ink`, `--mid`, `--blue`,
 
 ## Deployment
 
-Deployed on Vercel. Any push to `main` triggers a production deploy.
-
-```bash
-vercel --prod   # Manual deploy
-```
+Deployed on Netlify. Netlify builds and deploys every push to `main` to production. Its build settings live in the Netlify dashboard (there is no `netlify.toml`).
 
 ## Troubleshooting
 
