@@ -1,4 +1,5 @@
 import { SiteGraphJsonLd } from '@/components/structured-data'
+import { CookieBanner } from '@/components/cookie-banner'
 import { ReferencePagesNavProvider } from '@/components/reference-pages-nav-provider'
 import { fetchReferenceGuidesForNav } from '@/lib/fetch-reference-guides-for-nav'
 import { SanityLive } from '@/sanity/lib/live'
@@ -19,6 +20,7 @@ export default async function SiteLayout({
         <main>{children}</main>
       </ReferencePagesNavProvider>
       <SanityLive />
+      <CookieBanner />
     </>
   )
 }

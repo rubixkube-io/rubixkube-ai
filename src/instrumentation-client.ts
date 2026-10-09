@@ -14,6 +14,10 @@ if (process.env.NODE_ENV === 'production' && !location.pathname.startsWith('/stu
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? '/ingest',
     ui_host: 'https://us.posthog.com',
     defaults: '2026-05-30',
+    // nothing is captured until the visitor chooses in the cookie banner (src/components/cookie-banner.tsx);
+    // Accept turns on cookies, Decline counts the visit without any (needs "Cookieless server hash mode"
+    // on in the PostHog project). Per posthog.com/docs/tutorials/cookieless-tracking.
+    cookieless_mode: 'on_reject',
     // replays never record what people type into forms
     session_recording: { maskAllInputs: true },
   })

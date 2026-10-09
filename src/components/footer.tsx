@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { COOKIE_SETTINGS_EVENT } from '@/components/cookie-banner'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
 import { rkMono10, rkMono11, rkMono13 } from '@/lib/landing-responsive-type'
@@ -180,6 +181,16 @@ export function FooterBody() {
           >
             © {new Date().getFullYear()} All rights reserved.
           </span>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT))}
+            className={cn(
+              'cursor-pointer font-[family-name:var(--font-mono)] text-[var(--text-muted)] transition-colors hover:text-[var(--ink)]',
+              rkMono10,
+            )}
+          >
+            Cookie settings
+          </button>
         </div>
         <div className="flex items-center gap-5">
           {socialLinks.map((social) => (
