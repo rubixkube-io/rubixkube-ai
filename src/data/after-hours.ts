@@ -114,7 +114,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     url: 'https://afterhours.rubixkube.ai',
     launchedAt: '2026-10-20T19:11:30Z',
     prize: 'The RubixKube kit',
-    needs: 'A terminal, Docker, a browser and a steady hand',
+    needs: 'A terminal, Docker, a browser and your own eyes',
     leaderboardUrl: 'https://afterhours.rubixkube.ai/api/leaderboard?c=002',
     description:
       "Rubix is back. His clock isn't. Six machines kept six different times that night, and he needs hands to put them in order.",
@@ -123,7 +123,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       "Rubix is back on watch. He came back on the gateway's time, and the gateway's time is wrong. He needs hands.",
     poster: {
       src: '/assets/after-hours/002-the-clocks-are-lying.png',
-      alt: 'Rubix at his desk under six wall clocks, each showing a different time.',
+      alt: 'Rubix peering over a ledge in a desert at sunset, melting clocks draped over the branches and the wall around him. The Clocks Are Lying. Same night, different clocks, find the truth.',
       width: 1254,
       height: 1254,
     },
@@ -142,11 +142,11 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       { type: 'lead', text: 'I need hands.' },
       {
         type: 'p',
-        text: 'Read the six machines. Work out how far off each clock is. Put the night in the order it really happened. Then come and sync me to it, beat by beat, and tell me when I really went dark.',
+        text: 'Read the six machines. Work out how far off each clock is. Put the night in the order it really happened. Then come and sync me, and read me the one thing my screen still shows true.',
       },
       {
         type: 'p',
-        text: "I left my notes where I always leave them. Start at [afterhours.rubixkube.ai](https://afterhours.rubixkube.ai). Nothing there will hand itself to you, and that is on purpose. You'll need a terminal, Docker, a browser, and for the last part, a steady hand of your own. Your tools can help you read. They can't play.",
+        text: "I left my notes where I always leave them. Start at [afterhours.rubixkube.ai](https://afterhours.rubixkube.ai). Nothing there will hand itself to you, and that is on purpose. You'll need a terminal, Docker, a browser, and for the last part, your own eyes. Your tools can help you read the logs. They can't read that.",
       },
       {
         type: 'p',
