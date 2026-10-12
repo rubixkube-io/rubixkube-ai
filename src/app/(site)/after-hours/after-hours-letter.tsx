@@ -9,7 +9,7 @@ import { webPageJsonLd } from '@/components/structured-data'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { rkMono10, rkMono13 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
-import { AFTER_HOURS_CHALLENGES, getAfterHoursSolvers, type AfterHoursChallenge, type AfterHoursSolver } from '@/data/after-hours'
+import { getAfterHoursSolvers, type AfterHoursChallenge, type AfterHoursSolver } from '@/data/after-hours'
 
 const mono = 'font-[family-name:var(--font-mono)]'
 const serif = 'font-[family-name:var(--font-serif)]'
@@ -163,15 +163,98 @@ function Headline({ text, accent }: { text: string; accent: string }) {
   )
 }
 
-export async function AfterHoursLetter({ challenge, path }: { challenge: AfterHoursChallenge; path: string }) {
+/** The letter with its leaderboard and details beside it. One per challenge; older ones stack below the newest. */
+function LetterSection({ challenge, solvers, first }: { challenge: AfterHoursChallenge; solvers: AfterHoursSolver[]; first: boolean }) {
+  const open = challenge.status === 'open'
+  return (
+    <section
+      id={first ? 'letter' : `letter-${challenge.id}`}
+      className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] py-16 sm:py-24"
+    >
+      <div className="rk-landing-max grid items-start gap-8 lg:grid-cols-[minmax(0,680px)_340px] lg:justify-center lg:gap-12">
+        <aside
+          id={first ? 'found' : `found-${challenge.id}`}
+          className="scroll-mt-[calc(var(--nav-stack)+1.5rem)] space-y-6 lg:sticky lg:top-[calc(var(--nav-stack)+1.5rem)] lg:order-2"
+        >
+          <Leaderboard solvers={solvers} />
+          <Details challenge={challenge} solvers={solvers} />
+        </aside>
+
+        <div className="lg:order-1">
+          {!first && (
+            <header className="mb-8">
+              <p className={cn(`${mono} tracking-[0.2em] text-[var(--mid)] uppercase`, rkMono10)}>
+                After Hours · Challenge {challenge.id}
+                {!open && ' · Closed'}
+              </p>
+              <h2 className={`${serif} mt-3 text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] font-light tracking-[-0.01em] text-[var(--ink)]`}>
+                <Headline {...challenge.headline} />
+              </h2>
+              <Image
+                src={challenge.poster.src}
+                alt={challenge.poster.alt}
+                width={challenge.poster.width}
+                height={challenge.poster.height}
+                sizes="(min-width: 1024px) 680px, 100vw"
+                className="mt-8 h-auto w-full rounded-[6px] border border-[var(--rule)] shadow-sm"
+              />
+            </header>
+          )}
+
+          <article className="rounded-[6px] border border-[var(--rule)] bg-[#faf9f6] px-6 py-10 shadow-sm sm:px-14 sm:py-14">
+            <header className="mb-10 border-b border-[var(--rule)] pb-6">
+              <div className="flex items-center justify-between gap-4">
+                <span className={`${mono} flex items-center gap-2.5 text-[12px] tracking-[0.18em] text-[var(--ink)] uppercase`}>
+                  <Image src="/logo-icon.png" alt="" width={18} height={18} className="h-[18px] w-[18px]" />
+                  RubixKube
+                </span>
+                <time className={`${mono} shrink-0 text-[12px] font-light text-[var(--mid)]`}>{challenge.date}</time>
+              </div>
+              <p className={`${mono} mt-5 text-[12px] font-light text-[var(--mid)]`}>
+                Re: Challenge {challenge.id}, {challenge.title}
+              </p>
+            </header>
+
+            <div className={`${serif} text-[clamp(1.15rem,1.9vw,1.3rem)] leading-[1.7] text-[var(--ink)]`}>
+              {challenge.letter.map((block, i) =>
+                block.type === 'lead' ? (
+                  <p key={i} className="mt-8 text-[clamp(1.6rem,3.2vw,2.1rem)] leading-[1.2] font-light tracking-[-0.01em] first:mt-0">
+                    {withLinks(block.text)}
+                  </p>
+                ) : (
+                  <p key={i} className="mt-5 first:mt-0">
+                    {withLinks(block.text)}
+                  </p>
+                ),
+              )}
+              <p className="mt-10 italic">{challenge.signoff}</p>
+            </div>
+
+            {challenge.postscript && (
+              <p className={`${mono} mt-10 border-t border-[var(--rule)] pt-5 text-[13px] leading-relaxed font-light text-[var(--mid)]`}>
+                P.S. {withLinks(challenge.postscript)}
+              </p>
+            )}
+          </article>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/**
+ * The After Hours page: the newest challenge's poster and headline, its letter, then every earlier
+ * challenge's letter below it, each with its own leaderboard and details.
+ */
+export async function AfterHoursLetter({ challenge, path, also = [] }: { challenge: AfterHoursChallenge; path: string; also?: AfterHoursChallenge[] }) {
   const open = challenge.status === 'open'
   const solvers = await getAfterHoursSolvers(challenge)
+  const alsoSolvers = await Promise.all(also.map((c) => getAfterHoursSolvers(c)))
   const jsonLd = webPageJsonLd({
     name: `After Hours, Challenge ${challenge.id}: ${challenge.title}`,
     description: challenge.description,
     url: `https://rubixkube.ai${path}`,
   })
-  const others = AFTER_HOURS_CHALLENGES.filter((c) => c.id !== challenge.id)
 
   return (
     <>
@@ -225,71 +308,10 @@ export async function AfterHoursLetter({ challenge, path }: { challenge: AfterHo
         </div>
       </section>
 
-      {/* ── Letter on the left, leaderboard and details on the right ── */}
-      <section
-        id="letter"
-        className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] py-16 sm:py-24"
-      >
-        <div className="rk-landing-max grid items-start gap-8 lg:grid-cols-[minmax(0,680px)_340px] lg:justify-center lg:gap-12">
-          <aside id="found" className="scroll-mt-[calc(var(--nav-stack)+1.5rem)] space-y-6 lg:sticky lg:top-[calc(var(--nav-stack)+1.5rem)] lg:order-2">
-            <Leaderboard solvers={solvers} />
-            <Details challenge={challenge} solvers={solvers} />
-          </aside>
-
-          <div className="lg:order-1">
-            <article className="rounded-[6px] border border-[var(--rule)] bg-[#faf9f6] px-6 py-10 shadow-sm sm:px-14 sm:py-14">
-              <header className="mb-10 border-b border-[var(--rule)] pb-6">
-                <div className="flex items-center justify-between gap-4">
-                  <span className={`${mono} flex items-center gap-2.5 text-[12px] tracking-[0.18em] text-[var(--ink)] uppercase`}>
-                    <Image src="/logo-icon.png" alt="" width={18} height={18} className="h-[18px] w-[18px]" />
-                    RubixKube
-                  </span>
-                  <time className={`${mono} shrink-0 text-[12px] font-light text-[var(--mid)]`}>{challenge.date}</time>
-                </div>
-                <p className={`${mono} mt-5 text-[12px] font-light text-[var(--mid)]`}>
-                  Re: Challenge {challenge.id}, {challenge.title}
-                </p>
-              </header>
-
-              <div className={`${serif} text-[clamp(1.15rem,1.9vw,1.3rem)] leading-[1.7] text-[var(--ink)]`}>
-                {challenge.letter.map((block, i) =>
-                  block.type === 'lead' ? (
-                    <p key={i} className="mt-8 text-[clamp(1.6rem,3.2vw,2.1rem)] leading-[1.2] font-light tracking-[-0.01em] first:mt-0">
-                      {withLinks(block.text)}
-                    </p>
-                  ) : (
-                    <p key={i} className="mt-5 first:mt-0">
-                      {withLinks(block.text)}
-                    </p>
-                  ),
-                )}
-                <p className="mt-10 italic">{challenge.signoff}</p>
-              </div>
-
-              {challenge.postscript && (
-                <p className={`${mono} mt-10 border-t border-[var(--rule)] pt-5 text-[13px] leading-relaxed font-light text-[var(--mid)]`}>
-                  P.S. {withLinks(challenge.postscript)}
-                </p>
-              )}
-            </article>
-
-            {others.length > 0 && (
-              <nav className="mt-16 border-t border-[var(--rule)] pt-6 text-center" aria-label="Other challenges">
-                <p className={`${mono} mb-3 text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`}>Other challenges</p>
-                <ul className={`${mono} space-y-1 text-[13px] font-light`}>
-                  {others.map((c) => (
-                    <li key={c.id}>
-                      <Link href={`/after-hours/${c.id}`} className="text-[var(--ink)] underline-offset-4 hover:text-[var(--blue)] hover:underline">
-                        Challenge {c.id}: {c.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            )}
-          </div>
-        </div>
-      </section>
+      <LetterSection challenge={challenge} solvers={solvers} first />
+      {also.map((c, i) => (
+        <LetterSection key={c.id} challenge={c} solvers={alsoSolvers[i]} first={false} />
+      ))}
 
       <Footer />
     </>
