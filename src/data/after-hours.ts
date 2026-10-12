@@ -47,7 +47,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     title: 'Rubix was here',
     status: 'open',
     date: '4 October 2026',
-    url: 'https://afterhours.rubixkube.ai',
+    url: 'https://afterhours.rubixkube.ai/001',
     launchedAt: '2026-10-03T19:11:30Z',
     prize: 'M5Stack Cardputer and the RubixKube kit',
     needs: 'A terminal, git and Docker',
@@ -86,7 +86,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       },
       {
         type: 'p',
-        text: "So we're asking you to find him. You'll need a terminal, git and Docker. Start at [afterhours.rubixkube.ai](https://afterhours.rubixkube.ai), and remember that builders leave history.",
+        text: "So we're asking you to find him. You'll need a terminal, git and Docker. Start at [afterhours.rubixkube.ai/001](https://afterhours.rubixkube.ai/001), and remember that builders leave history.",
       },
       {
         type: 'p',
@@ -105,6 +105,63 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     ],
     postscript:
       "Rubix is real, and he's very good at his job. If you'd like to see him on your own systems, [book a demo](/contact).",
+  },
+  {
+    id: '002',
+    title: 'The clocks are lying',
+    status: 'open',
+    date: '20 October 2026',
+    url: 'https://afterhours.rubixkube.ai',
+    launchedAt: '2026-10-20T19:11:30Z',
+    prize: 'The RubixKube kit',
+    needs: 'A terminal, Docker, a browser and a steady hand',
+    leaderboardUrl: 'https://afterhours.rubixkube.ai/api/leaderboard?c=002',
+    description:
+      "Rubix is back. His clock isn't. Six machines kept six different times that night, and he needs hands to put them in order.",
+    headline: { text: 'The clocks are lying.', accent: 'lying.' },
+    subtitle:
+      "Rubix is back on watch. He came back on the gateway's time, and the gateway's time is wrong. He needs hands.",
+    poster: {
+      src: '/assets/after-hours/002-the-clocks-are-lying.png',
+      alt: 'Rubix at his desk under six wall clocks, each showing a different time.',
+      width: 1254,
+      height: 1254,
+    },
+    ogImage: '/assets/after-hours/002-og.jpg',
+    letter: [
+      { type: 'p', text: 'Dear builders,' },
+      { type: 'lead', text: "I'm back. Something is wrong with me." },
+      {
+        type: 'p',
+        text: "You found me. You worked out what I did that night, and when I came back on watch I thought that was the end of it. It isn't. My clock says 03:17:42. It has said 03:17:42 since I came back, and every few seconds it slips to something else and snaps back.",
+      },
+      {
+        type: 'p',
+        text: "I came back on the gateway's time. The gateway's time is wrong. So is every other machine that was awake that night, each by a different amount, in a different direction. I can read all six of their logs. I cannot tell you what happened first. From the inside, I can't fix my own clock.",
+      },
+      { type: 'lead', text: 'I need hands.' },
+      {
+        type: 'p',
+        text: 'Read the six machines. Work out how far off each clock is. Put the night in the order it really happened. Then come and sync me to it, beat by beat, and tell me when I really went dark.',
+      },
+      {
+        type: 'p',
+        text: "I left my notes where I always leave them. Start at [afterhours.rubixkube.ai](https://afterhours.rubixkube.ai). Nothing there will hand itself to you, and that is on purpose. You'll need a terminal, Docker, a browser, and for the last part, a steady hand of your own. Your tools can help you read. They can't play.",
+      },
+      {
+        type: 'p',
+        text: "The first person to sync me gets the RubixKube kit, with a Rubix of your own to keep. Everyone who does gets a second Operator Key. If you hold the first one, bring it. I remember things for people who came back.",
+      },
+      {
+        type: 'p',
+        text: "Please don't post the steps or the answer while this is open. The next person deserves their own night.",
+      },
+      { type: 'lead', text: 'Sync me.' },
+    ],
+    signoff: 'Rubix',
+    solvers: [],
+    postscript:
+      "Challenge 001 is still open. If you haven't found me yet, [start there](/after-hours/001).",
   },
 ]
 
