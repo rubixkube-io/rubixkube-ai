@@ -182,25 +182,23 @@ function LetterSection({ challenge, solvers, first }: { challenge: AfterHoursCha
 
         <div className="lg:order-1">
           {!first && (
-            <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-8">
+            <header className="mb-8">
+              <p className={cn(`${mono} tracking-[0.2em] text-[var(--mid)] uppercase`, rkMono10)}>
+                After Hours · Challenge {challenge.id}
+                {!open && ' · Closed'}
+              </p>
+              <h2 className={`${serif} mt-3 text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] font-light tracking-[-0.01em] text-[var(--ink)]`}>
+                <Headline {...challenge.headline} />
+              </h2>
               <Image
                 src={challenge.poster.src}
                 alt={challenge.poster.alt}
                 width={challenge.poster.width}
                 height={challenge.poster.height}
-                sizes="(min-width: 640px) 240px, 100vw"
-                className="h-auto w-full max-w-[240px] shrink-0 rounded-[6px] border border-[var(--rule)] shadow-sm"
+                sizes="(min-width: 1024px) 680px, 100vw"
+                className="mt-8 h-auto w-full rounded-[6px] border border-[var(--rule)] shadow-sm"
               />
-              <div className="pb-1">
-                <p className={cn(`${mono} tracking-[0.2em] text-[var(--mid)] uppercase`, rkMono10)}>
-                  After Hours · Challenge {challenge.id}
-                  {!open && ' · Closed'}
-                </p>
-                <h2 className={`${serif} mt-2 text-[clamp(1.6rem,3vw,2.2rem)] leading-[1.1] font-light text-[var(--ink)]`}>
-                  <Headline {...challenge.headline} />
-                </h2>
-              </div>
-            </div>
+            </header>
           )}
 
           <article className="rounded-[6px] border border-[var(--rule)] bg-[#faf9f6] px-6 py-10 shadow-sm sm:px-14 sm:py-14">
