@@ -182,16 +182,16 @@ function LetterSection({ challenge, solvers, first }: { challenge: AfterHoursCha
 
         <div className="lg:order-1">
           {!first && (
-            <div className="mb-8 flex items-center gap-5">
+            <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-8">
               <Image
                 src={challenge.poster.src}
                 alt={challenge.poster.alt}
                 width={challenge.poster.width}
                 height={challenge.poster.height}
-                sizes="96px"
-                className="h-24 w-24 shrink-0 rounded-[6px] border border-[var(--rule)] object-cover shadow-sm"
+                sizes="(min-width: 640px) 240px, 100vw"
+                className="h-auto w-full max-w-[240px] shrink-0 rounded-[6px] border border-[var(--rule)] shadow-sm"
               />
-              <div>
+              <div className="pb-1">
                 <p className={cn(`${mono} tracking-[0.2em] text-[var(--mid)] uppercase`, rkMono10)}>
                   After Hours · Challenge {challenge.id}
                   {!open && ' · Closed'}
