@@ -161,7 +161,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     signoff: 'Rubix',
     solvers: [],
     postscript:
-      "Challenge 001 is still open. If you haven't found me yet, [start there](/after-hours/001).",
+      "Challenge 001 is still open. If you haven't found me yet, [start there](#letter-001).",
   },
 ]
 
