@@ -1,0 +1,26 @@
+# Build settings stay in the Netlify UI. This file only proxies PostHog.
+
+# PostHog ingest, proxied at Netlify's edge so the body is passed through byte for byte.
+# The same rewrite in next.config.ts goes through the Next runtime, which re-encodes a
+# text/plain request body. posthog-js sends its events as a gzipped blob with that content
+# type, so every event arrived corrupted and the capture endpoint answered
+# 400 "failed to decode request: invalid GZIP data". The site recorded nothing from the day
+# analytics went live until this was found.
+# The next.config.ts rewrites stay for `next dev`, which does not read this file.
+[[redirects]]
+  from = "/ingest/static/*"
+  to = "https://us-assets.i.posthog.com/static/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ingest/array/*"
+  to = "https://us-assets.i.posthog.com/array/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ingest/*"
+  to = "https://us.i.posthog.com/:splat"
+  status = 200
+  force = true
