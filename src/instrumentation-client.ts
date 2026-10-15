@@ -14,10 +14,14 @@ if (process.env.NODE_ENV === 'production' && !location.pathname.startsWith('/stu
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? '/ingest',
     ui_host: 'https://us.posthog.com',
     defaults: '2026-05-30',
-    // nothing is captured until the visitor chooses in the cookie banner (src/components/cookie-banner.tsx);
-    // Accept turns on cookies, Decline counts the visit without any (needs "Cookieless server hash mode"
-    // on in the PostHog project). Per posthog.com/docs/tutorials/cookieless-tracking.
+    // Visitors are counted without cookies until they choose in the cookie banner
+    // (src/components/cookie-banner.tsx): opt_out_capturing_by_default starts everyone opted out, and
+    // cookieless_mode 'on_reject' captures an opted-out visit cookielessly instead of dropping it.
+    // Accept turns on cookies and session replay, Decline keeps the cookieless count.
+    // Needs "Cookieless server hash mode" on in the PostHog project, or cookieless events are
+    // accepted by the ingest endpoint and then dropped. Per posthog.com/docs/tutorials/cookieless-tracking.
     cookieless_mode: 'on_reject',
+    opt_out_capturing_by_default: true,
     // replays never record what people type into forms
     session_recording: { maskAllInputs: true },
   })

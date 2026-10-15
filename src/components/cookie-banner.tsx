@@ -9,20 +9,34 @@ import { Button } from '@/components/ui/button'
 export const COOKIE_SETTINGS_EVENT = 'rk:cookie-settings'
 
 /**
- * Asks before analytics. PostHog runs with cookieless_mode "on_reject" (src/instrumentation-client.ts):
- * nothing is captured until a choice is made, Accept turns on cookies and full analytics,
- * Decline keeps the browser free of cookies. PostHog stores the choice, so this shows once.
+ * Asks before analytics. PostHog starts opted out with cookieless_mode "on_reject"
+ * (src/instrumentation-client.ts), so a visit is counted without cookies until a choice is made.
+ * Accept turns on cookies and full analytics, Decline keeps the cookieless count.
+ * PostHog stores the choice, so this shows once.
  */
 export function CookieBanner() {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    // PostHog only starts in production builds; without it there is nothing to ask about
-    if (!posthog.__loaded) return
-    if (posthog.get_explicit_consent_status() === 'pending') setOpen(true)
     const reopen = () => setOpen(true)
     window.addEventListener(COOKIE_SETTINGS_EVENT, reopen)
-    return () => window.removeEventListener(COOKIE_SETTINGS_EVENT, reopen)
+
+    // PostHog starts in src/instrumentation-client.ts and can finish after this mounts. Checking
+    // once would hide the banner for the whole visit, so check again until it is loaded. PostHog
+    // only starts in production builds, so give up after 5 seconds: in development there is
+    // nothing to ask about.
+    let tries = 0
+    const askIfPending = () => {
+      if (!posthog.__loaded) return ++tries < 25
+      if (posthog.get_explicit_consent_status() === 'pending') setOpen(true)
+      return false
+    }
+    const timer = askIfPending() ? setInterval(() => askIfPending() || clearInterval(timer), 200) : undefined
+
+    return () => {
+      window.removeEventListener(COOKIE_SETTINGS_EVENT, reopen)
+      clearInterval(timer)
+    }
   }, [])
 
   if (!open) return null
