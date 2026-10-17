@@ -438,7 +438,7 @@ function SectionBar() {
             </a>
           ))}
         </nav>
-        <Button asChild variant="primary" className="ml-auto">
+        <Button asChild variant="primary" className="ml-auto hidden sm:inline-flex">
           <a href={HUBBLE_APP_URL} target="_blank" rel="noopener noreferrer">
             Open Hubble
           </a>
@@ -470,7 +470,7 @@ function Tile({ span, title, copy, visual, tall = false }: { span: string; title
 
 function OpenButtons() {
   return (
-    <Button asChild variant="primary">
+    <Button asChild variant="primary" size="lg" className="w-full sm:w-auto">
       <a href={HUBBLE_APP_URL} target="_blank" rel="noopener noreferrer">
         Open Hubble
         <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.5} />
