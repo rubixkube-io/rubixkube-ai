@@ -15,6 +15,7 @@ const footerColumns = [
     title: 'Product',
     links: [
       { label: 'Platform', href: '/platform' },
+      { label: 'Hubble', href: '/hubble' },
       { label: 'Solutions', href: '/solutions' },
       { label: 'Pricing', href: '/pricing' },
     ],

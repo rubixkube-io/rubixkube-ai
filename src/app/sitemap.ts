@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const KNOWN_ROUTES = new Set([
     'blog', 'platform', 'solutions', 'resources', 'about',
-    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours',
+    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours', 'hubble',
   ])
 
   // Fetch dynamic reference pages
@@ -54,6 +54,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/platform`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/hubble`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,

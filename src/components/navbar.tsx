@@ -46,7 +46,10 @@ import {
   type ReferenceGuideNavItem,
 } from '@/lib/reference-nav'
 
-const simpleNavBeforeMega = [{ name: 'Platform', href: '/platform' }] as const
+const simpleNavBeforeMega = [
+  { name: 'Platform', href: '/platform' },
+  { name: 'Hubble', href: '/hubble' },
+] as const
 const pricingNavItem = { name: 'Pricing', href: '/pricing' } as const
 const simpleNavTail = [
   { name: 'About', href: '/about' },

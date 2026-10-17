@@ -10,6 +10,13 @@ export const dynamicOgPageContent = {
       'Explore our agent mesh that observes, plans, acts, and learns—closed-loop remediation with guardrails, audit trails, and clear explanations.',
     accent: 'Observe · Plan · Act · Learn',
   },
+  hubble: {
+    eyebrow: 'Hubble by RubixKube',
+    title: 'Keeps watch so your team can sleep',
+    description:
+      'Rosters, escalation with timers, acknowledgements, contact rules, a phone app and Slack. Add RubixKube and on-call gets quieter.',
+    accent: 'Rosters · Escalation · Paging',
+  },
   about: {
     eyebrow: 'RubixKube',
     title: 'From outages to intelligence',
