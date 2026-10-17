@@ -12,9 +12,9 @@ export const dynamicOgPageContent = {
   },
   hubble: {
     eyebrow: 'Hubble by RubixKube',
-    title: 'Keeps watch so your team can sleep',
+    title: 'On-call scheduling and paging',
     description:
-      'Rosters, escalation with timers, acknowledgements, contact rules, a phone app and Slack. Add RubixKube and on-call gets quieter.',
+      'Rosters, escalation policies, acknowledgements, contact rules, a phone app and Slack.',
     accent: 'Rosters · Escalation · Paging',
   },
   about: {

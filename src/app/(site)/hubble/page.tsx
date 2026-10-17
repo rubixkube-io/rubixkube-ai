@@ -4,7 +4,7 @@ import { webPageJsonLd } from '@/components/structured-data'
 
 const title = 'Hubble by RubixKube - On-call scheduling and paging'
 const description =
-  'Hubble keeps watch so your team can sleep. Rosters, escalation with timers, acknowledgements, contact rules, a phone app and Slack. Add RubixKube and on-call gets quieter.'
+  'On-call scheduling, escalation and paging from RubixKube. Rosters, escalation policies, acknowledgements, contact rules, a phone app and Slack.'
 
 export const metadata: Metadata = {
   title,
