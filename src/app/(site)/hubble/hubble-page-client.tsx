@@ -500,10 +500,10 @@ export function HubblePageClient() {
                 Hubble with RubixKube
               </span>
               <p className="mb-1 font-[family-name:var(--font-serif)] text-[clamp(2.5rem,4vw,3.5rem)] leading-none font-light text-[var(--ink)]">
-                RubixKube plans
+                Add-on
               </p>
               <p className="mb-6 font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]">
-                Hubble is added to your plan
+                Add Hubble to a RubixKube plan.
               </p>
               <Button asChild variant="outline" className="w-full">
                 <Link href="/pricing">See RubixKube pricing</Link>
