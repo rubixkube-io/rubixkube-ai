@@ -1,6 +1,6 @@
 'use client'
 
-import { type ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -8,6 +8,7 @@ import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
+import { BillingToggle } from '@/components/ui/billing-toggle'
 import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
 import { ArrowRight, BellRing, CheckCircle, Mail, MessageSquare, Smartphone } from 'lucide-react'
@@ -247,10 +248,11 @@ function SlackThread() {
 
 function UpgradePath() {
   return (
-    <div className={`${card} flex items-center gap-4`}>
+    // vertical on phones, horizontal from sm up
+    <div className={`${card} flex flex-col items-center gap-3 sm:flex-row sm:gap-4`}>
       <span className={`${mono} rounded-md bg-[var(--blue)]/10 px-3 py-2 text-[12px] text-[var(--blue)]`}>Hubble</span>
-      <span className="h-px flex-1 bg-[var(--faint)]" />
-      <span className={`${mono} flex items-center gap-2 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-2 text-[12px] text-[var(--ink)]`}>
+      <span className="h-8 w-px bg-[var(--faint)] sm:h-px sm:w-auto sm:flex-1" />
+      <span className={`${mono} flex items-center gap-2 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-2 text-[12px] whitespace-nowrap text-[var(--ink)]`}>
         Hubble with
         <Image src="/light-logo.svg" alt="RubixKube" width={1720} height={200} className="h-[10px] w-auto" />
       </span>
@@ -265,8 +267,8 @@ const RUBIXKUBE_CONSOLE_URL = 'https://console.rubixkube.ai'
 const PLANS = [
   {
     name: 'Hubble',
-    price: '$20',
-    unit: 'per seat, per month',
+    price: { monthly: '$20', annual: '$17' },
+    unit: { monthly: 'per seat, per month', annual: 'per seat, per month, billed annually' },
     recommended: false,
     includes: [
       'Rosters with rotations, layers and overrides',
@@ -279,8 +281,11 @@ const PLANS = [
   },
   {
     name: 'Hubble with RubixKube',
-    price: '$10',
-    unit: 'per seat, per month, with a RubixKube plan',
+    price: { monthly: '$10', annual: '$8.50' },
+    unit: {
+      monthly: 'per seat, per month, with a RubixKube plan',
+      annual: 'per seat, per month, billed annually, with a RubixKube plan',
+    },
     recommended: true,
     includes: [
       '**Everything in Hubble, at half the price**',
@@ -291,8 +296,8 @@ const PLANS = [
   },
   {
     name: 'Enterprise',
-    price: 'Custom',
-    unit: 'annual contract',
+    price: { monthly: 'Custom', annual: 'Custom' },
+    unit: { monthly: 'annual contract', annual: 'annual contract' },
     recommended: false,
     includes: ['Everything in Hubble with RubixKube', 'RBAC & SSO', 'Dedicated support & custom SLAs', 'Custom integrations & onboarding'],
   },
@@ -326,19 +331,11 @@ function PlanButton({ plan }: { plan: (typeof PLANS)[number]['name'] }) {
   }
   if (plan === 'Hubble with RubixKube') {
     return (
-      <>
-        <Button asChild variant="primary" className="w-full">
-          <a href={RUBIXKUBE_CONSOLE_URL} target="_blank" rel="noopener noreferrer">
-            Get started
-          </a>
-        </Button>
-        <Link
-          href="/pricing"
-          className={`${mono} mt-3 text-center text-[11px] font-light text-[var(--mid)] underline underline-offset-2 hover:text-[var(--ink)]`}
-        >
-          See RubixKube plans
-        </Link>
-      </>
+      <Button asChild variant="primary" className="w-full">
+        <a href={RUBIXKUBE_CONSOLE_URL} target="_blank" rel="noopener noreferrer">
+          Get started
+        </a>
+      </Button>
     )
   }
   return (
@@ -349,6 +346,8 @@ function PlanButton({ plan }: { plan: (typeof PLANS)[number]['name'] }) {
 }
 
 function Pricing() {
+  const [isAnnual, setIsAnnual] = useState(false)
+  const billing = isAnnual ? 'annual' : 'monthly'
   return (
     <section id="pricing" className="scroll-mt-[calc(var(--nav-stack)+4rem)] border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
       <div className="rk-landing-max px-[var(--pad)]">
@@ -357,8 +356,9 @@ function Pricing() {
           <h2 className={h2}>
             Simple, per-seat <span className="italic text-[var(--blue)]">pricing.</span>
           </h2>
-          <p className={`${lead} mx-auto`}>Monthly subscriptions. Annual discounts are available.</p>
+          <p className={`${lead} mx-auto`}>Pay monthly, or save 15% with annual billing.</p>
         </motion.div>
+        <BillingToggle isAnnual={isAnnual} onToggle={() => setIsAnnual(!isAnnual)} />
         <motion.div {...reveal} className="grid grid-cols-1 border border-[var(--rule)] md:grid-cols-3">
           {PLANS.map((plan, i) => (
             <div
@@ -376,12 +376,20 @@ function Pricing() {
                 )}
               </div>
               <p className="mb-1 font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] leading-none font-light text-[var(--ink)]">
-                {plan.price}
+                {plan.price[billing]}
               </p>
-              <p className={`${mono} mb-6 text-[11px] font-light text-[var(--mid)]`}>{plan.unit}</p>
+              <p className={`${mono} mb-6 text-[11px] font-light text-[var(--mid)]`}>{plan.unit[billing]}</p>
               <PlanButton plan={plan.name} />
               <hr className="my-8 border-[var(--rule)]" />
               <Includes items={plan.includes} />
+              {plan.recommended && (
+                <Link
+                  href="/pricing"
+                  className={`${mono} mt-auto pt-8 text-[11px] font-light text-[var(--mid)] underline underline-offset-2 hover:text-[var(--ink)]`}
+                >
+                  See RubixKube plans
+                </Link>
+              )}
             </div>
           ))}
         </motion.div>
@@ -641,7 +649,7 @@ export function HubblePageClient() {
         <div className="rk-landing-max px-[var(--pad)]">
           <div className="grid items-center gap-12 lg:grid-cols-[3fr_2fr] lg:gap-20">
             <motion.div {...reveal} className="order-2 lg:order-1">
-              <Backdrop className="flex h-[260px] items-center rounded-3xl border border-[var(--rule)] px-[8%]">
+              <Backdrop className="flex min-h-[260px] items-center rounded-3xl border border-[var(--rule)] px-[8%] py-12">
                 <div className="w-full drop-shadow-[0_18px_36px_rgba(17,19,24,0.14)]">
                   <UpgradePath />
                 </div>

@@ -213,13 +213,19 @@ const HUBBLE_NAV_ITEM: ReferenceGuideNavItem & { href: string; imageSrc: string 
   category: 'products',
   subtitle: 'On-call scheduling, escalation and paging, from RubixKube.',
   href: '/hubble',
-  imageSrc: '/email/rubix-working.png',
+  imageSrc: '/screenshots/hubble/nav-card.png',
 }
 
 function SolutionsMegaPanel({ onNavigate }: { onNavigate?: () => void }) {
   const guides = useReferenceGuidesNav()
   const solutionsPages = useMemo(
-    () => [HUBBLE_NAV_ITEM, ...guidesForCategories(guides, SOLUTIONS_CATEGORIES)],
+    () => {
+      // Hubble goes right after the MTTU glossary entry, or last if that entry is gone.
+      const list = guidesForCategories(guides, SOLUTIONS_CATEGORIES)
+      const mttu = list.findIndex((g) => /\bMTTU\b/.test(g.title))
+      const at = mttu === -1 ? list.length : mttu + 1
+      return [...list.slice(0, at), HUBBLE_NAV_ITEM, ...list.slice(at)]
+    },
     [guides],
   )
 
@@ -282,7 +288,7 @@ function ResourcesFeaturedArticle({
     >
       <div className="relative aspect-[16/10] w-[min(44%,11rem)] min-w-[7.5rem] shrink-0 overflow-hidden rounded-lg bg-[rgba(17,19,24,0.06)] sm:min-w-[9rem]">
         {img ? (
-          <Image src={img} alt={alt} fill className={`${item.imageSrc ? 'object-contain p-2' : 'object-cover'} transition-transform duration-300 group-hover:scale-[1.02]`} sizes="(max-width: 768px) 120px, 176px" />
+          <Image src={img} alt={alt} fill className={`object-cover transition-transform duration-300 group-hover:scale-[1.02]`} sizes="(max-width: 768px) 120px, 176px" />
         ) : (
           <span className="flex h-full w-full items-center justify-center">
             <Icon className="h-8 w-8 text-[var(--blue)]/30" strokeWidth={1.25} aria-hidden />
