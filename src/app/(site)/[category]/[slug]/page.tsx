@@ -10,7 +10,7 @@ import { sanityCoverOgFields } from '@/lib/sanity-cover-og'
 
 const KNOWN_ROUTES = new Set([
   'blog', 'platform', 'solutions', 'resources', 'about',
-  'contact', 'legal', 'status', 'studio', 'pricing',
+  'contact', 'legal', 'status', 'studio', 'pricing', 'hubble',
 ])
 
 const CATEGORY_LABELS: Record<string, string> = {

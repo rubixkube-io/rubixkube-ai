@@ -206,10 +206,20 @@ function MegaLinkRow({
   )
 }
 
+/** Hubble has its own page (/hubble), not a Sanity reference page, so its card is listed here. */
+const HUBBLE_NAV_ITEM: ReferenceGuideNavItem & { href: string; imageSrc: string } = {
+  title: 'Hubble',
+  slug: 'hubble',
+  category: 'products',
+  subtitle: 'On-call scheduling, escalation and paging, from RubixKube.',
+  href: '/hubble',
+  imageSrc: '/email/rubix-working.png',
+}
+
 function SolutionsMegaPanel({ onNavigate }: { onNavigate?: () => void }) {
   const guides = useReferenceGuidesNav()
   const solutionsPages = useMemo(
-    () => guidesForCategories(guides, SOLUTIONS_CATEGORIES),
+    () => [HUBBLE_NAV_ITEM, ...guidesForCategories(guides, SOLUTIONS_CATEGORIES)],
     [guides],
   )
 
@@ -251,15 +261,15 @@ function ResourcesFeaturedArticle({
   item,
   onNavigate,
 }: {
-  item: ReferenceGuideNavItem
+  item: ReferenceGuideNavItem & { href?: string; imageSrc?: string }
   onNavigate?: () => void
 }) {
-  const href = `/${item.category}/${item.slug}`
+  const href = item.href ?? `/${item.category}/${item.slug}`
   const categoryLabel = REFERENCE_CATEGORY_LABELS[item.category] ?? item.category
   const Icon = CATEGORY_ICONS[item.category] ?? FileText
   const hero = item.heroImage
   const img =
-    hero?.asset?._ref != null ? urlFor(hero).width(640).height(400).url() : null
+    item.imageSrc ?? (hero?.asset?._ref != null ? urlFor(hero).width(640).height(400).url() : null)
   const alt = (hero?.alt ?? '').trim() || ''
   const fullLabel = [categoryLabel, item.title, (item.subtitle ?? '').trim()].filter(Boolean).join(' — ')
 
@@ -272,7 +282,7 @@ function ResourcesFeaturedArticle({
     >
       <div className="relative aspect-[16/10] w-[min(44%,11rem)] min-w-[7.5rem] shrink-0 overflow-hidden rounded-lg bg-[rgba(17,19,24,0.06)] sm:min-w-[9rem]">
         {img ? (
-          <Image src={img} alt={alt} fill className="object-cover transition-transform duration-300 group-hover:scale-[1.02]" sizes="(max-width: 768px) 120px, 176px" />
+          <Image src={img} alt={alt} fill className={`${item.imageSrc ? 'object-contain p-2' : 'object-cover'} transition-transform duration-300 group-hover:scale-[1.02]`} sizes="(max-width: 768px) 120px, 176px" />
         ) : (
           <span className="flex h-full w-full items-center justify-center">
             <Icon className="h-8 w-8 text-[var(--blue)]/30" strokeWidth={1.25} aria-hidden />

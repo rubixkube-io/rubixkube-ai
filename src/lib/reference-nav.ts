@@ -57,6 +57,7 @@ export function guidesForCategories(
 
 export function isSolutionsNavActive(pathname: string): boolean {
   if (pathname === '/solutions' || pathname.startsWith('/solutions/')) return true
+  if (pathname === '/hubble') return true
   return SOLUTIONS_CATEGORIES.some((c) => pathname === `/${c}` || pathname.startsWith(`/${c}/`))
 }
 
