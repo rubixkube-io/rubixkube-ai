@@ -15,7 +15,7 @@ export function BillingToggle({ isAnnual, onToggle }: { isAnnual: boolean; onTog
             'rounded-full px-6 py-2.5 font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-all duration-200 cursor-pointer',
             rkMono11,
             !isAnnual
-              ? 'bg-white text-[var(--ink)] shadow-sm'
+              ? 'bg-[var(--surface)] text-[var(--ink)] shadow-sm'
               : 'bg-transparent text-[var(--mid)]',
           )}
         >
@@ -28,7 +28,7 @@ export function BillingToggle({ isAnnual, onToggle }: { isAnnual: boolean; onTog
             'rounded-full px-6 py-2.5 font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-all duration-200 cursor-pointer flex items-center gap-2',
             rkMono11,
             isAnnual
-              ? 'bg-white text-[var(--ink)] shadow-sm'
+              ? 'bg-[var(--surface)] text-[var(--ink)] shadow-sm'
               : 'bg-transparent text-[var(--mid)]',
           )}
         >

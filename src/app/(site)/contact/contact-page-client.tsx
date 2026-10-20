@@ -184,7 +184,7 @@ export function ContactPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-8% 0px' }}
-              className="flex flex-col rounded-xl border border-[var(--rule)]/60 bg-[#f6f6f4] p-8 shadow-xl shadow-black/[0.03] sm:p-10"
+              className="flex flex-col rounded-xl border border-[var(--rule)]/60 bg-[var(--panel)] p-8 shadow-xl shadow-black/[0.03] sm:p-10"
             >
               <motion.div variants={fadeUpVariants} className="pb-2">
                 <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.4rem,3vw,2rem)] leading-[1.15] font-light text-[var(--ink)]">

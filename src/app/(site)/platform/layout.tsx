@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: "Platform - RubixKube",
-  description: "Explore RubixKube's intelligent platform. Discover how our AI agents observe, plan, act, and learn to keep your infrastructure reliable and your business running.",
+  description: "Rubix, an AI agent, watches your infrastructure, finds the cause when something breaks, and fixes it with you. Less noise, the cause in minutes, across your whole stack.",
   keywords: [
     "RubixKube platform",
     "AI agents",

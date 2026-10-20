@@ -4,31 +4,31 @@ import { webPageJsonLd, faqPageJsonLd } from '@/components/structured-data'
 import { platformFaqItems } from '@/data/platform-faq'
 
 export const metadata: Metadata = {
-  title: "RubixKube Platform - AI Agents for Reliability",
-  description: "Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.",
+  title: "RubixKube Platform - Know why it broke, in minutes",
+  description: "Rubix, an AI agent, watches your infrastructure, finds the cause when something breaks, and fixes it with you. Less noise, the cause in minutes, across your whole stack.",
   keywords: [
-    "agent mesh",
-    "observe plan act learn",
-    "guardrails",
-    "auditability",
-    "explainable automation",
-    "RCA"
+    "root cause analysis",
+    "incident investigation",
+    "Kubernetes incidents",
+    "AI SRE agent",
+    "RCA",
+    "incident management"
   ],
   openGraph: {
-    title: "RubixKube Platform - AI Agents for Reliability",
-    description: "Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.",
+    title: "RubixKube Platform - Know why it broke, in minutes",
+    description: "Rubix, an AI agent, watches your infrastructure, finds the cause when something breaks, and fixes it with you. Less noise, the cause in minutes, across your whole stack.",
     url: "https://rubixkube.ai/platform",
   },
   twitter: {
     card: 'summary_large_image',
-    title: "RubixKube Platform - AI Agents for Reliability",
-    description: "Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.",
+    title: "RubixKube Platform - Know why it broke, in minutes",
+    description: "Rubix, an AI agent, watches your infrastructure, finds the cause when something breaks, and fixes it with you. Less noise, the cause in minutes, across your whole stack.",
   },
 }
 
 const pageJsonLd = webPageJsonLd({
-  name: 'RubixKube Platform - AI Agents for Reliability',
-  description: 'Explore our agent mesh that observes, plans, acts, and learns. Closed-loop remediation with guardrails, audit trails, and clear explanations.',
+  name: 'RubixKube Platform - Know why it broke, in minutes',
+  description: 'Rubix, an AI agent, watches your infrastructure, finds the cause when something breaks, and fixes it with you. Less noise, the cause in minutes, across your whole stack.',
   url: 'https://rubixkube.ai/platform',
 })
 

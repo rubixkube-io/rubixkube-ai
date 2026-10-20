@@ -44,6 +44,123 @@
   --ring: var(--blue);
   --muted-foreground: var(--mid);
   --hero-grid: rgba(47, 91, 255, 0.06);
+  /* Raised surfaces: hover rows, toggles, cards that sit above --bg */
+  --surface: #ffffff;
+  --panel: #f6f6f4;
+  --paper: #faf9f6;
+}
+
+/*
+ * Dark palette. <html data-theme> is "light" (the default) or "dark"; the ThemeProvider
+ * and the script in layout.tsx set it. "system" follows the visitor's setting.
+ * .rk-only-light / .rk-only-dark swap images and logos between the two.
+ */
+html[data-theme='dark'] {
+  --bg: #0f1013;
+  --ink: #eceae4;
+  --mid: #a4a7b1;
+  --faint: #3b3d45;
+  --text-muted: #8d909b;
+  --text-soft: #6f727d;
+  --rule: rgba(236, 234, 228, 0.1);
+  --blue: #5b7cff;
+  --background: var(--bg);
+  --background-secondary: #16171b;
+  --background-tertiary: #1d1e23;
+  --foreground: var(--ink);
+  --foreground-muted: var(--mid);
+  --primary: #5b7cff;
+  --border: rgba(236, 234, 228, 0.14);
+  --border-muted: rgba(236, 234, 228, 0.1);
+  --card-background: var(--bg);
+  --input: rgba(236, 234, 228, 0.14);
+  --muted-foreground: var(--mid);
+  --hero-grid: rgba(91, 124, 255, 0.08);
+  --surface: #1e1f24;
+  --panel: #18191d;
+  --paper: #18191d;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme='system'] {
+  --bg: #0f1013;
+  --ink: #eceae4;
+  --mid: #a4a7b1;
+  --faint: #3b3d45;
+  --text-muted: #8d909b;
+  --text-soft: #6f727d;
+  --rule: rgba(236, 234, 228, 0.1);
+  --blue: #5b7cff;
+  --background: var(--bg);
+  --background-secondary: #16171b;
+  --background-tertiary: #1d1e23;
+  --foreground: var(--ink);
+  --foreground-muted: var(--mid);
+  --primary: #5b7cff;
+  --border: rgba(236, 234, 228, 0.14);
+  --border-muted: rgba(236, 234, 228, 0.1);
+  --card-background: var(--bg);
+  --input: rgba(236, 234, 228, 0.14);
+  --muted-foreground: var(--mid);
+  --hero-grid: rgba(91, 124, 255, 0.08);
+  --surface: #1e1f24;
+  --panel: #18191d;
+  --paper: #18191d;
+  color-scheme: dark;
+  }
+  [data-theme='system'] .rk-only-light {
+    display: none;
+  }
+  [data-theme='system'] .rk-only-dark {
+    display: revert-layer;
+  }
+}
+
+.rk-only-dark {
+  display: none;
+}
+
+[data-theme='dark'] .rk-only-light {
+  display: none;
+}
+
+[data-theme='dark'] .rk-only-dark {
+  display: revert-layer;
+}
+
+/* Platform hero: the step bar fills over one step's duration */
+@keyframes rk-hero-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+.rk-hero-progress {
+  animation-name: rk-hero-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* Partner logos are drawn for light backgrounds, some on an opaque white box: on dark,
+   invert them in greyscale and screen-blend so dark marks turn light and white boxes drop out. */
+html[data-theme='dark'] .rk-logo img {
+  filter: grayscale(1) invert(1);
+  mix-blend-mode: screen;
+}
+
+/* Single-colour dark logos (Cursor, MCP) turn light on dark */
+html[data-theme='dark'] .rk-mono-logo {
+  filter: invert(1);
+}
+
+/* The footer's large wordmark is drawn black at low opacity; on dark it turns white. */
+[data-theme='dark'] .rk-footer-mark {
+  filter: brightness(0) invert(1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='system'] .rk-footer-mark {
+    filter: brightness(0) invert(1);
+  }
 }
 
 @media (max-width: 640px) {
@@ -123,7 +240,6 @@ html.rk-landing-active body {
   overflow: hidden;
 }
 
-html.light,
 html {
   color-scheme: light;
 }

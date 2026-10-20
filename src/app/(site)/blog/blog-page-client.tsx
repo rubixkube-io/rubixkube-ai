@@ -202,7 +202,7 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
                           className={cn(
                             'px-3 py-1.5 font-[family-name:var(--font-mono)] font-light transition-colors',
                             rkMono11,
-                            view === 'grid' ? 'bg-white text-[var(--ink)]' : 'text-[var(--mid)]',
+                            view === 'grid' ? 'bg-[var(--surface)] text-[var(--ink)]' : 'text-[var(--mid)]',
                           )}
                         >
                           Grid
@@ -213,7 +213,7 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
                           className={cn(
                             'px-3 py-1.5 font-[family-name:var(--font-mono)] font-light transition-colors border-l border-[var(--rule)]',
                             rkMono11,
-                            view === 'list' ? 'bg-white text-[var(--ink)]' : 'text-[var(--mid)]',
+                            view === 'list' ? 'bg-[var(--surface)] text-[var(--ink)]' : 'text-[var(--mid)]',
                           )}
                         >
                           List

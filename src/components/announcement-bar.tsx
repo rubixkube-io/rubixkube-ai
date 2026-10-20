@@ -47,7 +47,7 @@ export function AnnouncementBar() {
     <div
       role="region"
       aria-label="Announcement"
-      className="fixed top-0 right-0 left-0 z-[101] flex h-[var(--announce-h)] overflow-hidden items-center justify-center bg-[var(--ink)] px-10 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.02em] text-[var(--bg)] sm:px-[var(--pad)] sm:text-[12px]"
+      className="fixed top-0 right-0 left-0 z-[101] flex h-[var(--announce-h)] overflow-hidden items-center justify-center border-b border-white/10 bg-[#111318] px-10 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.02em] text-[#f2f0eb] sm:px-[var(--pad)] sm:text-[12px]"
     >
       <Link
         href={KEPLER_URL}
@@ -62,7 +62,7 @@ export function AnnouncementBar() {
           <span className="hidden sm:inline">Kepler, the SRE IDE by RubixKube, is here.</span>
           <span className="sm:hidden">Kepler, the SRE IDE, is here.</span>
         </span>
-        <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[var(--faint)] transition-colors group-hover:text-white">
+        <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[#c4c5cc] transition-colors group-hover:text-white">
           Try Kepler
           <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" strokeWidth={2} aria-hidden />
         </span>
@@ -71,7 +71,7 @@ export function AnnouncementBar() {
         type="button"
         onClick={dismiss}
         aria-label="Dismiss announcement"
-        className="absolute top-1/2 right-3 -translate-y-1/2 rounded p-1 text-[var(--faint)] transition-colors hover:text-white sm:right-[calc(var(--pad)/2)]"
+        className="absolute top-1/2 right-3 -translate-y-1/2 rounded p-1 text-[#c4c5cc] transition-colors hover:text-white sm:right-[calc(var(--pad)/2)]"
       >
         <X className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
       </button>
