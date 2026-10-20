@@ -52,7 +52,7 @@ const TIERS = [
     cta: 'primary',
     includes: [
       '**Up to 3 environments**',
-      '15 investigations a month',
+      '30 investigations a month',
       '5 users',
       'Everything in Individual',
       'Rubix in Slack',
@@ -87,9 +87,13 @@ const hubbleIncludes = [
   "Every page arrives with Rubix's RCA attached",
 ]
 
+/**
+ * Business includes 30 investigations for $999 (about $33 each, $28 on annual). Packs sit just
+ * under that, so a busy month costs no more than the plan's own rate; steady volume is Enterprise.
+ */
 const boostPacks = [
-  { name: 'Boost S', investigations: 50, price: 300, perInvestigation: 6 },
-  { name: 'Boost M', investigations: 100, price: 500, perInvestigation: 5 },
+  { name: 'Boost S', investigations: 10, price: 300, perInvestigation: 30 },
+  { name: 'Boost M', investigations: 25, price: 625, perInvestigation: 25 },
 ]
 
 const proofStats = [
@@ -362,7 +366,7 @@ export function PricingPageClient() {
                   rkMono13,
                 )}
               >
-                Boost Packs are one-time add-ons. Unused investigations roll over to the next month. For consistent high volume, Enterprise is the better value.
+                For a busy month on Business. Each pack is a one-time top-up, priced below the plan&apos;s own rate, and unused investigations roll over to the next month. If you need more every month, Enterprise is the better fit.
               </p>
             </div>
 
