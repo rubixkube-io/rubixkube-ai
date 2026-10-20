@@ -13,12 +13,6 @@ import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
 import { ArrowRight, BellRing, CheckCircle, Mail, MessageSquare, Smartphone } from 'lucide-react'
 
-/**
- * Hubble checkout. Leave null until Razorpay checkout exists; the Hubble pricing card then
- * opens the app. Set it to the checkout link and the card's button goes to checkout.
- */
-const HUBBLE_CHECKOUT_URL: string | null = null
-
 const HUBBLE_APP_URL = 'https://oncall.rubixkube.ai'
 
 const INCIDENT = 'Checkout error rate is high'
@@ -262,8 +256,6 @@ function UpgradePath() {
 
 /* ───────────────────────── pricing ───────────────────────── */
 
-const RUBIXKUBE_CONSOLE_URL = 'https://console.rubixkube.ai'
-
 const PLANS = [
   {
     name: 'Hubble',
@@ -319,28 +311,13 @@ function Includes({ items }: { items: readonly string[] }) {
   )
 }
 
-function PlanButton({ plan }: { plan: (typeof PLANS)[number]['name'] }) {
-  if (plan === 'Hubble') {
-    return (
-      <Button asChild variant="outline" className="w-full">
-        <a href={HUBBLE_CHECKOUT_URL ?? HUBBLE_APP_URL} target="_blank" rel="noopener noreferrer">
-          Start with Hubble
-        </a>
-      </Button>
-    )
-  }
-  if (plan === 'Hubble with RubixKube') {
-    return (
-      <Button asChild variant="primary" className="w-full">
-        <a href={RUBIXKUBE_CONSOLE_URL} target="_blank" rel="noopener noreferrer">
-          Get started
-        </a>
-      </Button>
-    )
-  }
+/** No direct payment: every plan's button books a call. */
+function PlanButton({ recommended }: { recommended: boolean }) {
   return (
     <CalendlyBooking url={CALENDLY_DEMO_URL} asChild>
-      <Button variant="outline" className="w-full">Talk to us</Button>
+      <Button variant={recommended ? 'primary' : 'outline'} className="w-full">
+        Contact us
+      </Button>
     </CalendlyBooking>
   )
 }
@@ -379,7 +356,7 @@ function Pricing() {
                 {plan.price[billing]}
               </p>
               <p className={`${mono} mb-6 text-[11px] font-light text-[var(--mid)]`}>{plan.unit[billing]}</p>
-              <PlanButton plan={plan.name} />
+              <PlanButton recommended={plan.recommended} />
               <hr className="my-8 border-[var(--rule)]" />
               <Includes items={plan.includes} />
               {plan.recommended && (
