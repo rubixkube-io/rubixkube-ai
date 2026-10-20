@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
@@ -17,6 +16,7 @@ import { rkMono9, rkMono10, rkMono11, rkMono13, rkMonoXs } from '@/lib/landing-r
 import { pricingFaqItems } from '@/data/pricing-faq'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { BillingToggle } from '@/components/ui/billing-toggle'
+import { ThemedImage } from '@/components/console-shot'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 
@@ -94,16 +94,6 @@ const proofStats = [
   { n: '$48', u: '', c: 'text-[var(--green)]', l: 'Avg saved / incident' },
   { n: '2.8', u: ' min', c: 'text-[var(--blue)]', l: 'Mean time to understand' },
 ]
-
-/** A console screenshot in light and dark, swapped by the site theme. */
-function ThemedImage({ name, w, h, alt, sizes, className = '' }: { name: string; w: number; h: number; alt: string; sizes: string; className?: string }) {
-  return (
-    <>
-      <Image src={`/screenshots/platform/${name}-light.png`} alt={alt} width={w} height={h} sizes={sizes} className={`rk-only-light ${className}`} />
-      <Image src={`/screenshots/platform/${name}-dark.png`} alt={alt} width={w} height={h} sizes={sizes} className={`rk-only-dark ${className}`} />
-    </>
-  )
-}
 
 function FeatureItem({ item, inverted = false }: { item: string; inverted?: boolean }) {
   const isBold = item.startsWith('**') && item.endsWith('**')
