@@ -42,7 +42,7 @@ function LogoItem({ mark, aria }: { mark: CustomerMark; aria?: string }) {
     return (
       <span
         aria-label={aria}
-        className="inline-flex shrink-0 items-center justify-center opacity-[0.55] grayscale"
+        className="inline-flex shrink-0 rk-logo items-center justify-center opacity-[0.55] grayscale"
       >
         <span
           className={cn(
@@ -62,7 +62,7 @@ function LogoItem({ mark, aria }: { mark: CustomerMark; aria?: string }) {
   return (
     <span
       aria-label={aria}
-      className="inline-flex shrink-0 items-center justify-center opacity-[0.55] grayscale transition-[filter,opacity] duration-300 ease-out hover:opacity-100 hover:grayscale-0"
+      className="inline-flex shrink-0 rk-logo items-center justify-center opacity-[0.55] grayscale transition-[filter,opacity] duration-300 ease-out hover:opacity-100 hover:grayscale-0"
     >
       <span
         className={cn(
@@ -121,7 +121,7 @@ export function InfraLogoGrid({ compact = false }: { compact?: boolean }) {
     >
       {INFRA_LOGOS.map((logo) => (
         <li key={logo.src} className="m-0 flex p-0">
-          <span className="inline-flex items-center justify-center opacity-[0.55] grayscale transition-[filter,opacity] duration-300 ease-out hover:opacity-100 hover:grayscale-0">
+          <span className="inline-flex rk-logo items-center justify-center opacity-[0.55] grayscale transition-[filter,opacity] duration-300 ease-out hover:opacity-100 hover:grayscale-0">
             <Image
               src={logo.src}
               alt={logo.alt}

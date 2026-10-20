@@ -201,7 +201,7 @@ function LetterSection({ challenge, solvers, first }: { challenge: AfterHoursCha
             </header>
           )}
 
-          <article className="rounded-[6px] border border-[var(--rule)] bg-[#faf9f6] px-6 py-10 shadow-sm sm:px-14 sm:py-14">
+          <article className="rounded-[6px] border border-[var(--rule)] bg-[var(--paper)] px-6 py-10 shadow-sm sm:px-14 sm:py-14">
             <header className="mb-10 border-b border-[var(--rule)] pb-6">
               <div className="flex items-center justify-between gap-4">
                 <span className={`${mono} flex items-center gap-2.5 text-[12px] tracking-[0.18em] text-[var(--ink)] uppercase`}>

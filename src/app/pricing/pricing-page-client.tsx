@@ -331,7 +331,7 @@ export function PricingPageClient() {
                   <div
                     key={s.l}
                     className={cn(
-                      'flex flex-col gap-2.5 bg-[var(--bg)] px-8 py-10 transition-colors hover:bg-white',
+                      'flex flex-col gap-2.5 bg-[var(--bg)] px-8 py-10 transition-colors hover:bg-[var(--surface)]',
                       !isLast && 'border-r border-[var(--rule)]',
                       i === 1 && 'border-r-0 md:border-r',
                       i < 2 && 'border-b border-[var(--rule)] md:border-b-0',
@@ -400,7 +400,7 @@ export function PricingPageClient() {
                 <div
                   key={pack.name}
                   className={cn(
-                    'flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 p-8 bg-[var(--bg)] transition-colors hover:bg-white',
+                    'flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 p-8 bg-[var(--bg)] transition-colors hover:bg-[var(--surface)]',
                     i !== 0 && 'border-t border-[var(--rule)]',
                   )}
                 >

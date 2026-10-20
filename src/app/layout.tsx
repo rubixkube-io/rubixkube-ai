@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider, themeInitScript } from '@/components/theme-provider'
 import './globals.css'
 
 /** Same stylesheet as redesign.html — next/font was rendering heavier than the standalone prototype. */
@@ -49,8 +49,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="light" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href={GOOGLE_FONTS_HREF} rel="stylesheet" />
@@ -66,7 +67,7 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
       </head>
       <body className="antialiased">
-        <ThemeProvider defaultTheme="light" storageKey="rubixkube-theme">
+        <ThemeProvider defaultTheme="light">
           {children}
         </ThemeProvider>
       </body>

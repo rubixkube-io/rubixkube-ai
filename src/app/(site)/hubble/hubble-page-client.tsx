@@ -248,7 +248,8 @@ function UpgradePath() {
       <span className="h-8 w-px bg-[var(--faint)] sm:h-px sm:w-auto sm:flex-1" />
       <span className={`${mono} flex items-center gap-2 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-2 text-[12px] whitespace-nowrap text-[var(--ink)]`}>
         Hubble with
-        <Image src="/light-logo.svg" alt="RubixKube" width={1720} height={200} className="h-[10px] w-auto" />
+        <Image src="/light-logo.svg" alt="RubixKube" width={1720} height={200} className="rk-only-light h-[10px] w-auto" />
+        <Image src="/dark-logo.svg" alt="RubixKube" width={1720} height={200} className="rk-only-dark h-[10px] w-auto" />
       </span>
     </div>
   )
@@ -392,7 +393,8 @@ function HubbleLockup({ size = 'md' }: { size?: 'md' | 'lg' }) {
       <span className={`${mono} text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`} aria-hidden>
         by
       </span>
-      <Image src="/light-logo.svg" alt="" width={1720} height={200} className={`w-auto ${lg ? 'h-[15px]' : 'h-[14px]'}`} />
+      <Image src="/light-logo.svg" alt="" width={1720} height={200} className={`rk-only-light w-auto ${lg ? 'h-[15px]' : 'h-[14px]'}`} />
+      <Image src="/dark-logo.svg" alt="" width={1720} height={200} className={`rk-only-dark w-auto ${lg ? 'h-[15px]' : 'h-[14px]'}`} />
     </span>
   )
 }

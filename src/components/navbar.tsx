@@ -26,8 +26,13 @@ import {
   Building2,
   Workflow,
   Mic,
+  Moon,
+  Sun,
 } from 'lucide-react'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
+import { Kbd } from '@/components/ui/kbd'
+import { useKeyShortcut } from '@/lib/use-key-shortcut'
+import { useTheme } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
@@ -369,6 +374,13 @@ export function Navbar() {
     setMegaDesktop(m)
   }
 
+  // Keyboard first: L opens the console sign-in, B opens the booking calendar
+  useKeyShortcut('l', () => window.open(CONSOLE_URL, '_blank', 'noopener,noreferrer'))
+  useKeyShortcut('b', () => document.querySelector<HTMLElement>('[data-shortcut="book-demo"] button')?.click())
+  // D switches between light and dark
+  const { toggleTheme } = useTheme()
+  useKeyShortcut('d', toggleTheme)
+
   const toggleMega = (m: 'solutions' | 'resources') => {
     setMegaDesktop((prev) => (prev === m ? null : m))
   }
@@ -490,7 +502,7 @@ export function Navbar() {
       className={cn(
         'fixed top-[var(--announce-h)] right-0 left-0 z-[100] overflow-visible pt-[var(--nav-gap-top)] transition-[background-color,border-color,backdrop-filter] duration-300',
         scrolled || megaDesktop
-          ? 'border-b border-[var(--rule)] bg-[rgba(242,240,235,0.92)] backdrop-blur-[14px]'
+          ? 'border-b border-[var(--rule)] bg-[color-mix(in_srgb,var(--bg)_92%,transparent)] backdrop-blur-[14px]'
           : 'border-b border-transparent bg-transparent',
       )}
     >
@@ -501,11 +513,19 @@ export function Navbar() {
           aria-label="RubixKube home"
         >
           <Image
+            src="/dark-logo.svg"
+            alt=""
+            width={1720}
+            height={200}
+            className="rk-only-dark h-[18px] w-auto max-w-[min(156px,46vw)] sm:h-5 sm:max-w-[min(176px,44vw)] min-[1920px]:h-6 min-[1920px]:max-w-[min(200px,40vw)] min-[2560px]:h-[26px] min-[2560px]:max-w-[min(220px,38vw)]"
+            priority
+          />
+          <Image
             src="/light-logo.svg"
             alt=""
             width={1720}
             height={200}
-            className="h-[18px] w-auto max-w-[min(156px,46vw)] sm:h-5 sm:max-w-[min(176px,44vw)] min-[1920px]:h-6 min-[1920px]:max-w-[min(200px,40vw)] min-[2560px]:h-[26px] min-[2560px]:max-w-[min(220px,38vw)]"
+            className="rk-only-light h-[18px] w-auto max-w-[min(156px,46vw)] sm:h-5 sm:max-w-[min(176px,44vw)] min-[1920px]:h-6 min-[1920px]:max-w-[min(200px,40vw)] min-[2560px]:h-[26px] min-[2560px]:max-w-[min(220px,38vw)]"
             priority
           />
         </Link>
@@ -630,17 +650,23 @@ export function Navbar() {
               </Link>
             ))}
           </div>
-          <CalendlyBooking url={CALENDLY} variant="outline" size="sm" className={outlineBlueAccentNav}>
-            Book Demo
-          </CalendlyBooking>
+          <span data-shortcut="book-demo" className="contents">
+            <CalendlyBooking url={CALENDLY} variant="outline" size="sm" className={outlineBlueAccentNav}>
+              Book Demo
+              <Kbd>B</Kbd>
+            </CalendlyBooking>
+          </span>
           <Button asChild variant="primary" size="sm" className={launchConsoleClass}>
-            <Link href={CONSOLE_URL} target="_blank" rel="noopener noreferrer">
+            <Link href={CONSOLE_URL} target="_blank" rel="noopener noreferrer" aria-keyshortcuts="L">
               Launch Console
               <Rocket className="h-3.5 w-3.5 shrink-0 opacity-95" strokeWidth={2.25} aria-hidden />
+              <Kbd>L</Kbd>
             </Link>
           </Button>
+          <ThemeToggle onClick={toggleTheme} />
         </div>
 
+        <ThemeToggle onClick={toggleTheme} className="relative z-10 shrink-0 min-[1377px]:hidden" />
         <button
           type="button"
           className="relative z-10 shrink-0 rounded-md p-2 text-[var(--ink)] min-[1377px]:hidden"
@@ -811,5 +837,25 @@ export function Navbar() {
       </AnimatePresence>
     </motion.header>
     </>
+  )
+}
+
+/** Sun in dark, moon in light; the icons swap through the theme CSS so the first paint is right. */
+function ThemeToggle({ onClick, className = '' }: { onClick: () => void; className?: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title="Switch theme (D)"
+      aria-label="Switch between light and dark theme"
+      aria-keyshortcuts="D"
+      className={cn(
+        'rounded-md p-2 text-[var(--mid)] transition-colors hover:bg-[var(--rule)] hover:text-[var(--ink)] min-[1920px]:p-2.5',
+        className,
+      )}
+    >
+      <Moon className="rk-only-light h-[18px] w-[18px] min-[1920px]:h-5 min-[1920px]:w-5" strokeWidth={1.75} />
+      <Sun className="rk-only-dark h-[18px] w-[18px] min-[1920px]:h-5 min-[1920px]:w-5" strokeWidth={1.75} />
+    </button>
   )
 }

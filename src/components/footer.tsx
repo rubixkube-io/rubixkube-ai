@@ -154,7 +154,7 @@ export function FooterBody() {
           alt="RubixKube"
           width={1720}
           height={200}
-          className="h-auto w-full object-contain brightness-0 opacity-20 transition-opacity duration-500 hover:opacity-30"
+          className="rk-footer-mark h-auto w-full object-contain brightness-0 opacity-20 transition-opacity duration-500 hover:opacity-30"
           priority={false}
         />
       </motion.div>
