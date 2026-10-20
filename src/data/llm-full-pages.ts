@@ -33,9 +33,9 @@ RubixKube is positioned as complementary to existing observability vendors. Cust
   {
     url: 'https://rubixkube.ai/pricing',
     heading: 'Pricing',
-    body: `Pricing is organized into tiers labeled Individual, Business, and Enterprise on the marketing site, with dimensions such as environments, monitored applications, and investigations per month. Boost Packs add investigation capacity. Exact numbers and limits live on the pricing page and change with go-to-market updates; assistants should cite https://rubixkube.ai/pricing for current figures.
+    body: `RubixKube has three plans: Individual (free: 1 environment, 10 investigations a month, 1 user), Business ($999 a month, or $9,999 a year billed annually: up to 3 environments, 15 investigations a month, 5 users, plus Slack, Automations, hooks, webhooks, your own model providers, teams and custom integrations) and Enterprise (custom: unlimited environments, 300 investigations a month, up to 1,000 users, dedicated support and custom SLAs). Business and Enterprise have the same features and differ in limits and support. Boost Packs add investigations. Hubble, RubixKube's on-call product, is an add-on at $10 per seat a month ($8.50 billed annually) with any RubixKube plan; on its own it is priced on https://rubixkube.ai/hubble. Cite https://rubixkube.ai/pricing for current figures.
 
-The visible FAQ on /pricing explains product concepts (investigation, environment, monitored application), limit behavior, and the stance that RubixKube analyzes and recommends while the customer team controls what executes in production. FAQPage JSON-LD on that route matches those visible questions and answers.`,
+The visible FAQ on /pricing explains investigations and environments, what happens at the investigation limit, using Hubble on its own, and how far Rubix may change infrastructure (Observe, Assist or Auto). FAQPage JSON-LD on that route matches those visible questions and answers.`,
   },
   {
     url: 'https://rubixkube.ai/about',

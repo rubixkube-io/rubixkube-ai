@@ -1,7 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { ClosingCTA } from '@/components/closing-cta'
@@ -18,37 +21,70 @@ import { BillingToggle } from '@/components/ui/billing-toggle'
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 
 
-const freeIncludes = [
-  '1 environment',
-  'Up to 5 monitored applications',
-  '10 investigations per month',
-  '7-day data retention',
-  'Basic anomaly detection',
-]
+/**
+ * Names and limits match the console (console-next src/areas/account/plans.ts and planFeatures):
+ * only Individual has feature gates; Business and Enterprise differ in limits and support.
+ */
+const TIERS = [
+  {
+    name: 'Individual',
+    accent: 'border-l-[var(--green)] bg-[var(--green)]/[0.03]',
+    price: { monthly: '$0', annual: '$0' },
+    was: { monthly: null, annual: null },
+    unit: { monthly: 'forever', annual: 'forever' },
+    note: { monthly: 'No credit card. No time limit.', annual: 'No credit card. No time limit.' },
+    cta: 'start',
+    includes: [
+      '**1 environment**',
+      '10 investigations a month',
+      '1 user',
+      'Incidents, RCAs and Fix tasks',
+      'Rubix in the console, the CLI and your AI tools',
+    ],
+  },
+  {
+    name: 'Business',
+    accent: 'border-l-[var(--blue)] bg-[var(--blue)]/[0.03]',
+    price: { monthly: '$999', annual: '$9,999' },
+    was: { monthly: null, annual: '$11,988' },
+    unit: { monthly: 'per month', annual: 'per year, billed annually' },
+    note: { monthly: 'Switch to annual, save $1,989', annual: 'That is $833 a month.' },
+    cta: 'primary',
+    includes: [
+      '**Up to 3 environments**',
+      '15 investigations a month',
+      '5 users',
+      'Everything in Individual',
+      'Rubix in Slack',
+      'Automations, hooks and webhooks',
+      'Your own model providers',
+      'Teams and custom integrations',
+    ],
+  },
+  {
+    name: 'Enterprise',
+    accent: 'border-l-[var(--ink)] bg-[var(--ink)]/[0.03]',
+    price: { monthly: 'Custom', annual: 'Custom' },
+    was: { monthly: null, annual: null },
+    unit: { monthly: 'annual contract', annual: 'annual contract' },
+    note: { monthly: "We'll scope it together.", annual: "We'll scope it together." },
+    cta: 'outline',
+    includes: [
+      '**Unlimited environments**',
+      '300 investigations a month',
+      'Up to 1,000 users',
+      'Everything in Business',
+      'Dedicated support and custom SLAs',
+      'Onboarding with our team',
+    ],
+  },
+] as const
 
-const starterIncludes = [
-  'Up to 3 environments (AWS, GCP, Azure, or Kubernetes)',
-  'Up to 25 monitored applications',
-  '**50 investigations/month for first 3 months**',
-  '15 investigations/month from month 4',
-  '30-day data retention',
-  '5 users',
-  'Slack integration',
-  'Automatic analysis & RCA reports',
-  'Overage available at $8/investigation',
-]
-
-const enterpriseIncludes = [
-  'Unlimited environments',
-  'Unlimited monitored applications',
-  '**300 investigations/month**',
-  'Unlimited data retention',
-  'Anomaly detection & alert management',
-  'RBAC & SSO',
-  'Interactive Slack & Teams bot',
-  'IaC enhancements & ticket intelligence',
-  'Dedicated support & custom SLAs',
-  'Custom integrations & onboarding',
+const hubbleIncludes = [
+  'Rosters with rotations, layers and overrides',
+  'Escalation policies with timers',
+  'Phone app for iOS and Android',
+  "Every page arrives with Rubix's RCA attached",
 ]
 
 const boostPacks = [
@@ -62,6 +98,16 @@ const proofStats = [
   { n: '$48', u: '', c: 'text-[var(--green)]', l: 'Avg saved / incident' },
   { n: '2.8', u: ' min', c: 'text-[var(--blue)]', l: 'Mean time to understand' },
 ]
+
+/** A console screenshot in light and dark, swapped by the site theme. */
+function ThemedImage({ name, w, h, alt, sizes, className = '' }: { name: string; w: number; h: number; alt: string; sizes: string; className?: string }) {
+  return (
+    <>
+      <Image src={`/screenshots/platform/${name}-light.png`} alt={alt} width={w} height={h} sizes={sizes} className={`rk-only-light ${className}`} />
+      <Image src={`/screenshots/platform/${name}-dark.png`} alt={alt} width={w} height={h} sizes={sizes} className={`rk-only-dark ${className}`} />
+    </>
+  )
+}
 
 function FeatureItem({ item, inverted = false }: { item: string; inverted?: boolean }) {
   const isBold = item.startsWith('**') && item.endsWith('**')
@@ -86,11 +132,10 @@ export function PricingPageClient() {
   const prefersReducedMotion = useReducedMotion()
   const [isAnnual, setIsAnnual] = useState(false)
 
-  const starterPrice = isAnnual ? 169 : 199
-  const starterPeriod = isAnnual ? 'per month, billed annually' : 'per month'
+  const billing = isAnnual ? 'annual' : 'monthly'
 
   return (
-    <>
+    <div className="lining-nums">
       <Navbar />
 
       {/* Hero */}
@@ -148,7 +193,7 @@ export function PricingPageClient() {
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
           >
-            <BillingToggle isAnnual={isAnnual} onToggle={() => setIsAnnual(!isAnnual)} />
+            <BillingToggle isAnnual={isAnnual} onToggle={() => setIsAnnual(!isAnnual)} saving="Save up to 17%" />
           </motion.div>
 
           <motion.div
@@ -157,160 +202,86 @@ export function PricingPageClient() {
             className="border border-[var(--rule)]"
           >
             <div className="grid grid-cols-1 md:grid-cols-3">
-              {/* Free tier — green accent */}
-              <div className="flex flex-col border-b border-[var(--rule)] md:border-b-0 md:border-r border-l-2 border-l-[var(--green)] bg-[var(--green)]/[0.03] p-10">
-                <span
+              {TIERS.map((tier, i) => (
+                <div
+                  key={tier.name}
                   className={cn(
-                    'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase mb-6',
-                    rkMono10,
+                    'flex flex-col border-l-2 p-10',
+                    tier.accent,
+                    i < TIERS.length - 1 && 'border-b border-[var(--rule)] md:border-b-0 md:border-r',
                   )}
                 >
-                  Individual
-                </span>
-                <div className="mb-1">
-                  <span className="font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] font-light leading-none text-[var(--ink)]">
-                    $0
-                  </span>
-                </div>
-                <p
-                  className={cn(
-                    'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] mb-6',
-                    rkMono11,
-                  )}
-                >
-                  forever
-                </p>
-
-                <Button asChild variant="outline" className="w-full">
-                  <a
-                    href="https://console.rubixkube.ai"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Start for free
-                  </a>
-                </Button>
-                <p
-                  className={cn(
-                    'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] text-center mt-3 opacity-60',
-                    rkMono11,
-                  )}
-                >
-                  No credit card. No time limit.
-                </p>
-
-                <hr className="border-[var(--rule)] my-8" />
-                <ul className="space-y-2.5">
-                  {freeIncludes.map((item) => (
-                    <FeatureItem key={item} item={item} />
-                  ))}
-                </ul>
-              </div>
-
-              {/* Business tier — blue accent */}
-              <div className="flex flex-col border-b border-[var(--rule)] md:border-b-0 md:border-r border-l-2 border-l-[var(--blue)] bg-[var(--blue)]/[0.03] p-10">
-                <div className="flex items-center gap-3 mb-6">
                   <span
                     className={cn(
-                      'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase',
+                      'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase mb-6',
                       rkMono10,
                     )}
                   >
-                    Business
+                    {tier.name}
                   </span>
-                  <span
+                  <div className="mb-1 flex flex-wrap items-baseline gap-3">
+                    <span className="font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] font-light leading-none text-[var(--ink)]">
+                      {tier.price[billing]}
+                    </span>
+                    {tier.was[billing] && (
+                      <span className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,2.5vw,2rem)] font-light leading-none text-[var(--mid)] line-through decoration-1">
+                        <span className="sr-only">Was </span>
+                        {tier.was[billing]}
+                      </span>
+                    )}
+                  </div>
+                  <p
                     className={cn(
-                      'font-[family-name:var(--font-mono)] tracking-[0.1em] text-[var(--blue)] uppercase',
-                      rkMono9,
+                      'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] mb-6',
+                      rkMono11,
                     )}
                   >
-                    Early Access
-                  </span>
+                    {tier.unit[billing]}
+                  </p>
+
+                  {tier.cta === 'start' ? (
+                    <Button asChild variant="outline" className="w-full">
+                      <a href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
+                        Start for free
+                      </a>
+                    </Button>
+                  ) : (
+                    <CalendlyBooking url={CALENDLY} asChild>
+                      <Button variant={tier.cta} className="w-full">
+                        Contact us
+                      </Button>
+                    </CalendlyBooking>
+                  )}
+                  {tier.name === 'Business' && !isAnnual ? (
+                    <button
+                      type="button"
+                      onClick={() => setIsAnnual(true)}
+                      className={cn(
+                        'mt-3 cursor-pointer text-center font-[family-name:var(--font-mono)] font-light text-[var(--green)] underline decoration-[var(--green)]/40 underline-offset-2 hover:decoration-[var(--green)]',
+                        rkMono11,
+                      )}
+                    >
+                      {tier.note.monthly}
+                    </button>
+                  ) : (
+                    <p
+                      className={cn(
+                        'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] text-center mt-3 opacity-60',
+                        rkMono11,
+                      )}
+                    >
+                      {tier.note[billing]}
+                    </p>
+                  )}
+
+                  <hr className="border-[var(--rule)] my-8" />
+                  <ul className="space-y-2.5">
+                    {tier.includes.map((item) => (
+                      <FeatureItem key={item} item={item} />
+                    ))}
+                  </ul>
                 </div>
-                <div className="mb-1 flex items-baseline gap-3 flex-wrap">
-                  <span className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,3vw,2.5rem)] font-light leading-none text-[var(--faint)] line-through">
-                    $599
-                  </span>
-                  <span className="font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] font-light leading-none text-[var(--ink)]">
-                    ${starterPrice}
-                  </span>
-                </div>
-                <p
-                  className={cn(
-                    'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] mb-6',
-                    rkMono11,
-                  )}
-                >
-                  {starterPeriod}
-                </p>
-
-                <CalendlyBooking url={CALENDLY} asChild>
-                  <Button variant="primary" className="w-full">
-                    Get started
-                  </Button>
-                </CalendlyBooking>
-                <p
-                  className={cn(
-                    'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] text-center mt-3 opacity-60',
-                    rkMono11,
-                  )}
-                >
-                  Early access pricing. Your rate stays put when we raise ours.
-                </p>
-
-                <hr className="border-[var(--rule)] my-8" />
-                <ul className="space-y-2.5">
-                  {starterIncludes.map((item) => (
-                    <FeatureItem key={item} item={item} />
-                  ))}
-                </ul>
-              </div>
-
-              {/* Enterprise tier — ink accent */}
-              <div className="flex flex-col border-l-2 border-l-[var(--ink)] bg-[var(--ink)]/[0.03] p-10">
-                <span
-                  className={cn(
-                    'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase mb-6',
-                    rkMono10,
-                  )}
-                >
-                  Enterprise
-                </span>
-                <div className="mb-1">
-                  <span className="font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] font-light leading-none text-[var(--ink)]">
-                    Custom
-                  </span>
-                </div>
-                <p
-                  className={cn(
-                    'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] mb-6',
-                    rkMono11,
-                  )}
-                >
-                  pricing
-                </p>
-
-                <CalendlyBooking url={CALENDLY} asChild>
-                  <Button variant="outline" className="w-full">
-                    Talk to us
-                  </Button>
-                </CalendlyBooking>
-                <p
-                  className={cn(
-                    'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] text-center mt-3 opacity-60',
-                    rkMono11,
-                  )}
-                >
-                  Annual contract. We&apos;ll scope it together.
-                </p>
-
-                <hr className="border-[var(--rule)] my-8" />
-                <ul className="space-y-2.5">
-                  {enterpriseIncludes.map((item) => (
-                    <FeatureItem key={item} item={item} />
-                  ))}
-                </ul>
-              </div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -379,7 +350,7 @@ export function PricingPageClient() {
                   rkMono10,
                 )}
               >
-                Add-ons
+                Boost Packs
               </span>
               <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4 mb-4">
                 Need more{' '}
@@ -434,6 +405,112 @@ export function PricingPageClient() {
                   </CalendlyBooking>
                 </div>
               ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Hubble add-on */}
+      <section id="hubble" className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32 scroll-mt-20">
+        <div className="rk-landing-max px-[var(--pad)]">
+          <motion.div
+            variants={fadeUpVariants}
+            {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
+            className="grid grid-cols-1 overflow-hidden border border-[var(--rule)] lg:grid-cols-[1fr_1.15fr]"
+          >
+            <div className="flex flex-col p-10 sm:p-12">
+              <span
+                className={cn(
+                  'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase',
+                  rkMono10,
+                )}
+              >
+                Add-on
+              </span>
+              <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4vw,3.25rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4">
+                Add <span className="italic text-[var(--blue)]">Hubble</span> for <span className="whitespace-nowrap">on-call.</span>
+              </h2>
+              <p
+                className={cn(
+                  'font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mt-4',
+                  rkMono13,
+                )}
+              >
+                Rotations, escalation and paging on the web and on your phone. With RubixKube, the person on call gets the cause along with the page.
+              </p>
+
+              <div className="mt-8 flex items-baseline gap-3">
+                <span className="font-[family-name:var(--font-serif)] text-[clamp(2.5rem,4vw,3.5rem)] font-light leading-none text-[var(--ink)]">
+                  {isAnnual ? '$102' : '$10'}
+                </span>
+                {isAnnual && (
+                  <span className="font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2vw,1.6rem)] font-light leading-none text-[var(--mid)] line-through decoration-1">
+                    <span className="sr-only">Was </span>$120
+                  </span>
+                )}
+                <span className={cn('font-[family-name:var(--font-mono)] font-light text-[var(--mid)]', rkMono11)}>
+                  {isAnnual ? 'per seat, per year' : 'per seat, per month'}
+                </span>
+              </div>
+              <p className={cn('font-[family-name:var(--font-mono)] font-light text-[var(--mid)] mt-1 opacity-60', rkMono11)}>
+                {isAnnual ? 'That is $8.50 a month. ' : ''}With any RubixKube plan, at half the price of Hubble on its own.
+              </p>
+
+              <hr className="border-[var(--rule)] my-8" />
+              <ul className="space-y-2.5">
+                {hubbleIncludes.map((item) => (
+                  <FeatureItem key={item} item={item} />
+                ))}
+              </ul>
+
+              <div className="mt-10 flex flex-wrap items-center gap-3">
+                <CalendlyBooking url={CALENDLY} asChild>
+                  <Button variant="primary">Contact us</Button>
+                </CalendlyBooking>
+                <Button asChild variant="outline" className={outlineBlueAccentMd}>
+                  <Link href="/hubble">Explore Hubble</Link>
+                </Button>
+              </div>
+              <Link
+                href="/hubble#pricing"
+                className={cn(
+                  'group mt-6 inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] font-light text-[var(--mid)] hover:text-[var(--ink)]',
+                  rkMono11,
+                )}
+              >
+                Only need on-call? See Hubble pricing
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" strokeWidth={1.5} />
+              </Link>
+            </div>
+
+            <div
+              className="relative min-h-[420px] overflow-hidden border-t border-[var(--rule)] bg-[var(--background-secondary)] lg:border-t-0 lg:border-l"
+              style={{
+                backgroundImage:
+                  'radial-gradient(120% 90% at 0% 0%, rgba(47,91,255,0.16), transparent 60%), radial-gradient(90% 70% at 100% 100%, rgba(47,91,255,0.10), transparent 60%), radial-gradient(color-mix(in srgb, var(--ink) 8%, transparent) 1px, transparent 1px)',
+                backgroundSize: 'auto, auto, 14px 14px',
+              }}
+            >
+              <div className="absolute top-12 left-[20%] w-[135%] overflow-hidden rounded-lg border border-[var(--rule)] shadow-sm">
+                <ThemedImage
+                  name="hubble-oncall"
+                  alt="Hubble On call page: who is on call for each service, and the next handoffs"
+                  w={2880}
+                  h={1800}
+                  sizes="(max-width: 1024px) 130vw, 70vw"
+                  className="h-auto w-full"
+                />
+              </div>
+              <div className="absolute top-[30%] left-8 w-[32%] max-w-[220px] drop-shadow-[0_18px_28px_rgba(17,19,24,0.28)]">
+                <ThemedImage
+                  name="hubble-phone"
+                  alt="Hubble phone app: an incident waiting for acknowledgement"
+                  w={780}
+                  h={1640}
+                  sizes="220px"
+                  className="h-auto w-full"
+                />
+              </div>
             </div>
           </motion.div>
         </div>
@@ -499,6 +576,6 @@ export function PricingPageClient() {
         subline="See what RubixKube saves your team every month."
       />
       <Footer />
-    </>
+    </div>
   )
 }
