@@ -52,7 +52,7 @@ const TIERS = [
     cta: 'primary',
     includes: [
       '**Up to 3 environments**',
-      '30 investigations a month',
+      '100 investigations a month',
       '5 users',
       'Everything in Individual',
       'Rubix in Slack',
@@ -88,12 +88,12 @@ const hubbleIncludes = [
 ]
 
 /**
- * Business includes 30 investigations for $999 (about $33 each, $28 on annual). Packs sit just
+ * Business includes 100 investigations for $999 (about $10 each, $8.33 on annual). Packs sit just
  * under that, so a busy month costs no more than the plan's own rate; steady volume is Enterprise.
  */
 const boostPacks = [
-  { name: 'Boost S', investigations: 10, price: 300, perInvestigation: 30 },
-  { name: 'Boost M', investigations: 25, price: 625, perInvestigation: 25 },
+  { name: 'Boost S', investigations: 25, price: 225, perInvestigation: 9 },
+  { name: 'Boost M', investigations: 50, price: 400, perInvestigation: 8 },
 ]
 
 const proofStats = [
