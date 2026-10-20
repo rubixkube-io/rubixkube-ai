@@ -15,9 +15,13 @@ Primary audiences are platform engineering and SRE teams on Kubernetes-heavy, cl
   {
     url: 'https://rubixkube.ai/platform',
     heading: 'Platform',
-    body: `The platform page describes how RubixKube operationalizes SRI in production. A lightweight observer agent runs in customer Kubernetes clusters and pulls telemetry on demand from standard pipelines (for example OpenTelemetry, Jaeger, and Tempo style sources). Events and context feed services that correlate signals, build causal understanding, and coordinate specialized agents across the incident lifecycle.
+    body: `The platform page presents RubixKube's products. Rubix, an AI agent, watches your infrastructure, finds the cause when something breaks, and fixes it with you.
 
-Differentiation on this route is architectural: conversational operations, graph-backed knowledge, integrations with collaboration and ticketing tools, and governed autonomy so recommendations and actions map to organizational policy. Technical implementation in the wider product stack includes event-driven services, graph storage for relationships and RCA context, and multi-tenant isolation at API and data layers.`,
+RubixKube Console is one place to see what broke, why, and what to do next, across clusters, machines, clouds and monitoring tools. Read-only observers run in Kubernetes clusters, on Linux machines and in AWS and Google Cloud accounts; Datadog, PagerDuty, Grafana and Sentry send alerts by webhook. Rubix groups related alerts into one incident and investigates each group once into an RCA (root cause analysis). Every claim in an RCA cites the logs, events and changes behind it, and each RCA ends with a Fix and Follow-ups as Tasks. Rubix applies fixes: with GitHub connected it opens pull requests, and with connected tools it makes the change; autonomy is Observe (reads only), Assist (asks before every change) or Auto (makes changes, asks before destructive ones). People can also ask Rubix in Slack or from AI tools.
+
+Hubble is on-call and paging: rosters, escalation policies with timers, acknowledgements from a phone app or Slack, and contact rules per person (details at /hubble).
+
+Rubix CLI (npm package @rubixkube/rubix) lets engineers ask Rubix about incidents and environments from the terminal. Kepler, part of the same ecosystem, is the desktop app (the SRE IDE): an agent that works on the operator's own machine with their credentials and keeps a local memory of their systems.`,
   },
   {
     url: 'https://rubixkube.ai/solutions',

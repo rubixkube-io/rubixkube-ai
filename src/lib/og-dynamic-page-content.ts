@@ -5,10 +5,10 @@
 export const dynamicOgPageContent = {
   platform: {
     eyebrow: 'RubixKube',
-    title: 'AI agents for reliability',
+    title: 'Know why it broke, in minutes',
     description:
-      'Explore our agent mesh that observes, plans, acts, and learns—closed-loop remediation with guardrails, audit trails, and clear explanations.',
-    accent: 'Observe · Plan · Act · Learn',
+      'Rubix watches your infrastructure, finds the cause when something breaks, and fixes it with you.',
+    accent: 'Console · Hubble · Kepler · CLI',
   },
   hubble: {
     eyebrow: 'Hubble by RubixKube',
