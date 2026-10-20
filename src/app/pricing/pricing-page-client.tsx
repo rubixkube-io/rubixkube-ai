@@ -74,6 +74,7 @@ const TIERS = [
       'Custom investigation volume',
       'Up to 1,000 users',
       'Everything in Business',
+      'Self-hosted deployment',
       'Dedicated support and custom SLAs',
       'Onboarding with our team',
     ],
