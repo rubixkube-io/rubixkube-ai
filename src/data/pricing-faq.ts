@@ -10,7 +10,7 @@ export const pricingFaqItems = [
   },
   {
     q: 'What happens when I hit my investigation limit?',
-    a: "On Individual, new investigations pause until next month. On Business, add a Boost Pack, or talk to us about Enterprise if you need more every month.",
+    a: "On Individual, new investigations pause until next month. On Business, talk to us. If you need more every month, Enterprise sets the volume to fit.",
   },
   {
     q: 'Can I use Hubble without RubixKube?',

@@ -52,7 +52,7 @@ const TIERS = [
     cta: 'primary',
     includes: [
       '**Up to 3 environments**',
-      '100 investigations a month',
+      '100 investigations, about $10 each',
       '5 users',
       'Everything in Individual',
       'Rubix in Slack',
@@ -71,7 +71,7 @@ const TIERS = [
     cta: 'outline',
     includes: [
       '**Unlimited environments**',
-      '300 investigations a month',
+      'Custom investigation volume',
       'Up to 1,000 users',
       'Everything in Business',
       'Dedicated support and custom SLAs',
@@ -85,15 +85,6 @@ const hubbleIncludes = [
   'Escalation policies with timers',
   'Phone app for iOS and Android',
   "Every page arrives with Rubix's RCA attached",
-]
-
-/**
- * Business includes 100 investigations for $999 (about $10 each, $8.33 on annual). Packs sit just
- * under that, so a busy month costs no more than the plan's own rate; steady volume is Enterprise.
- */
-const boostPacks = [
-  { name: 'Boost S', investigations: 25, price: 225, perInvestigation: 9 },
-  { name: 'Boost M', investigations: 50, price: 400, perInvestigation: 8 },
 ]
 
 const proofStats = [
@@ -339,81 +330,6 @@ export function PricingPageClient() {
         </div>
       </section>
 
-      {/* Boost Packs — ruled sub-grid */}
-      <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] py-24 sm:py-32">
-        <div className="rk-landing-max px-[var(--pad)]">
-          <motion.div
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
-            className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-16 lg:gap-[80px] items-start"
-          >
-            <div>
-              <span
-                className={cn(
-                  'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase',
-                  rkMono10,
-                )}
-              >
-                Boost Packs
-              </span>
-              <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4 mb-4">
-                Need more{' '}
-                <span className="italic text-[var(--blue)]">investigations?</span>
-              </h2>
-              <p
-                className={cn(
-                  'font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)]',
-                  rkMono13,
-                )}
-              >
-                For a busy month on Business. Each pack is a one-time top-up, priced below the plan&apos;s own rate, and unused investigations roll over to the next month. If you need more every month, Enterprise is the better fit.
-              </p>
-            </div>
-
-            <div className="border border-[var(--rule)]">
-              {boostPacks.map((pack, i) => (
-                <div
-                  key={pack.name}
-                  className={cn(
-                    'flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 p-8 bg-[var(--bg)] transition-colors hover:bg-[var(--surface)]',
-                    i !== 0 && 'border-t border-[var(--rule)]',
-                  )}
-                >
-                  <div className="flex-1">
-                    <span
-                      className={cn(
-                        'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase',
-                        rkMono10,
-                      )}
-                    >
-                      {pack.name}
-                    </span>
-                    <div className="flex items-baseline gap-2 mt-2">
-                      <span className="font-[family-name:var(--font-serif)] text-[clamp(2rem,3vw,3rem)] font-light leading-none text-[var(--ink)]">
-                        ${pack.price}
-                      </span>
-                    </div>
-                    <p
-                      className={cn(
-                        'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] mt-1',
-                        rkMonoXs,
-                      )}
-                    >
-                      {pack.investigations} investigations &middot; ${pack.perInvestigation} each
-                    </p>
-                  </div>
-                  <CalendlyBooking url={CALENDLY} asChild>
-                    <Button variant="outline" size="sm">
-                      Add pack
-                    </Button>
-                  </CalendlyBooking>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Hubble add-on */}
       <section id="hubble" className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32 scroll-mt-20">
         <div className="rk-landing-max px-[var(--pad)]">
@@ -576,8 +492,8 @@ export function PricingPageClient() {
       </section>
 
       <ClosingCTA
-        headline="Calculate your ROI"
-        subline="See what RubixKube saves your team every month."
+        headline="See RubixKube on your own systems"
+        subline="Book a 30-minute walkthrough with our team."
       />
       <Footer />
     </div>

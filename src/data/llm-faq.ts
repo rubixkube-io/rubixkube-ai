@@ -95,7 +95,7 @@ export const llmFaqItems = [
   /* ── Pricing & getting started ───────────────────────────────── */
   {
     q: 'How much does RubixKube cost?',
-    a: 'RubixKube has three plans: Individual (free), Business ($999 a month, or $9,999 a year) and Enterprise (custom), set by environments, investigations a month and users. Boost Packs add investigations, and Hubble adds on-call at $10 per seat a month. See https://rubixkube.ai/pricing for current pricing, plan limits, and the full pricing FAQ.',
+    a: 'RubixKube has three plans: Individual (free), Business ($999 a month, or $9,999 a year) and Enterprise (custom), set by environments, investigations a month and users. Hubble adds on-call at $10 per seat a month. See https://rubixkube.ai/pricing for current pricing, plan limits, and the full pricing FAQ.',
   },
   {
     q: 'Is there a free tier or trial for RubixKube?',
