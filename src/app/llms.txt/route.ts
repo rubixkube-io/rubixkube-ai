@@ -35,7 +35,7 @@ https://rubixkube.ai/            | Homepage: SRI value prop. Infra that heals it
 https://rubixkube.ai/platform    | Products: RubixKube Console, Hubble (on-call), Kepler (desktop SRE IDE) and Rubix CLI; less noise, the cause in minutes, coverage across the stack
 https://rubixkube.ai/hubble      | Hubble by RubixKube: on-call rosters, escalation with timers, acknowledgements, contact rules, phone app, Slack
 https://rubixkube.ai/solutions   | Outcomes: MTTR, alert noise, safe operations, reliability for the AI era
-https://rubixkube.ai/pricing     | Plans (Individual, Business, Enterprise), investigations, Boost Packs, FAQ
+https://rubixkube.ai/pricing     | Plans (Individual, Business, Enterprise), the Hubble add-on, FAQ
 https://rubixkube.ai/about       | About (company page): why we exist, infra complexity, SRI as the path forward
 https://rubixkube.ai/resources   | Docs, guides, tutorials, and hands-on demos
 https://rubixkube.ai/podcast     | The Root Cause podcast: episodes on SRI, autonomous ops, and beyond observability

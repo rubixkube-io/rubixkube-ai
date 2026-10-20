@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { rkMono9, rkMono11 } from '@/lib/landing-responsive-type'
 
 /** Monthly or annual billing switch, shared by the pricing pages. */
-export function BillingToggle({ isAnnual, onToggle }: { isAnnual: boolean; onToggle: () => void }) {
+export function BillingToggle({ isAnnual, onToggle, saving = 'Save 15%' }: { isAnnual: boolean; onToggle: () => void; saving?: string }) {
   return (
     <div className="flex justify-center mb-12">
       <div className="inline-flex rounded-full border border-[var(--rule)] bg-[var(--bg)] p-1">
@@ -39,7 +39,7 @@ export function BillingToggle({ isAnnual, onToggle }: { isAnnual: boolean; onTog
               rkMono9,
             )}
           >
-            Save 15%
+            {saving}
           </span>
         </button>
       </div>
