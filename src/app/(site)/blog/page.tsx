@@ -8,7 +8,7 @@ import { sanityCoverOgFields } from "@/lib/sanity-cover-og"
 const POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
-]|order(featured desc, publishedAt desc)[0...12]{
+]|order(featured desc, publishedAt desc){
   _id,
   title,
   slug,
@@ -24,7 +24,7 @@ const FILTERED_POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
   && $category in categories[]->title
-]|order(featured desc, publishedAt desc)[0...12]{
+]|order(featured desc, publishedAt desc){
   _id,
   title,
   slug,
