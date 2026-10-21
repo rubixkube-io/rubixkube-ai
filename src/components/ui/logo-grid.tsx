@@ -37,7 +37,7 @@ export function LogoGrid({ title, subtitle, compact = false }: LogoGridProps) {
             {title}
           </h2>
           {subtitle && (
-            <p className="text-xs text-foreground-muted/70">{subtitle}</p>
+            <p className="text-[13px] text-foreground-muted/70">{subtitle}</p>
           )}
         </div>
       )}

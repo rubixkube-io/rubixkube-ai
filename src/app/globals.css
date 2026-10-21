@@ -5,6 +5,8 @@
   /* Same family names as redesign.html Google Fonts CSS (not next/font — avoids heavier fallbacks / subset mismatch) */
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-mono: "DM Mono", ui-monospace, monospace;
+  /* The console's sans, used only for long reading: article bodies and legal pages */
+  --font-figtree: "Figtree", system-ui, sans-serif;
 
   --bg: #f2f0eb;
   --ink: #111318;
@@ -25,7 +27,8 @@
   --nav-gap-top: 0px;
   --nav-height: 4rem;
   /* Launch announcement bar above the header; html.rk-announce-off collapses it */
-  --announce-h: 36px;
+  /* No announcement bar is shown; set this back to 36px when <AnnouncementBar /> returns to the navbar */
+  --announce-h: 0px;
   --nav-stack: calc(var(--nav-height) + var(--nav-gap-top) + var(--announce-h));
 
   /* Bridge legacy Tailwind token names */
@@ -147,6 +150,123 @@ html[data-theme='dark'] .rk-logo img {
   mix-blend-mode: screen;
 }
 
+/* On light, multiply so a logo's white box blends into the paper */
+html:not([data-theme='dark']) .rk-logo img {
+  mix-blend-mode: multiply;
+}
+
+/* One-colour customer marks in the hero (LogoMark) */
+:root {
+  --logo-ink: rgba(17, 19, 24, 0.35);
+  --logo-ink-hover: rgba(17, 19, 24, 0.85);
+}
+html[data-theme='dark'] {
+  --logo-ink: rgba(242, 240, 235, 0.32);
+  --logo-ink-hover: rgba(242, 240, 235, 0.9);
+}
+
+/* The breathing halftone on the hero cover (HeroBloom): ink dots, a little lighter in dark mode */
+:root {
+  --bloom-alpha: 0.5;
+}
+html[data-theme='dark'] {
+  --bloom-alpha: 0.42;
+}
+
+/* Customer logos under the hero cover: one row, full width, fading out at the edges */
+.rk-ticker {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+.rk-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: rk-ticker 70s linear infinite;
+}
+.rk-ticker:hover .rk-ticker-track {
+  animation-play-state: paused;
+}
+@keyframes rk-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rk-ticker-track {
+    animation: none;
+  }
+}
+
+/* The console film panel (FeaturedFilm): a dark card in both themes, for contrast on the light
+   page; only the console screenshot inside follows the theme */
+:root {
+  --film-bg: #0f1013;
+  --film-ink: #f4f2ec;
+  --film-ring: rgba(255, 255, 255, 0.05);
+  --film-dot: rgba(236, 234, 228, 0.07);
+  --film-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+}
+html[data-theme='dark'] {
+  --film-bg: #17181c;
+  --film-ring: rgba(255, 255, 255, 0.1);
+}
+
+/* Section headings on the home page, in the hero's type: Figtree semibold, set tight. A class
+   so it beats the base h1-h6 rule, which sits outside Tailwind's layers. */
+.rk-section-title {
+  font-family: var(--font-figtree);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+/* The phrase that matters in a title is set in the serif's italic, in the accent blue. The serif
+   runs small, so it is set larger. */
+.rk-section-title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.12em;
+  letter-spacing: -0.01em;
+  line-height: 0;
+  color: var(--blue);
+}
+/* Body text under section titles: Figtree, readable size, roomy lines */
+.rk-section-body {
+  font-family: var(--font-figtree);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+/* Customer quotes: Figtree regular, set a little tight, no italics */
+.rk-section-quote {
+  font-family: var(--font-figtree);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -0.015em;
+}
+
+/* The hero cover, after the console's "Paper and ink" design language: one very large
+   Figtree headline set tight, and a Figtree lede at the foot */
+.rk-cover-title {
+  font-family: var(--font-figtree);
+  font-weight: 600;
+  font-size: clamp(2.75rem, 7.2vw, 8rem);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-wrap: balance;
+  animation: rk-hero-fadeup 1.2s 0.2s both;
+}
+.rk-cover-lede {
+  font-family: var(--font-figtree);
+  font-weight: 400;
+  font-size: clamp(19px, 1.75vw, 26px);
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+}
+
 /* Single-colour dark logos (Cursor, MCP) turn light on dark */
 html[data-theme='dark'] .rk-mono-logo {
   filter: invert(1);
@@ -224,8 +344,7 @@ html.rk-announce-off {
   --color-rk-red: var(--red);
 
   --font-sans: var(--font-mono), ui-monospace, monospace;
-  /* Omit ui-serif — system display serifs read much heavier than Cormorant 300 */
-  --font-heading: var(--font-serif);
+  --font-heading: var(--font-figtree);
 }
 
 html {
@@ -255,16 +374,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
-  font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+/* Headings default to Figtree semibold. In the base layer, so a utility class on a heading
+   (a font, weight or size) wins over it. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
 }
 
 * {
@@ -498,6 +621,26 @@ h6 {
   font-synthesis: none;
 }
 
+/* Sans cover headline, from the console's "Paper and ink" design language: Figtree regular,
+   set tight, with the accent in plain blue */
+.rk-hero-headline.rk-hero-headline--sans {
+  font-family: var(--font-figtree);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(3rem, 8.4vw, 7.6rem);
+}
+.rk-hero-headline.rk-hero-headline--sans .rk-hero-headline-accent {
+  font-weight: 400;
+  font-style: normal;
+}
+@media (min-width: 1600px) {
+  .rk-hero-headline.rk-hero-headline--sans { font-size: clamp(4rem, 7.6vw, 9rem); }
+}
+@media (min-width: 2560px) {
+  .rk-hero-headline.rk-hero-headline--sans { font-size: clamp(5rem, 6vw, 12rem); }
+}
+
 .rk-hero-headline .rk-hero-headline-muted {
   font-weight: 300;
   color: var(--text-soft);
@@ -505,30 +648,30 @@ h6 {
 
 /* Hero display: cap lifts on ultra-wide / 4K so type doesn’t stay “laptop sized” */
 .rk-hero-display {
-  font-size: clamp(4rem, 8.5vw, 7.5rem);
+  font-size: clamp(3.5rem, 7.5vw, 6.6rem);
 }
 
 @media (max-width: 640px) {
   .rk-hero-display {
-    font-size: clamp(3rem, 14vw, 4.5rem);
+    font-size: clamp(2.65rem, 12.3vw, 4rem);
   }
 }
 
 @media (min-width: 1600px) {
   .rk-hero-display {
-    font-size: clamp(4.25rem, 7.5vw, 8.5rem);
+    font-size: clamp(3.75rem, 6.6vw, 7.5rem);
   }
 }
 
 @media (min-width: 1920px) {
   .rk-hero-display {
-    font-size: clamp(4.5rem, 6.8vw, 10rem);
+    font-size: clamp(4rem, 6vw, 8.8rem);
   }
 }
 
 @media (min-width: 2560px) {
   .rk-hero-display {
-    font-size: clamp(4.75rem, 5.8vw, 11.5rem);
+    font-size: clamp(4.2rem, 5.1vw, 10.1rem);
   }
 }
 
@@ -647,7 +790,7 @@ h6 {
 
 @media (max-width: 640px) {
   .rk-hero-eyebrow {
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 
@@ -728,9 +871,9 @@ h6 {
 /* Prose — blog & legal */
 .prose {
   color: var(--foreground);
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 300;
+  font-family: var(--font-figtree);
+  font-size: 16px;
+  font-weight: 400;
   line-height: 1.7;
 }
 
@@ -742,9 +885,9 @@ h6 {
 .prose h6 {
   color: var(--foreground);
   font-family: var(--font-heading);
-  font-weight: 300;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .prose p {

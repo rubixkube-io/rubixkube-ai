@@ -3,13 +3,11 @@
 import { motion } from 'framer-motion'
 import { CheckCircle } from 'lucide-react'
 import { Navbar } from '@/components/navbar'
+import { PageHero } from '@/components/page-hero'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
 import { ClosingCTA } from '@/components/closing-cta'
-import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { SynapseAnimation } from '@/components/ui/synapse-animation'
 import { fadeUpVariants, staggerContainer, fadeUp } from '@/lib/animations'
-import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 
 
 const BELIEFS = [
@@ -53,53 +51,10 @@ export function AboutPageClient() {
 
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="relative bg-[var(--bg)]">
-        <div className="rk-landing-max px-[var(--pad)] pt-[calc(var(--nav-stack)+5rem)] pb-28 sm:pb-36 text-center">
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col items-center gap-6"
-          >
-            <motion.p
-              variants={fadeUpVariants}
-              className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase"
-            >
-              About
-            </motion.p>
-
-            <motion.h1
-              variants={fadeUpVariants}
-              className="font-[family-name:var(--font-serif)] text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] max-w-3xl"
-            >
-              Building the Bridge Between{' '}
-              <span className="italic text-[var(--blue)]">
-                Infrastructure &amp; Impact
-              </span>
-            </motion.h1>
-
-            <motion.p
-              variants={fadeUpVariants}
-              className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)] max-w-xl"
-            >
-              We did not start with a product idea. We started with a feeling
-              we could not ignore.
-            </motion.p>
-
-            <motion.div
-              variants={fadeUpVariants}
-              className="flex flex-col sm:flex-row gap-3"
-            >
-              <Button asChild variant="primary">
-                <a href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
-                  Get Started
-                </a>
-              </Button>
-              <CalendlyBooking url="https://calendly.com/rubixkube-ai/30min" variant="outline" className={outlineBlueAccentMd}>
-                Book a Demo
-              </CalendlyBooking>
-            </motion.div>
-          </motion.div>
-        </div>
+        <PageHero
+          title="Building the Bridge Between Infrastructure & Impact."
+          lede="We did not start with a product idea. We started with a feeling we could not ignore."
+        />
       </section>
 
       {/* ── Problem + Solution ─────────────────────────── */}
@@ -112,39 +67,39 @@ export function AboutPageClient() {
           >
             {/* Left: problem */}
             <motion.div variants={fadeUpVariants} className="flex flex-col gap-5 md:pr-16 lg:pr-20">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 Why we exist
               </span>
-              <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.05] tracking-[-0.01em] text-[var(--ink)]">
+              <h2 className="rk-section-title m-0 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]">
                 The problem we couldn&apos;t{' '}
-                <span className="italic text-[var(--blue)]">ignore.</span>
+                <em>ignore.</em>
               </h2>
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+              <p className="rk-section-body m-0 text-[var(--mid)]">
                 Infrastructure complexity crossed a threshold. Millions of signals across hundreds of services, namespaces, and dependencies, every second. No engineer, no matter how experienced, can hold that topology in their head anymore. The system outgrew the human mind. And it&apos;s not slowing down.
               </p>
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+              <p className="rk-section-body m-0 text-[var(--mid)]">
                 The industry responded with more dashboards. More alerts. More surfaces for people to stare at. But instrumenting everything and automating nothing isn&apos;t a strategy. It&apos;s a tax on your best people.
               </p>
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+              <p className="rk-section-body m-0 text-[var(--mid)]">
                 We believe infrastructure should become invisible. Self-healing. Systems that detect, reason, and resolve on their own, not systems that page a human and hope they have enough context to act.
               </p>
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+              <p className="rk-section-body m-0 text-[var(--mid)]">
                 That waste of talent and cognitive load is why we built RubixKube.
               </p>
             </motion.div>
 
             {/* Right: solution (with left border divider) */}
             <motion.div variants={fadeUpVariants} className="flex flex-col gap-5 border-t border-[var(--rule)] pt-12 md:border-t-0 md:pt-0 md:border-l md:pl-16 lg:pl-20">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 The solution
               </span>
-              <h3 className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,3.5vw,3rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)]">
-                Site Reliability <span className="italic text-[var(--blue)]">Intelligence.</span>
+              <h3 className="rk-section-title m-0 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]">
+                Site Reliability <em>Intelligence.</em>
               </h3>
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+              <p className="rk-section-body m-0 text-[var(--mid)]">
                 Not another monitoring layer. An intelligent system that closes the entire loop: detection, reasoning, resolution, learning, without waiting for a human in the middle.
               </p>
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+              <p className="rk-section-body m-0 text-[var(--mid)]">
                 It builds a living model of your infrastructure that compounds with every signal. Context that never resets. Awareness that never stops.
               </p>
 
@@ -167,12 +122,12 @@ export function AboutPageClient() {
             className="flex flex-col gap-14"
           >
             <motion.div variants={fadeUpVariants} className="flex flex-col gap-3">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 What we believe
               </span>
-              <h2 className="font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
+              <h2 className="rk-section-title m-0 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]">
                 Principles that shape every{' '}
-                <span className="italic text-[var(--blue)]">decision.</span>
+                <em>decision.</em>
               </h2>
             </motion.div>
 
@@ -181,15 +136,12 @@ export function AboutPageClient() {
                 <motion.div
                   key={belief.title}
                   variants={fadeUpVariants}
-                  className="rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-8 flex flex-col gap-4"
+                  className="rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] p-8 flex flex-col gap-3"
                 >
-                  <span
-                    style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
-                    className="text-[14px] text-[var(--ink)] leading-[1.4]"
-                  >
+                  <span className="rk-section-title text-[1.1rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">
                     {belief.title}
                   </span>
-                  <p className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60">
+                  <p className="rk-section-body m-0 text-[15px] text-[var(--mid)]">
                     {belief.body}
                   </p>
                 </motion.div>
@@ -208,18 +160,18 @@ export function AboutPageClient() {
             className="flex flex-col gap-14"
           >
             <motion.div variants={fadeUpVariants} className="flex flex-col gap-3">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 The impact
               </span>
-              <h2 className="font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
+              <h2 className="rk-section-title m-0 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]">
                 What this means for your{' '}
-                <span className="italic text-[var(--blue)]">team.</span>
+                <em>team.</em>
               </h2>
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-12">
               <motion.div variants={fadeUpVariants} className="flex flex-col gap-6">
-                <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                <p className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                   What this means for your team
                 </p>
                 <ul className="flex flex-col gap-4">
@@ -227,9 +179,9 @@ export function AboutPageClient() {
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle
                         size={16}
-                        className="mt-0.5 shrink-0 text-[var(--blue)]"
+                        className="mt-1 shrink-0 text-[var(--ink)]"
                       />
-                      <span className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                      <span className="rk-section-body text-[var(--mid)]">
                         {item}
                       </span>
                     </li>
@@ -238,7 +190,7 @@ export function AboutPageClient() {
               </motion.div>
 
               <motion.div variants={fadeUpVariants} className="flex flex-col gap-6">
-                <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                <p className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                   What this means for your business
                 </p>
                 <ul className="flex flex-col gap-4">
@@ -246,9 +198,9 @@ export function AboutPageClient() {
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle
                         size={16}
-                        className="mt-0.5 shrink-0 text-[var(--blue)]"
+                        className="mt-1 shrink-0 text-[var(--ink)]"
                       />
-                      <span className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]">
+                      <span className="rk-section-body text-[var(--mid)]">
                         {item}
                       </span>
                     </li>

@@ -59,7 +59,7 @@ function formatUtc(iso: string): string {
   return `${d.getUTCDate()} ${month}, ${iso.slice(11, 16)} UTC`
 }
 
-const cardTitle = `${mono} mb-4 text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`
+const cardTitle = `${mono} mb-4 text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`
 const card = 'rounded-[6px] border border-[var(--rule)] bg-[var(--bg)]'
 
 function Leaderboard({ solvers }: { solvers: AfterHoursSolver[] }) {
@@ -69,7 +69,7 @@ function Leaderboard({ solvers }: { solvers: AfterHoursSolver[] }) {
         <h2 className={`${serif} text-[1.5rem] leading-none font-light text-[var(--ink)]`}>
           Found <span className="italic text-[var(--blue)]">him.</span>
         </h2>
-        <span className={`${mono} text-[11px] font-light text-[var(--mid)]`}>
+        <span className={`${mono} text-[13px] font-light text-[var(--mid)]`}>
           {solvers.length} {solvers.length === 1 ? 'operator' : 'operators'}
         </span>
       </div>
@@ -102,7 +102,7 @@ function Leaderboard({ solvers }: { solvers: AfterHoursSolver[] }) {
         </ol>
       )}
 
-      <p className={`${mono} border-t border-[var(--rule)] px-5 py-3 text-[11px] leading-relaxed font-light text-[var(--mid)]`}>
+      <p className={`${mono} border-t border-[var(--rule)] px-5 py-3 text-[13px] leading-relaxed font-light text-[var(--mid)]`}>
         Time from launch. Every entry is a verified Operator Key.
       </p>
     </div>
@@ -208,9 +208,9 @@ function LetterSection({ challenge, solvers, first }: { challenge: AfterHoursCha
                   <Image src="/logo-icon.png" alt="" width={18} height={18} className="h-[18px] w-[18px]" />
                   RubixKube
                 </span>
-                <time className={`${mono} shrink-0 text-[12px] font-light text-[var(--mid)]`}>{challenge.date}</time>
+                <time className={`${mono} shrink-0 text-[13px] font-light text-[var(--mid)]`}>{challenge.date}</time>
               </div>
-              <p className={`${mono} mt-5 text-[12px] font-light text-[var(--mid)]`}>
+              <p className={`${mono} mt-5 text-[13px] font-light text-[var(--mid)]`}>
                 Re: Challenge {challenge.id}, {challenge.title}
               </p>
             </header>
@@ -300,7 +300,7 @@ export async function AfterHoursLetter({ challenge, path, also = [] }: { challen
             </div>
 
             {solvers.length > 0 && (
-              <a href="#found" className={`${mono} mt-8 text-[12px] font-light text-[var(--mid)] underline-offset-4 hover:text-[var(--blue)] hover:underline`}>
+              <a href="#found" className={`${mono} mt-8 text-[13px] font-light text-[var(--mid)] underline-offset-4 hover:text-[var(--blue)] hover:underline`}>
                 Found by {solvers.length} so far. Fastest: {formatElapsed(solvers[0].elapsed)}.
               </a>
             )}

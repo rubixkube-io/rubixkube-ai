@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Dev only: lets a phone on the same network load the dev server, e.g. DEV_ORIGINS=192.168.1.7
+  allowedDevOrigins: process.env.DEV_ORIGINS?.split(',').filter(Boolean),
   transpilePackages: ['@sanity/image-url', '@lobehub/icons'],
 
   // PostHog through this site's own address, so ad blockers don't drop it.
@@ -20,6 +22,8 @@ const nextConfig: NextConfig = {
       // Legacy OG asset was JPEG; marketing card is now exported as PNG.
       { source: '/og.jpg', destination: '/og.png', permanent: true },
       { source: '/og.jpeg', destination: '/og.png', permanent: true },
+      // /why was folded into the home page
+      { source: '/why', destination: '/', permanent: true },
     ]
   },
 

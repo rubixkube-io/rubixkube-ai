@@ -2,9 +2,9 @@
 
 import { useId } from 'react'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { SectionLabel } from '@/components/ui/section-label'
-import { landingCtaArrowSmClass, landingCtaLinkSm } from '@/lib/landing-inline-cta'
+import { siteLink, siteLinkArrow } from '@/lib/site-ui'
 import { landingSectionKickerClass } from '@/lib/landing-section-kicker'
 import { rkMono11, rkMono13, rkMono15Lead } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
@@ -289,15 +289,15 @@ const cards = [
 ] as const
 
 const intelCardTimeClass = cn(
-  'mb-4 font-[family-name:var(--font-mono)] font-medium text-[var(--blue)]',
+  'mb-4 font-[family-name:var(--font-mono)] font-medium text-[var(--mid)]',
   rkMono11,
 )
 
 const intelCardTitleClass =
-  'mb-3 font-[family-name:var(--font-serif)] text-[clamp(1.5rem,2.35vw,2.25rem)] font-light leading-[1.12] tracking-[-0.02em] text-[var(--ink)] min-[1920px]:text-[2.5rem] min-[2560px]:text-[2.75rem]'
+  'mb-3 rk-section-title text-[clamp(1.3rem,1.9vw,1.85rem)] leading-[1.15] text-[var(--ink)] min-[1920px]:text-[2.1rem] min-[2560px]:text-[2.35rem]'
 
 const intelCardDescClass = cn(
-  'mb-7 max-w-[26ch] font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+  'mb-7 max-w-[26ch] rk-section-body text-[var(--mid)]',
   rkMono13,
 )
 
@@ -319,25 +319,25 @@ export function IntelligenceSection() {
         <div className="grid shrink-0 grid-cols-1 items-start gap-12 pt-[52px] pb-10 md:grid-cols-2 md:items-end md:gap-20">
         <Reveal>
           <SectionLabel className="mb-9">The intelligence layer</SectionLabel>
-          <h2 className="rk-landing-h2-compact font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
+          <h2 className="rk-landing-h2-compact rk-section-title text-[var(--ink)]">
             Most tools see your
             <br />
             infrastructure for the
             <br />
-            first time, <em className="italic text-[var(--blue)]">every time.</em>
+            first time, <em>every time.</em>
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <div
             className={cn(
-              'intel-body font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+              'intel-body rk-section-body text-[var(--mid)]',
               rkMono13,
             )}
           >
             <p>
               <span
                 className={cn(
-                  'font-medium text-[var(--blue)] decoration-1',
+                  'font-medium text-[var(--ink)]',
                   rkMono15Lead,
                 )}
               >
@@ -353,10 +353,10 @@ export function IntelligenceSection() {
               href="https://docs.rubixkube.ai/concepts/memory-engine"
               target="_blank"
               rel="noopener noreferrer"
-              className={`mt-8 w-fit ${landingCtaLinkSm}`}
+              className={`mt-8 w-fit ${siteLink}`}
             >
               Learn more about Memory Engine
-              <ArrowRight className={landingCtaArrowSmClass} strokeWidth={2} aria-hidden />
+              <ArrowUpRight className={siteLinkArrow} aria-hidden />
             </Link>
           </div>
         </Reveal>
@@ -373,7 +373,7 @@ export function IntelligenceSection() {
               <p className={intelCardTimeClass}>{c.time}</p>
               <h3 className={intelCardTitleClass}>
                 {c.title}{' '}
-                <em className="font-normal italic text-[var(--blue)]">{c.em}</em>
+                <em>{c.em}</em>
               </h3>
               <p className={intelCardDescClass}>{c.desc}</p>
               <div className="card-graph mt-auto flex h-[128px] shrink-0 items-center justify-center sm:h-[136px]">

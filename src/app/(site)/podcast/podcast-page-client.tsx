@@ -1,15 +1,13 @@
 'use client'
 
+import { useState } from "react"
+
 import { Navbar } from "@/components/navbar"
+import { PageHero } from "@/components/page-hero"
 import { Footer } from "@/components/footer"
 import { ClosingCTA } from "@/components/closing-cta"
-import { motion } from "framer-motion"
-import { fadeUpVariants, fadeUp } from "@/lib/animations"
-import { useReducedMotion } from "@/hooks/use-reduced-motion"
-import { cn } from "@/lib/utils"
-import { rkMono10, rkMono13 } from "@/lib/landing-responsive-type"
 import { urlFor } from "@/lib/sanity.client"
-import { Calendar, Search, Rss } from "lucide-react"
+import { ArrowLeft, ArrowRight, Search, Rss } from "lucide-react"
 import Link from "next/link"
 
 import { IconBrandApplePodcast } from "@tabler/icons-react"
@@ -26,224 +24,202 @@ function getYoutubeId(url: string) {
   return match ? match[1] : null
 }
 
+const mono = 'font-[family-name:var(--font-mono)]'
+
+/** The date in UTC, so the server and the browser print the same day */
+const day = (iso?: string) =>
+  iso ? new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) : ''
+
+/** The episode's cover: its YouTube thumbnail, else its Sanity image */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function coverOf(episode: any): string | null {
+  const videoId = getYoutubeId(episode.youtubeUrl)
+  if (videoId) return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+  return episode.image ? urlFor(episode.image).url() : null
+}
+
+/** A cover, or the feed mark when an episode has none */
+function Cover({ src, hover }: { src: string | null; hover?: boolean }) {
+  return src ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt=""
+      className={`absolute inset-0 h-full w-full object-cover ${hover ? 'transition-transform duration-700 group-hover:scale-[1.02]' : ''}`}
+    />
+  ) : (
+    <span className="absolute inset-0 flex items-center justify-center">
+      <Rss className="h-10 w-10 text-[var(--mid)]" />
+    </span>
+  )
+}
+
+/** How many episodes the feature at the top steps through */
+const FEATURED = 3
+
+/**
+ * The feature, as on /blog: one episode at a time, its words on the left and its cover on the
+ * right, with arrows to step through the newest few.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function Feature({ episodes }: { episodes: any[] }) {
+  const [at, setAt] = useState(0)
+  const e = episodes[at]
+  if (!e) return null
+  const step = (d: number) => setAt((i) => (i + d + episodes.length) % episodes.length)
+  const arrow =
+    'flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-[var(--ink)] ring-1 ring-[var(--rule)] transition-colors hover:bg-[var(--panel)]'
+  return (
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)] lg:gap-4">
+      <div className="order-2 flex flex-col border-t border-[var(--rule)] pt-8 lg:order-1 lg:pr-12">
+        <p className="m-0 flex gap-3 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)]">
+          <span className="text-[var(--ink)]">Podcast</span>
+          <time dateTime={e.publishedAt}>{day(e.publishedAt)}</time>
+        </p>
+        <Link href={`/podcast/${e.slug}`} className="group mt-3 block">
+          <h2 className="rk-section-title m-0 text-[clamp(1.5rem,2.1vw,2rem)] leading-[1.15] tracking-[-0.02em] text-[var(--ink)] group-hover:underline group-hover:decoration-[var(--rule)] group-hover:underline-offset-4">
+            {e.title}
+          </h2>
+        </Link>
+        {e.excerpt && <p className="rk-section-body m-0 mt-5 line-clamp-4 text-[16px] text-[var(--mid)]">{e.excerpt}</p>}
+        <Link
+          href={`/podcast/${e.slug}`}
+          className="group mt-7 inline-flex items-center gap-1.5 self-start font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)]"
+        >
+          Listen
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+        </Link>
+        {episodes.length > 1 && (
+          <div className="mt-10 flex items-center gap-5 lg:mt-auto lg:pt-10">
+            <button type="button" onClick={() => step(-1)} aria-label="Previous episode" className={arrow}>
+              <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
+            </button>
+            <span className={`${mono} text-[12px] tracking-[0.08em] text-[var(--mid)] tabular-nums`}>
+              {String(at + 1).padStart(2, '0')} / {String(episodes.length).padStart(2, '0')}
+            </span>
+            <button type="button" onClick={() => step(1)} aria-label="Next episode" className={arrow}>
+              <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
+            </button>
+          </div>
+        )}
+      </div>
+      <Link href={`/podcast/${e.slug}`} className="relative order-1 block aspect-video self-start overflow-hidden rounded-lg bg-[var(--panel)] lg:order-2">
+        <Cover key={e._id} src={coverOf(e)} />
+      </Link>
+    </div>
+  )
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function PodcastPageClient({ episodes }: { episodes: any[] }) {
-  const prefersReducedMotion = useReducedMotion()
-  const featuredEpisode = episodes[0]
-  const pastEpisodes = episodes.slice(1)
+  const featured = episodes.slice(0, FEATURED)
+  const [query, setQuery] = useState('')
+  const shown = episodes.filter((e) => {
+    const q = query.trim().toLowerCase()
+    return !q || `${e.title} ${e.excerpt || ''}`.toLowerCase().includes(q)
+  })
+  const field =
+    'h-9 rounded-md bg-[var(--panel)] px-3 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--ink)] ring-1 ring-[var(--rule)] outline-none focus:ring-[var(--ink)]'
+  const icon =
+    'flex h-9 w-9 items-center justify-center rounded-md text-[var(--ink)] ring-1 ring-[var(--rule)] transition-colors hover:bg-[var(--panel)]'
 
   return (
     <>
       <Navbar />
 
-      {/* Hero Section — matching BlogPageClient hero structure */}
-      <section className="relative bg-[var(--bg)] px-[var(--pad)]">
-        <div className="rk-blog-listing-shell pt-[calc(var(--nav-stack)+2.5rem)] pb-10 sm:pb-12 text-center">
-          <motion.div
-            variants={fadeUpVariants}
-            initial={prefersReducedMotion ? 'visible' : 'hidden'}
-            animate="visible"
-            className="flex w-full flex-col items-stretch text-center"
-          >
-            <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase mb-5', rkMono10)}>
-              Original Series
-            </span>
-            <h1 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] w-full">
-              The Root Cause <span className="italic text-[var(--blue)]">Podcast</span>
-            </h1>
-            <p className="font-light leading-[1.75] text-[var(--mid)] w-full mx-auto mt-6 max-w-2xl text-lg">
-              Deep dives into AI-native infrastructure, war stories from the trenches, and the future of autonomous site reliability.
-            </p>
+      <PageHero
+        className="pb-0"
+        title="The Root Cause."
+        lede="A podcast with deep dives into AI-native infrastructure, war stories from the trenches, and the future of autonomous site reliability."
+        actions={
+          <div className="flex items-center gap-3">
+            <a href="https://www.youtube.com/playlist?list=PL0RlH4tLsvsgl9A07Ha31rYSalREe5Cp3" target="_blank" rel="noopener noreferrer" className={icon}>
+              <YoutubeIcon className="h-4 w-4" />
+            </a>
+            <a href="https://podcasts.apple.com/us/podcast/the-root-cause-by-rubixkube/id1896761094" target="_blank" rel="noopener noreferrer" className={icon}>
+              <IconBrandApplePodcast stroke={1.5} className="h-4 w-4" />
+            </a>
+            <a href="https://feeds.zencastr.com/f/3wcU1DE3.rss" target="_blank" rel="noopener noreferrer" className={icon}>
+              <Rss className="h-4 w-4" strokeWidth={1.75} />
+            </a>
+          </div>
+        }
+      />
 
-            {/* Icon Links */}
-            <div className="mt-8 flex items-center justify-center gap-4">
-               <a href="https://www.youtube.com/playlist?list=PL0RlH4tLsvsgl9A07Ha31rYSalREe5Cp3" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--rule)] bg-[var(--background-secondary)] hover:border-[#FF0000] hover:text-[#FF0000] text-[var(--ink)] transition-colors">
-                  <YoutubeIcon className="w-5 h-5" />
-               </a>
-               <a href="https://podcasts.apple.com/us/podcast/the-root-cause-by-rubixkube/id1896761094" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--rule)] bg-[var(--background-secondary)] hover:border-[#872EC4] hover:text-[#872EC4] text-[var(--ink)] transition-colors">
-                  <IconBrandApplePodcast stroke={1.5} className="w-5 h-5" />
-               </a>
-               <a href="https://feeds.zencastr.com/f/3wcU1DE3.rss" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--rule)] bg-[var(--background-secondary)] hover:border-[var(--blue)] hover:text-[var(--blue)] text-[var(--ink)] transition-colors">
-                  <Rss className="w-4 h-4 ml-0.5" />
-               </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Content Section matching BlogPageClient */}
-      <section className="border-t border-[var(--rule)] bg-[var(--bg)] px-[var(--pad)] py-12 sm:py-16">
-        <div className="rk-blog-listing-shell">
-           {episodes.length === 0 ? (
-              <motion.div
-                className="text-center py-20"
-                variants={fadeUpVariants}
-                {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
-              >
-                <div className="max-w-lg mx-auto">
-                  <div className="w-16 h-16 flex items-center justify-center bg-[var(--blue)]/10 mx-auto mb-8 rounded-full">
-                    <Search className="w-8 h-8 text-[var(--blue)]" />
-                  </div>
-                  <h3 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] text-[var(--ink)] mb-4">
-                    No episodes found
-                  </h3>
-                  <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mb-8', rkMono13)}>
-                    We are crafting exceptional audio content on infrastructure reliability. Check back soon.
-                  </p>
-                </div>
-              </motion.div>
-           ) : (
-              <div className="space-y-14 sm:space-y-16">
-                 {/* Featured Episode */}
-                 {featuredEpisode && (
-                    <motion.div
-                      variants={fadeUpVariants}
-                      initial={prefersReducedMotion ? 'visible' : 'hidden'}
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                    >
-                       <div className="mb-8">
-                         <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase', rkMono10)}>
-                           Featured
-                         </span>
-                         <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-3">
-                           Latest <span className="italic text-[var(--blue)]">Episode</span>
-                         </h2>
-                       </div>
-
-                       {/* Render Featured Card without absolute text overlay */}
-                       <Link href={`/podcast/${featuredEpisode.slug}`} className="group block">
-                          <article className="bg-[var(--background-secondary)] border border-[var(--rule)] rounded-3xl overflow-hidden transition-all duration-500 hover:border-[var(--blue)]/30 hover:shadow-xl hover:-translate-y-1">
-                             <div className="relative aspect-video overflow-hidden border-b border-[var(--rule)]">
-                                {getYoutubeId(featuredEpisode.youtubeUrl) ? (
-                                  <>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={`https://img.youtube.com/vi/${getYoutubeId(featuredEpisode.youtubeUrl)}/maxresdefault.jpg`} alt="" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                                  </>
-                                ) : featuredEpisode.image ? (
-                                  <>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={urlFor(featuredEpisode.image).url()} alt="" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                                  </>
-                                ) : (
-                                  <div className="w-full h-full bg-gradient-to-br from-[var(--blue)]/20 via-[var(--bg)] to-[var(--blue)]/30 flex items-center justify-center">
-                                     <Rss className="w-16 h-16 text-[var(--blue)] opacity-60" />
-                                  </div>
-                                )}
-                             </div>
-
-                             <div className="p-8 md:p-10 lg:p-12">
-                                <div className="mb-4">
-                                  <span className="inline-flex items-center rounded-full bg-[var(--blue)]/10 text-[var(--blue)] px-3 py-1 text-xs font-semibold uppercase tracking-widest font-[family-name:var(--font-mono)]">
-                                    Podcast
-                                  </span>
-                                </div>
-                                <h3 className="font-[family-name:var(--font-serif)] text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--ink)] mb-4 group-hover:text-[var(--blue)] transition-colors">
-                                   {featuredEpisode.title}
-                                </h3>
-                                {featuredEpisode.excerpt && (
-                                  <p className="font-[family-name:var(--font-mono)] text-[var(--mid)] text-[15px] leading-relaxed max-w-4xl mb-8">
-                                     {featuredEpisode.excerpt}
-                                  </p>
-                                )}
-                                <div className="flex items-center gap-6 text-sm text-[var(--mid)] font-[family-name:var(--font-mono)]">
-                                   <div className="flex items-center gap-2">
-                                     <Calendar className="w-4 h-4" />
-                                     <time>{new Date(featuredEpisode.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
-                                   </div>
-                                </div>
-                             </div>
-                          </article>
-                       </Link>
-                    </motion.div>
-                 )}
-
-                 {/* Past Episodes Grid */}
-                 {pastEpisodes.length > 0 && (
-                   <motion.div
-                      variants={fadeUpVariants}
-                      initial={prefersReducedMotion ? 'visible' : 'hidden'}
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                   >
-                      <div className="mb-8">
-                         <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase', rkMono10)}>
-                           All Episodes
-                         </span>
-                         <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-3">
-                           Past <span className="italic text-[var(--blue)]">conversations.</span>
-                         </h2>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                         {pastEpisodes.map((episode, idx) => {
-                           const videoId = getYoutubeId(episode.youtubeUrl)
-                           return (
-                              <motion.div
-                                key={episode._id}
-                                variants={fadeUpVariants}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                                transition={{ delay: (idx * 0.04) + 0.2 }}
-                              >
-                                <Link href={`/podcast/${episode.slug}`} className="group block h-full">
-                                   <article className="h-full bg-[var(--background-secondary)] border border-[var(--rule)] rounded-2xl overflow-hidden transition-all duration-300 hover:border-[var(--blue)]/30 hover:shadow-xl hover:-translate-y-2">
-                                      <div className="aspect-video relative overflow-hidden border-b border-[var(--rule)]">
-                                         {videoId ? (
-                                            <>
-                                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                                              <img src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} alt="" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                                            </>
-                                         ) : episode.image ? (
-                                            <>
-                                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                                              <img src={urlFor(episode.image).url()} alt="" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                                            </>
-                                         ) : (
-                                            <div className="w-full h-full bg-gradient-to-br from-[var(--blue)]/10 via-[var(--bg)] to-[var(--blue)]/20 flex items-center justify-center">
-                                              <Rss className="w-10 h-10 text-[var(--blue)] opacity-60" />
-                                            </div>
-                                         )}
-                                         
-                                         <div className="absolute top-4 left-4">
-                                            <span className="inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm text-[var(--ink)] border border-[var(--rule)] px-3 py-1.5 text-xs font-semibold shadow-lg">
-                                              Podcast
-                                            </span>
-                                          </div>
-                                      </div>
-                                      <div className="p-6 h-full flex flex-col">
-                                         <h3 className="font-[family-name:var(--font-serif)] text-xl font-bold text-[var(--ink)] mb-3 leading-tight line-clamp-2 group-hover:text-[var(--blue)] transition-colors duration-300">
-                                            {episode.title}
-                                         </h3>
-                                         {episode.excerpt && (
-                                            <p className="font-[family-name:var(--font-mono)] text-[var(--mid)] leading-relaxed mb-6 line-clamp-3 flex-grow text-sm">
-                                              {episode.excerpt}
-                                            </p>
-                                         )}
-                                         <div className="flex items-center justify-between text-sm text-[var(--mid)] pt-4 border-t border-[var(--rule)] font-[family-name:var(--font-mono)]">
-                                            <div className="flex items-center gap-1.5">
-                                               <Calendar className="w-3.5 h-3.5" />
-                                               <time>{new Date(episode.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</time>
-                                            </div>
-                                         </div>
-                                      </div>
-                                   </article>
-                                </Link>
-                              </motion.div>
-                           )
-                         })}
-                      </div>
-                   </motion.div>
-                 )}
+      <main className="bg-[var(--bg)] px-[var(--pad)] pb-24">
+        <div className="rk-landing-max">
+          {episodes.length === 0 ? (
+            <div className="mx-auto max-w-lg py-24 text-center">
+              <div className="mx-auto mb-8 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--panel)] ring-1 ring-[var(--rule)]">
+                <Search className="h-6 w-6 text-[var(--mid)]" />
               </div>
-           )}
+              <h3 className="rk-section-title m-0 mb-4 text-[clamp(1.5rem,2.4vw,2rem)] leading-[1.15] text-[var(--ink)]">
+                No episodes found
+              </h3>
+              <p className="rk-section-body m-0 text-[var(--mid)]">
+                We are crafting exceptional audio content on infrastructure reliability. Check back soon.
+              </p>
+            </div>
+          ) : (
+            <>
+              <section className="mt-16 sm:mt-20" aria-label="Featured episodes">
+                <Feature episodes={featured} />
+              </section>
+
+              {/* every episode, as the /blog grid: the date, the cover, the title */}
+              <section className="mt-24 sm:mt-32" aria-label="All episodes">
+                <div className="flex flex-col gap-5 border-b border-[var(--rule)] pb-5 sm:flex-row sm:items-end sm:justify-between">
+                  <p className={`${mono} m-0 text-[12px] tracking-[0.12em] text-[var(--mid)] uppercase`}>
+                    <span className="text-[var(--ink)]">{shown.length}</span> {shown.length === 1 ? 'Episode' : 'Episodes'}
+                  </p>
+                  <label className="relative block">
+                    <span className="sr-only">Search</span>
+                    <input
+                      type="search"
+                      value={query}
+                      onChange={(ev) => setQuery(ev.target.value)}
+                      placeholder="Search"
+                      className={`${field} w-full pr-9 sm:w-56`}
+                    />
+                    <Search className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-[var(--mid)]" aria-hidden />
+                  </label>
+                </div>
+
+                {shown.length === 0 ? (
+                  <div className="py-24 text-center">
+                    <p className="rk-section-body m-0 text-[var(--mid)]">No episodes match.</p>
+                    <button
+                      type="button"
+                      onClick={() => setQuery('')}
+                      className="mt-4 cursor-pointer font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)] underline decoration-[var(--rule)] underline-offset-4"
+                    >
+                      Clear search
+                    </button>
+                  </div>
+                ) : (
+                  <ul className="m-0 mt-10 grid list-none grid-cols-1 gap-x-5 gap-y-14 p-0 sm:grid-cols-2 lg:grid-cols-4">
+                    {shown.map((episode) => (
+                      <li key={episode._id} className="m-0 p-0">
+                        <Link href={`/podcast/${episode.slug}`} className="group block">
+                          <time dateTime={episode.publishedAt} className={`${mono} block text-[12px] text-[var(--mid)]`}>
+                            {day(episode.publishedAt)}
+                          </time>
+                          <span className="relative mt-3 block aspect-video overflow-hidden rounded-md bg-[var(--panel)]">
+                            <Cover src={coverOf(episode)} hover />
+                          </span>
+                          <span className="mt-4 block font-[family-name:var(--font-figtree)] text-[17px] leading-[1.3] font-semibold tracking-[-0.01em] text-balance text-[var(--ink)]">
+                            {episode.title}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            </>
+          )}
         </div>
-      </section>
+      </main>
 
       <ClosingCTA />
       <Footer />

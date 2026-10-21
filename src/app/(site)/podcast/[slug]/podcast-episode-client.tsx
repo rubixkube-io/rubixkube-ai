@@ -4,7 +4,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ClosingCTA } from "@/components/closing-cta"
 import { motion } from "framer-motion"
-import { fadeUpVariants } from "@/lib/animations"
+import { fadeUpVariants, fadeUp } from "@/lib/animations"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { cn } from "@/lib/utils"
 import { rkMono11 } from "@/lib/landing-responsive-type"
@@ -12,12 +12,15 @@ import { urlFor } from "@/lib/sanity.client"
 import { PortableText } from "@portabletext/react"
 import { type SanityDocument } from "next-sanity"
 import type { PortableTextCalloutProps, PortableTextCodeProps } from "@/types/sanity"
-import { Rss, Calendar, ArrowLeft } from "lucide-react"
+import { Rss, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState, useEffect, useMemo } from "react"
 
 import { IconBrandApplePodcast } from "@tabler/icons-react"
-import { TableOfContents, ShareMenu, NewsletterSignup, Callout, CodeBlock } from "@/components/blog"
+import { NewsletterSignup, Callout, CodeBlock } from "@/components/blog"
+import { ShareLinks } from "@/components/blog/share-links"
+import { splitTitle } from "@/lib/title-split"
 
 const YoutubeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -29,6 +32,63 @@ function getYoutubeId(url: string) {
   if (!url) return null;
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/)
   return match ? match[1] : null
+}
+
+/** The section list, plain, with the section being read marked (as on a blog post) */
+function Contents({ headings, fold = false }: { headings: { id: string; text: string; level: number }[]; fold?: boolean }) {
+  const [active, setActive] = useState('')
+  useEffect(() => {
+    const seen = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: '-20% 0% -60% 0%' },
+    )
+    headings.forEach((h) => {
+      const el = document.getElementById(h.id)
+      if (el) seen.observe(el)
+    })
+    return () => seen.disconnect()
+  }, [headings])
+  if (headings.length < 2) return null
+  if (fold)
+    return (
+      <details className="mb-10 border-b border-[var(--rule)] font-[family-name:var(--font-figtree)] font-normal 2xl:hidden">
+        <summary className="cursor-pointer list-none py-3 text-[15px] text-[var(--ink)]">On this page</summary>
+        <ul className="m-0 list-none space-y-1.5 p-0 pb-4">
+          {headings
+            .filter((h) => h.level <= 2)
+            .map((h) => (
+              <li key={h.id} className="m-0 p-0">
+                <a href={`#${h.id}`} className="text-[15px] text-[var(--mid)] hover:text-[var(--ink)]">
+                  {h.text}
+                </a>
+              </li>
+            ))}
+        </ul>
+      </details>
+    )
+  return (
+    <nav aria-label="On this page" className="font-[family-name:var(--font-figtree)] font-normal">
+      <p className="m-0 mb-3 text-[14px] text-[var(--ink)]">On this page</p>
+      <ul className="m-0 max-h-[calc(100vh-var(--nav-stack)-8rem)] list-none space-y-2 overflow-y-auto border-l border-[var(--rule)] p-0">
+        {headings
+          .filter((h) => h.level <= 2)
+          .map((h) => (
+            <li key={h.id} className="m-0 p-0">
+              <a
+                href={`#${h.id}`}
+                className={`block border-l py-0.5 pl-4 text-[14px] leading-[1.45] transition-colors ${
+                  active === h.id
+                    ? 'border-[var(--ink)] text-[var(--ink)]'
+                    : 'border-transparent text-[var(--mid)] hover:text-[var(--ink)]'
+                }`}
+              >
+                {h.text}
+              </a>
+            </li>
+          ))}
+      </ul>
+    </nav>
+  )
 }
 
 export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
@@ -101,6 +161,13 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
     return items
   }, [episode.body, headingTextToId])
 
+  // the date in UTC, so the server and the browser print the same day
+  const published = episode.publishedAt
+    ? new Date(episode.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
+    : ''
+  const coverUrl = episode.image ? urlFor(episode.image)?.width(1440).height(810).url() : null
+  const excerpt = episode.excerpt?.trim()
+
   // Track scroll progress
   useEffect(() => {
     const handleScroll = () => {
@@ -127,29 +194,67 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
 
       <Navbar />
 
-      {/* Header Section */}
-      <header className="bg-[var(--bg)] pt-[calc(var(--nav-stack)+3.5rem)] pb-12 px-[var(--pad)]">
-        <div className="rk-landing-max">
-          {/* Breadcrumb */}
-          <motion.div variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible">
-            <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-8">
-              <Link href="/" className="hover:text-[var(--ink)] transition-colors">Home</Link>
+      {/* Breadcrumb and title across the container, the details and the summary under it, the
+          player (or cover) the full width, then the text centred with the section list in the
+          right margin, as on a blog post */}
+      <section className="bg-[var(--bg)] px-[var(--pad)] pt-[calc(var(--nav-stack)+3.5rem)] pb-24">
+        <div className="rk-landing-max w-full">
+          <motion.header
+            variants={fadeUpVariants}
+            {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
+          >
+            <nav className="mb-8 flex min-w-0 items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+              <Link href="/" className="shrink-0 transition-colors hover:text-[var(--ink)]">Home</Link>
               <span className="text-[var(--faint)]">/</span>
-              <Link href="/podcast" className="hover:text-[var(--ink)] transition-colors">Podcast</Link>
+              <Link href="/podcast" className="shrink-0 transition-colors hover:text-[var(--ink)]">Podcast</Link>
               <span className="text-[var(--faint)]">/</span>
-              <span className="text-[var(--blue)] truncate max-w-[200px]">{episode.title}</span>
+              <span className="min-w-0 max-w-[200px] truncate text-[var(--ink)]">{episode.title}</span>
             </nav>
-          </motion.div>
+            <h1 className="rk-section-title m-0 max-w-[34ch] text-[clamp(2rem,3.6vw,3.4rem)] leading-[1.1]">
+              {(() => {
+                const t = splitTitle(episode.title)
+                return (
+                  <>
+                    <span className="text-[var(--ink)]">{t.lead}</span>
+                    {t.rest && <span className="text-[var(--mid)]">{t.rest}</span>}
+                  </>
+                )
+              })()}
+            </h1>
+            <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
+              <span className="text-[var(--ink)]">Podcast</span>
+              {published && <time dateTime={episode.publishedAt}>{published}</time>}
+              <span className="ml-auto flex items-center gap-4">
+                {/* Audio Links */}
+                <span className="flex items-center gap-3">
+                  <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">Listen on:</span>
+                  {episode.applePodcastUrl && (
+                    <a href={episode.applePodcastUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-[var(--mid)] transition-colors hover:text-[var(--ink)]" title="Apple Podcasts">
+                      <IconBrandApplePodcast stroke={1.5} className="h-4 w-4" />
+                    </a>
+                  )}
+                  {episode.youtubeUrl && (
+                    <a href={episode.youtubeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-[var(--mid)] transition-colors hover:text-[var(--ink)]" title="YouTube">
+                      <YoutubeIcon className="h-4 w-4" />
+                    </a>
+                  )}
+                  <a href="https://feeds.zencastr.com/f/3wcU1DE3.rss" target="_blank" rel="noopener noreferrer" className="flex items-center text-[var(--mid)] transition-colors hover:text-[var(--ink)]" title="RSS Feed">
+                    <Rss className="h-3.5 w-3.5" />
+                  </a>
+                </span>
+                <span className="h-4 w-px bg-[var(--rule)]" aria-hidden />
+                <ShareLinks title={episode.title} />
+              </span>
+            </div>
+            {excerpt && (
+              <p className="rk-section-body m-0 mt-6 max-w-[820px] text-[clamp(18px,1.4vw,20px)] text-[var(--mid)]">{excerpt}</p>
+            )}
+          </motion.header>
 
-          {/* Cinematic Media Player */}
-          {hasVideo && (
-            <motion.div
-              className="mb-10 mx-auto w-full max-w-[960px]"
-              variants={fadeUpVariants}
-              initial={prefersReducedMotion ? 'visible' : 'hidden'}
-              animate="visible"
-            >
-              <div className="rounded-2xl overflow-hidden bg-[var(--bg)] border border-[var(--rule)] shadow-sm aspect-video relative">
+          {/* The player, or the cover when the episode has no video */}
+          {hasVideo ? (
+            <div className="mt-12">
+              <div className="relative aspect-video overflow-hidden rounded-lg bg-[var(--panel)]">
                  {videoId ? (
                    <iframe 
                      src={`https://www.youtube.com/embed/${videoId}`} 
@@ -166,102 +271,31 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
                      <source src={episode.videoUrl} type="video/mp4" />
                    </video>
                  )}
-               </div>
-            </motion.div>
-          )}
-
-          {/* Title */}
-          <motion.div
-            className="mb-6"
-            variants={fadeUpVariants}
-            initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
-          >
-            <h1 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-light leading-[1.1] tracking-[-0.015em] text-[var(--ink)]">
-              {episode.title}
-            </h1>
-          </motion.div>
-          
-          {/* Excerpt */}
-          {episode.excerpt && (
-            <motion.div
-              className="mb-6"
-              variants={fadeUpVariants}
-              initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
-            >
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--ink)]/80 max-w-[60ch]">
-                {episode.excerpt}
-              </p>
-            </motion.div>
-          )}
-
-          {/* Meta row */}
-          <motion.div
-            className="flex flex-wrap items-center gap-4 sm:gap-6 py-5 border-b border-[var(--rule)] mb-10 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
-            variants={fadeUpVariants}
-            initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
-          >
-            <div className="flex items-center gap-2">
-              <Calendar className="w-3.5 h-3.5" />
-              <time>
-                {new Date(episode.publishedAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
+              </div>
             </div>
-            
-            {/* Audio Links */}
-            <div className="flex items-center gap-4 ml-auto">
-              <span className="text-[var(--mid)] tracking-[0.1em] uppercase font-semibold text-[10px]">Listen on:</span>
-              {episode.applePodcastUrl && (
-                <a href={episode.applePodcastUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[var(--ink)] hover:text-[#872EC4] transition-colors" title="Apple Podcasts">
-                  <IconBrandApplePodcast stroke={1.5} className="w-4 h-4" />
-                </a>
-              )}
-              {episode.youtubeUrl && (
-                <a href={episode.youtubeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[var(--ink)] hover:text-[#FF0000] transition-colors" title="YouTube">
-                  <YoutubeIcon className="w-4 h-4" />
-                </a>
-              )}
-              <a href="https://feeds.zencastr.com/f/3wcU1DE3.rss" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[var(--ink)] hover:text-[var(--blue)] transition-colors" title="RSS Feed">
-                <Rss className="w-3.5 h-3.5" />
-              </a>
+          ) : coverUrl ? (
+            <div className="relative mt-12 aspect-video overflow-hidden rounded-lg bg-[var(--panel)]">
+              <Image
+                src={coverUrl}
+                alt={episode.title}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 1400px) 100vw, 1400px"
+              />
             </div>
-          </motion.div>
-        </div>
-      </header>
+          ) : null}
 
-      {/* Article Content */}
-      <section className="pb-24 bg-[var(--bg)] px-[var(--pad)]">
-        <div className="rk-landing-max w-full">
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_260px] gap-12 xl:gap-16">
-            
+          <div className="grid grid-cols-1 gap-x-12 2xl:grid-cols-[minmax(0,1fr)_800px_minmax(0,1fr)]">
+            <div className="mx-auto w-full min-w-0 max-w-[800px] pt-14 2xl:col-start-2">
+            <Contents headings={headings} fold />
             {/* Main Content */}
             <motion.article
-              className="prose prose-lg max-w-none min-w-0"
+              className="min-w-0"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUpVariants}
-              style={{
-                '--tw-prose-body': 'var(--foreground)',
-                '--tw-prose-headings': 'var(--foreground)',
-                '--tw-prose-lead': 'var(--foreground-muted)',
-                '--tw-prose-links': 'var(--accent)',
-                '--tw-prose-bold': 'var(--foreground)',
-                '--tw-prose-counters': 'var(--foreground-muted)',
-                '--tw-prose-bullets': 'var(--foreground-muted)',
-                '--tw-prose-hr': 'var(--border)',
-                '--tw-prose-quotes': 'var(--foreground)',
-                '--tw-prose-quote-borders': 'var(--accent)',
-                '--tw-prose-captions': 'var(--foreground-muted)',
-                '--tw-prose-code': 'var(--foreground)',
-                '--tw-prose-pre-code': 'var(--foreground)',
-                '--tw-prose-pre-bg': 'var(--card-background)',
-                '--tw-prose-th-borders': 'var(--border)',
-                '--tw-prose-td-borders': 'var(--border)',
-              } as React.CSSProperties}
             >
               {episode.body ? (
                 <PortableText 
@@ -287,7 +321,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h1 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4vw,3rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-16 mb-8">
+                          <h1 id={id} className="rk-section-title mt-16 mb-5 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[clamp(1.6rem,2.4vw,2rem)] leading-[1.15] text-[var(--ink)]">
                             {children}
                           </h1>
                         )
@@ -296,7 +330,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h2 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,3.5vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-12 mb-6">
+                          <h2 id={id} className="rk-section-title mt-14 mb-4 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[clamp(1.4rem,2vw,1.65rem)] leading-[1.2] tracking-[-0.02em] text-[var(--ink)]">
                             {children}
                           </h2>
                         )
@@ -305,7 +339,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h3 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2rem)] font-light leading-[1.15] tracking-[-0.01em] text-[var(--ink)] mt-10 mb-4">
+                          <h3 id={id} className="rk-section-title mt-10 mb-3 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[1.25rem] leading-[1.25] tracking-[-0.015em] text-[var(--ink)]">
                             {children}
                           </h3>
                         )
@@ -314,19 +348,19 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h4 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2.5vw,1.5rem)] font-light leading-[1.2] text-[var(--ink)] mt-8 mb-3">
+                          <h4 id={id} className="rk-section-title mt-8 mb-2 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[1.075rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">
                             {children}
                           </h4>
                         )
                       },
                       normal: ({children}) => (
-                        <p className="text-[var(--ink)] leading-[1.8] mb-6 text-[16px]">
+                        <p className="mb-6 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </p>
                       ),
                       blockquote: ({children}) => (
-                        <blockquote className="border-l-2 border-[var(--blue)] bg-[var(--blue)]/[0.03] p-6 my-8">
-                          <div className="font-[family-name:var(--font-mono)] text-[var(--ink)] text-[15px] font-light leading-relaxed italic">
+                        <blockquote className="my-10 border-l border-[var(--rule)] pl-6">
+                          <div className="font-[family-name:var(--font-serif)] text-[1.5rem] leading-[1.4] italic text-[var(--mid)]">
                             {children}
                           </div>
                         </blockquote>
@@ -334,24 +368,24 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
                     },
                     list: {
                       bullet: ({children}) => (
-                        <ul className="list-disc list-outside ml-6 mb-6 space-y-3">
+                        <ul className="mb-6 ml-6 list-outside list-disc space-y-2.5 marker:text-[var(--mid)]">
                           {children}
                         </ul>
                       ),
                       number: ({children}) => (
-                        <ol className="list-decimal list-outside ml-6 mb-6 space-y-3">
+                        <ol className="mb-6 ml-6 list-outside list-decimal space-y-2.5 marker:text-[var(--mid)]">
                           {children}
                         </ol>
                       ),
                     },
                     listItem: {
                       bullet: ({children}) => (
-                        <li className="text-[var(--ink)] leading-[1.8] text-[16px]">
+                        <li className="pl-1 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </li>
                       ),
                       number: ({children}) => (
-                        <li className="text-[var(--ink)] leading-[1.8] text-[16px]">
+                        <li className="pl-1 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </li>
                       ),
@@ -386,29 +420,24 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
                   }}
                 />
               ) : (
-                <div className="flex flex-col items-center justify-center py-20 border border-dashed border-[var(--rule)] rounded-2xl bg-[var(--background-secondary)]">
-                  <Rss className="w-8 h-8 text-[var(--faint)] mb-4" />
-                  <p className={cn("font-[family-name:var(--font-mono)] text-[var(--mid)] uppercase tracking-[0.2em]", rkMono11)}>
+                <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-[var(--rule)] py-20">
+                  <Rss className="mb-4 h-8 w-8 text-[var(--mid)]" />
+                  <p className={cn("font-[family-name:var(--font-mono)] text-[var(--mid)] uppercase tracking-[0.12em]", rkMono11)}>
                     Transcript Syncing
                   </p>
                 </div>
               )}
             </motion.article>
 
-            {/* Right Rail - Desktop Only */}
-            <aside className="hidden lg:block">
-              <div className="sticky top-24 space-y-8">
-                {/* Table of Contents */}
-                {headings.length > 0 && <TableOfContents headings={headings} />}
-
-                {/* Share */}
-                <ShareMenu title={episode.title} />
-
-                {/* Newsletter */}
+              <div className="mt-16">
                 <NewsletterSignup compact={true} />
               </div>
+            </div>
+            <aside className="hidden pt-14 2xl:block">
+              <div className="sticky top-[calc(var(--nav-stack)+2rem)]">
+                <Contents headings={headings} />
+              </div>
             </aside>
-            
           </div>
           
           {/* Back to Podcast Floating Button */}
@@ -421,7 +450,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
             >
               <Link
                 href="/podcast"
-                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-xs font-light"
+                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-[13px] font-light"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 All episodes

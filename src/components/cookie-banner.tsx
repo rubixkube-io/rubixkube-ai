@@ -53,7 +53,7 @@ export function CookieBanner() {
       aria-label="Cookies"
       className="fixed right-3 bottom-3 left-3 z-[100] rounded-md border border-[var(--border)] bg-[var(--bg)] p-5 shadow-[0_8px_32px_rgba(17,19,24,0.14)] sm:right-auto sm:bottom-6 sm:left-6 sm:max-w-sm"
     >
-      <p className="font-[family-name:var(--font-mono)] text-[12px] leading-relaxed text-[var(--mid)]">
+      <p className="font-[family-name:var(--font-figtree)] text-[14px] leading-relaxed text-[var(--mid)]">
         We use cookies to see how people use this site, so we can improve it. No ads. Learn more in
         our{' '}
         <Link href="/legal/privacy" className="text-[var(--ink)] underline underline-offset-4 hover:text-[var(--blue)]">
@@ -62,10 +62,20 @@ export function CookieBanner() {
         .
       </p>
       <div className="mt-4 flex gap-3">
-        <Button size="sm" className="flex-1" onClick={() => choose(true)}>
+        {/* the two choices carry the same weight, so declining is as easy as accepting */}
+        <Button
+          size="sm"
+          className="h-10 flex-1 !rounded-[6px] !py-0 !font-[family-name:var(--font-figtree)] !text-[15px] !tracking-normal !normal-case"
+          onClick={() => choose(true)}
+        >
           Accept
         </Button>
-        <Button size="sm" variant="secondary" className="flex-1" onClick={() => choose(false)}>
+        <Button
+          size="sm"
+          variant="secondary"
+          className="h-10 flex-1 !rounded-[6px] !py-0 !font-[family-name:var(--font-figtree)] !text-[15px] !tracking-normal !normal-case"
+          onClick={() => choose(false)}
+        >
           Decline
         </Button>
       </div>

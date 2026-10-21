@@ -6,19 +6,90 @@ import Link from "next/link"
 import Image from "next/image"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
 import { ClosingCTA } from "@/components/closing-cta"
 import { urlFor } from "@/lib/sanity.client"
 import { motion } from "framer-motion"
 import { fadeUpVariants, fadeUp } from "@/lib/animations"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { useState, useEffect, useMemo } from "react"
-import { ArrowLeft, Calendar, User, Clock, ArrowUpRight } from "lucide-react"
-import { TableOfContents, ShareMenu, NewsletterSignup, Callout, CodeBlock, BlogCardStyles } from "@/components/blog"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import { siteLink, siteLinkArrow } from "@/lib/site-ui"
+import { ShareLinks } from "@/components/blog/share-links"
+import { splitTitle } from "@/lib/title-split"
+import { NewsletterSignup, Callout, CodeBlock } from "@/components/blog"
 
 interface BlogPostClientProps {
   post: SanityPost
   relatedPosts?: SanityDocument[]
+}
+
+/** Words in the post's text blocks, for the reading time */
+function wordCount(body: unknown): number {
+  if (!Array.isArray(body)) return 0
+  let n = 0
+  for (const block of body as SanityBlock[]) {
+    if (block?._type !== 'block' || !Array.isArray(block.children)) continue
+    for (const c of block.children) n += (c.text || '').split(/\s+/).filter(Boolean).length
+  }
+  return n
+}
+
+
+/** The section list, plain, with the section being read marked */
+function Contents({ headings, fold = false }: { headings: { id: string; text: string; level: number }[]; fold?: boolean }) {
+  const [active, setActive] = useState('')
+  useEffect(() => {
+    const seen = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: '-20% 0% -60% 0%' },
+    )
+    headings.forEach((h) => {
+      const el = document.getElementById(h.id)
+      if (el) seen.observe(el)
+    })
+    return () => seen.disconnect()
+  }, [headings])
+  if (headings.length < 2) return null
+  if (fold)
+    return (
+      <details className="mb-10 border-b border-[var(--rule)] font-[family-name:var(--font-figtree)] font-normal 2xl:hidden">
+        <summary className="cursor-pointer list-none py-3 text-[15px] text-[var(--ink)]">On this page</summary>
+        <ul className="m-0 list-none space-y-1.5 p-0 pb-4">
+          {headings
+            .filter((h) => h.level <= 2)
+            .map((h) => (
+              <li key={h.id} className="m-0 p-0">
+                <a href={`#${h.id}`} className="text-[15px] text-[var(--mid)] hover:text-[var(--ink)]">
+                  {h.text}
+                </a>
+              </li>
+            ))}
+        </ul>
+      </details>
+    )
+  return (
+    <nav aria-label="On this page" className="font-[family-name:var(--font-figtree)] font-normal">
+      <p className="m-0 mb-3 text-[14px] text-[var(--ink)]">On this page</p>
+      <ul className="m-0 max-h-[calc(100vh-var(--nav-stack)-8rem)] list-none space-y-2 overflow-y-auto border-l border-[var(--rule)] p-0">
+        {headings
+          .filter((h) => h.level <= 2)
+          .map((h) => (
+            <li key={h.id} className="m-0 p-0">
+              <a
+                href={`#${h.id}`}
+                className={`block border-l py-0.5 pl-4 text-[14px] leading-[1.45] transition-colors ${
+                  active === h.id
+                    ? 'border-[var(--ink)] text-[var(--ink)]'
+                    : 'border-transparent text-[var(--mid)] hover:text-[var(--ink)]'
+                }`}
+              >
+                {h.text}
+              </a>
+            </li>
+          ))}
+      </ul>
+    </nav>
+  )
 }
 
 export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps) {
@@ -91,6 +162,12 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
     : null
   const coverAlt = post.image?.alt?.trim() || post.title
   const coverCaption = post.image?.caption?.trim()
+  const minutes = Math.max(1, Math.round(wordCount(post.body) / 230))
+  // the date in UTC, so the server and the browser print the same day
+  const published = post.publishedAt
+    ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
+    : ''
+  const excerpt = post.excerpt?.trim()
 
   // Track scroll progress
   useEffect(() => {
@@ -118,148 +195,89 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       
       <Navbar />
       
-      {/* Header Section */}
-      <header className="bg-[var(--bg)] pt-[calc(var(--nav-stack)+3.5rem)] pb-12 px-[var(--pad)]">
-        <div className="rk-landing-max">
-          {/* Breadcrumb */}
-          <motion.div variants={fadeUpVariants}>
-            <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-8">
-              <Link href="/" className="hover:text-[var(--ink)] transition-colors">Home</Link>
+      {/* Breadcrumb and title across the container, the details and the summary under it, a cover
+          the full width, then the text centred with the section list in the right margin */}
+      <section className="bg-[var(--bg)] px-[var(--pad)] pt-[calc(var(--nav-stack)+3.5rem)] pb-24">
+        <div className="rk-landing-max w-full">
+          <motion.header
+            variants={fadeUpVariants}
+            {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
+          >
+            <nav className="mb-8 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+              <Link href="/" className="transition-colors hover:text-[var(--ink)]">Home</Link>
               <span className="text-[var(--faint)]">/</span>
-              <Link href="/blog" className="hover:text-[var(--ink)] transition-colors">Blog</Link>
+              <Link href="/blog" className="transition-colors hover:text-[var(--ink)]">Blog</Link>
               {post.categories && post.categories.length > 0 && (
                 <>
                   <span className="text-[var(--faint)]">/</span>
-                  <span className="text-[var(--blue)]">{post.categories[0]}</span>
+                  <span className="text-[var(--ink)]">{post.categories[0]}</span>
                 </>
               )}
             </nav>
-          </motion.div>
-
-          {/* Cover image: centered column (narrower than headline), LCP-friendly, optional Sanity caption/alt */}
-          {postImageUrl && (
-            <motion.div
-              className="mb-10 mx-auto w-full max-w-[720px]"
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.1 } })}
-            >
-              <figure className="m-0">
-                <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[var(--rule)] bg-[var(--bg)] shadow-sm">
-                  <Image
-                    src={postImageUrl}
-                    alt={coverAlt}
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 768px) 100vw, 720px"
-                  />
-                </div>
-                {coverCaption ? (
-                  <figcaption className="mt-3 text-center font-[family-name:var(--font-mono)] text-xs font-light leading-relaxed text-[var(--mid)]">
-                    {coverCaption}
-                  </figcaption>
-                ) : null}
-              </figure>
-            </motion.div>
-          )}
-
-          {/* Title */}
-          <motion.div
-            className="mb-6"
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
-          >
-            <h1 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-light leading-[1.1] tracking-[-0.015em] text-[var(--ink)]">
-              {post.title}
+            <h1 className="rk-section-title m-0 max-w-[34ch] text-[clamp(2rem,3.6vw,3.4rem)] leading-[1.1]">
+              {(() => {
+                const t = splitTitle(post.title)
+                return (
+                  <>
+                    <span className="text-[var(--ink)]">{t.lead}</span>
+                    {t.rest && <span className="text-[var(--mid)]">{t.rest}</span>}
+                  </>
+                )
+              })()}
             </h1>
-          </motion.div>
+            <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
+              {post.categories?.[0] && <span className="text-[var(--ink)]">{post.categories[0]}</span>}
+              {published && <time dateTime={post.publishedAt}>{published}</time>}
+              <span>{minutes} min read</span>
+              {post.author?.name && (
+                <span className="flex items-center gap-2 text-[var(--ink)]">
+                  {post.author.image ? (
+                    <Image
+                      src={urlFor(post.author.image)?.width(56).height(56).url()}
+                      alt=""
+                      width={28}
+                      height={28}
+                      className="h-7 w-7 rounded-full object-cover"
+                    />
+                  ) : null}
+                  {post.author.name}
+                </span>
+              )}
+              <span className="ml-auto"><ShareLinks title={post.title} /></span>
+            </div>
+            {excerpt && (
+              <p className="rk-section-body m-0 mt-6 max-w-[820px] text-[clamp(18px,1.4vw,20px)] text-[var(--mid)]">{excerpt}</p>
+            )}
+          </motion.header>
 
-          {/* Excerpt */}
-          {post.excerpt && (
-            <motion.div
-              className="mb-6"
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.3 } })}
-            >
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--ink)]/80 max-w-[60ch]">
-                {post.excerpt}
-              </p>
-            </motion.div>
+          {postImageUrl && (
+            <figure className="m-0 mt-12">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-[var(--panel)]">
+                <Image
+                  src={postImageUrl}
+                  alt={coverAlt}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 1400px) 100vw, 1400px"
+                />
+              </div>
+              {coverCaption ? (
+                <figcaption className="mt-3 text-[14px] leading-relaxed text-[var(--mid)]">{coverCaption}</figcaption>
+              ) : null}
+            </figure>
           )}
 
-          {/* Meta row */}
-          <motion.div
-            className="flex flex-wrap items-center gap-4 sm:gap-6 py-5 border-b border-[var(--rule)] mb-10 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
-          >
-            <div className="flex items-center gap-2">
-              <Calendar className="w-3.5 h-3.5" />
-              <time>
-                {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-3.5 h-3.5" />
-              <span>5 min read</span>
-            </div>
-            {post.author && (
-              <div className="flex items-center gap-3">
-                <div className="w-7 h-7 bg-[var(--bg)] border border-[var(--rule)] rounded-full flex items-center justify-center overflow-hidden">
-                  {post.author?.image ? (
-                    <Image
-                      src={urlFor(post.author.image)?.width(32).height(32).url()}
-                      alt={post.author.name}
-                      width={32}
-                      height={32}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <User className="w-3.5 h-3.5 text-[var(--mid)]" />
-                  )}
-                </div>
-                <span style={{ fontWeight: 500 }} className="text-[var(--ink)]">
-                  {post.author.name || 'RubixKube Team'}
-                </span>
-              </div>
-            )}
-          </motion.div>
-        </div>
-      </header>
-      
-      {/* Article Content */}
-      <section className="pb-24 bg-[var(--bg)] px-[var(--pad)]">
-        <div className="rk-landing-max w-full">
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_260px] gap-12 xl:gap-16">
+          <div className="grid grid-cols-1 gap-x-12 2xl:grid-cols-[minmax(0,1fr)_800px_minmax(0,1fr)]">
+            <div className="mx-auto w-full min-w-0 max-w-[800px] pt-14 2xl:col-start-2">
+            <Contents headings={headings} fold />
             {/* Main Content */}
             <motion.article
-              className="prose prose-lg max-w-none min-w-0"
+              className="min-w-0"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUpVariants}
-              style={{
-                '--tw-prose-body': 'var(--foreground)',
-                '--tw-prose-headings': 'var(--foreground)',
-                '--tw-prose-lead': 'var(--foreground-muted)',
-                '--tw-prose-links': 'var(--accent)',
-                '--tw-prose-bold': 'var(--foreground)',
-                '--tw-prose-counters': 'var(--foreground-muted)',
-                '--tw-prose-bullets': 'var(--foreground-muted)',
-                '--tw-prose-hr': 'var(--border)',
-                '--tw-prose-quotes': 'var(--foreground)',
-                '--tw-prose-quote-borders': 'var(--accent)',
-                '--tw-prose-captions': 'var(--foreground-muted)',
-                '--tw-prose-code': 'var(--foreground)',
-                '--tw-prose-pre-code': 'var(--foreground)',
-                '--tw-prose-pre-bg': 'var(--card-background)',
-                '--tw-prose-th-borders': 'var(--border)',
-                '--tw-prose-td-borders': 'var(--border)',
-              } as React.CSSProperties}
             >
               {Array.isArray(post.body) && (
                 <PortableText 
@@ -270,8 +288,8 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         if (!value?.asset?._ref) return null
                         const imageUrl = urlFor(value)
                         return (
-                          <figure className="my-12 not-prose">
-                            <div className="relative overflow-hidden rounded-2xl bg-[var(--bg)] border border-[var(--rule)]">
+                          <figure className="my-12">
+                            <div className="relative overflow-hidden rounded-lg bg-[var(--panel)]">
                               <Image
                                 src={imageUrl?.width(1000).height(562).url()}
                                 alt={value.alt || "Blog image"}
@@ -281,7 +299,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                               />
                             </div>
                             {value.caption && (
-                              <figcaption className="text-center font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mt-4 italic">
+                              <figcaption className="mt-3 text-[14px] leading-relaxed text-[var(--mid)]">
                                 {value.caption}
                               </figcaption>
                             )}
@@ -307,7 +325,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h1 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4vw,3rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-16 mb-8">
+                          <h1 id={id} className="rk-section-title mt-16 mb-5 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[clamp(1.6rem,2.4vw,2rem)] leading-[1.15] text-[var(--ink)]">
                             {children}
                           </h1>
                         )
@@ -316,7 +334,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h2 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,3.5vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-12 mb-6">
+                          <h2 id={id} className="rk-section-title mt-14 mb-4 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[clamp(1.4rem,2vw,1.65rem)] leading-[1.2] tracking-[-0.02em] text-[var(--ink)]">
                             {children}
                           </h2>
                         )
@@ -325,7 +343,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h3 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2rem)] font-light leading-[1.15] tracking-[-0.01em] text-[var(--ink)] mt-10 mb-4">
+                          <h3 id={id} className="rk-section-title mt-10 mb-3 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[1.25rem] leading-[1.25] tracking-[-0.015em] text-[var(--ink)]">
                             {children}
                           </h3>
                         )
@@ -334,19 +352,19 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h4 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2.5vw,1.5rem)] font-light leading-[1.2] text-[var(--ink)] mt-8 mb-3">
+                          <h4 id={id} className="rk-section-title mt-8 mb-2 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[1.075rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">
                             {children}
                           </h4>
                         )
                       },
                       normal: ({children}) => (
-                        <p className="text-[var(--ink)] leading-[1.8] mb-6 text-[16px]">
+                        <p className="mb-6 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </p>
                       ),
                       blockquote: ({children}) => (
-                        <blockquote className="border-l-2 border-[var(--blue)] bg-[var(--blue)]/[0.03] p-6 my-8">
-                          <div className="font-[family-name:var(--font-mono)] text-[var(--ink)] text-[15px] font-light leading-relaxed italic">
+                        <blockquote className="my-10 border-l border-[var(--rule)] pl-6">
+                          <div className="font-[family-name:var(--font-serif)] text-[1.5rem] leading-[1.4] italic text-[var(--mid)]">
                             {children}
                           </div>
                         </blockquote>
@@ -354,24 +372,24 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                     },
                     list: {
                       bullet: ({children}) => (
-                        <ul className="list-disc list-outside ml-6 mb-6 space-y-3">
+                        <ul className="mb-6 ml-6 list-outside list-disc space-y-2.5 marker:text-[var(--mid)]">
                           {children}
                         </ul>
                       ),
                       number: ({children}) => (
-                        <ol className="list-decimal list-outside ml-6 mb-6 space-y-3">
+                        <ol className="mb-6 ml-6 list-outside list-decimal space-y-2.5 marker:text-[var(--mid)]">
                           {children}
                         </ol>
                       ),
                     },
                     listItem: {
                       bullet: ({children}) => (
-                        <li className="text-[var(--ink)] leading-[1.8] text-[16px]">
+                        <li className="pl-1 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </li>
                       ),
                       number: ({children}) => (
-                        <li className="text-[var(--ink)] leading-[1.8] text-[16px]">
+                        <li className="pl-1 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </li>
                       ),
@@ -408,74 +426,17 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
               )}
             </motion.article>
 
-            {/* Right Rail - Desktop Only */}
-            <aside className="hidden lg:block">
-              <div className="sticky top-24 space-y-8">
-                {/* Table of Contents */}
-                <TableOfContents headings={headings} />
 
-                {/* Share */}
-                <ShareMenu title={post.title} />
-
-                {/* Newsletter */}
+              <div className="mt-16">
                 <NewsletterSignup compact={true} />
+              </div>
+            </div>
+            <aside className="hidden pt-14 2xl:block">
+              <div className="sticky top-[calc(var(--nav-stack)+2rem)]">
+                <Contents headings={headings} />
               </div>
             </aside>
           </div>
-
-          {/* Author Bio */}
-          <motion.div
-            className="mt-16 pt-12 border-t border-[var(--rule)]"
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.9 } })}
-          >
-            <div className="rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-8">
-              <div className="flex items-start gap-6">
-                <div className="w-14 h-14 bg-[var(--background-secondary)] border border-[var(--rule)] rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
-                  {post.author?.image ? (
-                    <Image 
-                      src={urlFor(post.author.image)?.width(64).height(64).url()} 
-                      alt={post.author.name}
-                      width={64}
-                      height={64}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <User className="w-6 h-6 text-[var(--mid)]" />
-                  )}
-                </div>
-                <div className="flex-1">
-                  <h3
-                    className="text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)] mb-2"
-                    style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
-                  >
-                    {post.author?.name || 'RubixKube Team'}
-                  </h3>
-                  <div className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-4">
-                    {post.author?.bio ? (
-                      typeof post.author.bio === 'string' ? (
-                        <p className="leading-relaxed">{post.author.bio}</p>
-                      ) : (
-                        <PortableText 
-                          value={post.author.bio} 
-                          components={{
-                            block: {
-                              normal: ({children}) => <p className="leading-relaxed">{children}</p>
-                            }
-                          }}
-                        />
-                      )
-                    ) : (
-                      <p className="leading-relaxed">
-                        Building the future of site reliability with AI-native infrastructure solutions. 
-                        Passionate about turning operational complexity into elegant simplicity.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
 
           {/* Back to Blog Floating Button */}
           {showBackToTop && (
@@ -487,7 +448,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             >
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-xs font-light"
+                className="inline-flex items-center gap-2 rounded-[6px] bg-[var(--bg)] px-4 py-2.5 font-[family-name:var(--font-figtree)] text-[14px] font-medium text-[var(--ink)] shadow-md ring-1 ring-[var(--rule)] transition-shadow duration-200 hover:shadow-lg"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 All stories
@@ -505,46 +466,52 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
             className="mb-12"
           >
-            <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+            <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
               Related
             </span>
-            <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-3">
-              More <span className="italic text-[var(--blue)]">stories.</span>
+            <h2 className="rk-section-title mt-3 text-[clamp(1.75rem,3vw,2.75rem)] text-[var(--ink)]">
+              More <em>stories.</em>
             </h2>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {relatedPosts.map((relatedPost, i) => (
-              <motion.div
-                key={relatedPost._id}
-                variants={fadeUpVariants}
-                {...(prefersReducedMotion ? { initial: "visible" } : { 
-                  initial: "hidden",
-                  animate: "visible",
-                  transition: { delay: (i * 0.05) + 0.2 }
-                })}
-              >
-                <BlogCardStyles
-                  post={relatedPost}
-                  variant="default"
-                  index={i}
-                />
-              </motion.div>
-            ))}
+          {/* the /blog grid's story: the date, the cover, the title, no box */}
+          <ul className="m-0 grid list-none grid-cols-1 gap-x-5 gap-y-12 p-0 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedPosts.map((relatedPost) => {
+              const src = relatedPost.image ? urlFor(relatedPost.image)?.width(800).height(600).url() : null
+              return (
+                <li key={relatedPost._id} className="m-0 p-0">
+                  <Link href={`/blog/${relatedPost.slug?.current}`} className="group block">
+                    <span className="block font-[family-name:var(--font-mono)] text-[12px] text-[var(--mid)]">
+                      {relatedPost.publishedAt
+                        ? new Date(relatedPost.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
+                        : ''}
+                    </span>
+                    <span className="relative mt-3 block aspect-[4/3] overflow-hidden rounded-md bg-[var(--panel)]">
+                      {src && (
+                        <Image
+                          src={src}
+                          alt=""
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                        />
+                      )}
+                    </span>
+                    <span className="mt-4 block font-[family-name:var(--font-figtree)] text-[17px] leading-[1.3] font-semibold tracking-[-0.01em] text-balance text-[var(--ink)]">
+                      {relatedPost.title}
+                    </span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+
+          <div className="mt-12">
+            <Link href="/blog" className={siteLink}>
+              View All Articles
+              <ArrowRight className={siteLinkArrow} aria-hidden />
+            </Link>
           </div>
-          
-          <motion.div
-            className="text-center mt-12"
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
-          >
-            <Button asChild variant="outline">
-              <Link href="/blog" className="inline-flex items-center gap-2">
-                View All Articles
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-            </Button>
-          </motion.div>
         </div>
       </section>
 

@@ -4,20 +4,20 @@ import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
+import { PageHero } from '@/components/page-hero'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
-import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { cn } from '@/lib/utils'
-import { rkMono9, rkMono10, rkMono13 } from '@/lib/landing-responsive-type'
+import { siteLink, siteLinkArrow } from '@/lib/site-ui'
 import {
   BookOpen,
   FileText,
   BarChart3,
   Calendar,
   ArrowRight,
+  ArrowUpRight,
   Lightbulb,
   TrendingUp,
   Terminal,
@@ -141,6 +141,19 @@ const supportResources = [
 const LEARN_CARD_COPY =
   'Site Reliability Intelligence, Agent Mesh, Memory Engine, and safety guardrails — long-form reads on this site.'
 
+const eyebrow = 'font-[family-name:var(--font-mono)] text-[12px] tracking-[0.12em] text-[var(--mid)] uppercase'
+
+/** A card, as on the home page's products: panel paper with a hairline ring */
+const card = 'flex flex-col rounded-2xl bg-[var(--panel)] p-8 ring-1 ring-[var(--rule)]'
+
+const iconBox = 'mb-6 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--bg)] ring-1 ring-[var(--rule)]'
+
+const cardTitle = 'rk-section-title m-0 mb-3 text-[1.2rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]'
+
+/** A guide inside a card: a quiet Figtree link on a rule */
+const guideLink =
+  'block border-l border-[var(--rule)] py-0.5 pl-3 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)] transition-colors hover:border-[var(--ink)] hover:text-[var(--ink)]'
+
 export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem[] }) {
   const prefersReducedMotion = useReducedMotion()
   const learnGuidesSorted = useMemo(
@@ -158,50 +171,10 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
 
       {/* Hero */}
       <section className="relative bg-[var(--bg)]">
-        <div className="rk-landing-max px-[var(--pad)] pt-[calc(var(--nav-stack)+5rem)] pb-20 sm:pb-28 text-center">
-          <motion.div
-            variants={fadeUpVariants}
-            initial={prefersReducedMotion ? 'visible' : 'hidden'}
-            animate="visible"
-            className="flex flex-col items-center"
-          >
-            <span
-              className={cn(
-                'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase mb-10',
-                rkMono10,
-              )}
-            >
-              Resources
-            </span>
-
-            <h1 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] w-full max-w-none">
-              Docs, guides, and <span className="italic text-[var(--blue)]">deep dives.</span>
-            </h1>
-
-            <p
-              className={cn(
-                'font-[family-name:var(--font-mono)] font-light leading-[1.75] text-[var(--mid)] w-full max-w-3xl mt-10',
-                rkMono13,
-              )}
-            >
-              Get started in under 10 minutes.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 mt-10">
-              <Button asChild variant="primary">
-                <Link href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
-                  Start Free
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className={outlineBlueAccentMd}>
-                <Link href="https://docs.rubixkube.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 flex-shrink-0" />
-                  Read the Docs
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
+        <PageHero
+          title="Docs, guides, and deep dives."
+          lede="Get started in under 10 minutes."
+        />
       </section>
 
       {/* Documentation */}
@@ -212,13 +185,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
             {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
             className="mb-16"
           >
-            <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase', rkMono10)}>
+            <span className={eyebrow}>
               Documentation
             </span>
-            <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4">
-              Get up and <span className="italic text-[var(--blue)]">running.</span>
+            <h2 className="rk-section-title text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)] mt-4">
+              Get up and <em>running.</em>
             </h2>
-            <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mt-4 max-w-[60ch]', rkMono13)}>
+            <p className="rk-section-body m-0 mt-4 max-w-[60ch] text-[var(--mid)]">
               Get started with RubixKube and master advanced features.
             </p>
           </motion.div>
@@ -231,18 +204,17 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                   key={cat.title}
                   variants={fadeUpVariants}
                   {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: i * 0.08 } })}
-                  className="flex flex-col rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-10 transition-shadow hover:shadow-md"
+                  className={card}
                 >
-                  <div className="mb-6 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10">
-                    <Icon className="h-5 w-5 text-[var(--blue)]" strokeWidth={1.5} />
+                  <div className={iconBox}>
+                    <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={1.5} />
                   </div>
                   <h3
-                    className="mb-4 text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)]"
-                    style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+                    className={cardTitle}
                   >
                     {cat.title}
                   </h3>
-                  <p className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-5">
+                  <p className="rk-section-body text-[15px] text-[var(--mid)] mb-5">
                     {cat.copy}
                   </p>
 
@@ -253,13 +225,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                         href={guide.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] hover:text-[var(--blue)] transition-colors border-l border-[var(--rule)] hover:border-[var(--blue)] pl-3 py-0.5"
+                        className={guideLink}
                       >
                         {guide.title}
                       </Link>
                     ))}
                     {cat.guides.length > 3 && (
-                      <span className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]/50 pl-3">
+                      <span className="block pl-3 font-[family-name:var(--font-mono)] text-[12px] text-[var(--mid)]">
                         +{cat.guides.length - 3} more
                       </span>
                     )}
@@ -270,10 +242,10 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                       href={cat.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                      className={siteLink}
                     >
                       {'linkLabel' in cat && cat.linkLabel ? cat.linkLabel : 'View Documentation'}
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowUpRight className={siteLinkArrow} aria-hidden />
                     </Link>
                   </div>
                 </motion.div>
@@ -284,18 +256,17 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
             <motion.div
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.24 } })}
-              className="flex flex-col rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-10 transition-shadow hover:shadow-md"
+              className={card}
             >
-              <div className="mb-6 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10">
-                <FileText className="h-5 w-5 text-[var(--blue)]" strokeWidth={1.5} />
+              <div className={iconBox}>
+                <FileText className="h-5 w-5 text-[var(--ink)]" strokeWidth={1.5} />
               </div>
               <h3
-                className="mb-4 text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)]"
-                style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+                className={cardTitle}
               >
                 Learn
               </h3>
-              <p className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-5">
+              <p className="rk-section-body text-[15px] text-[var(--mid)] mb-5">
                 {LEARN_CARD_COPY}
               </p>
 
@@ -305,13 +276,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                     <Link
                       key={`${item.category}-${item.slug}`}
                       href={`/${item.category}/${item.slug}`}
-                      className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] hover:text-[var(--blue)] transition-colors border-l border-[var(--rule)] hover:border-[var(--blue)] pl-3 py-0.5"
+                      className={guideLink}
                     >
                       {referenceGuideNavDisplayTitle(item)}
                     </Link>
                   ))
                 ) : (
-                  <span className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]/50 pl-3 border-l border-[var(--rule)]">
+                  <span className="block border-l border-[var(--rule)] pl-3 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)]">
                     New articles appear here when published.
                   </span>
                 )}
@@ -322,10 +293,10 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                   href="https://docs.rubixkube.ai/concepts/what-is-sri"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                  className={siteLink}
                 >
                   View Documentation
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowUpRight className={siteLinkArrow} aria-hidden />
                 </Link>
               </div>
             </motion.div>
@@ -342,13 +313,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
             >
-              <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase', rkMono10)}>
+              <span className={eyebrow}>
                 Blog
               </span>
-              <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4 mb-3">
-                Blog &amp; <span className="italic text-[var(--blue)]">Insights.</span>
+              <h2 className="rk-section-title text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)] mt-4 mb-3">
+                Blog &amp; <em>Insights.</em>
               </h2>
-              <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mb-8', rkMono13)}>
+              <p className="rk-section-body m-0 mb-8 text-[var(--mid)]">
                 Stay updated with the latest in infrastructure reliability, AI operations, and industry trends.
               </p>
 
@@ -366,27 +337,22 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                       )}
                     >
                       <div className="flex items-center gap-3">
-                        <Lightbulb className="w-4 h-4 text-[var(--blue)] shrink-0" />
-                        <span
-                          className={cn('font-[family-name:var(--font-mono)] font-light text-[var(--ink)] group-hover:text-[var(--blue)] transition-colors', rkMono13)}
-                          style={{ fontWeight: 500 }}
-                        >
+                        <Lightbulb className="w-4 h-4 text-[var(--mid)] shrink-0" strokeWidth={1.5} />
+                        <span className="font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)]">
                           {category.title}
                         </span>
                       </div>
-                      <ArrowRight className="w-3.5 h-3.5 text-[var(--mid)] group-hover:text-[var(--blue)] group-hover:translate-x-0.5 transition-all" />
+                      <ArrowRight className="w-4 h-4 text-[var(--mid)] group-hover:text-[var(--ink)] group-hover:translate-x-0.5 transition-all" aria-hidden />
                     </div>
                   </Link>
                 ))}
               </div>
 
               <div className="mt-8">
-                <Button variant="outline" asChild className="group">
-                  <Link href="/blog" className="flex items-center gap-2">
-                    View All Posts
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
-                </Button>
+                <Link href="/blog" className={siteLink}>
+                  View All Posts
+                  <ArrowRight className={siteLinkArrow} aria-hidden />
+                </Link>
               </div>
             </motion.div>
 
@@ -395,13 +361,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
               variants={fadeUpVariants}
               {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: 0.1 } })}
             >
-              <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase', rkMono10)}>
+              <span className={eyebrow}>
                 Tutorials
               </span>
-              <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4 mb-3">
-                Tutorials &amp; <span className="italic text-[var(--blue)]">Demos.</span>
+              <h2 className="rk-section-title text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)] mt-4 mb-3">
+                Tutorials &amp; <em>Demos.</em>
               </h2>
-              <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mb-8', rkMono13)}>
+              <p className="rk-section-body m-0 mb-8 text-[var(--mid)]">
                 Real platform demonstrations showing RubixKube&apos;s Agent Mesh detecting, analyzing, and resolving infrastructure incidents.
               </p>
 
@@ -411,19 +377,15 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                     key={idx}
                     variants={fadeUpVariants}
                     {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: idx * 0.08 } })}
-                    className="rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-8 transition-shadow hover:shadow-md group"
+                    className="rounded-2xl bg-[var(--panel)] p-8 ring-1 ring-[var(--rule)]"
                   >
-                    <div className="flex items-start justify-between mb-4">
-                      <h3
-                        className="text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)]"
-                        style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
-                      >
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="rk-section-title m-0 text-[1.2rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">
                         {study.title}
                       </h3>
                       <span
                         className={cn(
-                          'shrink-0 ml-3 font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase',
-                          rkMono9,
+                          'shrink-0 ml-3 pt-1 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] uppercase',
                           study.status === 'Tutorial Available' || study.status === 'Live Demo'
                             ? 'text-[var(--green)]'
                             : 'text-[var(--mid)]',
@@ -432,14 +394,14 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                         {study.status}
                       </span>
                     </div>
-                    <p className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-4">
+                    <p className="rk-section-body text-[15px] text-[var(--mid)] mb-4">
                       {study.copy}
                     </p>
                     <div className="space-y-1.5 mb-4">
                       {study.metrics.map((metric, metricIdx) => (
                         <div key={metricIdx} className="flex items-center gap-2">
-                          <TrendingUp className="w-3.5 h-3.5 text-[var(--blue)] shrink-0" />
-                          <span className="font-[family-name:var(--font-mono)] text-[14px] text-[var(--ink)]" style={{ fontWeight: 500 }}>
+                          <TrendingUp className="w-3.5 h-3.5 text-[var(--ink)] shrink-0" />
+                          <span className="font-[family-name:var(--font-mono)] text-[13px] text-[var(--ink)]">
                             {metric}
                           </span>
                         </div>
@@ -451,10 +413,10 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                           href={study.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group/link"
+                          className={siteLink}
                         >
                           View Tutorial
-                          <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
+                          <ArrowUpRight className={siteLinkArrow} aria-hidden />
                         </Link>
                       </div>
                     )}
@@ -474,13 +436,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
             {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
             className="mb-16"
           >
-            <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase', rkMono10)}>
+            <span className={eyebrow}>
               Tutorials
             </span>
-            <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4">
-              Hands-on <span className="italic text-[var(--blue)]">learning.</span>
+            <h2 className="rk-section-title text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)] mt-4">
+              Hands-on <em>learning.</em>
             </h2>
-            <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mt-4 max-w-[60ch]', rkMono13)}>
+            <p className="rk-section-body m-0 mt-4 max-w-[60ch] text-[var(--mid)]">
               Interactive learning experiences: break things, fix them, and master the platform with guided experiments.
             </p>
           </motion.div>
@@ -493,18 +455,17 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                   key={tut.title}
                   variants={fadeUpVariants}
                   {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: i * 0.08 } })}
-                  className="flex flex-col rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-10 transition-shadow hover:shadow-md"
+                  className={card}
                 >
-                  <div className="mb-6 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10">
-                    <Icon className="h-5 w-5 text-[var(--blue)]" strokeWidth={1.5} />
+                  <div className={iconBox}>
+                    <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={1.5} />
                   </div>
                   <h3
-                    className="mb-4 text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)]"
-                    style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+                    className={cardTitle}
                   >
                     {tut.title}
                   </h3>
-                  <p className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-5 flex-1">
+                  <p className="rk-section-body text-[15px] text-[var(--mid)] mb-5 flex-1">
                     {tut.copy}
                   </p>
                   <div className="border-t border-[var(--rule)] pt-4 mt-auto">
@@ -512,10 +473,10 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                       href={tut.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                      className={siteLink}
                     >
                       Start Tutorial
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowUpRight className={siteLinkArrow} aria-hidden />
                     </Link>
                   </div>
                 </motion.div>
@@ -533,13 +494,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
             {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
             className="mb-16"
           >
-            <span className={cn('font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase', rkMono10)}>
+            <span className={eyebrow}>
               Support
             </span>
-            <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4">
-              Help &amp; <span className="italic text-[var(--blue)]">support.</span>
+            <h2 className="rk-section-title text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)] mt-4">
+              Help &amp; <em>support.</em>
             </h2>
-            <p className={cn('font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mt-4 max-w-[60ch]', rkMono13)}>
+            <p className="rk-section-body m-0 mt-4 max-w-[60ch] text-[var(--mid)]">
               Get help quickly with troubleshooting guides, FAQs, and platform documentation.
             </p>
           </motion.div>
@@ -552,18 +513,17 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                   key={res.title}
                   variants={fadeUpVariants}
                   {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: i * 0.08 } })}
-                  className="flex flex-col rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-10 transition-shadow hover:shadow-md"
+                  className={card}
                 >
-                  <div className="mb-6 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10">
-                    <Icon className="h-5 w-5 text-[var(--blue)]" strokeWidth={1.5} />
+                  <div className={iconBox}>
+                    <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={1.5} />
                   </div>
                   <h3
-                    className="mb-4 text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)]"
-                    style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
+                    className={cardTitle}
                   >
                     {res.title}
                   </h3>
-                  <p className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-5 flex-1">
+                  <p className="rk-section-body text-[15px] text-[var(--mid)] mb-5 flex-1">
                     {res.copy}
                   </p>
                   <div className="border-t border-[var(--rule)] pt-4 mt-auto">
@@ -571,10 +531,10 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                       href={res.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                      className={siteLink}
                     >
                       Get Help
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowUpRight className={siteLinkArrow} aria-hidden />
                     </Link>
                   </div>
                 </motion.div>

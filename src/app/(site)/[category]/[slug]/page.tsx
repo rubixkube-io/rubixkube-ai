@@ -18,6 +18,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   learn: 'Learn',
   tools: 'Tools',
   guide: 'Guide',
+  'use-case': 'Use case',
   'case-study': 'Case Study',
   glossary: 'Glossary',
   products: 'Products',
@@ -243,11 +244,15 @@ export default async function MarketingPage({
 
   if (!sanityPage) notFound()
 
+  // Sanity image ids end in their size, e.g. image-abc-3336x2136-png
+  const heroSize = /-(\d+)x(\d+)-\w+$/.exec(sanityPage.heroImage?.asset?._ref ?? '')
   const heroImage = sanityPage.heroImage?.asset
     ? {
         src: urlFor(sanityPage.heroImage.asset).width(1400).url(),
         alt: sanityPage.heroImage.alt || '',
         caption: sanityPage.heroImage.caption || '',
+        width: heroSize ? Number(heroSize[1]) : undefined,
+        height: heroSize ? Number(heroSize[2]) : undefined,
       }
     : undefined
 

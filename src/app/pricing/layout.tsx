@@ -1,9 +1,9 @@
 import { ReferencePagesNavProvider } from '@/components/reference-pages-nav-provider'
-import { fetchReferenceGuidesForNav } from '@/lib/fetch-reference-guides-for-nav'
+import { fetchReferenceGuidesForNav, fetchRecentForNav } from '@/lib/fetch-reference-guides-for-nav'
 
 export default async function PricingLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const guides = await fetchReferenceGuidesForNav()
-  return <ReferencePagesNavProvider guides={guides}>{children}</ReferencePagesNavProvider>
+  const [guides, recent] = await Promise.all([fetchReferenceGuidesForNav(), fetchRecentForNav()])
+  return <ReferencePagesNavProvider guides={guides} recent={recent}>{children}</ReferencePagesNavProvider>
 }

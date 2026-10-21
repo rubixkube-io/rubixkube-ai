@@ -2,30 +2,30 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
 import { fadeUpVariants } from '@/lib/animations'
+import { siteButton } from '@/lib/site-ui'
 
 export default function NotFound() {
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] px-[var(--pad)]">
+    <div className="relative flex min-h-screen items-center overflow-hidden bg-[var(--bg)] px-[var(--pad)]">
       <motion.div
-        className="z-10 mx-auto max-w-lg text-center"
+        className="rk-landing-max z-10 w-full"
         variants={fadeUpVariants}
         initial="hidden"
         animate="visible"
       >
-        <p className="mb-6 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.28em] text-[var(--text-muted)] uppercase">
+        <p className="mb-6 font-[family-name:var(--font-mono)] text-[12px] tracking-[0.12em] text-[var(--mid)] uppercase">
           404
         </p>
-        <h1 className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(2rem,5vw,3rem)] leading-tight font-light tracking-[-0.01em] text-[var(--ink)]">
+        <h1 className="rk-section-title m-0 mb-5 text-[clamp(2.25rem,5vw,3.4rem)] leading-[1.06] text-[var(--ink)]">
           This page isn&apos;t here.
         </h1>
-        <p className="mb-10 font-[family-name:var(--font-mono)] text-sm font-light leading-relaxed text-[var(--mid)]">
+        <p className="rk-section-body m-0 mb-10 max-w-lg text-[var(--mid)]">
           The link may be wrong, or the page was moved. Head back home and keep exploring.
         </p>
-        <Button asChild variant="primary">
-          <Link href="/">Back to home</Link>
-        </Button>
+        <Link href="/" className={siteButton}>
+          Back to home
+        </Link>
       </motion.div>
     </div>
   )

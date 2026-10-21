@@ -93,7 +93,7 @@ export function BlogLayoutShowcase({
                 <Icon className="w-4 h-4" />
                 <div className="text-left">
                   <div className="font-semibold text-sm">{layout.name}</div>
-                  <div className="text-xs opacity-75">{layout.description}</div>
+                  <div className="text-[13px] opacity-75">{layout.description}</div>
                 </div>
               </button>
             )

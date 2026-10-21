@@ -1,15 +1,17 @@
 import { Navbar } from '@/components/navbar'
 import { LandingPage } from '@/components/landing'
 import { HomeScrollLock } from '@/components/landing/home-scroll-lock'
-import { KeplerLaunch } from '@/components/kepler-launch'
 import type { Metadata } from 'next'
 import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 import { webPageJsonLd, faqPageJsonLd } from '@/components/structured-data'
 import { homepageFaqItems } from '@/data/homepage-faq'
 import { sanityFetch } from '@/sanity/lib/live'
 import {
+  BELIEF_STORIES_QUERY,
+  BELIEF_SLUGS,
   LATEST_BLOG_FOR_HOME_QUERY,
   LATEST_PODCAST_FOR_HOME_QUERY,
+  toBeliefStories,
   toBlogFeaturedCard,
   toPodcastFeaturedCard,
 } from '@/lib/landing-featured-content'
@@ -80,9 +82,10 @@ const pageJsonLd = webPageJsonLd({
 const faqItems = homepageFaqItems.map((item) => ({ question: item.q, answer: item.a }))
 
 export default async function Home() {
-  const [{ data: latestPodcast }, { data: latestBlog }] = await Promise.all([
+  const [{ data: latestPodcast }, { data: latestBlog }, { data: covers }] = await Promise.all([
     sanityFetch({ query: LATEST_PODCAST_FOR_HOME_QUERY }),
     sanityFetch({ query: LATEST_BLOG_FOR_HOME_QUERY }),
+    sanityFetch({ query: BELIEF_STORIES_QUERY, params: { slugs: [...BELIEF_SLUGS] } }),
   ])
 
   return (
@@ -97,10 +100,10 @@ export default async function Home() {
       />
       <HomeScrollLock />
       <Navbar />
-      <KeplerLaunch />
       <LandingPage
         latestPodcast={toPodcastFeaturedCard(latestPodcast)}
         latestBlog={toBlogFeaturedCard(latestBlog)}
+        beliefStories={toBeliefStories(covers)}
       />
     </>
   )

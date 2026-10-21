@@ -93,3 +93,42 @@ export const LATEST_BLOG_FOR_HOME_QUERY = `*[_type == "post" && defined(slug.cur
   excerpt,
   "categories": categories[]->title
 }`
+
+/** The pieces behind each belief on the home page: posts and reference pages. Their covers come from Sanity. */
+export const BELIEF_SLUGS = [
+  'kepler-a-tool-for-the-operator',
+  'ai-for-operations-cant-live-in-one-repo',
+  'mean-time-to-understand',
+  'ai-sre-tools-2026',
+] as const
+
+/** The same pieces with the words the home page shows on their cards: the title and the description */
+export const BELIEF_STORIES_QUERY = `*[_type in ["post", "referencePage"] && slug.current in $slugs]{
+  "slug": slug.current,
+  title,
+  "description": coalesce(excerpt, subtitle, seoDescription),
+  publishedAt,
+  "image": coalesce(heroImage, image)
+}`
+
+export type BeliefStory = { title: string; description: string; date: string; cover?: string }
+
+export function toBeliefStories(
+  rows: { slug?: string; title?: string; description?: string; publishedAt?: string; image?: SanityImage }[] | null | undefined,
+) {
+  const out: Record<string, BeliefStory> = {}
+  for (const r of rows ?? []) {
+    if (!r.slug || !r.title) continue
+    out[r.slug] = {
+      title: r.title,
+      // the first paragraph only: some excerpts carry a second, closing line
+      description: (r.description ?? '').split(/\n\s*\n/)[0].trim(),
+      date: r.publishedAt
+        ? new Date(r.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : '',
+      cover: coverUrl(r.image, 1440, 1080),
+    }
+  }
+  return out
+}
+

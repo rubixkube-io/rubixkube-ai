@@ -71,13 +71,13 @@ export function CardGrid({
                     href={guide.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block text-xs text-foreground-muted hover:text-primary transition-colors py-1 border-l-2 border-border hover:border-primary pl-3"
+                    className="block text-[13px] text-foreground-muted hover:text-primary transition-colors py-1 border-l-2 border-border hover:border-primary pl-3"
                   >
                     {guide.title}
                   </Link>
                 ))}
                 {item.guides.length > 3 && (
-                  <span className="block text-xs text-foreground-muted/70 pl-3">
+                  <span className="block text-[13px] text-foreground-muted/70 pl-3">
                     +{item.guides.length - 3} more guides
                   </span>
                 )}

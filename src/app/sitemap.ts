@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const KNOWN_ROUTES = new Set([
     'blog', 'platform', 'solutions', 'resources', 'about',
-    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours', 'hubble',
+    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours', 'hubble', 'why',
   ])
 
   // Fetch dynamic reference pages

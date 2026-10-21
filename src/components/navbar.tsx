@@ -1,378 +1,497 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo, type ComponentType } from 'react'
+import { useState, useEffect, useRef, useMemo, type ComponentType, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  Menu,
-  X,
-  Linkedin,
-  Github,
-  Slack,
-  Rocket,
-  ChevronDown,
-  BookOpen,
-  Scale,
-  Wrench,
-  Map,
-  Briefcase,
-  BookMarked,
-  FileText,
-  LayoutGrid,
-  Target,
-  Building2,
-  Workflow,
-  Mic,
-  Moon,
-  Sun,
-} from 'lucide-react'
+import { Menu, X, ChevronDown, ArrowUpRight, Moon, Sun, Users, Mail, Activity, Linkedin, Github, Slack } from 'lucide-react'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
-import { Kbd } from '@/components/ui/kbd'
 import { useKeyShortcut } from '@/lib/use-key-shortcut'
 import { useTheme } from '@/components/theme-provider'
-import { Button } from '@/components/ui/button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
-import { outlineBlueAccentNav } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
-import { useReferenceGuidesNav } from '@/components/reference-pages-nav-provider'
-import { AnnouncementBar } from '@/components/announcement-bar'
+import { useReferenceGuidesNav, useRecentNav } from '@/components/reference-pages-nav-provider'
 import { urlFor } from '@/lib/sanity.client'
+import { AbstractCover } from '@/components/solutions/abstract-cover'
+import { USE_CASES } from '@/data/solutions'
 import {
-  SOLUTIONS_CATEGORIES,
   RESOURCES_CATEGORIES,
   REFERENCE_CATEGORY_LABELS,
   guidesForCategories,
+  isProductsNavActive,
   isSolutionsNavActive,
   isResourcesNavActive,
+  isCompanyNavActive,
   type ReferenceGuideNavItem,
 } from '@/lib/reference-nav'
 
-const simpleNavBeforeMega = [{ name: 'Platform', href: '/platform' }] as const
-const pricingNavItem = { name: 'Pricing', href: '/pricing' } as const
-const simpleNavTail = [
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
-] as const
-
-const SOLUTIONS_HUB: {
+type Icon = ComponentType<{ className?: string; strokeWidth?: number }>
+type Mega = 'products' | 'usecases' | 'resources' | 'company'
+type Row = {
   title: string
+  line: string
   href: string
-  subtitle: string
-  icon: ComponentType<{ className?: string; strokeWidth?: number }>
-}[] = [
-  {
-    title: 'Overview',
-    href: '/solutions',
-    subtitle: 'How RubixKube tackles infrastructure challenges.',
-    icon: LayoutGrid,
-  },
-  {
-    title: 'Use cases',
-    href: '/solutions#use-cases',
-    subtitle: 'Self-healing, prevention, and safe launches.',
-    icon: Target,
-  },
-  {
-    title: 'Industries',
-    href: '/solutions#industries',
-    subtitle: 'Retail, fintech, healthcare, SaaS, and more.',
-    icon: Building2,
-  },
-  {
-    title: 'How it works',
-    href: '/solutions#how-it-works',
-    subtitle: 'Observe, diagnose, and act with agents.',
-    icon: Workflow,
-  },
-]
-
-const RESOURCE_QUICK: {
-  title: string
-  href: string
-  subtitle: string
+  icon: Icon
   external?: boolean
-  icon: ComponentType<{ className?: string; strokeWidth?: number }>
-}[] = [
-  {
-    title: 'Blog',
-    href: '/blog',
-    subtitle: 'Deep dives, SRI practice, and product updates.',
-    icon: FileText,
-  },
-  {
-    title: 'Podcast',
-    href: '/podcast',
-    subtitle: 'Tune in to our podcast on the future of systems.',
-    icon: Mic,
-  },
-  {
-    title: 'Documentation',
-    href: 'https://docs.rubixkube.ai/',
-    external: true,
-    subtitle: 'Install, platform guides, and tutorials.',
-    icon: BookOpen,
-  },
-  {
-    title: 'Resources hub',
-    href: '/resources',
-    subtitle: 'Docs, playbooks, and on-site guides.',
-    icon: LayoutGrid,
-  },
-]
-
-const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string; strokeWidth?: number }>> = {
-  learn: BookOpen,
-  compare: Scale,
-  tools: Wrench,
-  guide: Map,
-  'case-study': Briefcase,
-  glossary: BookMarked,
 }
-
-const socialLinks = [
-  { name: 'LinkedIn', href: 'https://linkedin.com/company/rubixkube', icon: Linkedin },
-  { name: 'GitHub', href: 'https://github.com/rubixkube-io', icon: Github },
-  {
-    name: 'Slack',
-    href: 'https://join.slack.com/t/rubixkubecommunity/shared_invite/zt-3fq7kiu8k-RC5uzLY6BjQFE5Uq_NziEA',
-    icon: Slack,
-  },
-] as const
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const CONSOLE_URL = 'https://console.rubixkube.ai'
+const DOCS_URL = 'https://docs.rubixkube.ai/'
+const SLACK_URL = 'https://join.slack.com/t/rubixkubecommunity/shared_invite/zt-3fq7kiu8k-RC5uzLY6BjQFE5Uq_NziEA'
+const GITHUB_URL = 'https://github.com/rubixkube-io'
+const LINKEDIN_URL = 'https://linkedin.com/company/rubixkube'
 
-const launchConsoleClass =
-  '!rounded-[5px] !py-[9px] !px-5 !text-[10px] !tracking-[0.12em] !font-medium !gap-1.5 shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!py-[11px] min-[1920px]:!px-6 min-[1920px]:!text-[11px] min-[2560px]:!text-xs'
-
-const navLinkClass =
-  'whitespace-nowrap font-[family-name:var(--font-mono)] text-[12px] tracking-[0.14em] uppercase transition-colors min-[1600px]:text-[13px] min-[1920px]:text-[14px] min-[2560px]:text-[15px]'
-
-const megaSectionLabel =
-  'mb-3 font-[family-name:var(--font-mono)] text-[10px] font-medium tracking-[0.2em] text-[var(--blue)] uppercase'
-
-function MegaLinkRow({
-  href,
-  external,
-  title,
-  subtitle,
-  Icon,
-  onNavigate,
-}: {
-  href: string
-  external?: boolean
+/** offset: the screenshot sits inset from the top and left of the cover and runs off the other edges; Hubble's cover is already drawn that way */
+const PRODUCTS: {
   title: string
-  subtitle?: string | null
-  Icon: ComponentType<{ className?: string; strokeWidth?: number }>
-  onNavigate?: () => void
-}) {
-  const fullLabel = [title, (subtitle ?? '').trim()].filter(Boolean).join(' — ')
-  const inner = (
-    <>
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10 transition-colors group-hover:bg-[var(--blue)]/[0.12]">
-        <Icon className="h-4 w-4 text-[var(--blue)] transition-transform duration-300 group-hover:scale-110" strokeWidth={1.5} />
+  line: string
+  href: string
+  image: string
+  imageDark?: string
+  offset?: boolean
+}[] = [
+  {
+    title: 'RubixKube',
+    line: 'Finds the cause of each incident and suggests the fix.',
+    href: '/platform',
+    image: '/screenshots/platform/rubix-home-light.png',
+    imageDark: '/screenshots/platform/rubix-home-dark.png',
+    offset: true,
+  },
+  {
+    title: 'Hubble',
+    line: 'On-call schedules, escalation and paging.',
+    href: '/hubble',
+    image: '/screenshots/hubble/nav-card.png',
+  },
+  {
+    title: 'Kepler',
+    line: 'The desktop IDE for operators.',
+    href: '/products/kepler',
+    image: '/screenshots/kepler/cover-window.png',
+    offset: true,
+  },
+  {
+    title: 'Rubix CLI',
+    line: 'Rubix in your terminal.',
+    href: '/products/rubix-cli',
+    image: '/screenshots/rubix-cli-cover.png',
+    offset: true,
+  },
+]
+
+const RESOURCE_COLUMNS: {
+  label: string
+  links: { title: string; href: string; external?: boolean }[]
+}[] = [
+  {
+    label: 'Learn',
+    links: [
+      { title: 'Blog', href: '/blog' },
+      { title: 'Podcast', href: '/podcast' },
+      { title: 'All resources', href: '/resources' },
+    ],
+  },
+  {
+    label: 'Build',
+    links: [
+      { title: 'Docs', href: DOCS_URL, external: true },
+      { title: 'GitHub', href: GITHUB_URL, external: true },
+    ],
+  },
+]
+
+const COMPANY: Row[] = [
+  {
+    title: 'About',
+    line: 'Who we are, and why we built RubixKube.',
+    href: '/about',
+    icon: Users,
+  },
+  {
+    title: 'Contact',
+    line: 'Questions, partnerships and press.',
+    href: '/contact',
+    icon: Mail,
+  },
+  {
+    title: 'Status',
+    line: 'The live health of every RubixKube service.',
+    href: '/status',
+    icon: Activity,
+  },
+]
+
+const SOCIAL = [
+  { name: 'LinkedIn', href: LINKEDIN_URL, icon: Linkedin },
+  { name: 'GitHub', href: GITHUB_URL, icon: Github },
+  { name: 'Slack community', href: SLACK_URL, icon: Slack },
+]
+
+/** A card in a menu: the cover on the left, the kind, title and summary on the right */
+type NavCard = {
+  key: string
+  href: string
+  kind: string
+  title: string
+  summary?: string | null
+  image?: string | null
+}
+
+function sanityCard(item: ReferenceGuideNavItem): NavCard {
+  const hero = item.heroImage
+  return {
+    key: `${item.category}/${item.slug}`,
+    href: `/${item.category}/${item.slug}`,
+    kind: REFERENCE_CATEGORY_LABELS[item.category] ?? item.category,
+    title: item.title,
+    summary: item.subtitle,
+    image: hero?.asset?._ref != null ? urlFor(hero).width(480).height(300).url() : null,
+  }
+}
+
+const navText = 'whitespace-nowrap font-[family-name:var(--font-figtree)] text-[15px] font-medium'
+const navItem = cn(navText, 'inline-flex items-center gap-1 rounded-lg px-2.5 py-2 transition-colors hover:bg-[var(--rule)] xl:px-3')
+const label = 'mb-3 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.12em] text-[var(--mid)] uppercase'
+const focus = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)]'
+const demoButton =
+  '!h-9 !rounded-lg !px-4 !py-0 !font-[family-name:var(--font-figtree)] !text-[14px] !font-medium !tracking-normal !normal-case shadow-[0_1px_2px_rgba(17,19,24,0.1)] transition-shadow hover:shadow-[0_4px_16px_rgba(47,91,255,0.3)]'
+
+function CardLink({ card, index, onNavigate }: { card: NavCard; index: number; onNavigate?: () => void }) {
+  return (
+    <Link
+      href={card.href}
+      onClick={onNavigate}
+      className={cn(
+        'group -mx-2.5 grid grid-cols-[6.5rem_1fr] items-start gap-4 rounded-xl p-2.5 transition-colors hover:bg-[var(--rule)] sm:grid-cols-[9.5rem_1fr] xl:grid-cols-[10.5rem_1fr]',
+        focus,
+      )}
+    >
+      <span className="relative block aspect-[16/10] overflow-hidden rounded-lg bg-[var(--panel)] ring-1 ring-[var(--rule)]">
+        {card.image ? (
+          <Image src={card.image} alt="" fill sizes="168px" className="object-cover" />
+        ) : (
+          <AbstractCover seed={card.key} index={index} />
+        )}
       </span>
-      <span className="min-w-0 flex-1 text-left">
-        <span className="line-clamp-2 block font-[family-name:var(--font-mono)] text-[13px] font-medium leading-snug tracking-[-0.02em] text-[var(--ink)] transition-colors group-hover:text-[var(--blue)]">
-          {title}
+      <span className="min-w-0">
+        <span className="block font-[family-name:var(--font-mono)] text-[11px] tracking-[0.12em] text-[var(--mid)] uppercase">
+          {card.kind}
         </span>
-        {(subtitle ?? '').trim() ? (
-          <span className="mt-0.5 line-clamp-3 block font-[family-name:var(--font-mono)] text-[11px] font-light leading-snug text-[var(--mid)] transition-colors group-hover:text-[var(--ink)]">
-            {subtitle}
-          </span>
+        <span className="mt-1.5 block text-[15px] leading-[1.35] font-semibold text-[var(--ink)] transition-colors group-hover:text-[var(--blue)]">
+          {card.title}
+        </span>
+        {card.summary?.trim() ? (
+          <span className="mt-1.5 line-clamp-2 block text-[14px] leading-[1.45] text-[var(--mid)]">{card.summary}</span>
         ) : null}
       </span>
-    </>
+    </Link>
   )
-  const className =
-    'group flex gap-3 rounded-lg p-2 transition-colors hover:bg-[rgba(17,19,24,0.03)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)]'
-  if (external) {
+}
+
+function Cards({ title, cards, offset = 0, onNavigate }: { title: string; cards: NavCard[]; offset?: number; onNavigate?: () => void }) {
+  return (
+    <div className="min-w-0">
+      <p className={label}>{title}</p>
+      <div className="flex flex-col gap-2.5">
+        {cards.map((c, i) => (
+          <CardLink key={c.key} card={c} index={offset + i} onNavigate={onNavigate} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/** Two halves with a rule between them on wide screens, stacked on narrow ones */
+function Split({ left, right }: { left: ReactNode; right: ReactNode }) {
+  return (
+    <div className="grid gap-7 lg:grid-cols-2 lg:gap-0">
+      <div className="min-w-0 lg:pr-7">{left}</div>
+      <div className="min-w-0 lg:border-l lg:border-[var(--rule)] lg:pl-7">{right}</div>
+    </div>
+  )
+}
+
+/** Products: one card per product, the cover on top and one line under the name */
+function ProductsPanel({ onNavigate }: { onNavigate?: () => void }) {
+  return (
+    <div>
+      <p className={label}>Products</p>
+      <ul className="grid grid-cols-2 gap-x-5 gap-y-6 lg:grid-cols-4">
+        {PRODUCTS.map((p) => (
+          <li key={p.href}>
+            <Link href={p.href} onClick={onNavigate} className={cn('group block rounded-xl', focus)}>
+              <span className="relative block aspect-[16/10] overflow-hidden rounded-lg bg-[var(--panel)] ring-1 ring-[var(--rule)]">
+                {p.offset ? (
+                  <span className="absolute top-[14%] left-[12%] block w-[118%] overflow-hidden rounded-tl-lg shadow-[0_12px_32px_rgba(17,19,24,0.22)] ring-1 ring-[var(--rule)] transition-transform duration-300 group-hover:-translate-y-0.5">
+                    <Image
+                      src={p.image}
+                      alt=""
+                      width={1200}
+                      height={750}
+                      sizes="(max-width: 1024px) 50vw, 340px"
+                      className={cn('block h-auto w-full', p.imageDark && 'rk-only-light')}
+                    />
+                    {p.imageDark ? (
+                      <Image
+                        src={p.imageDark}
+                        alt=""
+                        width={1200}
+                        height={750}
+                        sizes="(max-width: 1024px) 50vw, 340px"
+                        className="rk-only-dark block h-auto w-full"
+                      />
+                    ) : null}
+                  </span>
+                ) : (
+                  <Image
+                    src={p.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 1024px) 45vw, 300px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                )}
+              </span>
+              <span className="mt-3 block text-[15px] font-semibold text-[var(--ink)] transition-colors group-hover:text-[var(--blue)]">
+                {p.title}
+              </span>
+              <span className="mt-0.5 block text-[14px] leading-[1.4] text-[var(--mid)]">{p.line}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function UseCasesPanel({ onNavigate }: { onNavigate?: () => void }) {
+  const guides = useReferenceGuidesNav()
+  const { useCases, caseStudies } = useMemo(() => {
+    const written = guides.filter((g) => g.category === 'use-case').map(sanityCard)
+    // until the use cases are published in Sanity, the short list on /solutions stands in
+    const useCases: NavCard[] = written.length
+      ? written
+      : USE_CASES.map((u) => ({
+          key: `use-case/${u.slug}`,
+          href: u.href,
+          kind: 'Use case',
+          title: u.title,
+          summary: u.summary,
+        }))
+    return {
+      useCases,
+      caseStudies: guides.filter((g) => g.category === 'case-study').map(sanityCard),
+    }
+  }, [guides])
+
+  const all = (
+    <Link
+      href="/solutions"
+      onClick={onNavigate}
+      className={cn('mt-4 inline-flex text-[14px] font-medium text-[var(--ink)] hover:text-[var(--blue)]', focus)}
+    >
+      All use cases →
+    </Link>
+  )
+
+  // with no case studies yet, the use cases take both halves
+  if (!caseStudies.length) {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={className}
-        title={fullLabel}
-        onClick={onNavigate}
-      >
-        {inner}
-      </a>
+      <Split
+        left={
+          <div>
+            <Cards title="Use cases" cards={useCases.slice(0, 2)} onNavigate={onNavigate} />
+            {all}
+          </div>
+        }
+        right={<Cards title="More use cases" cards={useCases.slice(2, 4)} offset={2} onNavigate={onNavigate} />}
+      />
     )
   }
   return (
-    <Link href={href} className={className} title={fullLabel} onClick={onNavigate}>
-      {inner}
-    </Link>
+    <Split
+      left={
+        <div>
+          <Cards title="Use cases" cards={useCases.slice(0, 2)} onNavigate={onNavigate} />
+          {all}
+        </div>
+      }
+      right={<Cards title="Case studies" cards={caseStudies.slice(0, 2)} onNavigate={onNavigate} />}
+    />
   )
 }
 
-/** Hubble has its own page (/hubble), not a Sanity reference page, so its card is listed here. */
-const HUBBLE_NAV_ITEM: ReferenceGuideNavItem & { href: string; imageSrc: string } = {
-  title: 'Hubble',
-  slug: 'hubble',
-  category: 'products',
-  subtitle: 'On-call scheduling, escalation and paging, from RubixKube.',
-  href: '/hubble',
-  imageSrc: '/screenshots/hubble/nav-card.png',
-}
-
-function SolutionsMegaPanel({ onNavigate }: { onNavigate?: () => void }) {
+function ResourcesPanel({ onNavigate }: { onNavigate?: () => void }) {
   const guides = useReferenceGuidesNav()
-  const solutionsPages = useMemo(
-    () => {
-      // Hubble goes right after the MTTU glossary entry, or last if that entry is gone.
-      const list = guidesForCategories(guides, SOLUTIONS_CATEGORIES)
-      const mttu = list.findIndex((g) => /\bMTTU\b/.test(g.title))
-      const at = mttu === -1 ? list.length : mttu + 1
-      return [...list.slice(0, at), HUBBLE_NAV_ITEM, ...list.slice(at)]
-    },
-    [guides],
-  )
+  const recent = useRecentNav()
+  const featured = useMemo(() => {
+    const pages = guidesForCategories(guides, RESOURCES_CATEGORIES)
+    // one comparison and one glossary entry when there are both, so the two cards differ
+    const compare = pages.find((g) => g.category === 'compare')
+    const glossary = pages.find((g) => g.category === 'glossary')
+    const picked = [compare, glossary].filter((g): g is ReferenceGuideNavItem => !!g)
+    const rest = pages.filter((g) => !picked.includes(g))
+    return [...picked, ...rest].slice(0, 2).map(sanityCard)
+  }, [guides])
 
   return (
-    <div className="flex min-w-0 flex-col gap-6 lg:flex-row lg:gap-0">
-      <div className="min-w-0 shrink-0 lg:w-[min(14rem,40%)] lg:pr-6">
-        <p className={megaSectionLabel}>Solutions</p>
-        <ul className="flex flex-col gap-0.5">
-          {SOLUTIONS_HUB.map((row) => (
-            <li key={row.href}>
-              <MegaLinkRow
-                href={row.href}
-                title={row.title}
-                subtitle={row.subtitle}
-                Icon={row.icon}
-                onNavigate={onNavigate}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-      {solutionsPages.length > 0 ? (
-        <div className="min-w-0 flex-1 lg:pl-6 lg:border-l lg:border-[var(--rule)]">
-          <p className={megaSectionLabel}>Case studies & glossary</p>
-          <ul className="flex flex-col gap-3">
-            {solutionsPages.map((item) => (
-              <li key={`${item.category}-${item.slug}`}>
-                <ResourcesFeaturedArticle item={item} onNavigate={onNavigate} />
-              </li>
+    <Split
+      left={
+        <div>
+          <div className="grid grid-cols-2 gap-6">
+            {RESOURCE_COLUMNS.map((col) => (
+              <div key={col.label}>
+                <p className={label}>{col.label}</p>
+                <ul className="flex flex-col">
+                  {col.links.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        onClick={onNavigate}
+                        {...(l.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        className={cn(
+                          'inline-flex items-center gap-1 py-1.5 text-[15px] font-medium text-[var(--ink)] transition-colors hover:text-[var(--blue)]',
+                          focus,
+                        )}
+                      >
+                        {l.title}
+                        {l.external ? <ArrowUpRight className="h-3.5 w-3.5 text-[var(--mid)]" strokeWidth={1.75} aria-hidden /> : null}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
+          {recent.length ? (
+            <div className="mt-6 grid grid-cols-2 gap-6 border-t border-[var(--rule)] pt-6">
+              {(['post', 'episode'] as const).map((kind) => {
+                const items = recent.filter((r) => r.kind === kind)
+                if (!items.length) return null
+                return (
+                  <div key={kind}>
+                    <p className={label}>{kind === 'post' ? 'Latest posts' : 'Latest episodes'}</p>
+                    <ul className="flex flex-col gap-3">
+                      {items.map((r) => (
+                        <li key={r.href}>
+                          <Link href={r.href} onClick={onNavigate} className={cn('group block', focus)}>
+                            {r.date ? (
+                              <span className="block font-[family-name:var(--font-mono)] text-[11px] tracking-[0.08em] text-[var(--mid)] uppercase">
+                                {new Date(r.date).toLocaleDateString('en-US', {
+                                  month: 'short',
+                                  day: 'numeric',
+                                  year: 'numeric',
+                                  timeZone: 'UTC',
+                                })}
+                              </span>
+                            ) : null}
+                            <span className="mt-1 line-clamp-2 block text-[14px] leading-[1.4] font-medium text-[var(--ink)] transition-colors group-hover:text-[var(--blue)]">
+                              {r.title}
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              })}
+            </div>
+          ) : null}
         </div>
-      ) : null}
+      }
+      right={featured.length ? <Cards title="Featured" cards={featured} onNavigate={onNavigate} /> : null}
+    />
+  )
+}
+
+/** A list of rows with an icon, a name and one line, as in the Products menu */
+function Rows({ title, rows, onNavigate }: { title: string; rows: Row[]; onNavigate?: () => void }) {
+  return (
+    <div>
+      <p className={label}>{title}</p>
+      <ul className="grid gap-1">
+        {rows.map(({ title: name, line, href, icon: RowIcon, external }) => (
+          <li key={href}>
+            <Link
+              href={href}
+              onClick={onNavigate}
+              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              className={cn('group -mx-2.5 flex gap-3 rounded-xl p-2.5 transition-colors hover:bg-[var(--rule)]', focus)}
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--rule)] text-[var(--ink)]">
+                <RowIcon className="h-4 w-4" strokeWidth={1.75} />
+              </span>
+              <span className="min-w-0">
+                <span className="inline-flex items-center gap-1 text-[15px] font-semibold text-[var(--ink)] transition-colors group-hover:text-[var(--blue)]">
+                  {name}
+                  {external ? <ArrowUpRight className="h-3.5 w-3.5 text-[var(--mid)]" strokeWidth={1.75} aria-hidden /> : null}
+                </span>
+                <span className="mt-0.5 block text-[14px] leading-[1.4] text-[var(--mid)]">{line}</span>
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
 
-function ResourcesFeaturedArticle({
-  item,
-  onNavigate,
-}: {
-  item: ReferenceGuideNavItem & { href?: string; imageSrc?: string }
-  onNavigate?: () => void
-}) {
-  const href = item.href ?? `/${item.category}/${item.slug}`
-  const categoryLabel = REFERENCE_CATEGORY_LABELS[item.category] ?? item.category
-  const Icon = CATEGORY_ICONS[item.category] ?? FileText
-  const hero = item.heroImage
-  const img =
-    item.imageSrc ?? (hero?.asset?._ref != null ? urlFor(hero).width(640).height(400).url() : null)
-  const alt = (hero?.alt ?? '').trim() || ''
-  const fullLabel = [categoryLabel, item.title, (item.subtitle ?? '').trim()].filter(Boolean).join(' — ')
-
-  return (
-    <Link
-      href={href}
-      onClick={onNavigate}
-      title={fullLabel}
-      className="group flex gap-4 rounded-xl p-2 text-left transition-colors hover:bg-[rgba(17,19,24,0.04)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)]"
-    >
-      <div className="relative aspect-[16/10] w-[min(44%,11rem)] min-w-[7.5rem] shrink-0 overflow-hidden rounded-lg bg-[rgba(17,19,24,0.06)] sm:min-w-[9rem]">
-        {img ? (
-          <Image src={img} alt={alt} fill className={`object-cover transition-transform duration-300 group-hover:scale-[1.02]`} sizes="(max-width: 768px) 120px, 176px" />
-        ) : (
-          <span className="flex h-full w-full items-center justify-center">
-            <Icon className="h-8 w-8 text-[var(--blue)]/30" strokeWidth={1.25} aria-hidden />
-          </span>
-        )}
-      </div>
-      <div className="flex min-w-0 flex-1 flex-col justify-center py-0.5">
-        <p className="mb-1.5 font-[family-name:var(--font-mono)] text-[10px] font-medium tracking-[0.2em] text-[var(--blue)] uppercase">
-          {categoryLabel}
-        </p>
-        <p className="font-[family-name:var(--font-mono)] text-[14px] font-medium leading-snug tracking-[-0.02em] text-[var(--ink)] sm:text-[15px]">
-          {item.title}
-        </p>
-        {(item.subtitle ?? '').trim() ? (
-          <p className="mt-2 line-clamp-3 font-[family-name:var(--font-mono)] text-[11px] font-light leading-relaxed text-[var(--mid)]">
-            {item.subtitle}
-          </p>
-        ) : null}
-      </div>
-    </Link>
-  )
+function CompanyPanel({ onNavigate }: { onNavigate?: () => void }) {
+  return <Rows title="Company" rows={COMPANY} onNavigate={onNavigate} />
 }
 
-function ResourcesMegaPanel({ onNavigate }: { onNavigate?: () => void }) {
-  const guides = useReferenceGuidesNav()
-  const resourcePages = useMemo(
-    () => guidesForCategories(guides, RESOURCES_CATEGORIES),
-    [guides],
-  )
-
-  return (
-    <div className="flex min-w-0 flex-col gap-6 lg:flex-row lg:gap-0">
-      <div className="min-w-0 shrink-0 lg:w-[min(14rem,40%)] lg:pr-6">
-        <p className={megaSectionLabel}>Discover</p>
-        <ul className="flex flex-col gap-0.5">
-          {RESOURCE_QUICK.map((row) => (
-            <li key={row.href}>
-              <MegaLinkRow
-                href={row.href}
-                external={row.external}
-                title={row.title}
-                subtitle={row.subtitle}
-                Icon={row.icon}
-                onNavigate={onNavigate}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-      {resourcePages.length > 0 ? (
-        <div className="min-w-0 flex-1 lg:pl-6 lg:border-l lg:border-[var(--rule)]">
-          <p className={megaSectionLabel}>Featured on this site</p>
-          <ul className="flex flex-col gap-3">
-            {resourcePages.map((item) => (
-              <li key={`${item.category}-${item.slug}`}>
-                <ResourcesFeaturedArticle item={item} onNavigate={onNavigate} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-    </div>
-  )
-}
+/** compact: a small dropdown under its label instead of the full-width panel */
+const PANELS: {
+  id: Mega
+  name: string
+  active: (p: string) => boolean
+  Panel: ComponentType<{ onNavigate?: () => void }>
+  compact?: boolean
+}[] = [
+  {
+    id: 'products',
+    name: 'Products',
+    active: isProductsNavActive,
+    Panel: ProductsPanel,
+  },
+  {
+    id: 'usecases',
+    name: 'Use cases',
+    active: isSolutionsNavActive,
+    Panel: UseCasesPanel,
+  },
+  {
+    id: 'resources',
+    name: 'Resources',
+    active: isResourcesNavActive,
+    Panel: ResourcesPanel,
+  },
+  {
+    id: 'company',
+    name: 'Company',
+    active: isCompanyNavActive,
+    Panel: CompanyPanel,
+    compact: true,
+  },
+]
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [megaDesktop, setMegaDesktop] = useState<null | 'solutions' | 'resources'>(null)
-  const [mobileMega, setMobileMega] = useState<null | 'solutions' | 'resources'>(null)
+  const [megaDesktop, setMegaDesktop] = useState<null | Mega>(null)
+  const [mobileMega, setMobileMega] = useState<null | Mega>(null)
   const [megaPortalReady, setMegaPortalReady] = useState(false)
+  // where a compact menu's label starts, so its dropdown opens right under it
+  const [anchorLeft, setAnchorLeft] = useState(0)
   const prefersReducedMotion = useReducedMotion()
   const pathname = usePathname()
   const navShellRef = useRef<HTMLElement | null>(null)
   const megaOverlayRef = useRef<HTMLDivElement | null>(null)
-
-  const openMega = (m: 'solutions' | 'resources') => {
-    setMegaDesktop(m)
-  }
 
   // Keyboard first: L opens the console sign-in, B opens the booking calendar
   useKeyShortcut('l', () => window.open(CONSOLE_URL, '_blank', 'noopener,noreferrer'))
@@ -380,10 +499,6 @@ export function Navbar() {
   // D switches between light and dark
   const { toggleTheme } = useTheme()
   useKeyShortcut('d', toggleTheme)
-
-  const toggleMega = (m: 'solutions' | 'resources') => {
-    setMegaDesktop((prev) => (prev === m ? null : m))
-  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -393,8 +508,7 @@ export function Navbar() {
   }, [])
 
   useEffect(() => {
-    if (isOpen) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = ''
+    document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
@@ -416,12 +530,10 @@ export function Navbar() {
       if (e.key === 'Escape') setMegaDesktop(null)
     }
     const onPointerDown = (e: PointerEvent) => {
-      const nav = navShellRef.current
-      const mega = megaOverlayRef.current
       const target = e.target as Node | null
       if (!target) return
-      const inNav = nav?.contains(target) ?? false
-      const inMega = mega?.contains(target) ?? false
+      const inNav = navShellRef.current?.contains(target) ?? false
+      const inMega = megaOverlayRef.current?.contains(target) ?? false
       if (!inNav && !inMega) setMegaDesktop(null)
     }
     document.addEventListener('keydown', onKeyDown)
@@ -438,51 +550,56 @@ export function Navbar() {
     setMobileMega(null)
   }
 
+  const open = PANELS.find((p) => p.id === megaDesktop)
   const megaPortal =
     megaPortalReady &&
     typeof document !== 'undefined' &&
     createPortal(
       <AnimatePresence>
-        {megaDesktop ? (
+        {open ? (
           <motion.div
             ref={megaOverlayRef}
-            key={megaDesktop}
-            className="pointer-events-auto fixed z-[2000] max-[1376px]:hidden"
+            className="pointer-events-auto fixed z-[2000] max-lg:hidden"
             style={{ top: 'var(--nav-stack)', left: 0, right: 0, bottom: 0 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0.04 : 0.18, ease: 'easeOut' }}
+            transition={{
+              duration: prefersReducedMotion ? 0.04 : 0.18,
+              ease: 'easeOut',
+            }}
           >
-            {/* Full hit-target below the header: scrim catches every pixel so the page behind never receives hover/selection. */}
+            {/* The scrim catches every pixel below the header, so the page behind never takes hover or clicks */}
             <button
               type="button"
               aria-label="Close menu"
-              className="absolute inset-0 z-0 border-0 bg-[var(--ink)]/[0.22] p-0 backdrop-blur-[2px] transition-colors hover:bg-[var(--ink)]/[0.26]"
+              className="absolute inset-0 z-0 border-0 bg-[var(--ink)]/[0.16] p-0 backdrop-blur-[2px]"
               onClick={() => setMegaDesktop(null)}
             />
             <div
               id="nav-mega-desktop"
               role="region"
-              aria-label={megaDesktop === 'solutions' ? 'Solutions menu' : 'Resources menu'}
-              className="pointer-events-none relative z-[1] flex w-full justify-center px-3 pt-2 sm:px-4"
+              aria-label={`${open.name} menu`}
+              className={cn(
+                'pointer-events-none relative z-[1] pt-2 font-[family-name:var(--font-figtree)]',
+                open.compact ? 'absolute w-[22rem]' : 'rk-landing-max px-[var(--pad)]',
+              )}
+              style={open.compact ? { left: Math.max(16, anchorLeft - 12) } : undefined}
             >
               <motion.div
+                key={open.id}
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: prefersReducedMotion ? 0.04 : 0.2, ease: [0.22, 1, 0.36, 1] }}
-                style={{
-                  width: 'min(52rem, calc(100vw - 2rem))',
+                transition={{
+                  duration: prefersReducedMotion ? 0.04 : 0.2,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
-                className="pointer-events-auto box-border max-w-none shrink-0 overflow-hidden rounded-xl bg-[var(--background-secondary)] shadow-[0_32px_64px_-12px_rgba(17,19,24,0.2)]"
+                className={cn(
+                  'pointer-events-auto max-h-[min(72vh,620px)] overflow-y-auto overscroll-contain rounded-2xl bg-[var(--paper)] shadow-[0_24px_60px_rgba(17,19,24,0.14)] ring-1 ring-[var(--rule)]',
+                  open.compact ? 'p-5' : 'p-7',
+                )}
               >
-                <div className="max-h-[min(68vh,560px)] overflow-y-auto overscroll-contain px-4 py-5 sm:px-5 sm:py-6">
-                  {megaDesktop === 'solutions' ? (
-                    <SolutionsMegaPanel onNavigate={() => setMegaDesktop(null)} />
-                  ) : (
-                    <ResourcesMegaPanel onNavigate={() => setMegaDesktop(null)} />
-                  )}
-                </div>
+                <open.Panel onNavigate={() => setMegaDesktop(null)} />
               </motion.div>
             </div>
           </motion.div>
@@ -491,33 +608,29 @@ export function Navbar() {
       document.body,
     )
 
+  const pricingActive = pathname === '/pricing' || pathname.startsWith('/pricing/')
+
   return (
-    <>
-    <AnnouncementBar />
     <motion.header
       ref={navShellRef}
       variants={fadeUpVariants}
       initial={prefersReducedMotion ? 'visible' : 'hidden'}
       animate="visible"
       className={cn(
-        'fixed top-[var(--announce-h)] right-0 left-0 z-[100] overflow-visible pt-[var(--nav-gap-top)] transition-[background-color,border-color,backdrop-filter] duration-300',
-        scrolled || megaDesktop
+        'fixed top-[var(--announce-h)] right-0 left-0 z-[100] overflow-visible pt-[var(--nav-gap-top)] font-[family-name:var(--font-figtree)] transition-[background-color,border-color,backdrop-filter] duration-300',
+        scrolled || megaDesktop || isOpen
           ? 'border-b border-[var(--rule)] bg-[color-mix(in_srgb,var(--bg)_92%,transparent)] backdrop-blur-[14px]'
           : 'border-b border-transparent bg-transparent',
       )}
     >
-      <nav className="relative mx-auto flex h-[var(--nav-height)] max-w-[100vw] items-center justify-end gap-3 px-[var(--pad)] min-[1377px]:grid min-[1377px]:grid-cols-[1fr_auto_1fr] min-[1377px]:justify-items-stretch">
-        <Link
-          href="/"
-          className="absolute top-1/2 left-1/2 flex shrink-0 -translate-x-1/2 -translate-y-1/2 min-[1377px]:relative min-[1377px]:top-auto min-[1377px]:left-auto min-[1377px]:translate-x-0 min-[1377px]:translate-y-0 min-[1377px]:justify-self-start"
-          aria-label="RubixKube home"
-        >
+      <nav className="rk-landing-max relative flex h-[var(--nav-height)] items-center gap-5 px-[var(--pad)] xl:gap-8">
+        <Link href="/" className="flex shrink-0" aria-label="RubixKube home">
           <Image
             src="/dark-logo.svg"
             alt=""
             width={1720}
             height={200}
-            className="rk-only-dark h-[18px] w-auto max-w-[min(156px,46vw)] sm:h-5 sm:max-w-[min(176px,44vw)] min-[1920px]:h-6 min-[1920px]:max-w-[min(200px,40vw)] min-[2560px]:h-[26px] min-[2560px]:max-w-[min(220px,38vw)]"
+            className="rk-only-dark h-[18px] w-auto sm:h-5 min-[1920px]:h-6"
             priority
           />
           <Image
@@ -525,151 +638,90 @@ export function Navbar() {
             alt=""
             width={1720}
             height={200}
-            className="rk-only-light h-[18px] w-auto max-w-[min(156px,46vw)] sm:h-5 sm:max-w-[min(176px,44vw)] min-[1920px]:h-6 min-[1920px]:max-w-[min(200px,40vw)] min-[2560px]:h-[26px] min-[2560px]:max-w-[min(220px,38vw)]"
+            className="rk-only-light h-[18px] w-auto sm:h-5 min-[1920px]:h-6"
             priority
           />
         </Link>
 
-        <div className="hidden min-w-0 justify-center justify-self-center min-[1377px]:flex">
-          <div className="flex items-center justify-center gap-x-6 min-[1600px]:gap-x-8">
-            {simpleNavBeforeMega.map((item) => {
-              const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    navLinkClass,
-                    isActive ? 'text-[var(--blue)]' : 'text-[var(--ink)] hover:text-[var(--blue)]',
-                  )}
-                >
-                  {item.name}
-                </Link>
-              )
-            })}
-
-            <div className="relative flex flex-col items-center" onMouseEnter={() => openMega('solutions')}>
-              <button
-                type="button"
-                className={cn(
-                  'inline-flex cursor-pointer items-center gap-1',
-                  navLinkClass,
-                  isSolutionsNavActive(pathname)
-                    ? 'text-[var(--blue)]'
-                    : 'text-[var(--ink)] hover:text-[var(--blue)]',
-                )}
-                aria-expanded={megaDesktop === 'solutions'}
-                aria-haspopup="true"
-                aria-controls="nav-mega-desktop"
-                id="nav-trigger-solutions"
-                onClick={() => toggleMega('solutions')}
-              >
-                Solutions
-                <ChevronDown
-                  className={cn(
-                    'h-3.5 w-3.5 shrink-0 transition-transform',
-                    megaDesktop === 'solutions' && 'rotate-180',
-                  )}
-                  strokeWidth={2}
-                  aria-hidden
-                />
-              </button>
-            </div>
-
-            <Link
-              href={pricingNavItem.href}
+        <div className="hidden items-center gap-0.5 lg:flex xl:gap-1">
+          {PANELS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
               className={cn(
-                navLinkClass,
-                pathname === pricingNavItem.href || pathname.startsWith(`${pricingNavItem.href}/`)
-                  ? 'text-[var(--blue)]'
-                  : 'text-[var(--ink)] hover:text-[var(--blue)]',
+                navItem,
+                'cursor-pointer',
+                megaDesktop === p.id && 'bg-[var(--rule)]',
+                p.active(pathname) ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
+                focus,
               )}
+              aria-expanded={megaDesktop === p.id}
+              aria-haspopup="true"
+              aria-controls="nav-mega-desktop"
+              id={`nav-trigger-${p.id}`}
+              onMouseEnter={(e) => {
+                setAnchorLeft(e.currentTarget.getBoundingClientRect().left)
+                setMegaDesktop(p.id)
+              }}
+              onClick={(e) => {
+                setAnchorLeft(e.currentTarget.getBoundingClientRect().left)
+                setMegaDesktop((m) => (m === p.id ? null : p.id))
+              }}
             >
-              {pricingNavItem.name}
-            </Link>
-
-            <div className="relative flex flex-col items-center" onMouseEnter={() => openMega('resources')}>
-              <button
-                type="button"
-                className={cn(
-                  'inline-flex cursor-pointer items-center gap-1',
-                  navLinkClass,
-                  isResourcesNavActive(pathname)
-                    ? 'text-[var(--blue)]'
-                    : 'text-[var(--ink)] hover:text-[var(--blue)]',
-                )}
-                aria-expanded={megaDesktop === 'resources'}
-                aria-haspopup="true"
-                aria-controls="nav-mega-desktop"
-                id="nav-trigger-resources"
-                onClick={() => toggleMega('resources')}
-              >
-                Resources
-                <ChevronDown
-                  className={cn(
-                    'h-3.5 w-3.5 shrink-0 transition-transform',
-                    megaDesktop === 'resources' && 'rotate-180',
-                  )}
-                  strokeWidth={2}
-                  aria-hidden
-                />
-              </button>
-            </div>
-
-            {simpleNavTail.map((item) => {
-              const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    navLinkClass,
-                    isActive ? 'text-[var(--blue)]' : 'text-[var(--ink)] hover:text-[var(--blue)]',
-                  )}
-                >
-                  {item.name}
-                </Link>
-              )
-            })}
-          </div>
+              {p.name}
+              <ChevronDown
+                className={cn('h-3.5 w-3.5 shrink-0 text-[var(--mid)] transition-transform', megaDesktop === p.id && 'rotate-180')}
+                strokeWidth={2}
+                aria-hidden
+              />
+            </button>
+          ))}
+          <Link
+            href="/pricing"
+            onMouseEnter={() => setMegaDesktop(null)}
+            className={cn(navItem, pricingActive ? 'text-[var(--blue)]' : 'text-[var(--ink)]', focus)}
+          >
+            Pricing
+          </Link>
         </div>
 
-        <div className="hidden items-center gap-2 justify-self-end min-[1377px]:flex min-[1377px]:gap-3">
-          <div className="mr-1 hidden min-[1601px]:flex items-center gap-0.5 border-r border-[var(--rule)] pr-3 min-[1601px]:mr-2 min-[1601px]:pr-4">
-            {socialLinks.map(({ name, href, icon: Icon }) => (
-              <Link
+        <div className="ml-auto hidden items-center gap-3 lg:flex xl:gap-5">
+          <div className="hidden items-center xl:flex">
+            {SOCIAL.map(({ name, href, icon: SocialIcon }) => (
+              <a
                 key={name}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 title={name}
                 aria-label={name}
-                className="rounded-md p-2 text-[var(--mid)] transition-colors hover:bg-[rgba(17,19,24,0.04)] hover:text-[var(--ink)] min-[1920px]:p-2.5 min-[2560px]:p-3"
+                className={cn('rounded-lg p-2 text-[var(--mid)] transition-colors hover:bg-[var(--rule)] hover:text-[var(--ink)]', focus)}
               >
-                <Icon className="h-[18px] w-[18px] min-[1920px]:h-5 min-[1920px]:w-5 min-[2560px]:h-[22px] min-[2560px]:w-[22px]" strokeWidth={1.75} />
-              </Link>
+                <SocialIcon className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              </a>
             ))}
           </div>
-          <span data-shortcut="book-demo" className="contents">
-            <CalendlyBooking url={CALENDLY} variant="outline" size="sm" className={outlineBlueAccentNav}>
-              Book Demo
-              <Kbd>B</Kbd>
+          <Link
+            href={CONSOLE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Sign in (L)"
+            aria-keyshortcuts="L"
+            className={cn(navText, 'text-[var(--ink)] transition-colors hover:text-[var(--blue)]', focus)}
+          >
+            Sign in
+          </Link>
+          <span data-shortcut="book-demo" className="contents" title="Book a demo (B)">
+            <CalendlyBooking url={CALENDLY} variant="primary" size="sm" className={demoButton}>
+              Book a demo
             </CalendlyBooking>
           </span>
-          <Button asChild variant="primary" size="sm" className={launchConsoleClass}>
-            <Link href={CONSOLE_URL} target="_blank" rel="noopener noreferrer" aria-keyshortcuts="L">
-              Launch Console
-              <Rocket className="h-3.5 w-3.5 shrink-0 opacity-95" strokeWidth={2.25} aria-hidden />
-              <Kbd>L</Kbd>
-            </Link>
-          </Button>
           <ThemeToggle onClick={toggleTheme} />
         </div>
 
-        <ThemeToggle onClick={toggleTheme} className="relative z-10 shrink-0 min-[1377px]:hidden" />
         <button
           type="button"
-          className="relative z-10 shrink-0 rounded-md p-2 text-[var(--ink)] min-[1377px]:hidden"
+          className="relative z-10 ml-auto shrink-0 rounded-md p-2 text-[var(--ink)] lg:hidden"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
@@ -687,156 +739,95 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="border-t border-[var(--rule)] bg-[var(--bg)] min-[1377px]:hidden"
+            className="border-t border-[var(--rule)] bg-[var(--bg)] lg:hidden"
           >
-            <div className="flex max-h-[min(70vh,calc(100dvh-var(--nav-height)))] flex-col gap-1 overflow-y-auto px-[var(--pad)] py-4">
-              {simpleNavBeforeMega.map((item) => {
-                const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={cn(
-                      'py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase',
-                      isActive ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
+            <div className="flex max-h-[calc(100dvh-var(--nav-stack))] flex-col">
+              <div className="flex-1 overflow-y-auto px-[var(--pad)] py-2">
+                {PANELS.map(({ id, name, active, Panel }) => (
+                  <div key={id} className="border-b border-[var(--rule)]">
+                    <button
+                      type="button"
+                      className={cn(
+                        'flex w-full items-center justify-between py-4 text-left text-[17px] font-medium',
+                        active(pathname) ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
+                      )}
+                      aria-expanded={mobileMega === id}
+                      onClick={() => setMobileMega((m) => (m === id ? null : id))}
+                    >
+                      {name}
+                      <ChevronDown
+                        className={cn('h-4 w-4 shrink-0 text-[var(--mid)] transition-transform', mobileMega === id && 'rotate-180')}
+                        strokeWidth={2}
+                      />
+                    </button>
+                    {mobileMega === id && (
+                      <div className="pb-5">
+                        <Panel onNavigate={closeAll} />
+                      </div>
                     )}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                )
-              })}
-
-              <div className="border-t border-[var(--rule)] pt-2 mt-1">
-                <button
-                  type="button"
-                  className={cn(
-                    'flex w-full items-center justify-between py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase text-left',
-                    isSolutionsNavActive(pathname) ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
-                  )}
-                  aria-expanded={mobileMega === 'solutions'}
-                  onClick={() => setMobileMega((m) => (m === 'solutions' ? null : 'solutions'))}
-                >
-                  Solutions
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 shrink-0 transition-transform',
-                      mobileMega === 'solutions' && 'rotate-180',
-                    )}
-                    strokeWidth={2}
-                  />
-                </button>
-                {mobileMega === 'solutions' && (
-                  <div className="border-l border-[var(--rule)] pl-3 pb-2">
-                    <SolutionsMegaPanel onNavigate={closeAll} />
                   </div>
-                )}
-              </div>
-
-              <Link
-                href={pricingNavItem.href}
-                className={cn(
-                  'py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase border-t border-[var(--rule)] pt-2 mt-1',
-                  pathname === pricingNavItem.href || pathname.startsWith(`${pricingNavItem.href}/`)
-                    ? 'text-[var(--blue)]'
-                    : 'text-[var(--ink)]',
-                )}
-                onClick={() => setIsOpen(false)}
-              >
-                {pricingNavItem.name}
-              </Link>
-
-              <div className="border-t border-[var(--rule)] pt-2">
-                <button
-                  type="button"
-                  className={cn(
-                    'flex w-full items-center justify-between py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase text-left',
-                    isResourcesNavActive(pathname) ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
-                  )}
-                  aria-expanded={mobileMega === 'resources'}
-                  onClick={() => setMobileMega((m) => (m === 'resources' ? null : 'resources'))}
-                >
-                  Resources
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 shrink-0 transition-transform',
-                      mobileMega === 'resources' && 'rotate-180',
-                    )}
-                    strokeWidth={2}
-                  />
-                </button>
-                {mobileMega === 'resources' && (
-                  <div className="border-l border-[var(--rule)] pl-3 pb-2">
-                    <ResourcesMegaPanel onNavigate={closeAll} />
-                  </div>
-                )}
-              </div>
-
-              {simpleNavTail.map((item) => {
-                const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={cn(
-                      'py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase',
-                      isActive ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
-                    )}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                )
-              })}
-
-              <div className="mt-3 flex items-center gap-2 border-t border-[var(--rule)] pt-4">
-                {socialLinks.map(({ name, href, icon: Icon }) => (
-                  <Link
-                    key={name}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={name}
-                    className="rounded-md p-2.5 text-[var(--mid)] hover:bg-[rgba(17,19,24,0.04)] hover:text-[var(--ink)]"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Icon className="h-5 w-5" strokeWidth={1.75} />
-                  </Link>
                 ))}
+                <Link
+                  href="/pricing"
+                  onClick={closeAll}
+                  className={cn(
+                    'block border-b border-[var(--rule)] py-4 text-[17px] font-medium',
+                    pricingActive ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
+                  )}
+                >
+                  Pricing
+                </Link>
+                <div className="flex items-center gap-1 py-3">
+                  {SOCIAL.map(({ name, href, icon: SocialIcon }) => (
+                    <a
+                      key={name}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={name}
+                      className="rounded-lg p-2.5 text-[var(--mid)] hover:text-[var(--ink)]"
+                    >
+                      <SocialIcon className="h-5 w-5" strokeWidth={1.75} />
+                    </a>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  aria-label="Switch between light and dark theme"
+                  className="flex w-full items-center gap-2 border-t border-[var(--rule)] py-4 text-[15px] text-[var(--mid)] hover:text-[var(--ink)]"
+                >
+                  <Moon className="rk-only-light h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  <span className="rk-only-light">Dark theme</span>
+                  <Sun className="rk-only-dark h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  <span className="rk-only-dark">Light theme</span>
+                </button>
               </div>
-              <div className="mt-4 flex w-full flex-col gap-3">
+              <div className="grid grid-cols-2 gap-3 border-t border-[var(--rule)] px-[var(--pad)] py-4">
+                <Link
+                  href={CONSOLE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeAll}
+                  className="flex h-10 items-center justify-center rounded-lg text-[15px] font-medium text-[var(--ink)] ring-1 ring-[var(--rule)]"
+                >
+                  Sign in
+                </Link>
                 <CalendlyBooking
                   url={CALENDLY}
-                  variant="outline"
-                  size="sm"
-                  className={`w-full ${outlineBlueAccentNav} [&_button]:w-full`}
-                  onOpen={() => setIsOpen(false)}
-                >
-                  Book Demo
-                </CalendlyBooking>
-                <Button
-                  asChild
                   variant="primary"
                   size="sm"
-                  className={cn(launchConsoleClass, 'w-full')}
+                  className={cn(demoButton, '!h-10 w-full [&_button]:w-full')}
+                  onOpen={() => setIsOpen(false)}
                 >
-                  <Link
-                    href={CONSOLE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Launch Console
-                    <Rocket className="h-3.5 w-3.5 shrink-0 opacity-95" strokeWidth={2.25} aria-hidden />
-                  </Link>
-                </Button>
+                  Book a demo
+                </CalendlyBooking>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </motion.header>
-    </>
   )
 }
 
@@ -850,12 +841,12 @@ function ThemeToggle({ onClick, className = '' }: { onClick: () => void; classNa
       aria-label="Switch between light and dark theme"
       aria-keyshortcuts="D"
       className={cn(
-        'rounded-md p-2 text-[var(--mid)] transition-colors hover:bg-[var(--rule)] hover:text-[var(--ink)] min-[1920px]:p-2.5',
+        'flex h-9 w-9 items-center justify-center rounded-lg text-[var(--mid)] ring-1 ring-[var(--rule)] transition-colors hover:text-[var(--ink)]',
         className,
       )}
     >
-      <Moon className="rk-only-light h-[18px] w-[18px] min-[1920px]:h-5 min-[1920px]:w-5" strokeWidth={1.75} />
-      <Sun className="rk-only-dark h-[18px] w-[18px] min-[1920px]:h-5 min-[1920px]:w-5" strokeWidth={1.75} />
+      <Moon className="rk-only-light h-4 w-4" strokeWidth={1.75} />
+      <Sun className="rk-only-dark h-4 w-4" strokeWidth={1.75} />
     </button>
   )
 }

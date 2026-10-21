@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Navbar } from '@/components/navbar'
+import { PageHero } from '@/components/page-hero'
 import { Footer } from '@/components/footer'
 import { ClosingCTA } from '@/components/closing-cta'
 import { Button } from '@/components/ui/button'
@@ -13,10 +13,12 @@ import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { cn } from '@/lib/utils'
-import { rkMono9, rkMono10, rkMono11, rkMono13, rkMonoXs } from '@/lib/landing-responsive-type'
+import { rkMono10 } from '@/lib/landing-responsive-type'
 import { pricingFaqItems } from '@/data/pricing-faq'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
+import { siteButtonCalendly, siteLink, siteLinkArrow } from '@/lib/site-ui'
 import { BillingToggle } from '@/components/ui/billing-toggle'
+import { ThemedImage } from '@/components/console-shot'
 
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 
@@ -28,7 +30,6 @@ const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const TIERS = [
   {
     name: 'Individual',
-    accent: 'border-l-[var(--green)] bg-[var(--green)]/[0.03]',
     price: { monthly: '$0', annual: '$0' },
     was: { monthly: null, annual: null },
     unit: { monthly: 'forever', annual: 'forever' },
@@ -44,7 +45,6 @@ const TIERS = [
   },
   {
     name: 'Business',
-    accent: 'border-l-[var(--blue)] bg-[var(--blue)]/[0.03]',
     price: { monthly: '$999', annual: '$9,999' },
     was: { monthly: null, annual: '$11,988' },
     unit: { monthly: 'per month', annual: 'per year, billed annually' },
@@ -63,7 +63,6 @@ const TIERS = [
   },
   {
     name: 'Enterprise',
-    accent: 'border-l-[var(--ink)] bg-[var(--ink)]/[0.03]',
     price: { monthly: 'Custom', annual: 'Custom' },
     was: { monthly: null, annual: null },
     unit: { monthly: 'annual contract', annual: 'annual contract' },
@@ -89,21 +88,11 @@ const hubbleIncludes = [
 ]
 
 const proofStats = [
-  { n: '30', u: '×', c: 'text-[var(--blue)]', l: 'Return on investment' },
-  { n: '55', u: ' hrs', c: 'text-[var(--ink)]', l: 'Team eng-hrs / week' },
-  { n: '$48', u: '', c: 'text-[var(--green)]', l: 'Avg saved / incident' },
-  { n: '2.8', u: ' min', c: 'text-[var(--blue)]', l: 'Mean time to understand' },
+  { n: '30', u: '×', l: 'Return on investment' },
+  { n: '55', u: ' hrs', l: 'Team eng-hrs / week' },
+  { n: '$48', u: '', l: 'Avg saved / incident' },
+  { n: '2.8', u: ' min', l: 'Mean time to understand' },
 ]
-
-/** A console screenshot in light and dark, swapped by the site theme. */
-function ThemedImage({ name, w, h, alt, sizes, className = '' }: { name: string; w: number; h: number; alt: string; sizes: string; className?: string }) {
-  return (
-    <>
-      <Image src={`/screenshots/platform/${name}-light.png`} alt={alt} width={w} height={h} sizes={sizes} className={`rk-only-light ${className}`} />
-      <Image src={`/screenshots/platform/${name}-dark.png`} alt={alt} width={w} height={h} sizes={sizes} className={`rk-only-dark ${className}`} />
-    </>
-  )
-}
 
 function FeatureItem({ item, inverted = false }: { item: string; inverted?: boolean }) {
   const isBold = item.startsWith('**') && item.endsWith('**')
@@ -111,8 +100,7 @@ function FeatureItem({ item, inverted = false }: { item: string; inverted?: bool
   return (
     <li
       className={cn(
-        'font-[family-name:var(--font-mono)] font-light leading-[1.65]',
-        rkMonoXs,
+        'font-[family-name:var(--font-figtree)] text-[15px] leading-[1.6]',
         inverted
           ? cn('text-white/60', isBold && 'font-medium text-white')
           : cn('text-[var(--mid)]', isBold && 'font-medium text-[var(--ink)]'),
@@ -136,47 +124,10 @@ export function PricingPageClient() {
 
       {/* Hero */}
       <section className="relative bg-[var(--bg)]">
-        <div className="rk-landing-max px-[var(--pad)] pt-[calc(var(--nav-stack)+5rem)] pb-20 sm:pb-28 text-center">
-          <motion.div
-            variants={fadeUpVariants}
-            initial={prefersReducedMotion ? 'visible' : 'hidden'}
-            animate="visible"
-            className="flex flex-col items-center"
-          >
-            <span
-              className={cn(
-                'font-[family-name:var(--font-mono)] tracking-[0.2em] text-[var(--mid)] uppercase mb-10',
-                rkMono10,
-              )}
-            >
-              Pricing
-            </span>
-
-            <h1 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)] w-full max-w-none">
-              <span className="italic text-[var(--blue)]">Reliability</span> that pays for itself.
-            </h1>
-
-            <p
-              className={cn(
-                'font-[family-name:var(--font-mono)] font-light leading-[1.75] text-[var(--mid)] w-full max-w-3xl mt-10',
-                rkMono13,
-              )}
-            >
-              Every hour your team spends investigating is an hour not building. RubixKube finds the root cause in minutes, so your engineers can get back to what matters.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 mt-10">
-              <Button asChild variant="primary">
-                <a href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
-                  Start for Free
-                </a>
-              </Button>
-              <CalendlyBooking url={CALENDLY} variant="outline" className={outlineBlueAccentMd}>
-                Talk to Us
-              </CalendlyBooking>
-            </div>
-          </motion.div>
-        </div>
+        <PageHero
+          title="Reliability that pays for itself."
+          lede="Every hour your team spends investigating is an hour not building. RubixKube finds the root cause in minutes, so your engineers can get back to what matters."
+        />
       </section>
 
       {/* Pricing tiers — editorial ruled grid */}
@@ -195,17 +146,12 @@ export function PricingPageClient() {
           <motion.div
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
-            className="border border-[var(--rule)]"
           >
-            <div className="grid grid-cols-1 md:grid-cols-3">
-              {TIERS.map((tier, i) => (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {TIERS.map((tier) => (
                 <div
                   key={tier.name}
-                  className={cn(
-                    'flex flex-col border-l-2 p-10',
-                    tier.accent,
-                    i < TIERS.length - 1 && 'border-b border-[var(--rule)] md:border-b-0 md:border-r',
-                  )}
+                  className="flex flex-col rounded-2xl bg-[var(--panel)] p-8 ring-1 ring-[var(--rule)] sm:p-10"
                 >
                   <span
                     className={cn(
@@ -216,56 +162,46 @@ export function PricingPageClient() {
                     {tier.name}
                   </span>
                   <div className="mb-1 flex flex-wrap items-baseline gap-3">
-                    <span className="font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] font-light leading-none text-[var(--ink)]">
+                    <span className="font-[family-name:var(--font-mono)] text-[clamp(3rem,5vw,4.5rem)] font-normal tracking-[-0.04em] leading-none text-[var(--ink)]">
                       {tier.price[billing]}
                     </span>
                     {tier.was[billing] && (
-                      <span className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,2.5vw,2rem)] font-light leading-none text-[var(--mid)] line-through decoration-1">
+                      <span className="font-[family-name:var(--font-mono)] text-[clamp(1.5rem,2.5vw,2rem)] font-normal tracking-[-0.04em] leading-none text-[var(--mid)] line-through decoration-1">
                         <span className="sr-only">Was </span>
                         {tier.was[billing]}
                       </span>
                     )}
                   </div>
-                  <p
-                    className={cn(
-                      'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] mb-6',
-                      rkMono11,
-                    )}
-                  >
+                  <p className="font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)] mt-2 mb-6">
                     {tier.unit[billing]}
                   </p>
 
+                  {/* one main action: the featured plan's solid button, the others in the outline */}
                   {tier.cta === 'start' ? (
-                    <Button asChild variant="outline" className="w-full">
+                    <Button asChild variant="outline" className={cn('h-12 w-full', outlineBlueAccentMd)}>
                       <a href="https://console.rubixkube.ai" target="_blank" rel="noopener noreferrer">
                         Start for free
                       </a>
                     </Button>
+                  ) : tier.cta === 'primary' ? (
+                    <CalendlyBooking url={CALENDLY} className={cn(siteButtonCalendly, '!w-full')}>
+                      Contact us
+                    </CalendlyBooking>
                   ) : (
-                    <CalendlyBooking url={CALENDLY} asChild>
-                      <Button variant={tier.cta} className="w-full">
-                        Contact us
-                      </Button>
+                    <CalendlyBooking url={CALENDLY} variant="outline" className={cn('h-12 w-full', outlineBlueAccentMd)}>
+                      Contact us
                     </CalendlyBooking>
                   )}
                   {tier.name === 'Business' && !isAnnual ? (
                     <button
                       type="button"
                       onClick={() => setIsAnnual(true)}
-                      className={cn(
-                        'mt-3 cursor-pointer text-center font-[family-name:var(--font-mono)] font-light text-[var(--green)] underline decoration-[var(--green)]/40 underline-offset-2 hover:decoration-[var(--green)]',
-                        rkMono11,
-                      )}
+                      className="mt-3 cursor-pointer text-center font-[family-name:var(--font-figtree)] text-[14px] text-[var(--green)] underline decoration-[var(--green)]/40 underline-offset-2 hover:decoration-[var(--green)]"
                     >
                       {tier.note.monthly}
                     </button>
                   ) : (
-                    <p
-                      className={cn(
-                        'font-[family-name:var(--font-mono)] font-light text-[var(--mid)] text-center mt-3 opacity-60',
-                        rkMono11,
-                      )}
-                    >
+                    <p className="font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)] text-center mt-3">
                       {tier.note[billing]}
                     </p>
                   )}
@@ -304,23 +240,13 @@ export function PricingPageClient() {
                       i < 2 && 'border-b border-[var(--rule)] md:border-b-0',
                     )}
                   >
-                    <div
-                      className={cn(
-                        'font-[family-name:var(--font-serif)] text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-normal tracking-[-0.02em]',
-                        s.c,
-                      )}
-                    >
+                    <div className="font-[family-name:var(--font-mono)] text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-normal tracking-[-0.04em] text-[var(--ink)]">
                       {s.n}
                       <span className="text-[0.4em] font-light tracking-normal text-[var(--mid)]">
                         {s.u}
                       </span>
                     </div>
-                    <p
-                      className={cn(
-                        'font-[family-name:var(--font-mono)] tracking-[0.16em] text-[var(--mid)] uppercase',
-                        rkMono9,
-                      )}
-                    >
+                    <p className="font-[family-name:var(--font-figtree)] text-[14px] leading-[1.4] text-[var(--mid)]">
                       {s.l}
                     </p>
                   </div>
@@ -337,7 +263,7 @@ export function PricingPageClient() {
           <motion.div
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
-            className="grid grid-cols-1 overflow-hidden border border-[var(--rule)] lg:grid-cols-[1fr_1.15fr]"
+            className="grid grid-cols-1 overflow-hidden rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] lg:grid-cols-[1fr_1.15fr]"
           >
             <div className="flex flex-col p-10 sm:p-12">
               <span
@@ -348,32 +274,27 @@ export function PricingPageClient() {
               >
                 Add-on
               </span>
-              <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4vw,3.25rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4">
-                Add <span className="italic text-[var(--blue)]">Hubble</span> for <span className="whitespace-nowrap">on-call.</span>
+              <h2 className="rk-section-title m-0 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)] mt-4">
+                Add <em>Hubble</em> for <span className="whitespace-nowrap">on-call.</span>
               </h2>
-              <p
-                className={cn(
-                  'font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)] mt-4',
-                  rkMono13,
-                )}
-              >
+              <p className="rk-section-body m-0 text-[var(--mid)] mt-4">
                 Rotations, escalation and paging on the web and on your phone. With RubixKube, the person on call gets the cause along with the page.
               </p>
 
               <div className="mt-8 flex items-baseline gap-3">
-                <span className="font-[family-name:var(--font-serif)] text-[clamp(2.5rem,4vw,3.5rem)] font-light leading-none text-[var(--ink)]">
+                <span className="font-[family-name:var(--font-mono)] text-[clamp(2.5rem,4vw,3.5rem)] font-normal tracking-[-0.04em] leading-none text-[var(--ink)]">
                   {isAnnual ? '$102' : '$10'}
                 </span>
                 {isAnnual && (
-                  <span className="font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2vw,1.6rem)] font-light leading-none text-[var(--mid)] line-through decoration-1">
+                  <span className="font-[family-name:var(--font-mono)] text-[clamp(1.25rem,2vw,1.6rem)] font-normal tracking-[-0.04em] leading-none text-[var(--mid)] line-through decoration-1">
                     <span className="sr-only">Was </span>$120
                   </span>
                 )}
-                <span className={cn('font-[family-name:var(--font-mono)] font-light text-[var(--mid)]', rkMono11)}>
+                <span className="font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
                   {isAnnual ? 'per seat, per year' : 'per seat, per month'}
                 </span>
               </div>
-              <p className={cn('font-[family-name:var(--font-mono)] font-light text-[var(--mid)] mt-1 opacity-60', rkMono11)}>
+              <p className="font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)] mt-2">
                 {isAnnual ? 'That is $8.50 a month. ' : ''}With any RubixKube plan, at half the price of Hubble on its own.
               </p>
 
@@ -384,23 +305,21 @@ export function PricingPageClient() {
                 ))}
               </ul>
 
-              <div className="mt-10 flex flex-wrap items-center gap-3">
-                <CalendlyBooking url={CALENDLY} asChild>
-                  <Button variant="primary">Contact us</Button>
+              <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
+                <CalendlyBooking url={CALENDLY} className={siteButtonCalendly}>
+                  Contact us
                 </CalendlyBooking>
-                <Button asChild variant="outline" className={outlineBlueAccentMd}>
-                  <Link href="/hubble">Explore Hubble</Link>
-                </Button>
+                <Link href="/hubble" className={siteLink}>
+                  Explore Hubble
+                  <ArrowRight className={siteLinkArrow} aria-hidden />
+                </Link>
               </div>
               <Link
                 href="/hubble#pricing"
-                className={cn(
-                  'group mt-6 inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] font-light text-[var(--mid)] hover:text-[var(--ink)]',
-                  rkMono11,
-                )}
+                className="group mt-6 inline-flex items-center gap-1.5 self-start font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)] hover:text-[var(--ink)]"
               >
                 Only need on-call? See Hubble pricing
-                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" strokeWidth={1.5} />
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </Link>
             </div>
 
@@ -453,9 +372,9 @@ export function PricingPageClient() {
               >
                 Questions
               </span>
-              <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-4">
+              <h2 className="rk-section-title m-0 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)] mt-4">
                 Frequently{' '}
-                <span className="italic text-[var(--blue)]">asked.</span>
+                <em>asked.</em>
               </h2>
             </motion.div>
 
@@ -470,19 +389,10 @@ export function PricingPageClient() {
                     i !== 0 && 'border-t border-[var(--rule)]',
                   )}
                 >
-                  <h3
-                    className={cn(
-                      'font-[family-name:var(--font-serif)] text-[clamp(1.1rem,2vw,1.35rem)] font-light leading-[1.2] text-[var(--ink)] mb-3',
-                    )}
-                  >
+                  <h3 className="rk-section-title m-0 mb-2.5 text-[1.2rem] leading-[1.3] tracking-[-0.015em] text-[var(--ink)]">
                     {item.q}
                   </h3>
-                  <p
-                    className={cn(
-                      'font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)]',
-                      rkMono13,
-                    )}
-                  >
+                  <p className="rk-section-body m-0 text-[var(--mid)]">
                     {item.a}
                   </p>
                 </motion.div>
