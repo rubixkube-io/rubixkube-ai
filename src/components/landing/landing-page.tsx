@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { LandingScrollRootRefContext } from './landing-scroll-context'
-import { HeroSection } from './hero-section'
+import { FilmSection, HeroSection } from './hero-section'
 import { MetricsSection } from './metrics-section'
 import { IntelligenceSection } from './intelligence-section'
 import { BrainSection } from './brain-section'
@@ -23,6 +23,7 @@ export function LandingPage({ latestPodcast, latestBlog }: LandingContentCardsPr
         className="landing-scroll scrollbar-hide"
       >
         <HeroSection />
+        <FilmSection />
         <MetricsSection />
         <IntelligenceSection />
         <BrainSection />

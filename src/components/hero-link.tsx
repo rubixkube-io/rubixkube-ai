@@ -11,8 +11,8 @@ export function HeroLink({ href, accent = false, children }: { href: string; acc
       href={href}
       className={`underline decoration-dotted decoration-1 underline-offset-[0.22em] transition-colors ${
         accent
-          ? 'text-[var(--blue)] decoration-[var(--blue)]/45 hover:decoration-[var(--blue)]'
-          : 'decoration-[var(--mid)]/30 hover:text-[var(--blue)] hover:decoration-[var(--blue)]'
+          ? 'text-[var(--blue)] decoration-[var(--blue)]/25 hover:decoration-[var(--blue)]'
+          : 'decoration-[var(--mid)]/15 hover:text-[var(--blue)] hover:decoration-[var(--blue)]'
       }`}
     >
       {children}

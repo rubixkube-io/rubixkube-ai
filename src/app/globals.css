@@ -150,6 +150,89 @@ html[data-theme='dark'] .rk-logo img {
   mix-blend-mode: screen;
 }
 
+/* On light, multiply so a logo's white box blends into the paper */
+html:not([data-theme='dark']) .rk-logo img {
+  mix-blend-mode: multiply;
+}
+
+/* One-colour customer marks in the hero (LogoMark) */
+:root {
+  --logo-ink: rgba(17, 19, 24, 0.35);
+  --logo-ink-hover: rgba(17, 19, 24, 0.85);
+}
+html[data-theme='dark'] {
+  --logo-ink: rgba(242, 240, 235, 0.32);
+  --logo-ink-hover: rgba(242, 240, 235, 0.9);
+}
+
+/* The halftone bloom on the hero cover (HeroBloom) */
+:root {
+  --bloom-a: #2f5bff;
+  --bloom-b: oklch(0.68 0.17 262);
+  --bloom-alpha: 0.42;
+}
+html[data-theme='dark'] {
+  --bloom-alpha: 0.5;
+}
+
+/* Customer logos under the hero cover: one row, full width, fading out at the edges */
+.rk-ticker {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+.rk-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: rk-ticker 70s linear infinite;
+}
+.rk-ticker:hover .rk-ticker-track {
+  animation-play-state: paused;
+}
+@keyframes rk-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rk-ticker-track {
+    animation: none;
+  }
+}
+
+/* The console film panel (FeaturedFilm): a dark card in both themes, for contrast on the light
+   page; only the console screenshot inside follows the theme */
+:root {
+  --film-bg: #0f1013;
+  --film-ink: #f4f2ec;
+  --film-ring: rgba(255, 255, 255, 0.05);
+  --film-dot: rgba(236, 234, 228, 0.07);
+  --film-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+}
+html[data-theme='dark'] {
+  --film-bg: #17181c;
+  --film-ring: rgba(255, 255, 255, 0.1);
+}
+
+/* The hero cover, after the console's "Paper and ink" design language: one very large
+   Figtree headline set tight, and a Figtree lede at the foot */
+.rk-cover-title {
+  font-family: var(--font-figtree);
+  font-weight: 600;
+  font-size: clamp(2.75rem, 7.2vw, 8rem);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-wrap: balance;
+  animation: rk-hero-fadeup 1.2s 0.2s both;
+}
+.rk-cover-lede {
+  font-family: var(--font-figtree);
+  font-weight: 400;
+  font-size: clamp(19px, 1.75vw, 26px);
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+}
+
 /* Single-colour dark logos (Cursor, MCP) turn light on dark */
 html[data-theme='dark'] .rk-mono-logo {
   filter: invert(1);
@@ -501,6 +584,26 @@ h6 {
   font-synthesis: none;
 }
 
+/* Sans cover headline, from the console's "Paper and ink" design language: Figtree regular,
+   set tight, with the accent in plain blue */
+.rk-hero-headline.rk-hero-headline--sans {
+  font-family: var(--font-figtree);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(3rem, 8.4vw, 7.6rem);
+}
+.rk-hero-headline.rk-hero-headline--sans .rk-hero-headline-accent {
+  font-weight: 400;
+  font-style: normal;
+}
+@media (min-width: 1600px) {
+  .rk-hero-headline.rk-hero-headline--sans { font-size: clamp(4rem, 7.6vw, 9rem); }
+}
+@media (min-width: 2560px) {
+  .rk-hero-headline.rk-hero-headline--sans { font-size: clamp(5rem, 6vw, 12rem); }
+}
+
 .rk-hero-headline .rk-hero-headline-muted {
   font-weight: 300;
   color: var(--text-soft);
@@ -508,30 +611,30 @@ h6 {
 
 /* Hero display: cap lifts on ultra-wide / 4K so type doesn’t stay “laptop sized” */
 .rk-hero-display {
-  font-size: clamp(4rem, 8.5vw, 7.5rem);
+  font-size: clamp(3.5rem, 7.5vw, 6.6rem);
 }
 
 @media (max-width: 640px) {
   .rk-hero-display {
-    font-size: clamp(3rem, 14vw, 4.5rem);
+    font-size: clamp(2.65rem, 12.3vw, 4rem);
   }
 }
 
 @media (min-width: 1600px) {
   .rk-hero-display {
-    font-size: clamp(4.25rem, 7.5vw, 8.5rem);
+    font-size: clamp(3.75rem, 6.6vw, 7.5rem);
   }
 }
 
 @media (min-width: 1920px) {
   .rk-hero-display {
-    font-size: clamp(4.5rem, 6.8vw, 10rem);
+    font-size: clamp(4rem, 6vw, 8.8rem);
   }
 }
 
 @media (min-width: 2560px) {
   .rk-hero-display {
-    font-size: clamp(4.75rem, 5.8vw, 11.5rem);
+    font-size: clamp(4.2rem, 5.1vw, 10.1rem);
   }
 }
 

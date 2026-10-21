@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Play, X } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { FeaturedFilm } from '@/components/featured-film'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
@@ -20,8 +21,6 @@ const DEMO_URL = 'https://calendly.com/rubixkube-ai/30min'
 const KEPLER_URL = 'https://trykepler.rubixkube.ai'
 const DOCS_URL = 'https://docs.rubixkube.ai'
 
-const mono = 'font-[family-name:var(--font-mono)]'
-const serif = 'font-[family-name:var(--font-serif)]'
 
 
 function TwoTone({ lead, rest, className, dark = false }: { lead: string; rest: string; className: string; dark?: boolean }) {
@@ -36,107 +35,12 @@ function TwoTone({ lead, rest, className, dark = false }: { lead: string; rest: 
 
 /* ───────────────────────── featured ───────────────────────── */
 
-/** The film, full screen with sound, opened from the featured panel. */
-function FilmDialog({ onClose }: { onClose: () => void }) {
-  const ref = useRef<HTMLVideoElement | null>(null)
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
-    document.addEventListener('keydown', onKey)
-    ref.current?.play().catch(() => {})
-    return () => document.removeEventListener('keydown', onKey)
-  }, [onClose])
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="RubixKube film"
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(10,11,14,0.86)] p-4 backdrop-blur-sm sm:p-10"
-      onClick={onClose}
-    >
-      <div className="relative w-full max-w-[1280px]" onClick={(e) => e.stopPropagation()}>
-        <video
-          ref={ref}
-          src="/videos/rubixkube-demo-1080.mp4"
-          poster="/videos/rubixkube-demo-poster.jpg"
-          controls
-          playsInline
-          className="aspect-video w-full rounded-xl bg-black"
-        />
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute -top-11 right-0 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-white/80 hover:bg-white/10 hover:text-white"
-        >
-          <X className="h-5 w-5" strokeWidth={1.5} />
-        </button>
-      </div>
-    </div>
-  )
-}
-
-/**
- * One story at a time: what RubixKube is announcing now. The story on an ink panel, the product
- * beside it, and the film one click away.
- */
 function Featured() {
-  const [film, setFilm] = useState(false)
   return (
     <section className="px-[var(--pad)]">
       <div className="rk-landing-max">
-        <div className="relative isolate grid min-h-[560px] w-full grid-cols-1 overflow-hidden rounded-2xl bg-[#0f1013] ring-1 ring-white/5 [html[data-theme='dark']_&]:bg-[#17181c] [html[data-theme='dark']_&]:ring-white/10 sm:aspect-[16/9] sm:min-h-0 lg:grid-cols-[5fr_7fr]">
-          {/* a faint dot grid, the same paper texture the console parts sit on */}
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 opacity-60"
-            style={{
-              backgroundImage: 'radial-gradient(rgba(236,234,228,0.07) 1px, transparent 1px)',
-              backgroundSize: '16px 16px',
-            }}
-          />
-
-          <div className="relative z-10 flex flex-col justify-center px-7 pt-10 pb-6 sm:px-12 lg:py-12">
-            <TwoTone
-              dark
-              className={type.display}
-              lead="The RubixKube Console."
-              rest="Every incident, its cause and the fix, in one place."
-            />
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="/platform"
-                className={`${type.small} rounded-md bg-[#f4f2ec] px-5 py-2.5 text-[#111318] transition-opacity hover:opacity-90`}
-              >
-                Read more
-              </Link>
-              <button
-                type="button"
-                onClick={() => setFilm(true)}
-                className={`${type.small} flex cursor-pointer items-center gap-2 rounded-md px-4 py-2.5 text-white/85 ring-1 ring-white/20 transition-colors hover:bg-white/10`}
-              >
-                <Play className="h-3.5 w-3.5" fill="currentColor" strokeWidth={0} aria-hidden />
-                Watch the film
-                <span className="text-white/45">2:02</span>
-              </button>
-            </div>
-          </div>
-
-          {/* the console itself, rising from the bottom right */}
-          <div className="relative min-h-[260px] lg:min-h-0">
-            <div className="absolute top-2 left-7 w-[150%] overflow-hidden rounded-xl ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] sm:left-12 lg:top-[14%] lg:left-0 lg:w-[125%]">
-              <Image
-                src="/screenshots/platform/hero-rca-dark.png"
-                alt="An RCA in the RubixKube console: connection exhaustion on orders-db takes down payments-api"
-                width={3200}
-                height={2000}
-                sizes="(max-width: 1024px) 150vw, 75vw"
-                className="h-auto w-full"
-              />
-            </div>
-          </div>
-        </div>
+        <FeaturedFilm />
       </div>
-      {film && <FilmDialog onClose={() => setFilm(false)} />}
     </section>
   )
 }

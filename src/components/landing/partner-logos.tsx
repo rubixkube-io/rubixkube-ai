@@ -3,23 +3,48 @@ import { rkMono10 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 
 export type CustomerMark =
-  | { kind: 'logo'; src: string; alt: string; w: number; h: number }
+  | { kind: 'logo'; src: string; alt: string; w: number; h: number; k?: number; mono?: string }
   | { kind: 'placeholder'; name: string }
 
 /**
- * `w`/`h` = intrinsic pixel ratio from each asset (for Next/Image + aspect).
- * Yellow.ai file is ~2.4:1; others ~3.8:1. At a fixed max-height, squat marks render much narrower;
- * we scale those slightly in `CustomerLogoGrid` (see `LOGO_MAX_H_PX` + squat aspect threshold).
+ * `w`/`h` = intrinsic pixel size of each asset (for Next/Image + aspect). Files are trimmed to the
+ * mark, with no empty border. `k` corrects how heavy a mark reads next to the others when every
+ * logo gets the same area (see `markHeight`): below 1 for bold wordmarks, above 1 for thin ones.
+ * In the hero each mark is drawn in one colour from its shape (see `LogoMark`); `mono` is a
+ * one-colour copy for logos whose detail sits in light or white parts that the shape alone loses.
+ *
+ * Order matters: the first six are the hero's fixed top row; the rest rotate through the row below.
  */
 export const CUSTOMER_MARKS: CustomerMark[] = [
-  { kind: 'logo', src: '/logos/yellow-ai.png', alt: 'Yellow.ai', w: 3501, h: 1459 },
-  { kind: 'logo', src: '/logos/fleek.png', alt: 'Fleek', w: 657, h: 174 },
-  { kind: 'logo', src: '/logos/Sheshi-ai.svg', alt: 'Sheshi.ai', w: 146, h: 38 },
+  // the hero's top row, always shown
+  { kind: 'logo', src: '/logos/astreya-logo.png', alt: 'Astreya', w: 421, h: 120, k: 0.92 },
+  { kind: 'logo', src: '/logos/littlebird.svg', alt: 'Littlebird', w: 106, h: 22 },
+  { kind: 'logo', src: '/logos/yellow-ai-mark.png', alt: 'Yellow.ai', w: 2973, h: 708 },
+  { kind: 'logo', src: '/logos/krutrim.png', alt: 'Krutrim', w: 254, h: 72, k: 0.92, mono: '/logos/krutrim-mono.png' },
+  { kind: 'logo', src: '/logos/dialpad.svg', alt: 'Dialpad', w: 94, h: 33, k: 0.86 },
+  { kind: 'logo', src: '/logos/landmark-group.png', alt: 'Landmark Group', w: 300, h: 66, k: 1.05 },
+  // the row below rotates through these
+  { kind: 'logo', src: '/logos/browserstack.svg', alt: 'BrowserStack', w: 180, h: 32, k: 1.05, mono: '/logos/browserstack-mono.png' },
+  { kind: 'logo', src: '/logos/synamedia.svg', alt: 'Synamedia', w: 833, h: 135, k: 0.88 },
+  { kind: 'logo', src: '/logos/scaler.svg', alt: 'Scaler', w: 190, h: 40, k: 0.9 },
+  { kind: 'logo', src: '/logos/safe.svg', alt: 'Safe Security', w: 152, h: 40 },
+  { kind: 'logo', src: '/logos/pulsegen.svg', alt: 'Pulsegen', w: 106, h: 30, k: 0.92 },
+  { kind: 'logo', src: '/logos/tese-io.png', alt: 'Tese', w: 1645, h: 336 },
+  { kind: 'logo', src: '/logos/fleek.png', alt: 'Fleek', w: 657, h: 174, mono: '/logos/fleek-mono.png' },
+  { kind: 'logo', src: '/logos/paygent-mark.png', alt: 'Paygent', w: 851, h: 199 },
   { kind: 'logo', src: '/logos/vishanti.png', alt: 'Vishanti', w: 389, h: 100 },
-  { kind: 'logo', src: '/logos/astreya-logo.png', alt: 'Astreya', w: 421, h: 120 },
-  { kind: 'logo', src: '/logos/paygent.png', alt: 'Paygent', w: 938, h: 266 },
-  { kind: 'logo', src: '/logos/byteflow.png', alt: 'Byteflow', w: 2821, h: 295 },
+  { kind: 'logo', src: '/logos/Sheshi-ai.svg', alt: 'Sheshi.ai', w: 146, h: 38 },
+  { kind: 'logo', src: '/logos/byteflow.png', alt: 'Byteflow', w: 2821, h: 295, k: 1.1 },
 ]
+
+/** Every mark gets about this much area (px²), so wide and squat logos read the same size */
+const MARK_AREA = 1750
+
+/** The height that gives a mark the shared area, corrected by its `k` and kept between 13 and 26px */
+export function markHeight(mark: Extract<CustomerMark, { kind: 'logo' }>) {
+  const h = Math.sqrt(MARK_AREA / (mark.w / mark.h))
+  return Math.min(26, Math.max(13, h)) * (mark.k ?? 1)
+}
 
 /** Infra and partner marks for the "Built on" row (muted). */
 export const INFRA_LOGOS = [
@@ -37,7 +62,40 @@ const LOGO_MAX_H_PX = 22
 /** Wordmarks wider than this W/H ratio still look small at the same max-height; nudge scale. */
 const SQUAT_ASPECT_THRESHOLD = 2.75
 
-function LogoItem({ mark, aria }: { mark: CustomerMark; aria?: string }) {
+/**
+ * A customer mark in one colour, sized by `markHeight`, so every logo reads the same in both
+ * themes: the shape (or its `mono` copy) is a mask filled with `--logo-ink`. On hover the real,
+ * coloured logo fades in on light; on dark the shape brightens, since many logos are drawn for
+ * light backgrounds.
+ */
+export function LogoMark({ mark }: { mark: Extract<CustomerMark, { kind: 'logo' }> }) {
+  const h = markHeight(mark)
+  const mask = `url(${mark.mono ?? mark.src}) center / contain no-repeat`
+  return (
+    <span
+      role="img"
+      aria-label={mark.alt}
+      className="group relative inline-flex shrink-0"
+      style={{ height: h, width: h * (mark.w / mark.h) }}
+    >
+      <span
+        aria-hidden
+        className="absolute inset-0 bg-[var(--logo-ink)] transition-[opacity,background-color] duration-500 ease-in-out group-hover:opacity-0 [html[data-theme='dark']_&]:group-hover:bg-[var(--logo-ink-hover)] [html[data-theme='dark']_&]:group-hover:opacity-100"
+        style={{ mask, WebkitMask: mask }}
+      />
+      <Image
+        src={mark.src}
+        alt=""
+        width={mark.w}
+        height={mark.h}
+        sizes="160px"
+        className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100 [html[data-theme='dark']_&]:hidden"
+      />
+    </span>
+  )
+}
+
+export function LogoItem({ mark, aria }: { mark: CustomerMark; aria?: string }) {
   if (mark.kind === 'placeholder') {
     return (
       <span

@@ -36,7 +36,7 @@ import { useTheme } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
-import { outlineBlueAccentNav } from '@/lib/outline-blue-cta'
+import { outlineInkNav } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 import { useReferenceGuidesNav } from '@/components/reference-pages-nav-provider'
 import { urlFor } from '@/lib/sanity.client'
@@ -151,7 +151,7 @@ const launchConsoleClass =
   '!rounded-[5px] !py-[9px] !px-5 !text-[13px] !tracking-[0.12em] !font-medium !gap-1.5 shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!py-[11px] min-[1920px]:!px-6 min-[1920px]:!text-[13px] min-[2560px]:!text-[13px]'
 
 const navLinkClass =
-  'whitespace-nowrap font-[family-name:var(--font-mono)] text-[13px] tracking-[0.14em] uppercase transition-colors'
+  'whitespace-nowrap font-[family-name:var(--font-mono)] text-[13px] tracking-[0.06em] uppercase transition-colors min-[1800px]:tracking-[0.14em]'
 
 const megaSectionLabel =
   'mb-3 font-[family-name:var(--font-mono)] text-[13px] font-medium tracking-[0.2em] text-[var(--blue)] uppercase'
@@ -531,7 +531,7 @@ export function Navbar() {
         </Link>
 
         <div className="hidden min-w-0 justify-center justify-self-center min-[1377px]:flex">
-          <div className="flex items-center justify-center gap-x-6 min-[1600px]:gap-x-8">
+          <div className="flex items-center justify-center gap-x-5 min-[1800px]:gap-x-8">
             {simpleNavBeforeMega.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
               return (
@@ -651,7 +651,7 @@ export function Navbar() {
             ))}
           </div>
           <span data-shortcut="book-demo" className="contents">
-            <CalendlyBooking url={CALENDLY} variant="outline" size="sm" className={outlineBlueAccentNav}>
+            <CalendlyBooking url={CALENDLY} variant="outline" size="sm" className={outlineInkNav}>
               Book Demo
               <Kbd>B</Kbd>
             </CalendlyBooking>
@@ -819,7 +819,7 @@ export function Navbar() {
                   url={CALENDLY}
                   variant="outline"
                   size="sm"
-                  className={`w-full ${outlineBlueAccentNav} [&_button]:w-full`}
+                  className={`w-full ${outlineInkNav} [&_button]:w-full`}
                   onOpen={() => setIsOpen(false)}
                 >
                   Book Demo
