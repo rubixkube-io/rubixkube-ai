@@ -294,10 +294,10 @@ const intelCardTimeClass = cn(
 )
 
 const intelCardTitleClass =
-  'mb-3 font-[family-name:var(--font-serif)] text-[clamp(1.5rem,2.35vw,2.25rem)] font-light leading-[1.12] tracking-[-0.02em] text-[var(--ink)] min-[1920px]:text-[2.5rem] min-[2560px]:text-[2.75rem]'
+  'mb-3 rk-section-title text-[clamp(1.3rem,1.9vw,1.85rem)] leading-[1.15] text-[var(--ink)] min-[1920px]:text-[2.1rem] min-[2560px]:text-[2.35rem]'
 
 const intelCardDescClass = cn(
-  'mb-7 max-w-[26ch] font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+  'mb-7 max-w-[26ch] rk-section-body text-[var(--mid)]',
   rkMono13,
 )
 
@@ -319,7 +319,7 @@ export function IntelligenceSection() {
         <div className="grid shrink-0 grid-cols-1 items-start gap-12 pt-[52px] pb-10 md:grid-cols-2 md:items-end md:gap-20">
         <Reveal>
           <SectionLabel className="mb-9">The intelligence layer</SectionLabel>
-          <h2 className="rk-landing-h2-compact font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
+          <h2 className="rk-landing-h2-compact rk-section-title text-[var(--ink)]">
             Most tools see your
             <br />
             infrastructure for the
@@ -330,7 +330,7 @@ export function IntelligenceSection() {
         <Reveal delay={0.1}>
           <div
             className={cn(
-              'intel-body font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+              'intel-body rk-section-body text-[var(--mid)]',
               rkMono13,
             )}
           >

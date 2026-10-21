@@ -13,6 +13,7 @@ import { fadeUpVariants } from '@/lib/animations'
 import { platformFaqItems } from '@/data/platform-faq'
 import { ArrowUpRight, BellRing, Check, CheckCircle, Copy, Download, Rocket, Terminal } from 'lucide-react'
 import { BrainIntegrationStrip } from '@/components/landing/brain-integration-strip'
+import { IntelligenceSection } from '@/components/landing/intelligence-section'
 import { BuiltOnSection } from '@/components/landing/built-on-section'
 import { Backdrop, Float, ThemedImage, fadeBottom } from '@/components/console-shot'
 
@@ -621,6 +622,9 @@ export function PlatformPageClient() {
           </div>
         </div>
       </section>
+
+      {/* Memory: the Day 1 to Always row, moved here from the home page */}
+      <IntelligenceSection />
 
       {/* Integrations */}
       <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">

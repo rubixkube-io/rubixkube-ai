@@ -16,7 +16,7 @@ export function RcaSection() {
       <SectionLabel className="mb-6">Investigation</SectionLabel>
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <Reveal>
-          <h2 className="rk-landing-h2-std font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
+          <h2 className="rk-landing-h2-std rk-section-title text-[var(--ink)]">
             Root cause,
             <br />
             not just
@@ -25,7 +25,7 @@ export function RcaSection() {
           </h2>
           <div
             className={cn(
-              'mt-8 space-y-4 font-[family-name:var(--font-mono)] font-light leading-relaxed tracking-[-0.01em] text-[var(--mid)]',
+              'mt-8 space-y-4 rk-section-body text-[var(--mid)]',
               rkMono13,
             )}
           >

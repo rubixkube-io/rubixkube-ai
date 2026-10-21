@@ -29,10 +29,10 @@ const eyebrow =
   'mb-2.5 font-[family-name:var(--font-mono)] text-[13px] font-semibold tracking-[0.16em] text-white/95 [text-shadow:0_1px_3px_rgba(0,0,0,1),0_2px_14px_rgba(0,0,0,0.95)] antialiased min-[1920px]:text-[15px] min-[2560px]:text-[17px]'
 
 const titleHero =
-  'text-balance max-w-lg font-[family-name:var(--font-serif)] text-[clamp(1.28rem,2.45vw,2.05rem)] font-semibold leading-[1.2] tracking-[0.015em] text-white antialiased [text-shadow:0_1px_2px_rgba(0,0,0,1),0_2px_10px_rgba(0,0,0,1),0_8px_32px_rgba(0,0,0,0.92),0_16px_56px_rgba(0,0,0,0.78)]'
+  'text-balance max-w-lg rk-section-title text-[clamp(1.2rem,2.1vw,1.85rem)] leading-[1.18] text-white antialiased [text-shadow:0_1px_2px_rgba(0,0,0,1),0_2px_10px_rgba(0,0,0,1),0_8px_32px_rgba(0,0,0,0.92),0_16px_56px_rgba(0,0,0,0.78)]'
 
 const titleSide =
-  'text-balance font-[family-name:var(--font-serif)] text-[clamp(1.05rem,2.4vw,1.4rem)] font-semibold leading-[1.28] tracking-[0.015em] text-white antialiased [text-shadow:0_1px_2px_rgba(0,0,0,1),0_2px_10px_rgba(0,0,0,1),0_6px_28px_rgba(0,0,0,0.92),0_14px_48px_rgba(0,0,0,0.76)] sm:text-[clamp(1.125rem,2.2vw,1.5rem)]'
+  'text-balance rk-section-title text-[clamp(1rem,2vw,1.3rem)] leading-[1.25] text-white antialiased [text-shadow:0_1px_2px_rgba(0,0,0,1),0_2px_10px_rgba(0,0,0,1),0_6px_28px_rgba(0,0,0,0.92),0_14px_48px_rgba(0,0,0,0.76)] sm:text-[clamp(1.125rem,2.2vw,1.5rem)]'
 
 const cornerArrow =
   'absolute top-6 right-6 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-black/30 text-sm text-white/80 backdrop-blur-sm'

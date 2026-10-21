@@ -113,6 +113,36 @@ export function toBeliefCovers(rows: { slug?: string; image?: SanityImage }[] | 
   return out
 }
 
+/** The same pieces with the words the home page shows on their cards: the title and the description */
+export const BELIEF_STORIES_QUERY = `*[_type in ["post", "referencePage"] && slug.current in $slugs]{
+  "slug": slug.current,
+  title,
+  "description": coalesce(excerpt, subtitle, seoDescription),
+  publishedAt,
+  "image": coalesce(heroImage, image)
+}`
+
+export type BeliefStory = { title: string; description: string; date: string; cover?: string }
+
+export function toBeliefStories(
+  rows: { slug?: string; title?: string; description?: string; publishedAt?: string; image?: SanityImage }[] | null | undefined,
+) {
+  const out: Record<string, BeliefStory> = {}
+  for (const r of rows ?? []) {
+    if (!r.slug || !r.title) continue
+    out[r.slug] = {
+      title: r.title,
+      // the first paragraph only: some excerpts carry a second, closing line
+      description: (r.description ?? '').split(/\n\s*\n/)[0].trim(),
+      date: r.publishedAt
+        ? new Date(r.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : '',
+      cover: coverUrl(r.image, 1440, 1080),
+    }
+  }
+  return out
+}
+
 /** Newest posts, podcast episodes and reference pages (products, comparisons, glossary), with covers. */
 export const LATEST_STORIES_FOR_HOME_QUERY = `*[_type in ["post", "podcastEpisode", "referencePage"] && defined(slug.current) && defined(coalesce(image.asset, heroImage.asset)) && !(slug.current in $exclude)]|order(coalesce(publishedAt, _createdAt) desc)[0...4]{
   _type,

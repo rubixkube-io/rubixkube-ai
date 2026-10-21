@@ -35,27 +35,20 @@ export function ClosingLandingSection() {
   return (
     <section className="landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] items-center border-t border-[var(--rule)] px-[var(--pad)] py-20 lg:h-[calc(100vh-var(--nav-stack))]">
       <div className="rk-landing-max w-full">
-      <div className="mx-auto w-full max-w-4xl text-center">
-        <Reveal>
-          <p
-            className={cn('mb-10', landingSectionKickerClass)}
-          >
-            The result
-          </p>
-        </Reveal>
+      <div className="mx-auto w-full max-w-6xl text-center">
         <Reveal delay={0.08}>
-          <h2 className="rk-landing-h2-std mb-12 font-[family-name:var(--font-serif)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]">
-            Not a faster tool.
+          <h2 className="rk-section-title mb-12 text-[clamp(3rem,7.4vw,8rem)] leading-[1.06] tracking-[-0.045em] text-[var(--ink)]">
+            Faster answers.
             <br />
-            <em className="italic text-[var(--blue)]">A smarter system.</em>
+            A smarter system.
             <br />
-            <span className="text-[var(--text-soft)]">That&apos;s entirely yours.</span>
+            That&apos;s entirely yours.
           </h2>
         </Reveal>
         <Reveal delay={0.15}>
           <p
             className={cn(
-              'mx-auto -mt-6 max-w-xl font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
+              'mx-auto -mt-2 max-w-xl font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)]',
               rkMono13,
             )}
           >

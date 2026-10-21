@@ -141,12 +141,18 @@ function IntegrationMark({ item }: { item: StackItem }) {
         alt=""
         width={item.width}
         height={item.height}
-        className={`h-[22px] w-auto max-h-[24px] object-contain object-center sm:h-[24px] sm:max-h-[26px] lg:h-[26px] lg:max-h-[28px] ${item.imgClassName ?? ''}`}
+        className={`h-[22px] w-auto max-h-[24px] object-contain object-center opacity-70 grayscale transition-[filter,opacity] duration-300 group-hover:opacity-100 group-hover:grayscale-0 sm:h-[24px] sm:max-h-[26px] lg:h-[26px] lg:max-h-[28px] [html[data-theme='dark']_&]:invert [html[data-theme='dark']_&]:group-hover:grayscale ${item.imgClassName ?? ''}`}
         aria-hidden
       />
     )
   }
-  return <item.Icon size={26} color={item.color} aria-hidden />
+  // one colour at rest so marks read the same in both themes; the brand colour on hover, in light only
+  return (
+    <span className="relative inline-flex">
+      <item.Icon size={26} color="currentColor" aria-hidden className="text-[var(--logo-ink)] transition-opacity duration-300 group-hover:opacity-0 [html[data-theme='dark']_&]:group-hover:opacity-100 [html[data-theme='dark']_&]:group-hover:text-[var(--logo-ink-hover)]" />
+      <item.Icon size={26} color={item.color} aria-hidden className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 [html[data-theme='dark']_&]:hidden" />
+    </span>
+  )
 }
 
 export function BrainIntegrationStrip({ hideHeader = false }: { hideHeader?: boolean } = {}) {
@@ -154,12 +160,12 @@ export function BrainIntegrationStrip({ hideHeader = false }: { hideHeader?: boo
     <div className={cn("w-full", !hideHeader && "border-t border-[var(--rule)] pt-12")}>
       {!hideHeader && (
         <header className="max-w-[42rem]">
-          <p className="font-[family-name:var(--font-serif)] text-[clamp(1.35rem,2.8vw,1.75rem)] font-light leading-[1.08] tracking-[-0.01em] text-[var(--ink)] min-[1920px]:text-[clamp(1.45rem,2.2vw,2rem)] min-[2560px]:text-[clamp(1.55rem,1.9vw,2.35rem)]">
+          <p className="rk-section-title text-[clamp(1.35rem,2.4vw,1.75rem)] leading-[1.1] text-[var(--ink)] min-[1920px]:text-[clamp(1.45rem,2.2vw,2rem)] min-[2560px]:text-[clamp(1.55rem,1.9vw,2.35rem)]">
             Built for the tools your teams already use
           </p>
           <p
             className={cn(
-              'mt-3 font-[family-name:var(--font-mono)] font-light leading-relaxed tracking-[-0.01em] text-[var(--mid)]',
+              'mt-3 rk-section-body text-[var(--mid)]',
               rkMono13,
             )}
           >
@@ -175,7 +181,7 @@ export function BrainIntegrationStrip({ hideHeader = false }: { hideHeader?: boo
             <ul className="flex list-none flex-wrap items-center gap-x-3.5 gap-y-3 p-0 sm:gap-x-4">
               {group.items.map((item) => (
                 <li key={`${group.title}-${item.label}`} className="m-0 flex shrink-0 p-0" aria-label={item.label}>
-                  <span className="inline-flex min-h-[28px] min-w-[28px] items-center justify-center opacity-[0.55] grayscale transition-[filter,opacity] duration-300 ease-out group-hover:opacity-100 group-hover:grayscale-0">
+                  <span className="inline-flex min-h-[28px] min-w-[28px] items-center justify-center">
                     <IntegrationMark item={item} />
                   </span>
                 </li>

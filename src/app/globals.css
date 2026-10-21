@@ -214,6 +214,42 @@ html[data-theme='dark'] {
   --film-ring: rgba(255, 255, 255, 0.1);
 }
 
+/* Section headings on the home page, in the hero's type: Figtree semibold, set tight. A class
+   so it beats the base h1-h6 rule, which sits outside Tailwind's layers. */
+.rk-section-title {
+  font-family: var(--font-figtree);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+/* The phrase that matters in a title is set in the serif's italic, in the accent blue. The serif
+   runs small, so it is set larger. */
+.rk-section-title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.12em;
+  letter-spacing: -0.01em;
+  line-height: 0;
+  color: var(--blue);
+}
+/* Body text under section titles: Figtree, readable size, roomy lines */
+.rk-section-body {
+  font-family: var(--font-figtree);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+/* Customer quotes: Figtree regular, set a little tight, no italics */
+.rk-section-quote {
+  font-family: var(--font-figtree);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -0.015em;
+}
+
 /* The hero cover, after the console's "Paper and ink" design language: one very large
    Figtree headline set tight, and a Figtree lede at the foot */
 .rk-cover-title {
