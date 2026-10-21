@@ -13,7 +13,8 @@ import { motion } from "framer-motion"
 import { fadeUpVariants, fadeUp } from "@/lib/animations"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { useState, useEffect, useMemo } from "react"
-import { ArrowLeft, ArrowUpRight, Check, Link2, Linkedin } from "lucide-react"
+import { ArrowLeft, ArrowUpRight } from "lucide-react"
+import { ShareLinks } from "@/components/blog/share-links"
 import { NewsletterSignup, Callout, CodeBlock, BlogCardStyles } from "@/components/blog"
 
 interface BlogPostClientProps {
@@ -32,70 +33,9 @@ function wordCount(body: unknown): number {
   return n
 }
 
-/** The first paragraph's text, to tell whether the excerpt only repeats it */
-function firstParagraph(body: unknown): string {
-  if (!Array.isArray(body)) return ''
-  const block = (body as SanityBlock[]).find((b) => b?._type === 'block' && (!b.style || b.style === 'normal'))
-  return Array.isArray(block?.children) ? block.children.map((c) => c.text || '').join('') : ''
-}
-
-const squash = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
-
-/** X's mark, which lucide does not carry */
-function XMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden className={className} fill="currentColor">
-      <path d="M17.75 3h3.07l-6.71 7.67L22 21h-6.18l-4.84-6.33L5.44 21H2.37l7.18-8.2L2 3h6.33l4.38 5.79L17.75 3Zm-1.08 16.2h1.7L7.4 4.73H5.58L16.67 19.2Z" />
-    </svg>
-  )
-}
-
-/** Share as three small icons: copy the address, or post it to LinkedIn or X */
-function ShareLinks({ title }: { title: string }) {
-  const [copied, setCopied] = useState(false)
-  const here = () => window.location.href
-  const open = (url: string) => window.open(url, '_blank', 'noopener,noreferrer')
-  const icon = 'flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-[var(--mid)] transition-colors hover:bg-[var(--panel)] hover:text-[var(--ink)]'
-  return (
-    <span className="-mr-1.5 inline-flex items-center gap-0.5">
-      <button
-        type="button"
-        className={icon}
-        aria-label={copied ? 'Link copied' : 'Copy link'}
-        title={copied ? 'Copied' : 'Copy link'}
-        onClick={() => {
-          navigator.clipboard?.writeText(here()).then(() => {
-            setCopied(true)
-            setTimeout(() => setCopied(false), 2000)
-          }).catch(() => {})
-        }}
-      >
-        {copied ? <Check className="h-4 w-4" strokeWidth={1.75} /> : <Link2 className="h-4 w-4" strokeWidth={1.75} />}
-      </button>
-      <button
-        type="button"
-        className={icon}
-        aria-label="Share on LinkedIn"
-        title="Share on LinkedIn"
-        onClick={() => open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(here())}`)}
-      >
-        <Linkedin className="h-4 w-4" strokeWidth={1.75} />
-      </button>
-      <button
-        type="button"
-        className={icon}
-        aria-label="Share on X"
-        title="Share on X"
-        onClick={() => open(`https://x.com/intent/post?text=${encodeURIComponent(title)}&url=${encodeURIComponent(here())}`)}
-      >
-        <XMark className="h-3.5 w-3.5" />
-      </button>
-    </span>
-  )
-}
 
 /** The section list, plain, with the section being read marked */
-function Contents({ headings }: { headings: { id: string; text: string; level: number }[] }) {
+function Contents({ headings, fold = false }: { headings: { id: string; text: string; level: number }[]; fold?: boolean }) {
   const [active, setActive] = useState('')
   useEffect(() => {
     const seen = new IntersectionObserver(
@@ -109,6 +49,23 @@ function Contents({ headings }: { headings: { id: string; text: string; level: n
     return () => seen.disconnect()
   }, [headings])
   if (headings.length < 2) return null
+  if (fold)
+    return (
+      <details className="mb-10 border-b border-[var(--rule)] font-[family-name:var(--font-figtree)] font-normal 2xl:hidden">
+        <summary className="cursor-pointer list-none py-3 text-[15px] text-[var(--ink)]">On this page</summary>
+        <ul className="m-0 list-none space-y-1.5 p-0 pb-4">
+          {headings
+            .filter((h) => h.level <= 2)
+            .map((h) => (
+              <li key={h.id} className="m-0 p-0">
+                <a href={`#${h.id}`} className="text-[15px] text-[var(--mid)] hover:text-[var(--ink)]">
+                  {h.text}
+                </a>
+              </li>
+            ))}
+        </ul>
+      </details>
+    )
   return (
     <nav aria-label="On this page" className="font-[family-name:var(--font-figtree)] font-normal">
       <p className="m-0 mb-3 text-[14px] text-[var(--ink)]">On this page</p>
@@ -209,9 +166,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
   const published = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
     : ''
-  // many posts open with their excerpt word for word: show it once
   const excerpt = post.excerpt?.trim()
-  const showExcerpt = !!excerpt && !squash(firstParagraph(post.body)).startsWith(squash(excerpt).slice(0, 60))
 
   // Track scroll progress
   useEffect(() => {
@@ -239,15 +194,15 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       
       <Navbar />
       
-      {/* One centred reading column; the section list sits in the right margin on wide screens */}
+      {/* Breadcrumb and title across the container, the details and the summary under it, a cover
+          the full width, then the text centred with the section list in the right margin */}
       <section className="bg-[var(--bg)] px-[var(--pad)] pt-[calc(var(--nav-stack)+3.5rem)] pb-24">
         <div className="rk-landing-max w-full">
           <motion.header
-            className="mx-auto max-w-[1100px] text-center"
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
           >
-            <nav className="mb-8 flex items-center justify-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+            <nav className="mb-8 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
               <Link href="/" className="transition-colors hover:text-[var(--ink)]">Home</Link>
               <span className="text-[var(--faint)]">/</span>
               <Link href="/blog" className="transition-colors hover:text-[var(--ink)]">Blog</Link>
@@ -258,63 +213,58 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                 </>
               )}
             </nav>
-            <h1 className="rk-section-title m-0 text-[clamp(2rem,4.3vw,3.9rem)] leading-[1.06] text-[var(--ink)]">
+            <h1 className="rk-section-title m-0 text-[clamp(2.25rem,4.4vw,4.25rem)] leading-[1.06] text-[var(--ink)]">
               {post.title}
             </h1>
-            {showExcerpt && (
-              <p className="rk-section-body mx-auto mt-6 mb-0 max-w-[680px] text-[clamp(18px,1.4vw,20px)] text-[var(--mid)]">
-                {excerpt}
-              </p>
+            <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
+              {post.categories?.[0] && <span className="text-[var(--ink)]">{post.categories[0]}</span>}
+              {published && <time dateTime={post.publishedAt}>{published}</time>}
+              <span>{minutes} min read</span>
+              {post.author?.name && (
+                <span className="flex items-center gap-2 text-[var(--ink)]">
+                  {post.author.image ? (
+                    <Image
+                      src={urlFor(post.author.image)?.width(56).height(56).url()}
+                      alt=""
+                      width={28}
+                      height={28}
+                      className="h-7 w-7 rounded-full object-cover"
+                    />
+                  ) : null}
+                  {post.author.name}
+                </span>
+              )}
+              <span className="ml-auto"><ShareLinks title={post.title} /></span>
+            </div>
+            {excerpt && (
+              <p className="rk-section-body m-0 mt-6 max-w-[820px] text-[clamp(18px,1.4vw,20px)] text-[var(--mid)]">{excerpt}</p>
             )}
           </motion.header>
 
-          <div className="mx-auto mt-12 w-full max-w-[960px]">
-              {postImageUrl && (
-                <figure className="m-0">
-                  <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-[var(--panel)]">
-                    <Image
-                      src={postImageUrl}
-                      alt={coverAlt}
-                      fill
-                      className="object-cover"
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 960px"
-                    />
-                  </div>
-                  {coverCaption ? (
-                    <figcaption className="mt-3 text-[14px] leading-relaxed text-[var(--mid)]">{coverCaption}</figcaption>
-                  ) : null}
-                </figure>
-              )}
-
-              {/* the details: one line under the cover, as wide as the text, ruled below */}
-              <div className="mx-auto mt-6 flex max-w-[680px] flex-wrap items-center gap-x-5 gap-y-2 border-b border-[var(--rule)] pt-1 pb-3 font-[family-name:var(--font-figtree)] text-[14px] font-normal text-[var(--mid)]">
-                {published && <time dateTime={post.publishedAt}>{published}</time>}
-                {post.author?.name && (
-                  <span className="flex items-center gap-2 text-[var(--ink)]">
-                    {post.author.image ? (
-                      <Image
-                        src={urlFor(post.author.image)?.width(56).height(56).url()}
-                        alt=""
-                        width={28}
-                        height={28}
-                        className="h-7 w-7 rounded-full object-cover"
-                      />
-                    ) : null}
-                    {post.author.name}
-                  </span>
-                )}
-                <span>{minutes} min read</span>
-                <span className="ml-auto"><ShareLinks title={post.title} /></span>
+          {postImageUrl && (
+            <figure className="m-0 mt-12">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-[var(--panel)]">
+                <Image
+                  src={postImageUrl}
+                  alt={coverAlt}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 1400px) 100vw, 1400px"
+                />
               </div>
-          </div>
+              {coverCaption ? (
+                <figcaption className="mt-3 text-[14px] leading-relaxed text-[var(--mid)]">{coverCaption}</figcaption>
+              ) : null}
+            </figure>
+          )}
 
-          {/* the text, with the section list beside it starting level with the first paragraph */}
-          <div className="grid grid-cols-1 gap-x-12 xl:grid-cols-[minmax(0,1fr)_680px_minmax(0,1fr)]">
-            <div className="mx-auto w-full min-w-0 max-w-[680px] xl:col-start-2">
+          <div className="grid grid-cols-1 gap-x-12 2xl:grid-cols-[minmax(0,1fr)_800px_minmax(0,1fr)]">
+            <div className="mx-auto w-full min-w-0 max-w-[800px] pt-14 2xl:col-start-2">
+            <Contents headings={headings} fold />
             {/* Main Content */}
             <motion.article
-              className="mt-12 min-w-0"
+              className="min-w-0"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -472,8 +422,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                 <NewsletterSignup compact={true} />
               </div>
             </div>
-
-            <aside className="hidden pt-12 xl:block">
+            <aside className="hidden pt-14 2xl:block">
               <div className="sticky top-[calc(var(--nav-stack)+2rem)]">
                 <Contents headings={headings} />
               </div>
