@@ -2,10 +2,20 @@
 
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
+import { PageHero } from '@/components/page-hero'
 import { Footer } from '@/components/footer'
 import { fadeUpVariants } from '@/lib/animations'
-import { FileText, Shield, Eye, Database, Users, Calendar } from 'lucide-react'
+import { Shield, Database } from 'lucide-react'
 import Link from 'next/link'
+
+const sectionTitle =
+  'rk-section-title m-0 mb-5 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[clamp(1.45rem,2vw,1.75rem)] leading-[1.2] tracking-[-0.02em] text-[var(--ink)]'
+const rowTitle = 'rk-section-title m-0 text-[1.1rem] leading-[1.35] tracking-[-0.01em] text-[var(--ink)]'
+const bodyText = 'font-[family-name:var(--font-figtree)] font-normal text-[18px] leading-[1.7] text-[var(--ink)]'
+const listText = `m-0 list-disc space-y-1.5 pl-6 marker:text-[var(--mid)] ${bodyText}`
+const ruledRow = 'grid gap-x-8 gap-y-2 border-t border-[var(--rule)] py-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]'
+const panelCard = 'rounded-2xl bg-[var(--panel)] p-6 ring-1 ring-[var(--rule)] sm:p-8'
+const inlineLink = 'break-all text-[var(--blue)] underline underline-offset-4'
 
 export function PrivacyPageClient() {
   const dataUsageTable = [
@@ -18,79 +28,55 @@ export function PrivacyPageClient() {
   ]
 
   const quickLinks = [
-    { title: "What We Collect", icon: Database, href: "#what-we-collect" },
-    { title: "How We Use Data", icon: Eye, href: "#how-we-use-data" },
-    { title: "Data Protection", icon: Shield, href: "#data-protection" },
-    { title: "Your Rights", icon: Users, href: "#your-rights" },
-    { title: "Contact Us", icon: FileText, href: "#contact" },
+    { title: "What We Collect", href: "#what-we-collect" },
+    { title: "How We Use Data", href: "#how-we-use-data" },
+    { title: "Data Protection", href: "#data-protection" },
+    { title: "Your Rights", href: "#your-rights" },
+    { title: "Contact Us", href: "#contact" },
   ]
 
   return (
     <>
       <Navbar />
-      
-      {/* Header Section */}
-      <section className="pt-24 pb-12 bg-background border-b border-border">
-        <div className="mx-auto max-w-4xl px-6 md:px-8">
-          <motion.div
-            variants={fadeUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
 
-            {/* Page Title */}
-            <motion.h1 
-              className="text-4xl md:text-5xl font-bold text-foreground mb-4 mt-24"
-              variants={fadeUpVariants}
-            >
-              Privacy Policy
-            </motion.h1>
-            
-            {/* Meta Info */}
-            <motion.div 
-              className="flex flex-col sm:flex-row sm:items-center gap-4 text-foreground-muted"
-              variants={fadeUpVariants}
-            >
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>Effective Date: June 25, 2025</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4" />
-                <span>Last Updated: October 9, 2026</span>
-              </div>
-            </motion.div>
-
-            {/* Quick Navigation */}
-            <motion.div 
-              className="mt-8 p-4 bg-background-secondary rounded-lg border border-border"
-              variants={fadeUpVariants}
-            >
-              <h2 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wider">
-                Quick Navigation
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                {quickLinks.map((link, index) => (
-                  <Link
-                    key={index}
-                    href={link.href}
-                    className="flex flex-col items-center p-3 rounded-md hover:bg-background transition-colors text-center"
-                  >
-                    <link.icon className="w-5 h-5 text-primary mb-2" />
-                    <span className="text-[13px] font-medium text-foreground">{link.title}</span>
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
+      <header className="bg-[var(--bg)]">
+        <PageHero className="pb-0" title="Privacy Policy">
+        {/* Meta Info */}
+        <div
+          className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]"
+        >
+          <span>Effective Date: June 25, 2025</span>
+          <span>Last Updated: October 9, 2026</span>
         </div>
-      </section>
+
+        {/* Quick Navigation */}
+        <nav
+          aria-label="Quick Navigation"
+          className="mt-10 max-w-[900px] border-y border-[var(--rule)] py-5"
+        >
+          <h2 className="m-0 mb-3 font-[family-name:var(--font-figtree)] text-[14px] font-normal leading-normal tracking-normal text-[var(--mid)]">
+            Quick Navigation
+          </h2>
+          <ul className="m-0 flex list-none flex-wrap gap-x-6 gap-y-2 p-0">
+            {quickLinks.map((link, index) => (
+              <li key={index}>
+                <Link
+                  href={link.href}
+                  className="font-[family-name:var(--font-figtree)] text-[16px] text-[var(--ink)] underline decoration-[var(--rule)] underline-offset-4 transition-colors hover:decoration-[var(--ink)]"
+                >
+                  {link.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        </PageHero>
+      </header>
 
       {/* Content Section */}
-      <section className="py-12 bg-background">
-        <div className="mx-auto max-w-4xl px-6 md:px-8">
-          <div className="prose prose-lg max-w-none">
+      <section className="bg-[var(--bg)] px-[var(--pad)] pt-14 pb-24">
+        <div className="rk-landing-max [&>*]:max-w-[900px]">
+          <div>
             
             {/* Introduction */}
             <motion.section 
@@ -99,10 +85,10 @@ export function PrivacyPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-4">Introduction</h2>
-              <p className="text-foreground-muted leading-relaxed">
+              <h2 className={sectionTitle}>Introduction</h2>
+              <p className={`m-0 ${bodyText}`}>
                 This Privacy Policy applies to all users of RubixKube™ services, including our website, 
                 platform, APIs, and integrations. By using RubixKube™, you agree to the practices described 
                 in this document.
@@ -116,29 +102,29 @@ export function PrivacyPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-6">What Information We Collect</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div className="p-4 bg-card-background rounded-lg border border-border">
-                  <h3 className="font-semibold text-foreground mb-3">Personal Information</h3>
-                  <ul className="list-disc ml-5 text-foreground-muted text-sm space-y-1">
+              <h2 className={sectionTitle}>What Information We Collect</h2>
+              <div className="border-b border-[var(--rule)]">
+                <div className={ruledRow}>
+                  <h3 className={rowTitle}>Personal Information</h3>
+                  <ul className={listText}>
                     <li>Name, email, job title</li>
                     <li>Organization name</li>
                     <li>Login credentials, preferences</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-card-background rounded-lg border border-border">
-                  <h3 className="font-semibold text-foreground mb-3">Usage & Technical Data</h3>
-                  <ul className="list-disc ml-5 text-foreground-muted text-sm space-y-1">
+                <div className={ruledRow}>
+                  <h3 className={rowTitle}>Usage & Technical Data</h3>
+                  <ul className={listText}>
                     <li>IP address, browser, OS</li>
                     <li>Pages visited, session time</li>
                     <li>Infra metadata (e.g., logs)</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-card-background rounded-lg border border-border">
-                  <h3 className="font-semibold text-foreground mb-3">Third-Party Integrations</h3>
-                  <ul className="list-disc ml-5 text-foreground-muted text-sm space-y-1">
+                <div className={ruledRow}>
+                  <h3 className={rowTitle}>Third-Party Integrations</h3>
+                  <ul className={listText}>
                     <li>GitHub tokens</li>
                     <li>Prometheus, CI/CD events</li>
                     <li>System logs & telemetry</li>
@@ -154,22 +140,22 @@ export function PrivacyPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-6">How We Use Your Data</h2>
+              <h2 className={sectionTitle}>How We Use Your Data</h2>
               <div className="overflow-x-auto">
-                <table className="w-full text-sm border border-border rounded-lg overflow-hidden">
-                  <thead className="bg-background-secondary">
+                <table className="w-full border-collapse text-left">
+                  <thead className="border-b border-[var(--ink)]">
                     <tr>
-                      <th className="text-left p-4 font-semibold text-foreground">Purpose</th>
-                      <th className="text-left p-4 font-semibold text-foreground">Description</th>
+                      <th className="py-3 pr-5 text-left align-bottom font-[family-name:var(--font-mono)] text-[12px] font-light uppercase tracking-[0.08em] text-[var(--mid)]">Purpose</th>
+                      <th className="py-3 pr-5 text-left align-bottom font-[family-name:var(--font-mono)] text-[12px] font-light uppercase tracking-[0.08em] text-[var(--mid)]">Description</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-card-background">
+                  <tbody>
                     {dataUsageTable.map(([purpose, description], index) => (
-                      <tr key={index} className="border-t border-border">
-                        <td className="p-4 font-medium text-foreground">{purpose}</td>
-                        <td className="p-4 text-foreground-muted">{description}</td>
+                      <tr key={index} className="border-b border-[var(--rule)]">
+                        <td className="py-3.5 pr-5 align-top font-[family-name:var(--font-figtree)] text-[16px] font-semibold leading-[1.5] text-[var(--ink)]">{purpose}</td>
+                        <td className="py-3.5 pr-5 align-top font-[family-name:var(--font-figtree)] text-[16px] leading-[1.5] text-[var(--ink)]">{description}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -184,28 +170,28 @@ export function PrivacyPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-6">Data Protection & Security</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-6 bg-card-background rounded-lg border border-border">
-                  <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-primary" />
+              <h2 className={sectionTitle}>Data Protection & Security</h2>
+              <div className="border-b border-[var(--rule)]">
+                <div className={ruledRow}>
+                  <h3 className={`${rowTitle} flex items-center gap-2`}>
+                    <Shield className="h-[18px] w-[18px] shrink-0 text-[var(--ink)]" strokeWidth={1.75} />
                     Security Measures
                   </h3>
-                  <ul className="list-disc ml-5 text-foreground-muted space-y-2">
+                  <ul className={listText}>
                     <li>End-to-end encryption for data in transit</li>
                     <li>At-rest encryption for sensitive data</li>
                     <li>Regular security audits and penetration testing</li>
                     <li>Access controls and authentication</li>
                   </ul>
                 </div>
-                <div className="p-6 bg-card-background rounded-lg border border-border">
-                  <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <Database className="w-5 h-5 text-primary" />
+                <div className={ruledRow}>
+                  <h3 className={`${rowTitle} flex items-center gap-2`}>
+                    <Database className="h-[18px] w-[18px] shrink-0 text-[var(--ink)]" strokeWidth={1.75} />
                     Data Retention
                   </h3>
-                  <ul className="list-disc ml-5 text-foreground-muted space-y-2">
+                  <ul className={listText}>
                     <li>Account data: Until account deletion</li>
                     <li>Usage logs: 90 days</li>
                     <li>Analytics: 2 years (anonymized)</li>
@@ -222,36 +208,40 @@ export function PrivacyPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-6">Your Rights & Choices</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-6 bg-card-background rounded-lg border border-border">
-                  <h3 className="font-semibold text-foreground mb-4">Access & Control</h3>
-                  <p className="text-foreground-muted mb-4">
+              <h2 className={sectionTitle}>Your Rights & Choices</h2>
+              <div className="border-b border-[var(--rule)]">
+                <div className={ruledRow}>
+                  <h3 className={rowTitle}>Access & Control</h3>
+                  <div>
+                  <p className={`m-0 mb-3 ${bodyText}`}>
                     You have the right to:
                   </p>
-                  <ul className="list-disc ml-5 text-foreground-muted space-y-2">
+                  <ul className={listText}>
                     <li>Access your personal data</li>
                     <li>Correct inaccurate information</li>
                     <li>Request data deletion</li>
                     <li>Export your data</li>
                     <li>Opt-out of marketing communications</li>
                   </ul>
+                  </div>
                 </div>
-                <div className="p-6 bg-card-background rounded-lg border border-border">
-                  <h3 className="font-semibold text-foreground mb-4">Contact Information</h3>
-                  <p className="text-foreground-muted mb-4">
+                <div className={ruledRow}>
+                  <h3 className={rowTitle}>Contact Information</h3>
+                  <div>
+                  <p className={`m-0 mb-3 ${bodyText}`}>
                     For privacy-related questions or to exercise your rights, contact us at:
                   </p>
-                  <div className="p-4 bg-background-secondary rounded-lg">
-                    <p className="font-medium text-foreground mb-2">Data Protection Officer</p>
-                    <a 
-                      href="mailto:connect@rubixkube.ai" 
-                      className="text-primary hover:underline break-all"
+                  <p className={`m-0 font-semibold ${bodyText}`}>Data Protection Officer</p>
+                  <p className={`m-0 ${bodyText}`}>
+                    <a
+                      href="mailto:connect@rubixkube.ai"
+                      className={inlineLink}
                     >
                       connect@rubixkube.ai
                     </a>
+                  </p>
                   </div>
                 </div>
               </div>
@@ -264,24 +254,24 @@ export function PrivacyPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-4">Rubix in Slack</h2>
-              <p className="text-foreground-muted leading-relaxed">
+              <h2 className={sectionTitle}>Rubix in Slack</h2>
+              <p className={`m-0 ${bodyText}`}>
                 When your organization connects Slack, the Rubix app reads only what it needs to answer:
                 the message that mentions it or is sent to it directly, the recent messages of the thread
                 it was mentioned in (read at that moment, at most fifteen), the name of the person who
                 asked, and RubixKube incident links pasted in Slack. It does not read channels it was not
                 invited to, does not join channels on its own, and stores no Slack messages.
               </p>
-              <p className="text-foreground-muted leading-relaxed mt-4">
+              <p className={`m-0 mt-5 ${bodyText}`}>
                 What you say to Rubix, and the thread messages sent along as context, become part of that
                 conversation in your RubixKube organization, kept for as long as your organization keeps
                 the conversation and deleted with it. Rubix writes one thing into Slack: a conversation
                 identifier in the metadata of its own replies. Approvals and questions you answer in Slack
                 are recorded in your organization&apos;s activity log with your Slack name.
               </p>
-              <p className="text-foreground-muted leading-relaxed mt-4">
+              <p className={`m-0 mt-5 ${bodyText}`}>
                 Rubix answers with the model your organization chose in RubixKube (our hosted models, or
                 your own provider). No Slack data is used to train models. To remove Rubix, disconnect
                 Slack in the console or remove the app in Slack; either stops all reading at once. Data
@@ -296,10 +286,10 @@ export function PrivacyPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-4">Policy Updates</h2>
-              <p className="text-foreground-muted leading-relaxed">
+              <h2 className={sectionTitle}>Policy Updates</h2>
+              <p className={`m-0 ${bodyText}`}>
                 We may update this policy periodically. Significant changes will be communicated via email 
                 or platform notifications. Continued use of RubixKube™ after changes constitutes acceptance 
                 of the updated policy.
@@ -313,21 +303,21 @@ export function PrivacyPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
             >
-              <h2 className="text-2xl font-semibold text-foreground mb-4">Contact Us</h2>
-              <div className="p-6 bg-card-background rounded-lg border border-border">
-                <p className="text-foreground-muted mb-4">
+              <h2 className={sectionTitle}>Contact Us</h2>
+              <div className={panelCard}>
+                <p className={`m-0 mb-4 ${bodyText}`}>
                   If you have any questions about this Privacy Policy, please contact us:
                 </p>
                 <div className="space-y-2">
-                  <p className="text-foreground">
+                  <p className={`m-0 ${bodyText}`}>
                     <span className="font-medium">Email:</span>{' '}
-                    <a href="mailto:privacy@rubixkube.ai" className="text-primary hover:underline">
+                    <a href="mailto:privacy@rubixkube.ai" className={inlineLink}>
                       privacy@rubixkube.ai
                     </a>
                   </p>
-                  <p className="text-foreground">
+                  <p className={`m-0 ${bodyText}`}>
                     <span className="font-medium">Address:</span> RubixKube Intelligence Private Limited
                   </p>
                 </div>

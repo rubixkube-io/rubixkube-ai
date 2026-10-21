@@ -78,7 +78,7 @@ function Go({ href, external, className, children }: { href: string; external?: 
   )
 }
 
-/** The RubixKube and Kepler cards, also used on /why */
+/** The RubixKube and Kepler cards */
 export function ProductCards({ className = '' }: { className?: string }) {
   return (
     <div className={`grid grid-cols-1 gap-4 md:grid-cols-2 ${className}`}>

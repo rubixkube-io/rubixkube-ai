@@ -6,11 +6,13 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { BillingToggle } from '@/components/ui/billing-toggle'
 import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
+import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
+import { siteButton, siteButtonCalendly, siteLink, siteLinkArrow } from '@/lib/site-ui'
+import { cn } from '@/lib/utils'
 import { ArrowRight, BellRing, CheckCircle, Mail, MessageSquare, Smartphone } from 'lucide-react'
 
 const HUBBLE_APP_URL = 'https://oncall.rubixkube.ai'
@@ -38,11 +40,10 @@ type Shot = (typeof SHOTS)[keyof typeof SHOTS]
 
 const label =
   'mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase'
-const h2 =
-  'mb-6 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl'
-const lead =
-  'max-w-[44ch] font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]'
+const h2 = 'rk-section-title mt-0 mb-6 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]'
+const lead = 'rk-section-body m-0 max-w-[44ch] text-[var(--mid)]'
 const mono = 'font-[family-name:var(--font-mono)]'
+const sans = 'font-[family-name:var(--font-figtree)]'
 
 const reveal = {
   variants: fadeUpVariants,
@@ -166,11 +167,11 @@ function ContactRules() {
       <div className="space-y-6">
         {rules.map((r) => (
           <div key={r.urgency}>
-            <p className={`${mono} mb-3 text-[13px] text-[var(--ink)]`}>{r.urgency}</p>
+            <p className={`${sans} mb-3 text-[14px] font-medium text-[var(--ink)]`}>{r.urgency}</p>
             <ol className="space-y-2">
               {r.steps.map((st) => (
-                <li key={st.text} className={`${mono} flex items-center gap-3 text-[13px] font-light text-[var(--mid)]`}>
-                  <st.icon className="h-4 w-4 text-[var(--blue)]" strokeWidth={1.5} />
+                <li key={st.text} className={`${sans} flex items-center gap-3 text-[14px] text-[var(--mid)]`}>
+                  <st.icon className="h-4 w-4 text-[var(--ink)]" strokeWidth={1.5} />
                   {st.text}
                 </li>
               ))}
@@ -196,10 +197,10 @@ function EscalationLevels() {
         {LEVELS.map((l) => (
           <li key={l.level} className="flex items-center justify-between gap-3 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-4 py-3 whitespace-nowrap">
             <div className="flex items-center gap-3">
-              <span className={`${mono} text-[12px] tracking-[0.15em] text-[var(--blue)] uppercase`}>{l.level}</span>
-              <span className={`${mono} text-[13px] text-[var(--ink)]`}>{l.who}</span>
+              <span className={`${mono} text-[12px] tracking-[0.15em] text-[var(--mid)] uppercase`}>{l.level}</span>
+              <span className={`${sans} text-[14px] font-medium text-[var(--ink)]`}>{l.who}</span>
             </div>
-            <span className={`${mono} text-[13px] font-light text-[var(--mid)]`}>{l.wait}</span>
+            <span className={`${sans} text-[14px] text-[var(--mid)]`}>{l.wait}</span>
           </li>
         ))}
       </ol>
@@ -215,23 +216,23 @@ function SlackThread() {
       </p>
       <div className="space-y-5">
         <div>
-          <p className={`${mono} text-[13px] text-[var(--ink)]`}>
-            Sam <span className="text-[var(--text-muted)]">10:01</span>
+          <p className={`${sans} text-[14px] font-medium text-[var(--ink)]`}>
+            Sam <span className={`${mono} text-[12px] font-normal text-[var(--text-muted)]`}>10:01</span>
           </p>
           <p className={`${mono} mt-1 text-[13px] font-light text-[var(--ink)]`}>/oncall who</p>
         </div>
-        <div className="border-l-2 border-[var(--blue)] pl-4">
-          <p className={`${mono} text-[13px] text-[var(--ink)]`}>
-            Hubble <span className="text-[var(--text-muted)]">10:01</span>
+        <div className="border-l-2 border-[var(--faint)] pl-4">
+          <p className={`${sans} text-[14px] font-medium text-[var(--ink)]`}>
+            Hubble <span className={`${mono} text-[12px] font-normal text-[var(--text-muted)]`}>10:01</span>
           </p>
-          <p className={`${mono} mt-1 text-[13px] font-light text-[var(--ink)]`}>Checkout: Ada Lovelace, until Wed 9:00 AM.</p>
+          <p className={`${sans} mt-1 text-[14px] text-[var(--ink)]`}>Checkout: Ada Lovelace, until Wed 9:00 AM.</p>
         </div>
-        <div className="border-l-2 border-[var(--blue)] pl-4">
-          <p className={`${mono} text-[13px] text-[var(--ink)]`}>
-            Hubble <span className="text-[var(--text-muted)]">10:02</span>
+        <div className="border-l-2 border-[var(--faint)] pl-4">
+          <p className={`${sans} text-[14px] font-medium text-[var(--ink)]`}>
+            Hubble <span className={`${mono} text-[12px] font-normal text-[var(--text-muted)]`}>10:02</span>
           </p>
-          <p className={`${mono} mt-1 text-[13px] font-light text-[var(--ink)]`}>INC-4F21 {INCIDENT}. Paged Ada Lovelace.</p>
-          <div className={`${mono} mt-3 inline-block rounded-md border border-[var(--rule)] px-3 py-1.5 text-[12px] tracking-[0.1em] text-[var(--ink)] uppercase`}>
+          <p className={`${sans} mt-1 text-[14px] text-[var(--ink)]`}>INC-4F21 {INCIDENT}. Paged Ada Lovelace.</p>
+          <div className={`${sans} mt-3 inline-block rounded-md border border-[var(--rule)] px-3 py-1.5 text-[13px] font-medium text-[var(--ink)]`}>
             Acknowledge
           </div>
         </div>
@@ -244,9 +245,9 @@ function UpgradePath() {
   return (
     // vertical on phones, horizontal from sm up
     <div className={`${card} flex flex-col items-center gap-3 sm:flex-row sm:gap-4`}>
-      <span className={`${mono} rounded-md bg-[var(--blue)]/10 px-3 py-2 text-[13px] text-[var(--blue)]`}>Hubble</span>
+      <span className={`${sans} rounded-md bg-[var(--ink)]/[0.06] px-3 py-2 text-[14px] font-medium text-[var(--ink)]`}>Hubble</span>
       <span className="h-8 w-px bg-[var(--faint)] sm:h-px sm:w-auto sm:flex-1" />
-      <span className={`${mono} flex items-center gap-2 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-2 text-[13px] whitespace-nowrap text-[var(--ink)]`}>
+      <span className={`${sans} flex items-center gap-2 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-2 text-[14px] font-medium whitespace-nowrap text-[var(--ink)]`}>
         Hubble with
         <Image src="/light-logo.svg" alt="RubixKube" width={1720} height={200} className="rk-only-light h-[10px] w-auto" />
         <Image src="/dark-logo.svg" alt="RubixKube" width={1720} height={200} className="rk-only-dark h-[10px] w-auto" />
@@ -302,8 +303,8 @@ function Includes({ items }: { items: readonly string[] }) {
       {items.map((item) => {
         const strong = item.startsWith('**')
         return (
-          <li key={item} className={`${mono} flex items-start gap-3 text-[13px] text-[var(--ink)] ${strong ? 'font-medium' : 'font-light'}`}>
-            <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--blue)]" strokeWidth={1.5} />
+          <li key={item} className={`${sans} flex items-start gap-3 text-[15px] leading-[1.5] ${strong ? 'font-medium text-[var(--ink)]' : 'text-[var(--mid)]'}`}>
+            <CheckCircle className="mt-[3px] h-4 w-4 shrink-0 text-[var(--ink)]" strokeWidth={1.5} />
             <span>{item.replaceAll('**', '')}</span>
           </li>
         )
@@ -312,13 +313,15 @@ function Includes({ items }: { items: readonly string[] }) {
   )
 }
 
-/** No direct payment: every plan's button books a call. */
+/** No direct payment: every plan's button books a call. The recommended plan has the one solid button. */
 function PlanButton({ recommended }: { recommended: boolean }) {
-  return (
-    <CalendlyBooking url={CALENDLY_DEMO_URL} asChild>
-      <Button variant={recommended ? 'primary' : 'outline'} className="w-full">
-        Contact us
-      </Button>
+  return recommended ? (
+    <CalendlyBooking url={CALENDLY_DEMO_URL} className={cn(siteButtonCalendly, '!w-full')}>
+      Contact us
+    </CalendlyBooking>
+  ) : (
+    <CalendlyBooking url={CALENDLY_DEMO_URL} variant="outline" className={cn('h-12 w-full', outlineBlueAccentMd)}>
+      Contact us
     </CalendlyBooking>
   )
 }
@@ -329,43 +332,39 @@ function Pricing() {
   return (
     <section id="pricing" className="scroll-mt-[calc(var(--nav-stack)+4rem)] border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
       <div className="rk-landing-max px-[var(--pad)]">
-        <motion.div {...reveal} className="mb-16 text-center">
+        <motion.div {...reveal} className="mb-16">
           <span className={label}>Pricing</span>
           <h2 className={h2}>
-            Simple, per-seat <span className="italic text-[var(--blue)]">pricing.</span>
+            Simple, per-seat <em>pricing.</em>
           </h2>
-          <p className={`${lead} mx-auto`}>Pay monthly, or save 15% with annual billing.</p>
+          <p className={lead}>Pay monthly, or save 15% with annual billing.</p>
         </motion.div>
         <BillingToggle isAnnual={isAnnual} onToggle={() => setIsAnnual(!isAnnual)} />
-        <motion.div {...reveal} className="grid grid-cols-1 border border-[var(--rule)] md:grid-cols-3">
-          {PLANS.map((plan, i) => (
+        <motion.div {...reveal} className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {PLANS.map((plan) => (
             <div
               key={plan.name}
-              className={`relative flex flex-col p-10 ${
-                plan.recommended
-                  ? 'border-l-2 border-l-[var(--blue)] bg-[var(--blue)]/[0.05]'
-                  : 'border-l-2 border-l-transparent'
-              } ${i < PLANS.length - 1 ? 'border-b border-b-[var(--rule)] md:border-r md:border-b-0 md:border-r-[var(--rule)]' : ''}`}
+              className={`relative flex flex-col rounded-2xl bg-[var(--panel)] p-8 sm:p-10 ${
+                plan.recommended ? 'ring-1 ring-[var(--ink)]/40' : 'ring-1 ring-[var(--rule)]'
+              }`}
             >
               <div className="mb-6 flex items-center gap-3">
                 <span className={`${mono} text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`}>{plan.name}</span>
                 {plan.recommended && (
-                  <span className={`${mono} text-[12px] tracking-[0.1em] text-[var(--blue)] uppercase`}>Recommended</span>
+                  <span className={`${mono} text-[12px] tracking-[0.1em] text-[var(--ink)] uppercase`}>Recommended</span>
                 )}
               </div>
-              <p className="mb-1 font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] leading-none font-light text-[var(--ink)]">
+              <p className={`${mono} mb-1 text-[clamp(3rem,5vw,4.5rem)] leading-none font-normal tracking-[-0.04em] text-[var(--ink)]`}>
                 {plan.price[billing]}
               </p>
-              <p className={`${mono} mb-6 text-[13px] font-light text-[var(--mid)]`}>{plan.unit[billing]}</p>
+              <p className={`${sans} mt-2 mb-6 text-[15px] text-[var(--mid)]`}>{plan.unit[billing]}</p>
               <PlanButton recommended={plan.recommended} />
               <hr className="my-8 border-[var(--rule)]" />
               <Includes items={plan.includes} />
               {plan.recommended && (
-                <Link
-                  href="/pricing"
-                  className={`${mono} mt-auto pt-8 text-[13px] font-light text-[var(--mid)] underline underline-offset-2 hover:text-[var(--ink)]`}
-                >
+                <Link href="/pricing" className={`${siteLink} mt-auto self-start pt-8`}>
                   See RubixKube plans
+                  <ArrowRight className={siteLinkArrow} aria-hidden />
                 </Link>
               )}
             </div>
@@ -425,11 +424,14 @@ function SectionBar() {
             </a>
           ))}
         </nav>
-        <Button asChild variant="primary" className="ml-auto hidden sm:inline-flex">
-          <a href={HUBBLE_APP_URL} target="_blank" rel="noopener noreferrer">
-            Open Hubble
-          </a>
-        </Button>
+        <a
+          href={HUBBLE_APP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(siteButton, 'ml-auto hidden h-10 px-5 text-[15px] sm:inline-flex')}
+        >
+          Open Hubble
+        </a>
       </div>
     </div>
   )
@@ -440,14 +442,12 @@ function Tile({ span, title, copy, visual, tall = false }: { span: string; title
   return (
     <motion.div
       {...reveal}
-      className={`${span} flex flex-col overflow-hidden rounded-2xl border border-[var(--rule)] bg-[var(--bg)] transition-shadow hover:shadow-md`}
+      className={`${span} flex flex-col overflow-hidden rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] transition-shadow hover:shadow-md`}
     >
       <Backdrop className={`border-b border-[var(--rule)] ${tall ? 'h-[300px] lg:h-[360px]' : 'h-[260px] lg:h-[300px]'}`}>{visual}</Backdrop>
       <div className="p-8">
-        <h3 className="mb-3 text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)]" style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}>
-          {title}
-        </h3>
-        <p className={`${mono} text-[14px] leading-[1.7] text-[var(--ink)]/60`}>{copy}</p>
+        <h3 className="rk-section-title mt-0 mb-2.5 text-[1.2rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">{title}</h3>
+        <p className={`${sans} m-0 text-[15px] leading-[1.6] text-[var(--mid)]`}>{copy}</p>
       </div>
     </motion.div>
   )
@@ -457,12 +457,9 @@ function Tile({ span, title, copy, visual, tall = false }: { span: string; title
 
 function OpenButtons() {
   return (
-    <Button asChild variant="primary" size="lg" className="w-full sm:w-auto">
-      <a href={HUBBLE_APP_URL} target="_blank" rel="noopener noreferrer">
-        Open Hubble
-        <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-      </a>
-    </Button>
+    <a href={HUBBLE_APP_URL} target="_blank" rel="noopener noreferrer" className={cn(siteButton, 'w-full sm:w-auto')}>
+      Open Hubble
+    </a>
   )
 }
 
@@ -490,10 +487,10 @@ export function HubblePageClient() {
             </motion.div>
             <motion.h1
               variants={fadeUpVariants}
-              className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(2.5rem,4.6vw,4.75rem)] leading-[1.04] font-light tracking-[-0.015em] text-[var(--ink)]"
+              className="rk-section-title mt-0 mb-8 text-[clamp(2.25rem,4.4vw,4.25rem)] leading-[1.06] text-[var(--ink)]"
             >
               On-call and paging,{' '}
-              <span className="italic text-[var(--blue)]">from RubixKube.</span>
+              <em>from RubixKube.</em>
             </motion.h1>
             <motion.p variants={fadeUpVariants} className={lead}>
               Schedules, escalation and paging for your team. Hubble pages the right person when an alert fires, and keeps paging until someone acknowledges it.
@@ -544,12 +541,12 @@ export function HubblePageClient() {
       {/* Features: one grid, each tile a zoomed product view */}
       <section id="features" className="scroll-mt-[calc(var(--nav-stack)+4rem)] bg-[var(--bg)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
-          <motion.div {...reveal} className="mx-auto mb-16 max-w-3xl text-center">
+          <motion.div {...reveal} className="mb-16 max-w-3xl">
             <span className={label}>Features</span>
             <h2 className={h2}>
-              The whole on-call loop, <span className="italic text-[var(--blue)]">in one place.</span>
+              The whole on-call loop, <em>in one place.</em>
             </h2>
-            <p className={`${lead} mx-auto`}>
+            <p className={lead}>
               Rosters decide who is on call. Escalation decides who is paged next. Everyone sees where each incident stands.
             </p>
           </motion.div>
@@ -610,7 +607,7 @@ export function HubblePageClient() {
             <motion.div {...reveal}>
               <span className={label}>Mobile</span>
               <h2 className={h2}>
-                Pages that <span className="italic text-[var(--blue)]">find you.</span>
+                Pages that <em>find you.</em>
               </h2>
               <p className={lead}>
                 The phone app shows the pages assigned to you and who is on call. Acknowledge, resolve or escalate an incident from wherever you are.
@@ -637,7 +634,7 @@ export function HubblePageClient() {
             <motion.div {...reveal} className="order-1 lg:order-2">
               <span className={label}>RubixKube</span>
               <h2 className={h2}>
-                Works with <span className="italic text-[var(--blue)]">RubixKube.</span>
+                Works with <em>RubixKube.</em>
               </h2>
               <p className={lead}>
                 Hubble runs on its own. Add RubixKube later with the same sign-in, and Rubix investigates each incident and suggests the fix.
@@ -650,10 +647,10 @@ export function HubblePageClient() {
       <Pricing />
 
       <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
-        <motion.div {...reveal} className="rk-landing-max px-[var(--pad)] text-center">
+        <motion.div {...reveal} className="rk-landing-max px-[var(--pad)]">
           <h2 className={h2}>Start using Hubble</h2>
-          <p className={`${lead} mx-auto`}>Sign in with your RubixKube account, or create one.</p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <p className={lead}>Sign in with your RubixKube account, or create one.</p>
+          <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
             <OpenButtons />
           </div>
         </motion.div>

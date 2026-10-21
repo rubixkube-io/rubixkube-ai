@@ -2,9 +2,9 @@
 
 import { useId } from 'react'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { SectionLabel } from '@/components/ui/section-label'
-import { landingCtaArrowSmClass, landingCtaLinkSm } from '@/lib/landing-inline-cta'
+import { siteLink, siteLinkArrow } from '@/lib/site-ui'
 import { landingSectionKickerClass } from '@/lib/landing-section-kicker'
 import { rkMono11, rkMono13, rkMono15Lead } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
@@ -289,7 +289,7 @@ const cards = [
 ] as const
 
 const intelCardTimeClass = cn(
-  'mb-4 font-[family-name:var(--font-mono)] font-medium text-[var(--blue)]',
+  'mb-4 font-[family-name:var(--font-mono)] font-medium text-[var(--mid)]',
   rkMono11,
 )
 
@@ -324,7 +324,7 @@ export function IntelligenceSection() {
             <br />
             infrastructure for the
             <br />
-            first time, <em className="italic text-[var(--blue)]">every time.</em>
+            first time, <em>every time.</em>
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
@@ -337,7 +337,7 @@ export function IntelligenceSection() {
             <p>
               <span
                 className={cn(
-                  'font-medium text-[var(--blue)] decoration-1',
+                  'font-medium text-[var(--ink)]',
                   rkMono15Lead,
                 )}
               >
@@ -353,10 +353,10 @@ export function IntelligenceSection() {
               href="https://docs.rubixkube.ai/concepts/memory-engine"
               target="_blank"
               rel="noopener noreferrer"
-              className={`mt-8 w-fit ${landingCtaLinkSm}`}
+              className={`mt-8 w-fit ${siteLink}`}
             >
               Learn more about Memory Engine
-              <ArrowRight className={landingCtaArrowSmClass} strokeWidth={2} aria-hidden />
+              <ArrowUpRight className={siteLinkArrow} aria-hidden />
             </Link>
           </div>
         </Reveal>
@@ -373,7 +373,7 @@ export function IntelligenceSection() {
               <p className={intelCardTimeClass}>{c.time}</p>
               <h3 className={intelCardTitleClass}>
                 {c.title}{' '}
-                <em className="font-normal italic text-[var(--blue)]">{c.em}</em>
+                <em>{c.em}</em>
               </h3>
               <p className={intelCardDescClass}>{c.desc}</p>
               <div className="card-graph mt-auto flex h-[128px] shrink-0 items-center justify-center sm:h-[136px]">

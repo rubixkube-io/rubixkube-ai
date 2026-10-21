@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
       // Legacy OG asset was JPEG; marketing card is now exported as PNG.
       { source: '/og.jpg', destination: '/og.png', permanent: true },
       { source: '/og.jpeg', destination: '/og.png', permanent: true },
+      // /why was folded into the home page
+      { source: '/why', destination: '/', permanent: true },
     ]
   },
 

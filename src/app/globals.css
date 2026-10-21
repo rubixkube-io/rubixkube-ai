@@ -344,8 +344,7 @@ html.rk-announce-off {
   --color-rk-red: var(--red);
 
   --font-sans: var(--font-mono), ui-monospace, monospace;
-  /* Omit ui-serif — system display serifs read much heavier than Cormorant 300 */
-  --font-heading: var(--font-serif);
+  --font-heading: var(--font-figtree);
 }
 
 html {
@@ -375,16 +374,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
-  font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+/* Headings default to Figtree semibold. In the base layer, so a utility class on a heading
+   (a font, weight or size) wins over it. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
 }
 
 * {
@@ -882,9 +885,9 @@ h6 {
 .prose h6 {
   color: var(--foreground);
   font-family: var(--font-heading);
-  font-weight: 300;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .prose p {

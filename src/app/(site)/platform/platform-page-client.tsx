@@ -5,36 +5,39 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
+import { PageHero } from '@/components/page-hero'
 import { Footer } from '@/components/footer'
 import { ClosingCTA } from '@/components/closing-cta'
 import { Button } from '@/components/ui/button'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { fadeUpVariants } from '@/lib/animations'
 import { platformFaqItems } from '@/data/platform-faq'
-import { ArrowUpRight, BellRing, Check, CheckCircle, Copy, Download, Rocket, Terminal } from 'lucide-react'
+import { siteButton, siteLink, siteLinkArrow } from '@/lib/site-ui'
+import { ArrowRight, ArrowUpRight, BellRing, Check, CheckCircle, Copy, Download, Terminal } from 'lucide-react'
 import { BrainIntegrationStrip } from '@/components/landing/brain-integration-strip'
 import { IntelligenceSection } from '@/components/landing/intelligence-section'
 import { BuiltOnSection } from '@/components/landing/built-on-section'
 import { Backdrop, Float, ThemedImage, fadeBottom } from '@/components/console-shot'
 
-const CONSOLE_URL = 'https://console.rubixkube.ai'
-const DEMO_URL = 'https://calendly.com/rubixkube-ai/30min'
 
 /* ───────────────────────── shared type styles ───────────────────────── */
 
 const eyebrow =
   'mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase'
-const h2 =
-  'mb-6 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl'
-const sectionH2 =
-  'mb-4 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl'
-const sectionLead =
-  'mx-auto max-w-2xl font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]'
-const lead = 'mb-8 font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]'
+const h2 = 'rk-section-title mb-6 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]'
+const sectionH2 = 'rk-section-title mb-4 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]'
+/** A title inside a section, a step below the section's h2 */
+const subH = 'rk-section-title mb-3 text-[clamp(1.5rem,2.2vw,2rem)] leading-[1.15] text-[var(--ink)]'
+const sectionLead = 'rk-section-body max-w-2xl text-[var(--mid)]'
+const lead = 'rk-section-body mb-8 text-[var(--mid)]'
 const mono = 'font-[family-name:var(--font-mono)]'
-const cardTitle = 'mb-3 text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)]'
-const cardTitleStyle = { fontFamily: 'var(--font-mono)', fontWeight: 500 }
-const cardBody = `${mono} text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60`
+const cardTitle = 'rk-section-title mb-3 text-[1.2rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]'
+const cardBody = 'rk-section-body text-[15px] text-[var(--mid)]'
+/** The name on a row of a list */
+const rowTitle = 'rk-section-title text-[1.1rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]'
+const rowBody = 'rk-section-body text-[15px] text-[var(--mid)]'
+/** The card treatment from the home page */
+const card = 'rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)]'
 
 const reveal = {
   variants: fadeUpVariants,
@@ -136,10 +139,10 @@ function HeroSequence() {
 
 function Checks({ items }: { items: readonly string[] }) {
   return (
-    <div className="space-y-4 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)]">
+    <div className="rk-section-body space-y-3 text-[15px] text-[var(--ink)]">
       {items.map((item) => (
         <div key={item} className="flex items-start gap-3">
-          <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--blue)]" strokeWidth={1.5} />
+          <CheckCircle className="mt-1 h-4 w-4 shrink-0 text-[var(--ink)]" strokeWidth={1.5} />
           <span>{item}</span>
         </div>
       ))}
@@ -187,7 +190,7 @@ const PARTS = [
     eyebrow: 'Investigation',
     title: (
       <>
-        Every incident, investigated <span className="italic text-[var(--blue)]">the moment it opens.</span>
+        Every incident, investigated <em>the moment it opens.</em>
       </>
     ),
     copy: 'Rubix reads logs, events, metrics and recent changes as soon as an incident is created, and shows each step as it works. Follow along live, or open the incident to a finished answer.',
@@ -199,7 +202,7 @@ const PARTS = [
     eyebrow: 'Root cause',
     title: (
       <>
-        Root causes, <span className="italic text-[var(--blue)]">backed by evidence.</span>
+        Root causes, <em>backed by evidence.</em>
       </>
     ),
     copy: 'Each RCA (root cause analysis) states the impact, the cause and how confident Rubix is, with a citation for every claim. Your team confirms or corrects it in one click, and the verdict stays with the RCA.',
@@ -211,7 +214,7 @@ const PARTS = [
     eyebrow: 'Tasks',
     title: (
       <>
-        Every RCA ends <span className="italic text-[var(--blue)]">in a fix.</span>
+        Every RCA ends <em>in a fix.</em>
       </>
     ),
     copy: 'The fix and any follow-ups arrive as Tasks. Hand the fix to Rubix to open a pull request or apply the change, or assign it to an engineer and track it to done.',
@@ -223,7 +226,7 @@ const PARTS = [
     eyebrow: 'Environments',
     title: (
       <>
-        Your entire stack, <span className="italic text-[var(--blue)]">in one view.</span>
+        Your entire stack, <em>in one view.</em>
       </>
     ),
     copy: 'Connect a Kubernetes cluster, Linux machines, or an AWS or Google Cloud account with a single command. The observer is read-only. Every environment gets a live view of its health, recent changes and open incidents.',
@@ -285,16 +288,16 @@ function AppTitle({ icon, name, badge, line }: { icon: ReactNode; name: string; 
       <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[var(--rule)] bg-[var(--background-secondary)]">{icon}</div>
       <div className="min-w-0">
         <div className="flex items-center gap-2">
-          <h3 className="font-[family-name:var(--font-serif)] text-[1.75rem] leading-none font-light text-[var(--ink)]">{name}</h3>
+          <h3 className="rk-section-title text-[1.25rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">{name}</h3>
           {badge && <span className={`${mono} rounded-md border border-[var(--rule)] px-1.5 py-0.5 text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase`}>{badge}</span>}
         </div>
-        <p className={`${mono} mt-2 text-[13px] font-light leading-[1.7] text-[var(--mid)]`}>{line}</p>
+        <p className="rk-section-body mt-1.5 text-[15px] text-[var(--mid)]">{line}</p>
       </div>
     </div>
   )
 }
 
-const appCard = 'flex scroll-mt-[calc(var(--nav-stack)+2rem)] flex-col rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-5 sm:p-6'
+const appCard = `flex scroll-mt-[calc(var(--nav-stack)+2rem)] flex-col ${card} p-5 sm:p-6`
 
 /** AI tools that reach Rubix over RubixKube's MCP server. */
 const AI_TOOLS = [
@@ -320,45 +323,11 @@ export function PlatformPageClient() {
 
       {/* Hero: the whole console, then the page zooms in on its parts */}
       <section className="relative bg-[var(--bg)] pb-24 sm:pb-32">
-        <div className="rk-landing-max relative z-10 w-full px-[var(--pad)] pt-[calc(var(--nav-stack)+3.5rem)] pb-12 text-center">
-          <motion.div className="mx-auto max-w-4xl" variants={fadeUpVariants} initial="hidden" animate="visible">
-            <motion.div variants={fadeUpVariants}>
-              <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
-                RubixKube Console
-              </span>
-            </motion.div>
-
-            <motion.h1
-              className="mb-8 font-[family-name:var(--font-serif)] text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]"
-              variants={fadeUpVariants}
-            >
-              From alert to fix,
-              <br />
-              <span className="italic text-[var(--blue)]">in minutes.</span>
-            </motion.h1>
-
-            <motion.p
-              className="mx-auto max-w-[58ch] font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]"
-              variants={fadeUpVariants}
-            >
-              RubixKube watches your infrastructure. When something breaks, Rubix finds the cause and ships the fix with you.
-            </motion.p>
-
-            <motion.div variants={fadeUpVariants} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Button asChild variant="primary">
-                <Link href={CONSOLE_URL} target="_blank" rel="noopener noreferrer">
-                  Start Free
-                  <Rocket className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className={outlineBlueAccentMd}>
-                <Link href={DEMO_URL} target="_blank" rel="noopener noreferrer">
-                  Book a Demo
-                </Link>
-              </Button>
-            </motion.div>
-          </motion.div>
-        </div>
+        <PageHero
+          className="pb-12"
+          title="From alert to fix, in minutes."
+          lede="RubixKube watches your infrastructure. When something breaks, Rubix finds the cause and ships the fix with you."
+        />
 
         <motion.div
           variants={fadeUpVariants}
@@ -380,7 +349,7 @@ export function PlatformPageClient() {
             <motion.div {...reveal}>
               <span className={eyebrow}>Rubix</span>
               <h2 className={h2}>
-                Ask Rubix anything about <span className="italic text-[var(--blue)]">your infrastructure.</span>
+                Ask Rubix anything about <em>your infrastructure.</em>
               </h2>
               <p className={lead}>
                 Rubix knows your environments, your incidents and what changed. Ask in plain language and it runs the checks, shows its work and answers with evidence. When there is a fix, it opens the pull request or makes the change, within the access you give it.
@@ -401,19 +370,19 @@ export function PlatformPageClient() {
             </motion.div>
           </div>
 
-          <motion.div {...reveal} className="mt-16 grid items-center gap-10 rounded-2xl border border-[var(--rule)] p-8 sm:p-10 lg:grid-cols-[2fr_3fr] lg:gap-16">
+          <motion.div {...reveal} className={`mt-16 grid items-center gap-10 ${card} p-8 sm:p-10 lg:grid-cols-[2fr_3fr] lg:gap-16`}>
             <div>
-              <h3 className="mb-3 font-[family-name:var(--font-serif)] text-3xl font-light leading-[1.1] text-[var(--ink)] md:text-4xl">
-                Set how far <span className="italic text-[var(--blue)]">it goes.</span>
+              <h3 className={subH}>
+                Set how far <em>it goes.</em>
               </h3>
-              <p className={`${mono} mb-8 text-[13px] font-light leading-relaxed text-[var(--mid)]`}>
+              <p className="rk-section-body mb-8 text-[15px] text-[var(--mid)]">
                 Choose how much Rubix does on its own. In Assist it stops before every change and waits for a yes.
               </p>
               <div className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
                 {MODES.map((m) => (
                   <div key={m.name} className="grid grid-cols-[88px_1fr] gap-4 py-4">
-                    <p className={`${mono} pt-0.5 text-[12px] tracking-[0.2em] text-[var(--blue)] uppercase`}>{m.name}</p>
-                    <p className={`${mono} text-[13px] font-light leading-relaxed text-[var(--ink)]`}>{m.copy}</p>
+                    <p className={`${mono} pt-1 text-[12px] tracking-[0.2em] text-[var(--ink)] uppercase`}>{m.name}</p>
+                    <p className="rk-section-body text-[15px] text-[var(--ink)]">{m.copy}</p>
                   </div>
                 ))}
               </div>
@@ -439,10 +408,10 @@ export function PlatformPageClient() {
       {/* Outcomes */}
       <section id="console" className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
-          <div className="mb-16 text-center">
+          <div className="mb-16">
             <span className={eyebrow}>RubixKube Console</span>
             <h2 className={sectionH2}>
-              Built for the moment <span className="italic text-[var(--blue)]">something breaks.</span>
+              Built for the moment <em>something breaks.</em>
             </h2>
             <p className={sectionLead}>Alerts from your observers and monitoring tools arrive as incidents. Each one is investigated, explained and resolved in one place.</p>
           </div>
@@ -452,12 +421,10 @@ export function PlatformPageClient() {
                 key={o.label}
                 {...reveal}
                 custom={i}
-                className="flex flex-col rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-10 transition-shadow hover:shadow-md"
+                className={`flex flex-col ${card} p-10`}
               >
-                <span className={`${mono} mb-6 text-[12px] tracking-[0.2em] text-[var(--blue)] uppercase`}>{o.label}</span>
-                <h3 className={cardTitle} style={cardTitleStyle}>
-                  {o.title}
-                </h3>
+                <span className={`${mono} mb-6 text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`}>{o.label}</span>
+                <h3 className={cardTitle}>{o.title}</h3>
                 <p className={cardBody}>{o.copy}</p>
               </motion.div>
             ))}
@@ -496,10 +463,10 @@ export function PlatformPageClient() {
       {/* RubixKube's apps and AI tools: where else Rubix works */}
       <section id="ecosystem" className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
-          <div className="mb-16 text-center">
+          <div className="mb-16">
             <span className={eyebrow}>Apps</span>
             <h2 className={sectionH2}>
-              Rubix, wherever <span className="italic text-[var(--blue)]">your team works.</span>
+              Rubix, wherever <em>your team works.</em>
             </h2>
             <p className={sectionLead}>Built by RubixKube for the people who keep systems running. Each one signs in with your RubixKube account.</p>
           </div>
@@ -516,14 +483,15 @@ export function PlatformPageClient() {
                 </div>
               </AppShot>
               <AppTitle
-                icon={<BellRing className="h-5 w-5 text-[var(--blue)]" strokeWidth={1.5} />}
+                icon={<BellRing className="h-5 w-5 text-[var(--ink)]" strokeWidth={1.5} />}
                 name="Hubble"
                 line="On-call and paging. Rotations, escalation and paging on the web and on your phone, until someone acknowledges."
               />
-              <div className="mt-auto flex items-center gap-4 pt-8">
-                <Button asChild variant="outline" className={outlineBlueAccentMd}>
-                  <Link href="/hubble">Explore Hubble</Link>
-                </Button>
+              <div className="mt-auto flex items-center gap-x-6 gap-y-4 pt-8">
+                <Link href="/hubble" className={siteLink}>
+                  Explore Hubble
+                  <ArrowRight className={siteLinkArrow} aria-hidden />
+                </Link>
                 <span className={`${mono} text-[13px] text-[var(--mid)]`}>Web, iOS and Android</span>
               </div>
             </motion.div>
@@ -540,12 +508,10 @@ export function PlatformPageClient() {
                 line="The SRE IDE. Chat, terminal and browser in one desktop app, with RubixKube and your environments a click away."
               />
               <div className="mt-auto flex flex-wrap items-center gap-4 pt-8">
-                <Button asChild variant="primary">
-                  <Link href={KEPLER_URL} target="_blank" rel="noopener noreferrer">
-                    <Download className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-                    Download Kepler
-                  </Link>
-                </Button>
+                <Link href={KEPLER_URL} target="_blank" rel="noopener noreferrer" className={siteButton}>
+                  <Download className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
+                  Download Kepler
+                </Link>
                 <span className={`${mono} text-[13px] text-[var(--mid)]`}>macOS, Windows and Linux</span>
               </div>
             </motion.div>
@@ -559,7 +525,7 @@ export function PlatformPageClient() {
                 </div>
               </AppShot>
               <AppTitle
-                icon={<Terminal className="h-5 w-5 text-[var(--blue)]" strokeWidth={1.5} />}
+                icon={<Terminal className="h-5 w-5 text-[var(--ink)]" strokeWidth={1.5} />}
                 name="Rubix CLI"
                 line="Chat with Rubix from your terminal. Needs Node.js 18 or later."
               />
@@ -572,20 +538,20 @@ export function PlatformPageClient() {
           {/* AI tools */}
           <div className="mt-20">
             <div className="mb-8 max-w-3xl">
-              <h3 className="mb-3 font-[family-name:var(--font-serif)] text-3xl font-light leading-[1.1] text-[var(--ink)]">
-                In the AI tools <span className="italic text-[var(--blue)]">you already use.</span>
+              <h3 className={subH}>
+                In the AI tools <em>you already use.</em>
               </h3>
-              <p className={`${mono} text-[14px] font-light leading-relaxed text-[var(--mid)]`}>
+              <p className="rk-section-body text-[var(--mid)]">
                 Check how your environments are doing, see open incidents and Tasks, start an investigation or read an RCA, from your editor or assistant.
               </p>
             </div>
-            <motion.div {...reveal} className="divide-y divide-[var(--rule)] overflow-hidden rounded-2xl border border-[var(--rule)]">
+            <motion.div {...reveal} className={`divide-y divide-[var(--rule)] overflow-hidden ${card}`}>
               <div className="flex flex-col gap-4 p-6">
                 <div className="flex items-center gap-4">
                   <ToolLogo logo="claudecode" />
                   <div>
-                    <p className={`${mono} text-[14px] font-medium text-[var(--ink)]`}>Claude Code</p>
-                    <p className={`${mono} text-[13px] font-light text-[var(--mid)]`}>RubixKube&apos;s plugin, with skills for status, incidents and RCAs.</p>
+                    <p className={rowTitle}>Claude Code</p>
+                    <p className={rowBody}>RubixKube&apos;s plugin, with skills for status, incidents and RCAs.</p>
                   </div>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -597,8 +563,8 @@ export function PlatformPageClient() {
                 <div key={t.name} className="flex flex-wrap items-center gap-4 p-6">
                   <ToolLogo logo={t.logo} invert={'mono' in t} />
                   <div className="min-w-0 flex-1">
-                    <p className={`${mono} text-[14px] font-medium text-[var(--ink)]`}>{t.name}</p>
-                    <p className={`${mono} text-[13px] font-light text-[var(--mid)]`}>{t.line}</p>
+                    <p className={rowTitle}>{t.name}</p>
+                    <p className={rowBody}>{t.line}</p>
                   </div>
                   <Button asChild variant="outline" className={outlineBlueAccentMd}>
                     <a href={t.href} {...('web' in t ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
@@ -612,8 +578,8 @@ export function PlatformPageClient() {
                 <div className="flex items-center gap-4">
                   <ToolLogo logo="mcp" invert />
                   <div>
-                    <p className={`${mono} text-[14px] font-medium text-[var(--ink)]`}>Any other MCP client</p>
-                    <p className={`${mono} text-[13px] font-light text-[var(--mid)]`}>Add this server, and sign in when it asks.</p>
+                    <p className={rowTitle}>Any other MCP client</p>
+                    <p className={rowBody}>Add this server, and sign in when it asks.</p>
                   </div>
                 </div>
                 <CopyCommand command={MCP_URL} />
@@ -629,10 +595,10 @@ export function PlatformPageClient() {
       {/* Integrations */}
       <section className="border-t border-[var(--rule)] bg-[var(--bg)] py-24 sm:py-32">
         <div className="rk-landing-max px-[var(--pad)]">
-          <div className="mb-16 text-center">
+          <div className="mb-16">
             <span className={eyebrow}>Integrations</span>
             <h2 className={sectionH2}>
-              Works with the stack <span className="italic text-[var(--blue)]">you already run.</span>
+              Works with the stack <em>you already run.</em>
             </h2>
             <p className={sectionLead}>Alerts arrive from the monitoring tools you already use. Rubix is available in Slack and in your AI tools over MCP.</p>
           </div>
@@ -648,17 +614,15 @@ export function PlatformPageClient() {
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_2fr] lg:gap-[80px]">
             <motion.div {...reveal}>
               <span className={`${mono} text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`}>Questions</span>
-              <h2 className="mt-4 font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] leading-[1.1] font-light tracking-[-0.01em] text-[var(--ink)]">
-                Frequently <span className="italic text-[var(--blue)]">asked.</span>
+              <h2 className="rk-section-title mt-4 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]">
+                Frequently <em>asked.</em>
               </h2>
             </motion.div>
             <div>
               {platformFaqItems.map((item, i) => (
                 <motion.div key={item.q} {...reveal} className={`py-8 ${i !== 0 ? 'border-t border-[var(--rule)]' : ''}`}>
-                  <h3 className="mb-3 font-[family-name:var(--font-serif)] text-[clamp(1.1rem,2vw,1.35rem)] leading-[1.2] font-light text-[var(--ink)]">
-                    {item.q}
-                  </h3>
-                  <p className={`${mono} text-[13px] font-light leading-relaxed text-[var(--mid)]`}>{item.a}</p>
+                  <h3 className="rk-section-title mb-3 text-[1.2rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">{item.q}</h3>
+                  <p className="rk-section-body text-[var(--mid)]">{item.a}</p>
                 </motion.div>
               ))}
             </div>

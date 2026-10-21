@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { COOKIE_SETTINGS_EVENT } from '@/components/cookie-banner'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
-import { smallSize, type } from '@/lib/type-scale'
+import { smallSize } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 import { Linkedin, Github, Slack } from 'lucide-react'
 
@@ -33,7 +33,6 @@ const footerColumns = [
     links: [
       { label: 'Resources', href: '/resources' },
       { label: 'Blog', href: '/blog' },
-      { label: 'Glossary', href: '/glossary' },
       { label: 'Docs', href: 'https://docs.rubixkube.ai/' },
       { label: 'Rubix CLI', href: '/products/rubix-cli' },
     ],
@@ -81,10 +80,7 @@ export function FooterBody() {
         initial={prefersReducedMotion ? 'visible' : 'hidden'}
         whileInView="visible"
         viewport={{ once: true }}
-        className={cn(
-          'mx-auto mb-14 max-w-2xl text-center font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)]',
-          smallSize,
-        )}
+        className="mx-auto mb-14 max-w-2xl text-center font-[family-name:var(--font-figtree)] text-[16px] leading-relaxed text-[var(--mid)]"
       >
         RubixKube is Site Reliability Intelligence: see more, plan better, act safely, and learn with every
         incident.
@@ -99,7 +95,7 @@ export function FooterBody() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h3 className={cn(type.statement, 'border-b border-[var(--rule)] pb-3 mb-4 font-light text-[var(--ink)]')}>
+            <h3 className="rk-section-title mb-4 border-b border-[var(--rule)] pb-3 text-[17px] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">
               {column.title}
             </h3>
             <ul className="space-y-2 pt-1">

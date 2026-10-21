@@ -5,12 +5,16 @@ import { motion } from 'framer-motion'
 import Script from 'next/script'
 import Link from 'next/link'
 import { Navbar } from '@/components/navbar'
+import { PageHero } from '@/components/page-hero'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
-import { Mail, MapPin, Check, ArrowRight } from 'lucide-react'
+import { Mail, MapPin, Check } from 'lucide-react'
 import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
+import { siteButton } from '@/lib/site-ui'
+
+/** A field label: Figtree, small, in ink */
+const label = 'mb-2 block font-[family-name:var(--font-figtree)] text-[14px] font-medium text-[var(--ink)]'
 
 export function ContactPageClient() {
   const [isLoading, setIsLoading] = useState(false)
@@ -62,7 +66,7 @@ export function ContactPageClient() {
       description: 'Send us a message directly',
       contact: 'connect@rubixkube.ai',
       href: 'mailto:connect@rubixkube.ai',
-      accent: 'bg-[var(--blue)]/[0.07] text-[var(--blue)]',
+      accent: 'bg-[var(--bg)] text-[var(--ink)] ring-1 ring-[var(--rule)]',
     },
     {
       icon: MapPin,
@@ -70,15 +74,16 @@ export function ContactPageClient() {
       description: 'RubixKube Intelligence Private Limited',
       contact: 'India',
       href: '#',
-      accent: 'bg-[var(--blue)]/[0.07] text-[var(--blue)]',
+      accent: 'bg-[var(--bg)] text-[var(--ink)] ring-1 ring-[var(--rule)]',
     },
   ]
 
+  // the newsletter signup's field: panel paper, a hairline ring, ink when focused
   const fieldClass = (name: string) =>
-    `w-full border-0 border-b-[1.5px] bg-transparent px-0 py-3 font-[family-name:var(--font-mono)] text-[14px] font-light text-[var(--ink)] outline-none transition-all duration-300 placeholder:text-[var(--mid)]/40 ${
+    `w-full min-w-0 rounded-[6px] bg-[var(--panel)] px-4 py-[11px] font-[family-name:var(--font-figtree)] text-[15px] leading-[22px] text-[var(--ink)] ring-1 outline-none transition-shadow placeholder:text-[var(--mid)] ${
       focused === name
-        ? 'border-b-[var(--blue)]'
-        : 'border-b-[var(--rule)] hover:border-b-[var(--mid)]'
+        ? 'ring-[var(--ink)]'
+        : 'ring-[var(--rule)] hover:ring-[var(--mid)]'
     }`
 
   return (
@@ -87,35 +92,10 @@ export function ContactPageClient() {
 
       {/* ── Hero ── */}
       <section className="relative bg-[var(--bg)]">
-        <div className="rk-landing-max px-[var(--pad)] pt-[calc(var(--nav-stack)+5rem)] pb-20 text-center">
-          <motion.div
-            className="mx-auto max-w-3xl"
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.span
-              variants={fadeUpVariants}
-              className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase"
-            >
-              Contact
-            </motion.span>
-
-            <motion.h1
-              variants={fadeUpVariants}
-              className="mb-6 font-[family-name:var(--font-serif)] text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.05] font-light tracking-[-0.01em] text-[var(--ink)]"
-            >
-              Get in <span className="italic text-[var(--blue)]">touch.</span>
-            </motion.h1>
-
-            <motion.p
-              variants={fadeUpVariants}
-              className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--mid)]"
-            >
-              Have questions about RubixKube? Need help getting started? We&apos;re here to help.
-            </motion.p>
-          </motion.div>
-        </div>
+        <PageHero
+          title="Get in touch."
+          lede="Have questions about RubixKube? Need help getting started? We're here to help."
+        />
       </section>
 
       {/* ── Calendly + Contact ── */}
@@ -136,26 +116,26 @@ export function ContactPageClient() {
                   key={method.label}
                   href={method.href}
                   variants={fadeUpVariants}
-                  className="group flex items-start gap-4 border border-[var(--rule)] bg-[var(--bg)] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/[0.04]"
+                  className="group flex items-start gap-4 rounded-2xl bg-[var(--panel)] p-5 ring-1 ring-[var(--rule)]"
                 >
-                  <div className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${method.accent} transition-transform duration-300 group-hover:scale-110`}>
-                    <method.icon className="h-4 w-4" />
+                  <div className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${method.accent}`}>
+                    <method.icon className="h-4 w-4" strokeWidth={1.5} />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                    <p className="m-0 font-[family-name:var(--font-mono)] text-[12px] tracking-[0.12em] text-[var(--mid)] uppercase">
                       {method.label}
                     </p>
-                    <p className="mt-0.5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+                    <p className="m-0 mt-1 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
                       {method.description}
                     </p>
-                    <p className="mt-1 font-[family-name:var(--font-mono)] text-[13px] font-medium text-[var(--ink)]">
+                    <p className="m-0 mt-1 font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)]">
                       {method.contact}
                     </p>
                   </div>
                 </motion.a>
               ))}
 
-              <motion.div variants={fadeUpVariants} className="overflow-hidden border border-[var(--rule)] bg-[var(--bg)]">
+              <motion.div variants={fadeUpVariants} className="overflow-hidden rounded-2xl bg-[var(--bg)] ring-1 ring-[var(--rule)]">
                 <div
                   ref={calendlyRef}
                   className="-mt-6"
@@ -184,13 +164,13 @@ export function ContactPageClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-8% 0px' }}
-              className="flex flex-col rounded-xl border border-[var(--rule)]/60 bg-[var(--panel)] p-8 shadow-xl shadow-black/[0.03] sm:p-10"
+              className="flex flex-col rounded-2xl bg-[var(--panel)] p-8 ring-1 ring-[var(--rule)] sm:p-10"
             >
               <motion.div variants={fadeUpVariants} className="pb-2">
-                <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.4rem,3vw,2rem)] leading-[1.15] font-light text-[var(--ink)]">
+                <h2 className="rk-section-title m-0 text-[clamp(1.5rem,2.2vw,2rem)] leading-[1.15] tracking-[-0.02em] text-[var(--ink)]">
                   Send us a message
                 </h2>
-                <p className="mt-2 font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)]">
+                <p className="rk-section-body m-0 mt-2 text-[15px] text-[var(--mid)]">
                   Fill in the details below and we&apos;ll get back to you within a few hours.
                 </p>
               </motion.div>
@@ -202,14 +182,14 @@ export function ContactPageClient() {
                   variants={fadeUpVariants}
                   className="flex flex-col items-center gap-6 py-16 text-center"
                 >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50">
-                    <Check className="h-7 w-7 text-emerald-600" />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--green)]/10">
+                    <Check className="h-7 w-7 text-[var(--green)]" />
                   </div>
                   <div>
-                    <p className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1] font-light text-[var(--ink)]">
-                      Message <span className="italic text-[var(--blue)]">received.</span>
+                    <p className="rk-section-title m-0 text-[clamp(1.5rem,2.6vw,2.25rem)] leading-[1.1] text-[var(--ink)]">
+                      Message <em>received.</em>
                     </p>
-                    <p className="mt-3 font-[family-name:var(--font-mono)] text-[14px] font-light text-[var(--mid)]">
+                    <p className="rk-section-body m-0 mt-3 text-[var(--mid)]">
                       We&apos;ll get back to you within an hour.
                     </p>
                   </div>
@@ -221,7 +201,7 @@ export function ContactPageClient() {
                   data-netlify="true"
                   data-netlify-honeypot="bot-field"
                   onSubmit={handleSubmit}
-                  className="space-y-8"
+                  className="space-y-6"
                 >
                   <input type="hidden" name="form-name" value="contact" />
                   <div style={{ display: 'none' }}>
@@ -230,7 +210,7 @@ export function ContactPageClient() {
 
                   <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                      <label className={label}>
                         Full Name *
                       </label>
                       <input
@@ -244,7 +224,7 @@ export function ContactPageClient() {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                      <label className={label}>
                         Company
                       </label>
                       <input
@@ -260,7 +240,7 @@ export function ContactPageClient() {
 
                   <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                      <label className={label}>
                         Email *
                       </label>
                       <input
@@ -274,7 +254,7 @@ export function ContactPageClient() {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                      <label className={label}>
                         Subject *
                       </label>
                       <input
@@ -290,7 +270,7 @@ export function ContactPageClient() {
                   </div>
 
                   <div>
-                    <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                    <label className={label}>
                       Message *
                     </label>
                     <textarea
@@ -305,26 +285,29 @@ export function ContactPageClient() {
                   </div>
 
                   {error && (
-                    <p className="font-[family-name:var(--font-mono)] text-[13px] text-red-500">
+                    <p className="m-0 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--red)]">
                       {error}
                     </p>
                   )}
 
                   <div className="flex items-center justify-between gap-6 pt-2">
-                    <p className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+                    <p className="m-0 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)]">
                       By submitting you agree to our{' '}
-                      <Link href="/legal/privacy" className="underline underline-offset-2 hover:text-[var(--ink)]">
+                      <Link href="/legal/privacy" className="text-[var(--ink)] underline decoration-[var(--rule)] underline-offset-4 hover:decoration-[var(--ink)]">
                         Privacy Policy
                       </Link>
                       {' '}and{' '}
-                      <Link href="/legal/terms" className="underline underline-offset-2 hover:text-[var(--ink)]">
+                      <Link href="/legal/terms" className="text-[var(--ink)] underline decoration-[var(--rule)] underline-offset-4 hover:decoration-[var(--ink)]">
                         Terms
                       </Link>.
                     </p>
-                    <Button type="submit" disabled={isLoading} size="lg" className="shrink-0">
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className={`${siteButton} shrink-0 cursor-pointer disabled:cursor-default disabled:opacity-60`}
+                    >
                       {isLoading ? 'Sending…' : 'Send Message'}
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Button>
+                    </button>
                   </div>
                 </motion.form>
               )}

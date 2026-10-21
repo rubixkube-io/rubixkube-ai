@@ -6,6 +6,7 @@ import Image from "next/image"
 import { type SanityDocument } from "next-sanity"
 import { ArrowLeft, ArrowRight, Search } from "lucide-react"
 import { Navbar } from "@/components/navbar"
+import { PageHero } from "@/components/page-hero"
 import { Footer } from "@/components/footer"
 import { ClosingCTA } from "@/components/closing-cta"
 import { NewsletterSignup } from "@/components/blog"
@@ -157,18 +158,16 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
     <>
       <Navbar />
 
-      <main className="bg-[var(--bg)] px-[var(--pad)] pt-[calc(var(--nav-stack)+3.5rem)] pb-24 sm:pt-[calc(var(--nav-stack)+5rem)]">
-        <div className="rk-landing-max">
-          <h1 className="rk-section-title m-0 max-w-[34ch] text-[clamp(2rem,3.6vw,3.4rem)] leading-[1.1]">
-            <span className="text-[var(--ink)]">The RubixKube blog</span>{' '}
-            <span className="text-[var(--mid)]">
-              is where we write about running production: what breaks, how Rubix finds the cause, and what we
-              learn building for the people who keep systems running.
-            </span>
-          </h1>
+      <PageHero
+        className="pb-0"
+        title="The RubixKube blog"
+        lede="is where we write about running production: what breaks, how Rubix finds the cause, and what we learn building for the people who keep systems running."
+      />
 
+      <main className="bg-[var(--bg)] px-[var(--pad)] pb-24">
+        <div className="rk-landing-max">
           {featured.length > 0 && (
-            <section className="mt-16 sm:mt-24" aria-label="Featured stories">
+            <section className="mt-16 sm:mt-20" aria-label="Featured stories">
               <Feature posts={featured} />
             </section>
           )}

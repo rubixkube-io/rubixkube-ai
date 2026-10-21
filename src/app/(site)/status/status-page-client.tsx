@@ -3,10 +3,11 @@
 import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
+import { PageHero } from '@/components/page-hero'
 import { Footer } from '@/components/footer'
 import { fadeUpVariants } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
-import { Activity, RefreshCw, CheckCircle } from 'lucide-react'
+import { RefreshCw, CheckCircle } from 'lucide-react'
 
 const STATUS_API = 'https://api.rubixkube.ai/status'
 
@@ -63,17 +64,17 @@ const STATUS_CONFIG: Record<ServiceStatus, { label: string; dot: string; badge: 
   operational: {
     label: 'Operational',
     dot: 'bg-emerald-500',
-    badge: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+    badge: 'bg-emerald-500/10 text-[color-mix(in_srgb,var(--color-emerald-500)_70%,var(--ink))] ring-1 ring-inset ring-emerald-500/25',
   },
   degraded: {
     label: 'Degraded',
     dot: 'bg-amber-500',
-    badge: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+    badge: 'bg-amber-500/10 text-[color-mix(in_srgb,var(--color-amber-500)_70%,var(--ink))] ring-1 ring-inset ring-amber-500/25',
   },
   outage: {
     label: 'Outage',
     dot: 'bg-red-500',
-    badge: 'bg-red-500/10 text-red-400 border border-red-500/20',
+    badge: 'bg-red-500/10 text-[color-mix(in_srgb,var(--color-red-500)_70%,var(--ink))] ring-1 ring-inset ring-red-500/25',
   },
 }
 
@@ -85,21 +86,21 @@ const OVERALL_CONFIG: Record<
     label: 'All systems operational',
     borderColor: 'border-emerald-500',
     bg: 'bg-emerald-500/5',
-    textColor: 'text-emerald-400',
+    textColor: 'text-[color-mix(in_srgb,var(--color-emerald-500)_70%,var(--ink))]',
     dotColor: 'bg-emerald-500',
   },
   degraded: {
     label: 'Some systems degraded',
     borderColor: 'border-amber-500',
     bg: 'bg-amber-500/5',
-    textColor: 'text-amber-400',
+    textColor: 'text-[color-mix(in_srgb,var(--color-amber-500)_70%,var(--ink))]',
     dotColor: 'bg-amber-500',
   },
   outage: {
     label: 'Service disruption detected',
     borderColor: 'border-red-500',
     bg: 'bg-red-500/5',
-    textColor: 'text-red-400',
+    textColor: 'text-[color-mix(in_srgb,var(--color-red-500)_70%,var(--ink))]',
     dotColor: 'bg-red-500',
   },
 }
@@ -208,9 +209,6 @@ export function StatusPageClient() {
   const [lastFetched, setLastFetched] = useState<Date | null>(null)
   const reducedMotion = useReducedMotion()
 
-  const motionProps = reducedMotion
-    ? {}
-    : { variants: fadeUpVariants, initial: 'hidden' as const, whileInView: 'visible' as const, viewport: { once: true } }
 
   const fetchHistory = useCallback(async (services: Service[]) => {
     const results = await Promise.allSettled(
@@ -266,54 +264,36 @@ export function StatusPageClient() {
       <Navbar />
 
       {/* Header */}
-      <section className="pt-24 pb-12 bg-background border-b border-border">
-        <div className="mx-auto max-w-4xl px-6 md:px-8">
-          <motion.div {...motionProps}>
-            <motion.h1
-              className="text-4xl md:text-5xl font-bold text-foreground mb-6 mt-24"
-              {...motionProps}
-            >
-              System Status
-            </motion.h1>
+      <header className="bg-[var(--bg)]">
+        <PageHero
+          className="pb-0"
+          title="System Status."
+          lede="Real-time health of all RubixKube platform services."
+        >
+          {lastFetched && (
+            <div className="mt-6 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+              <RefreshCw className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+              <span>Updated {timeAgo(lastFetched.toISOString())}</span>
+            </div>
+          )}
 
-            {/* Meta row */}
-            <motion.div
-              className="flex flex-col sm:flex-row sm:items-center gap-4 text-foreground-muted"
-              {...motionProps}
-            >
-              <div className="flex items-center gap-2 text-sm">
-                <Activity className="w-4 h-4 shrink-0" />
-                <span>Real-time health of all RubixKube platform services</span>
+          {/* Prominent overall status banner */}
+          {overall && data && (
+            <div className={`mt-8 max-w-[900px] rounded-2xl px-6 py-5 ring-1 ring-[var(--rule)] ${overall.bg}`}>
+              <div className="flex items-center gap-3">
+                <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${overall.dotColor}`} />
+                <span className={`font-[family-name:var(--font-figtree)] text-[18px] font-semibold ${overall.textColor}`}>
+                  {overall.label}
+                </span>
               </div>
-              {lastFetched && (
-                <div className="flex items-center gap-2 text-sm sm:ml-auto">
-                  <RefreshCw className="w-4 h-4 shrink-0" />
-                  <span>Updated {timeAgo(lastFetched.toISOString())}</span>
-                </div>
-              )}
-            </motion.div>
-
-            {/* Prominent overall status banner */}
-            {overall && data && (
-              <motion.div
-                className={`mt-6 rounded-lg border-l-4 px-5 py-4 ${overall.bg} ${overall.borderColor}`}
-                {...motionProps}
-              >
-                <div className="flex items-center gap-3">
-                  <span className={`h-3 w-3 rounded-full shrink-0 ${overall.dotColor}`} />
-                  <span className={`text-base font-semibold ${overall.textColor}`}>
-                    {overall.label}
-                  </span>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
-        </div>
-      </section>
+            </div>
+          )}
+        </PageHero>
+      </header>
 
       {/* Content */}
-      <section className="py-12 bg-background">
-        <div className="mx-auto max-w-4xl px-6 md:px-8">
+      <section className="bg-[var(--bg)] px-[var(--pad)] pt-14 pb-24">
+        <div className="rk-landing-max [&>*]:max-w-[900px]">
 
           {/* Error state */}
           {error && (
@@ -321,7 +301,7 @@ export function StatusPageClient() {
               variants={fadeUpVariants}
               initial="hidden"
               animate="visible"
-              className="p-4 bg-red-500/5 rounded-lg border border-red-500/20 text-red-400 text-sm mb-8"
+              className="mb-8 rounded-2xl bg-red-500/5 p-5 font-[family-name:var(--font-figtree)] text-[16px] text-[color-mix(in_srgb,var(--color-red-500)_70%,var(--ink))] ring-1 ring-red-500/20"
             >
               Unable to fetch status. Retrying automatically…
             </motion.div>
@@ -329,17 +309,17 @@ export function StatusPageClient() {
 
           {/* Loading skeleton */}
           {!data && !error && (
-            <div className="space-y-8 animate-pulse">
+            <div className="space-y-10 animate-pulse">
               {[1, 2, 3].map((i) => (
                 <div key={i}>
-                  <div className="h-3 w-28 bg-background-secondary rounded mb-3" />
-                  <div className="bg-card-background rounded-lg border border-border divide-y divide-border">
+                  <div className="h-3 w-28 bg-[var(--rule)] rounded mb-4" />
+                  <div className="rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] divide-y divide-[var(--rule)]">
                     {[1, 2, 3].map((j) => (
                       <div key={j} className="flex items-center gap-4 px-5 py-4">
-                        <div className="h-2 w-2 rounded-full bg-background-secondary shrink-0" />
-                        <div className="h-3 w-40 bg-background-secondary rounded" />
-                        <div className="hidden sm:block ml-auto h-6 w-[175px] bg-background-secondary rounded" />
-                        <div className="ml-auto sm:ml-0 h-5 w-20 bg-background-secondary rounded-full" />
+                        <div className="h-2 w-2 rounded-full bg-[var(--rule)] shrink-0" />
+                        <div className="h-3 w-40 bg-[var(--rule)] rounded" />
+                        <div className="hidden sm:block ml-auto h-6 w-[175px] bg-[var(--rule)] rounded" />
+                        <div className="ml-auto sm:ml-0 h-5 w-20 bg-[var(--rule)] rounded-full" />
                       </div>
                     ))}
                   </div>
@@ -350,7 +330,7 @@ export function StatusPageClient() {
 
           {/* Service groups */}
           {data && (
-            <div className="space-y-8">
+            <div className="space-y-10">
               {Object.entries(groups).map(([group, services], idx) => (
                 <motion.div
                   key={group}
@@ -360,10 +340,10 @@ export function StatusPageClient() {
                   viewport={{ once: true }}
                   transition={{ delay: reducedMotion ? 0 : idx * 0.05 }}
                 >
-                  <h2 className="text-xs font-semibold uppercase tracking-widest text-foreground-muted mb-3">
+                  <h2 className="m-0 mb-4 font-[family-name:var(--font-mono)] text-[12px] font-light uppercase leading-normal tracking-[0.12em] text-[var(--mid)]">
                     {group}
                   </h2>
-                  <div className="bg-card-background rounded-lg border border-border divide-y divide-border">
+                  <div className="rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] divide-y divide-[var(--rule)]">
                     {services.map((svc) => {
                       const cfg = STATUS_CONFIG[svc.status]
                       const key = toEndpointKey(svc.group, svc.name)
@@ -371,14 +351,14 @@ export function StatusPageClient() {
                       return (
                         <div key={svc.name} className="flex items-center gap-4 px-5 py-4">
                           <div className={`h-2 w-2 rounded-full shrink-0 ${cfg.dot}`} />
-                          <span className="flex-1 text-sm font-medium text-foreground min-w-0 truncate">
+                          <span className="flex-1 font-[family-name:var(--font-mono)] text-[14px] text-[var(--ink)] min-w-0 truncate">
                             {svc.name}
                           </span>
                           <UptimeBars bars={bars} />
-                          <span className="hidden sm:block text-[13px] text-foreground-muted shrink-0 w-16 text-right">
+                          <span className="hidden sm:block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] shrink-0 w-20 text-right">
                             {svc.uptime_7d.toFixed(1)}% 7d
                           </span>
-                          <span className={`text-[13px] px-2.5 py-0.5 rounded-full font-medium shrink-0 ${cfg.badge}`}>
+                          <span className={`font-[family-name:var(--font-mono)] text-[12px] px-2.5 py-0.5 rounded-full shrink-0 ${cfg.badge}`}>
                             {cfg.label}
                           </span>
                         </div>
@@ -396,13 +376,13 @@ export function StatusPageClient() {
                 viewport={{ once: true }}
                 transition={{ delay: reducedMotion ? 0 : Object.keys(groups).length * 0.05 }}
               >
-                <h2 className="text-xs font-semibold uppercase tracking-widest text-foreground-muted mb-3">
+                <h2 className="m-0 mb-4 font-[family-name:var(--font-mono)] text-[12px] font-light uppercase leading-normal tracking-[0.12em] text-[var(--mid)]">
                   Incident History
                 </h2>
-                <div className="bg-card-background rounded-lg border border-border">
+                <div className="rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)]">
                   <div className="flex flex-col items-center justify-center gap-3 px-5 py-10 text-center">
-                    <CheckCircle className="w-6 h-6 text-emerald-500 shrink-0" />
-                    <p className="text-sm text-foreground-muted">
+                    <CheckCircle className="w-6 h-6 text-emerald-500 shrink-0" strokeWidth={1.75} />
+                    <p className="m-0 font-[family-name:var(--font-figtree)] text-[16px] text-[var(--mid)]">
                       No incidents reported in the last 30 days.
                     </p>
                   </div>

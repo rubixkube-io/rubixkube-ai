@@ -14,6 +14,7 @@ import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { ArrowRight, Check, X, Minus, ChevronDown } from 'lucide-react'
 import { ShareLinks } from '@/components/blog/share-links'
+import { splitTitle } from '@/lib/title-split'
 
 type PortableTextValue = NonNullable<ComponentProps<typeof PortableText>['value']>
 
@@ -798,14 +799,16 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
               <span className="text-[var(--faint)]">/</span>
               <span className="text-[var(--ink)]">{page.categoryLabel}</span>
             </nav>
-            <h1 className="rk-section-title m-0 text-[clamp(2.25rem,4.4vw,4.25rem)] leading-[1.06] text-[var(--ink)]">
-              {page.titleAccent && page.title.includes(page.titleAccent) ? (
-                <>
-                  {page.title.split(page.titleAccent)[0]}
-                  <em>{page.titleAccent}</em>
-                  {page.title.split(page.titleAccent)[1]}
-                </>
-              ) : page.title}
+            <h1 className="rk-section-title m-0 max-w-[34ch] text-[clamp(2rem,3.6vw,3.4rem)] leading-[1.1]">
+              {(() => {
+                const t = splitTitle(page.title, page.titleAccent)
+                return (
+                  <>
+                    <span className="text-[var(--ink)]">{t.lead}</span>
+                    {t.rest && <span className="text-[var(--mid)]">{t.rest}</span>}
+                  </>
+                )
+              })()}
             </h1>
             <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
               <span className="text-[var(--ink)]">{page.categoryLabel}</span>

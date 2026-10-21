@@ -18,6 +18,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   learn: 'Learn',
   tools: 'Tools',
   guide: 'Guide',
+  'use-case': 'Use case',
   'case-study': 'Case Study',
   glossary: 'Glossary',
   products: 'Products',

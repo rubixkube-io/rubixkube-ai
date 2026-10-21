@@ -6,16 +6,17 @@ import Link from "next/link"
 import Image from "next/image"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
 import { ClosingCTA } from "@/components/closing-cta"
 import { urlFor } from "@/lib/sanity.client"
 import { motion } from "framer-motion"
 import { fadeUpVariants, fadeUp } from "@/lib/animations"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { useState, useEffect, useMemo } from "react"
-import { ArrowLeft, ArrowUpRight } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import { siteLink, siteLinkArrow } from "@/lib/site-ui"
 import { ShareLinks } from "@/components/blog/share-links"
-import { NewsletterSignup, Callout, CodeBlock, BlogCardStyles } from "@/components/blog"
+import { splitTitle } from "@/lib/title-split"
+import { NewsletterSignup, Callout, CodeBlock } from "@/components/blog"
 
 interface BlogPostClientProps {
   post: SanityPost
@@ -213,8 +214,16 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                 </>
               )}
             </nav>
-            <h1 className="rk-section-title m-0 text-[clamp(2.25rem,4.4vw,4.25rem)] leading-[1.06] text-[var(--ink)]">
-              {post.title}
+            <h1 className="rk-section-title m-0 max-w-[34ch] text-[clamp(2rem,3.6vw,3.4rem)] leading-[1.1]">
+              {(() => {
+                const t = splitTitle(post.title)
+                return (
+                  <>
+                    <span className="text-[var(--ink)]">{t.lead}</span>
+                    {t.rest && <span className="text-[var(--mid)]">{t.rest}</span>}
+                  </>
+                )
+              })()}
             </h1>
             <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
               {post.categories?.[0] && <span className="text-[var(--ink)]">{post.categories[0]}</span>}
@@ -439,7 +448,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             >
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-[13px] font-light"
+                className="inline-flex items-center gap-2 rounded-[6px] bg-[var(--bg)] px-4 py-2.5 font-[family-name:var(--font-figtree)] text-[14px] font-medium text-[var(--ink)] shadow-md ring-1 ring-[var(--rule)] transition-shadow duration-200 hover:shadow-lg"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 All stories
@@ -465,38 +474,44 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             </h2>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {relatedPosts.map((relatedPost, i) => (
-              <motion.div
-                key={relatedPost._id}
-                variants={fadeUpVariants}
-                {...(prefersReducedMotion ? { initial: "visible" } : { 
-                  initial: "hidden",
-                  animate: "visible",
-                  transition: { delay: (i * 0.05) + 0.2 }
-                })}
-              >
-                <BlogCardStyles
-                  post={relatedPost}
-                  variant="default"
-                  index={i}
-                />
-              </motion.div>
-            ))}
+          {/* the /blog grid's story: the date, the cover, the title, no box */}
+          <ul className="m-0 grid list-none grid-cols-1 gap-x-5 gap-y-12 p-0 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedPosts.map((relatedPost) => {
+              const src = relatedPost.image ? urlFor(relatedPost.image)?.width(800).height(600).url() : null
+              return (
+                <li key={relatedPost._id} className="m-0 p-0">
+                  <Link href={`/blog/${relatedPost.slug?.current}`} className="group block">
+                    <span className="block font-[family-name:var(--font-mono)] text-[12px] text-[var(--mid)]">
+                      {relatedPost.publishedAt
+                        ? new Date(relatedPost.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
+                        : ''}
+                    </span>
+                    <span className="relative mt-3 block aspect-[4/3] overflow-hidden rounded-md bg-[var(--panel)]">
+                      {src && (
+                        <Image
+                          src={src}
+                          alt=""
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                        />
+                      )}
+                    </span>
+                    <span className="mt-4 block font-[family-name:var(--font-figtree)] text-[17px] leading-[1.3] font-semibold tracking-[-0.01em] text-balance text-[var(--ink)]">
+                      {relatedPost.title}
+                    </span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+
+          <div className="mt-12">
+            <Link href="/blog" className={siteLink}>
+              View All Articles
+              <ArrowRight className={siteLinkArrow} aria-hidden />
+            </Link>
           </div>
-          
-          <motion.div
-            className="text-center mt-12"
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
-          >
-            <Button asChild variant="outline">
-              <Link href="/blog" className="inline-flex items-center gap-2">
-                View All Articles
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-            </Button>
-          </motion.div>
         </div>
       </section>
 

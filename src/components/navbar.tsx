@@ -23,8 +23,7 @@ import {
   FileText,
   LayoutGrid,
   Target,
-  Building2,
-  Workflow,
+  Boxes,
   Mic,
   Moon,
   Sun,
@@ -36,7 +35,7 @@ import { useTheme } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
-import { outlineInkNav } from '@/lib/outline-blue-cta'
+import { outlineBlueAccentNav } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 import { useReferenceGuidesNav } from '@/components/reference-pages-nav-provider'
 import { urlFor } from '@/lib/sanity.client'
@@ -68,26 +67,20 @@ const SOLUTIONS_HUB: {
   {
     title: 'Overview',
     href: '/solutions',
-    subtitle: 'How RubixKube tackles infrastructure challenges.',
+    subtitle: 'Products, use cases and the glossary.',
     icon: LayoutGrid,
   },
   {
+    title: 'Products',
+    href: '/solutions#products',
+    subtitle: 'RubixKube, Hubble, Kepler and the CLI.',
+    icon: Boxes,
+  },
+  {
     title: 'Use cases',
-    href: '/solutions#use-cases',
-    subtitle: 'Self-healing, prevention, and safe launches.',
+    href: '/solutions?type=use-case#all',
+    subtitle: 'From the first alert to the post-mortem.',
     icon: Target,
-  },
-  {
-    title: 'Industries',
-    href: '/solutions#industries',
-    subtitle: 'Retail, fintech, healthcare, SaaS, and more.',
-    icon: Building2,
-  },
-  {
-    title: 'How it works',
-    href: '/solutions#how-it-works',
-    subtitle: 'Observe, diagnose, and act with agents.',
-    icon: Workflow,
   },
 ]
 
@@ -651,7 +644,7 @@ export function Navbar() {
             ))}
           </div>
           <span data-shortcut="book-demo" className="contents">
-            <CalendlyBooking url={CALENDLY} variant="outline" size="sm" className={outlineInkNav}>
+            <CalendlyBooking url={CALENDLY} variant="outline" size="sm" className={outlineBlueAccentNav}>
               Book Demo
               <Kbd>B</Kbd>
             </CalendlyBooking>
@@ -819,7 +812,7 @@ export function Navbar() {
                   url={CALENDLY}
                   variant="outline"
                   size="sm"
-                  className={`w-full ${outlineInkNav} [&_button]:w-full`}
+                  className={`w-full ${outlineBlueAccentNav} [&_button]:w-full`}
                   onOpen={() => setIsOpen(false)}
                 >
                   Book Demo
