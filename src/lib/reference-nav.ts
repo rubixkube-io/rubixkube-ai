@@ -34,8 +34,8 @@ export const NAV_GUIDES_QUERY = `*[
   heroImage
 }`
 
-export const SOLUTIONS_CATEGORIES = ['use-case', 'case-study', 'glossary', 'products'] as const
-export const RESOURCES_CATEGORIES = ['learn', 'compare', 'tools', 'guide'] as const
+export const SOLUTIONS_CATEGORIES = ['use-case', 'case-study', 'products'] as const
+export const RESOURCES_CATEGORIES = ['learn', 'compare', 'tools', 'guide', 'glossary'] as const
 
 export const REFERENCE_CATEGORY_LABELS: Record<string, string> = {
   learn: 'Learn',
@@ -56,14 +56,24 @@ export function guidesForCategories(
   return guides.filter((g) => set.has(g.category))
 }
 
+const under = (pathname: string, base: string) => pathname === base || pathname.startsWith(`${base}/`)
+
+/** Products menu: the platform, Hubble and the Sanity product pages */
+export function isProductsNavActive(pathname: string): boolean {
+  return ['/platform', '/hubble', '/products'].some((b) => under(pathname, b))
+}
+
+/** Use cases menu: /solutions and the use case and case study pages */
 export function isSolutionsNavActive(pathname: string): boolean {
-  if (pathname === '/solutions' || pathname.startsWith('/solutions/')) return true
-  if (pathname === '/hubble') return true
-  return SOLUTIONS_CATEGORIES.some((c) => pathname === `/${c}` || pathname.startsWith(`/${c}/`))
+  return ['/solutions', '/use-case', '/case-study'].some((b) => under(pathname, b))
 }
 
 export function isResourcesNavActive(pathname: string): boolean {
-  if (pathname === '/resources' || pathname.startsWith('/resources/')) return true
-  if (pathname === '/blog' || pathname.startsWith('/blog/')) return true
+  if (['/resources', '/blog', '/podcast'].some((b) => under(pathname, b))) return true
   return RESOURCES_CATEGORIES.some((c) => pathname === `/${c}` || pathname.startsWith(`/${c}/`))
+}
+
+/** Company menu: who we are and how to reach us */
+export function isCompanyNavActive(pathname: string): boolean {
+  return ['/about', '/contact', '/status'].some((b) => under(pathname, b))
 }

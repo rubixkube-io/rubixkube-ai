@@ -174,7 +174,9 @@ export function SolutionsPageClient({ pages }: { pages: SolutionEntry[] }) {
     // a Sanity product page that a product above already links to is not listed twice
     const linked = new Set(SOLUTION_PRODUCTS.map((p) => p.href))
     const fromSanity = pages.filter((p) => !(p.category === 'products' && (linked.has(p.href) || /kepler/i.test(p.href))))
-    const useCases: SolutionEntry[] = USE_CASES.map((u) => ({
+    // a use case written up in Sanity replaces the short entry of the same name
+    const written = new Set(fromSanity.filter((p) => p.category === 'use-case').map((p) => p.title.toLowerCase()))
+    const useCases: SolutionEntry[] = USE_CASES.filter((u) => !written.has(u.title.toLowerCase())).map((u) => ({
       key: `use-case/${u.slug}`,
       category: 'use-case',
       kind: 'Use case',

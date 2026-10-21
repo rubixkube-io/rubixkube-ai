@@ -7,7 +7,7 @@ import { SOLUTIONS_CATEGORIES, REFERENCE_CATEGORY_LABELS } from '@/lib/reference
 
 const TITLE = 'Solutions - RubixKube'
 const DESCRIPTION =
-  'What teams use RubixKube for, and the products that do it: use cases, products, case studies and the glossary.'
+  'What teams use RubixKube for, and the products that do it: use cases, products and case studies.'
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const pageJsonLd = webPageJsonLd({ name: TITLE, description: DESCRIPTION, url: 'https://rubixkube.ai/solutions' })
 
-/** Every Sanity reference page in the Solutions categories: use cases, case studies, the glossary and products */
+/** Every Sanity reference page in the Solutions categories: use cases, case studies and products */
 const SOLUTION_PAGES_QUERY = `*[_type == "referencePage" && defined(slug.current) && category in $categories]|order(coalesce(publishedAt, _createdAt) desc){
   title,
   subtitle,

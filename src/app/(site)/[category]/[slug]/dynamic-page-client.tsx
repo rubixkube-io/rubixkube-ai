@@ -141,6 +141,8 @@ export interface ReferencePage {
     src?: string
     alt: string
     caption?: string
+    width?: number
+    height?: number
   }
   blocks: ContentBlock[]
   relatedPages?: { label: string; href: string; category?: string }[]
@@ -835,7 +837,16 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
 
           {page.heroImage?.src && (
             <figure className="m-0 mt-12">
-              <div className="relative aspect-[2/1] w-full overflow-hidden rounded-lg bg-[var(--panel)]">
+              {/* the cover keeps its own shape; only one taller than 4:3 is cropped */}
+              <div
+                className="relative w-full overflow-hidden rounded-lg bg-[var(--panel)]"
+                style={{
+                  aspectRatio:
+                    page.heroImage.width && page.heroImage.height
+                      ? Math.max(page.heroImage.width / page.heroImage.height, 4 / 3)
+                      : 2,
+                }}
+              >
                 <Image src={page.heroImage.src} alt={page.heroImage.alt} fill className="object-cover" priority sizes="(max-width: 1400px) 100vw, 1400px" />
               </div>
               {page.heroImage.caption && (
