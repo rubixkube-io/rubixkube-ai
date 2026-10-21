@@ -800,15 +800,25 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
               <span className="text-[var(--ink)]">{page.categoryLabel}</span>
             </nav>
             <h1 className="rk-section-title m-0 max-w-[34ch] text-[clamp(2rem,3.6vw,3.4rem)] leading-[1.1]">
-              {(() => {
-                const t = splitTitle(page.title, page.titleAccent)
-                return (
-                  <>
-                    <span className="text-[var(--ink)]">{t.lead}</span>
-                    {t.rest && <span className="text-[var(--mid)]">{t.rest}</span>}
-                  </>
-                )
-              })()}
+              {/* the accent phrase from Sanity in blue, in the title's own font; without one, the part
+                  after the colon in grey */}
+              {page.titleAccent && page.title.includes(page.titleAccent) ? (
+                <span className="text-[var(--ink)]">
+                  {page.title.slice(0, page.title.indexOf(page.titleAccent))}
+                  <span className="text-[var(--blue)]">{page.titleAccent}</span>
+                  {page.title.slice(page.title.indexOf(page.titleAccent) + page.titleAccent.length)}
+                </span>
+              ) : (
+                (() => {
+                  const t = splitTitle(page.title)
+                  return (
+                    <>
+                      <span className="text-[var(--ink)]">{t.lead}</span>
+                      {t.rest && <span className="text-[var(--mid)]">{t.rest}</span>}
+                    </>
+                  )
+                })()
+              )}
             </h1>
             <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
               <span className="text-[var(--ink)]">{page.categoryLabel}</span>

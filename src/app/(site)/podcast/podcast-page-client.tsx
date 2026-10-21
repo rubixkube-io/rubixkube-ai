@@ -1,11 +1,13 @@
 'use client'
 
+import { useState } from "react"
+
 import { Navbar } from "@/components/navbar"
 import { PageHero } from "@/components/page-hero"
 import { Footer } from "@/components/footer"
 import { ClosingCTA } from "@/components/closing-cta"
 import { urlFor } from "@/lib/sanity.client"
-import { Search, Rss } from "lucide-react"
+import { ArrowLeft, ArrowRight, Search, Rss } from "lucide-react"
 import Link from "next/link"
 
 import { IconBrandApplePodcast } from "@tabler/icons-react"
@@ -52,22 +54,72 @@ function Cover({ src, hover }: { src: string | null; hover?: boolean }) {
   )
 }
 
-/** A section's small label and title, as on the blog */
-function Heading({ label, children }: { label: string; children: React.ReactNode }) {
+/** How many episodes the feature at the top steps through */
+const FEATURED = 3
+
+/**
+ * The feature, as on /blog: one episode at a time, its words on the left and its cover on the
+ * right, with arrows to step through the newest few.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function Feature({ episodes }: { episodes: any[] }) {
+  const [at, setAt] = useState(0)
+  const e = episodes[at]
+  if (!e) return null
+  const step = (d: number) => setAt((i) => (i + d + episodes.length) % episodes.length)
+  const arrow =
+    'flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-[var(--ink)] ring-1 ring-[var(--rule)] transition-colors hover:bg-[var(--panel)]'
   return (
-    <div className="mb-8 border-b border-[var(--rule)] pb-5">
-      <span className={`${mono} text-[12px] tracking-[0.12em] text-[var(--mid)] uppercase`}>{label}</span>
-      <h2 className="rk-section-title m-0 mt-3 text-[clamp(1.5rem,2.4vw,2.25rem)] leading-[1.1] text-[var(--ink)]">
-        {children}
-      </h2>
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)] lg:gap-4">
+      <div className="order-2 flex flex-col border-t border-[var(--rule)] pt-8 lg:order-1 lg:pr-12">
+        <p className="m-0 flex gap-3 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)]">
+          <span className="text-[var(--ink)]">Podcast</span>
+          <time dateTime={e.publishedAt}>{day(e.publishedAt)}</time>
+        </p>
+        <Link href={`/podcast/${e.slug}`} className="group mt-3 block">
+          <h2 className="rk-section-title m-0 text-[clamp(1.5rem,2.1vw,2rem)] leading-[1.15] tracking-[-0.02em] text-[var(--ink)] group-hover:underline group-hover:decoration-[var(--rule)] group-hover:underline-offset-4">
+            {e.title}
+          </h2>
+        </Link>
+        {e.excerpt && <p className="rk-section-body m-0 mt-5 line-clamp-4 text-[16px] text-[var(--mid)]">{e.excerpt}</p>}
+        <Link
+          href={`/podcast/${e.slug}`}
+          className="group mt-7 inline-flex items-center gap-1.5 self-start font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)]"
+        >
+          Listen
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+        </Link>
+        {episodes.length > 1 && (
+          <div className="mt-10 flex items-center gap-5 lg:mt-auto lg:pt-10">
+            <button type="button" onClick={() => step(-1)} aria-label="Previous episode" className={arrow}>
+              <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
+            </button>
+            <span className={`${mono} text-[12px] tracking-[0.08em] text-[var(--mid)] tabular-nums`}>
+              {String(at + 1).padStart(2, '0')} / {String(episodes.length).padStart(2, '0')}
+            </span>
+            <button type="button" onClick={() => step(1)} aria-label="Next episode" className={arrow}>
+              <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
+            </button>
+          </div>
+        )}
+      </div>
+      <Link href={`/podcast/${e.slug}`} className="relative order-1 block aspect-video self-start overflow-hidden rounded-lg bg-[var(--panel)] lg:order-2">
+        <Cover key={e._id} src={coverOf(e)} />
+      </Link>
     </div>
   )
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function PodcastPageClient({ episodes }: { episodes: any[] }) {
-  const featuredEpisode = episodes[0]
-  const pastEpisodes = episodes.slice(1)
+  const featured = episodes.slice(0, FEATURED)
+  const [query, setQuery] = useState('')
+  const shown = episodes.filter((e) => {
+    const q = query.trim().toLowerCase()
+    return !q || `${e.title} ${e.excerpt || ''}`.toLowerCase().includes(q)
+  })
+  const field =
+    'h-9 rounded-md bg-[var(--panel)] px-3 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--ink)] ring-1 ring-[var(--rule)] outline-none focus:ring-[var(--ink)]'
   const icon =
     'flex h-9 w-9 items-center justify-center rounded-md text-[var(--ink)] ring-1 ring-[var(--rule)] transition-colors hover:bg-[var(--panel)]'
 
@@ -77,8 +129,8 @@ export function PodcastPageClient({ episodes }: { episodes: any[] }) {
 
       <PageHero
         className="pb-0"
-        title="The Root Cause Podcast."
-        lede="Deep dives into AI-native infrastructure, war stories from the trenches, and the future of autonomous site reliability."
+        title="The Root Cause."
+        lede="A podcast with deep dives into AI-native infrastructure, war stories from the trenches, and the future of autonomous site reliability."
         actions={
           <div className="flex items-center gap-3">
             <a href="https://www.youtube.com/playlist?list=PL0RlH4tLsvsgl9A07Ha31rYSalREe5Cp3" target="_blank" rel="noopener noreferrer" className={icon}>
@@ -110,45 +162,43 @@ export function PodcastPageClient({ episodes }: { episodes: any[] }) {
             </div>
           ) : (
             <>
-              {/* Featured Episode: its words on the left, its cover on the right */}
-              {featuredEpisode && (
-                <section className="mt-16 sm:mt-24" aria-label="Featured">
-                  <Heading label="Featured">
-                    Latest <em>Episode</em>
-                  </Heading>
-                  <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)] lg:gap-4">
-                    <div className="order-2 flex flex-col lg:order-1 lg:pr-12">
-                      <p className="m-0 flex gap-3 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)]">
-                        <span className="text-[var(--ink)]">Podcast</span>
-                        <time dateTime={featuredEpisode.publishedAt}>{day(featuredEpisode.publishedAt)}</time>
-                      </p>
-                      <Link href={`/podcast/${featuredEpisode.slug}`} className="group mt-3 block">
-                        <h3 className="rk-section-title m-0 text-[clamp(1.5rem,2.1vw,2rem)] leading-[1.15] tracking-[-0.02em] text-[var(--ink)] group-hover:underline group-hover:decoration-[var(--rule)] group-hover:underline-offset-4">
-                          {featuredEpisode.title}
-                        </h3>
-                      </Link>
-                      {featuredEpisode.excerpt && (
-                        <p className="rk-section-body m-0 mt-5 line-clamp-5 text-[16px] text-[var(--mid)]">{featuredEpisode.excerpt}</p>
-                      )}
-                    </div>
-                    <Link
-                      href={`/podcast/${featuredEpisode.slug}`}
-                      className="group relative order-1 block aspect-video overflow-hidden rounded-lg bg-[var(--panel)] lg:order-2"
-                    >
-                      <Cover src={coverOf(featuredEpisode)} hover />
-                    </Link>
-                  </div>
-                </section>
-              )}
+              <section className="mt-16 sm:mt-20" aria-label="Featured episodes">
+                <Feature episodes={featured} />
+              </section>
 
-              {/* Past Episodes Grid: the date, the cover, the title */}
-              {pastEpisodes.length > 0 && (
-                <section className="mt-24 sm:mt-32" aria-label="All Episodes">
-                  <Heading label="All Episodes">
-                    Past <em>conversations.</em>
-                  </Heading>
+              {/* every episode, as the /blog grid: the date, the cover, the title */}
+              <section className="mt-24 sm:mt-32" aria-label="All episodes">
+                <div className="flex flex-col gap-5 border-b border-[var(--rule)] pb-5 sm:flex-row sm:items-end sm:justify-between">
+                  <p className={`${mono} m-0 text-[12px] tracking-[0.12em] text-[var(--mid)] uppercase`}>
+                    <span className="text-[var(--ink)]">{shown.length}</span> {shown.length === 1 ? 'Episode' : 'Episodes'}
+                  </p>
+                  <label className="relative block">
+                    <span className="sr-only">Search</span>
+                    <input
+                      type="search"
+                      value={query}
+                      onChange={(ev) => setQuery(ev.target.value)}
+                      placeholder="Search"
+                      className={`${field} w-full pr-9 sm:w-56`}
+                    />
+                    <Search className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-[var(--mid)]" aria-hidden />
+                  </label>
+                </div>
+
+                {shown.length === 0 ? (
+                  <div className="py-24 text-center">
+                    <p className="rk-section-body m-0 text-[var(--mid)]">No episodes match.</p>
+                    <button
+                      type="button"
+                      onClick={() => setQuery('')}
+                      className="mt-4 cursor-pointer font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)] underline decoration-[var(--rule)] underline-offset-4"
+                    >
+                      Clear search
+                    </button>
+                  </div>
+                ) : (
                   <ul className="m-0 mt-10 grid list-none grid-cols-1 gap-x-5 gap-y-14 p-0 sm:grid-cols-2 lg:grid-cols-4">
-                    {pastEpisodes.map((episode) => (
+                    {shown.map((episode) => (
                       <li key={episode._id} className="m-0 p-0">
                         <Link href={`/podcast/${episode.slug}`} className="group block">
                           <time dateTime={episode.publishedAt} className={`${mono} block text-[12px] text-[var(--mid)]`}>
@@ -160,17 +210,12 @@ export function PodcastPageClient({ episodes }: { episodes: any[] }) {
                           <span className="mt-4 block font-[family-name:var(--font-figtree)] text-[17px] leading-[1.3] font-semibold tracking-[-0.01em] text-balance text-[var(--ink)]">
                             {episode.title}
                           </span>
-                          {episode.excerpt && (
-                            <span className="mt-2 line-clamp-3 block font-[family-name:var(--font-figtree)] text-[15px] leading-[1.55] text-[var(--mid)]">
-                              {episode.excerpt}
-                            </span>
-                          )}
                         </Link>
                       </li>
                     ))}
                   </ul>
-                </section>
-              )}
+                )}
+              </section>
             </>
           )}
         </div>
