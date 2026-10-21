@@ -165,14 +165,12 @@ html[data-theme='dark'] {
   --logo-ink-hover: rgba(242, 240, 235, 0.9);
 }
 
-/* The halftone bloom on the hero cover (HeroBloom) */
+/* The breathing halftone on the hero cover (HeroBloom): ink dots, a little lighter in dark mode */
 :root {
-  --bloom-a: #2f5bff;
-  --bloom-b: oklch(0.68 0.17 262);
-  --bloom-alpha: 0.42;
+  --bloom-alpha: 0.5;
 }
 html[data-theme='dark'] {
-  --bloom-alpha: 0.5;
+  --bloom-alpha: 0.42;
 }
 
 /* Customer logos under the hero cover: one row, full width, fading out at the edges */

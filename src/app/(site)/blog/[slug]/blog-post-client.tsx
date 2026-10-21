@@ -13,12 +13,125 @@ import { motion } from "framer-motion"
 import { fadeUpVariants, fadeUp } from "@/lib/animations"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { useState, useEffect, useMemo } from "react"
-import { ArrowLeft, Calendar, User, Clock, ArrowUpRight } from "lucide-react"
-import { TableOfContents, ShareMenu, NewsletterSignup, Callout, CodeBlock, BlogCardStyles } from "@/components/blog"
+import { ArrowLeft, ArrowUpRight, Check, Link2, Linkedin } from "lucide-react"
+import { NewsletterSignup, Callout, CodeBlock, BlogCardStyles } from "@/components/blog"
 
 interface BlogPostClientProps {
   post: SanityPost
   relatedPosts?: SanityDocument[]
+}
+
+/** Words in the post's text blocks, for the reading time */
+function wordCount(body: unknown): number {
+  if (!Array.isArray(body)) return 0
+  let n = 0
+  for (const block of body as SanityBlock[]) {
+    if (block?._type !== 'block' || !Array.isArray(block.children)) continue
+    for (const c of block.children) n += (c.text || '').split(/\s+/).filter(Boolean).length
+  }
+  return n
+}
+
+/** The first paragraph's text, to tell whether the excerpt only repeats it */
+function firstParagraph(body: unknown): string {
+  if (!Array.isArray(body)) return ''
+  const block = (body as SanityBlock[]).find((b) => b?._type === 'block' && (!b.style || b.style === 'normal'))
+  return Array.isArray(block?.children) ? block.children.map((c) => c.text || '').join('') : ''
+}
+
+const squash = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+
+/** X's mark, which lucide does not carry */
+function XMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden className={className} fill="currentColor">
+      <path d="M17.75 3h3.07l-6.71 7.67L22 21h-6.18l-4.84-6.33L5.44 21H2.37l7.18-8.2L2 3h6.33l4.38 5.79L17.75 3Zm-1.08 16.2h1.7L7.4 4.73H5.58L16.67 19.2Z" />
+    </svg>
+  )
+}
+
+/** Share as three small icons: copy the address, or post it to LinkedIn or X */
+function ShareLinks({ title }: { title: string }) {
+  const [copied, setCopied] = useState(false)
+  const here = () => window.location.href
+  const open = (url: string) => window.open(url, '_blank', 'noopener,noreferrer')
+  const icon = 'flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-[var(--mid)] transition-colors hover:bg-[var(--panel)] hover:text-[var(--ink)]'
+  return (
+    <span className="-mr-1.5 inline-flex items-center gap-0.5">
+      <button
+        type="button"
+        className={icon}
+        aria-label={copied ? 'Link copied' : 'Copy link'}
+        title={copied ? 'Copied' : 'Copy link'}
+        onClick={() => {
+          navigator.clipboard?.writeText(here()).then(() => {
+            setCopied(true)
+            setTimeout(() => setCopied(false), 2000)
+          }).catch(() => {})
+        }}
+      >
+        {copied ? <Check className="h-4 w-4" strokeWidth={1.75} /> : <Link2 className="h-4 w-4" strokeWidth={1.75} />}
+      </button>
+      <button
+        type="button"
+        className={icon}
+        aria-label="Share on LinkedIn"
+        title="Share on LinkedIn"
+        onClick={() => open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(here())}`)}
+      >
+        <Linkedin className="h-4 w-4" strokeWidth={1.75} />
+      </button>
+      <button
+        type="button"
+        className={icon}
+        aria-label="Share on X"
+        title="Share on X"
+        onClick={() => open(`https://x.com/intent/post?text=${encodeURIComponent(title)}&url=${encodeURIComponent(here())}`)}
+      >
+        <XMark className="h-3.5 w-3.5" />
+      </button>
+    </span>
+  )
+}
+
+/** The section list, plain, with the section being read marked */
+function Contents({ headings }: { headings: { id: string; text: string; level: number }[] }) {
+  const [active, setActive] = useState('')
+  useEffect(() => {
+    const seen = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: '-20% 0% -60% 0%' },
+    )
+    headings.forEach((h) => {
+      const el = document.getElementById(h.id)
+      if (el) seen.observe(el)
+    })
+    return () => seen.disconnect()
+  }, [headings])
+  if (headings.length < 2) return null
+  return (
+    <nav aria-label="On this page" className="font-[family-name:var(--font-figtree)] font-normal">
+      <p className="m-0 mb-3 text-[14px] text-[var(--ink)]">On this page</p>
+      <ul className="m-0 max-h-[calc(100vh-var(--nav-stack)-8rem)] list-none space-y-2 overflow-y-auto border-l border-[var(--rule)] p-0">
+        {headings
+          .filter((h) => h.level <= 2)
+          .map((h) => (
+            <li key={h.id} className="m-0 p-0">
+              <a
+                href={`#${h.id}`}
+                className={`block border-l py-0.5 pl-4 text-[14px] leading-[1.45] transition-colors ${
+                  active === h.id
+                    ? 'border-[var(--ink)] text-[var(--ink)]'
+                    : 'border-transparent text-[var(--mid)] hover:text-[var(--ink)]'
+                }`}
+              >
+                {h.text}
+              </a>
+            </li>
+          ))}
+      </ul>
+    </nav>
+  )
 }
 
 export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps) {
@@ -91,6 +204,14 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
     : null
   const coverAlt = post.image?.alt?.trim() || post.title
   const coverCaption = post.image?.caption?.trim()
+  const minutes = Math.max(1, Math.round(wordCount(post.body) / 230))
+  // the date in UTC, so the server and the browser print the same day
+  const published = post.publishedAt
+    ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
+    : ''
+  // many posts open with their excerpt word for word: show it once
+  const excerpt = post.excerpt?.trim()
+  const showExcerpt = !!excerpt && !squash(firstParagraph(post.body)).startsWith(squash(excerpt).slice(0, 60))
 
   // Track scroll progress
   useEffect(() => {
@@ -118,148 +239,86 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
       
       <Navbar />
       
-      {/* Header Section */}
-      <header className="bg-[var(--bg)] pt-[calc(var(--nav-stack)+3.5rem)] pb-12 px-[var(--pad)]">
-        <div className="rk-landing-max">
-          {/* Breadcrumb */}
-          <motion.div variants={fadeUpVariants}>
-            <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] mb-8">
-              <Link href="/" className="hover:text-[var(--ink)] transition-colors">Home</Link>
+      {/* One centred reading column; the section list sits in the right margin on wide screens */}
+      <section className="bg-[var(--bg)] px-[var(--pad)] pt-[calc(var(--nav-stack)+3.5rem)] pb-24">
+        <div className="rk-landing-max w-full">
+          <motion.header
+            className="mx-auto max-w-[1100px] text-center"
+            variants={fadeUpVariants}
+            {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
+          >
+            <nav className="mb-8 flex items-center justify-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+              <Link href="/" className="transition-colors hover:text-[var(--ink)]">Home</Link>
               <span className="text-[var(--faint)]">/</span>
-              <Link href="/blog" className="hover:text-[var(--ink)] transition-colors">Blog</Link>
+              <Link href="/blog" className="transition-colors hover:text-[var(--ink)]">Blog</Link>
               {post.categories && post.categories.length > 0 && (
                 <>
                   <span className="text-[var(--faint)]">/</span>
-                  <span className="text-[var(--blue)]">{post.categories[0]}</span>
+                  <span className="text-[var(--ink)]">{post.categories[0]}</span>
                 </>
               )}
             </nav>
-          </motion.div>
-
-          {/* Cover image: centered column (narrower than headline), LCP-friendly, optional Sanity caption/alt */}
-          {postImageUrl && (
-            <motion.div
-              className="mb-10 mx-auto w-full max-w-[720px]"
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.1 } })}
-            >
-              <figure className="m-0">
-                <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[var(--rule)] bg-[var(--bg)] shadow-sm">
-                  <Image
-                    src={postImageUrl}
-                    alt={coverAlt}
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 768px) 100vw, 720px"
-                  />
-                </div>
-                {coverCaption ? (
-                  <figcaption className="mt-3 text-center font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)]">
-                    {coverCaption}
-                  </figcaption>
-                ) : null}
-              </figure>
-            </motion.div>
-          )}
-
-          {/* Title */}
-          <motion.div
-            className="mb-6"
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.2 } })}
-          >
-            <h1 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,5vw,3.5rem)] font-light leading-[1.1] tracking-[-0.015em] text-[var(--ink)]">
+            <h1 className="rk-section-title m-0 text-[clamp(2rem,4.3vw,3.9rem)] leading-[1.06] text-[var(--ink)]">
               {post.title}
             </h1>
-          </motion.div>
-
-          {/* Excerpt */}
-          {post.excerpt && (
-            <motion.div
-              className="mb-6"
-              variants={fadeUpVariants}
-              {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.3 } })}
-            >
-              <p className="font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--ink)]/80 max-w-[60ch]">
-                {post.excerpt}
+            {showExcerpt && (
+              <p className="rk-section-body mx-auto mt-6 mb-0 max-w-[680px] text-[clamp(18px,1.4vw,20px)] text-[var(--mid)]">
+                {excerpt}
               </p>
-            </motion.div>
-          )}
-
-          {/* Meta row */}
-          <motion.div
-            className="flex flex-wrap items-center gap-4 sm:gap-6 py-5 border-b border-[var(--rule)] mb-10 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]"
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
-          >
-            <div className="flex items-center gap-2">
-              <Calendar className="w-3.5 h-3.5" />
-              <time>
-                {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-3.5 h-3.5" />
-              <span>5 min read</span>
-            </div>
-            {post.author && (
-              <div className="flex items-center gap-3">
-                <div className="w-7 h-7 bg-[var(--bg)] border border-[var(--rule)] rounded-full flex items-center justify-center overflow-hidden">
-                  {post.author?.image ? (
-                    <Image
-                      src={urlFor(post.author.image)?.width(32).height(32).url()}
-                      alt={post.author.name}
-                      width={32}
-                      height={32}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <User className="w-3.5 h-3.5 text-[var(--mid)]" />
-                  )}
-                </div>
-                <span style={{ fontWeight: 500 }} className="text-[var(--ink)]">
-                  {post.author.name || 'RubixKube Team'}
-                </span>
-              </div>
             )}
-          </motion.div>
-        </div>
-      </header>
-      
-      {/* Article Content */}
-      <section className="pb-24 bg-[var(--bg)] px-[var(--pad)]">
-        <div className="rk-landing-max w-full">
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_260px] gap-12 xl:gap-16">
+          </motion.header>
+
+          <div className="mx-auto mt-12 w-full max-w-[960px]">
+              {postImageUrl && (
+                <figure className="m-0">
+                  <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-[var(--panel)]">
+                    <Image
+                      src={postImageUrl}
+                      alt={coverAlt}
+                      fill
+                      className="object-cover"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 960px"
+                    />
+                  </div>
+                  {coverCaption ? (
+                    <figcaption className="mt-3 text-[14px] leading-relaxed text-[var(--mid)]">{coverCaption}</figcaption>
+                  ) : null}
+                </figure>
+              )}
+
+              {/* the details: one line under the cover, as wide as the text, ruled below */}
+              <div className="mx-auto mt-6 flex max-w-[680px] flex-wrap items-center gap-x-5 gap-y-2 border-b border-[var(--rule)] pt-1 pb-3 font-[family-name:var(--font-figtree)] text-[14px] font-normal text-[var(--mid)]">
+                {published && <time dateTime={post.publishedAt}>{published}</time>}
+                {post.author?.name && (
+                  <span className="flex items-center gap-2 text-[var(--ink)]">
+                    {post.author.image ? (
+                      <Image
+                        src={urlFor(post.author.image)?.width(56).height(56).url()}
+                        alt=""
+                        width={28}
+                        height={28}
+                        className="h-7 w-7 rounded-full object-cover"
+                      />
+                    ) : null}
+                    {post.author.name}
+                  </span>
+                )}
+                <span>{minutes} min read</span>
+                <span className="ml-auto"><ShareLinks title={post.title} /></span>
+              </div>
+          </div>
+
+          {/* the text, with the section list beside it starting level with the first paragraph */}
+          <div className="grid grid-cols-1 gap-x-12 xl:grid-cols-[minmax(0,1fr)_680px_minmax(0,1fr)]">
+            <div className="mx-auto w-full min-w-0 max-w-[680px] xl:col-start-2">
             {/* Main Content */}
             <motion.article
-              className="prose prose-lg max-w-none min-w-0"
+              className="mt-12 min-w-0"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUpVariants}
-              style={{
-                '--tw-prose-body': 'var(--foreground)',
-                '--tw-prose-headings': 'var(--foreground)',
-                '--tw-prose-lead': 'var(--foreground-muted)',
-                '--tw-prose-links': 'var(--accent)',
-                '--tw-prose-bold': 'var(--foreground)',
-                '--tw-prose-counters': 'var(--foreground-muted)',
-                '--tw-prose-bullets': 'var(--foreground-muted)',
-                '--tw-prose-hr': 'var(--border)',
-                '--tw-prose-quotes': 'var(--foreground)',
-                '--tw-prose-quote-borders': 'var(--accent)',
-                '--tw-prose-captions': 'var(--foreground-muted)',
-                '--tw-prose-code': 'var(--foreground)',
-                '--tw-prose-pre-code': 'var(--foreground)',
-                '--tw-prose-pre-bg': 'var(--card-background)',
-                '--tw-prose-th-borders': 'var(--border)',
-                '--tw-prose-td-borders': 'var(--border)',
-              } as React.CSSProperties}
             >
               {Array.isArray(post.body) && (
                 <PortableText 
@@ -270,8 +329,8 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         if (!value?.asset?._ref) return null
                         const imageUrl = urlFor(value)
                         return (
-                          <figure className="my-12 not-prose">
-                            <div className="relative overflow-hidden rounded-2xl bg-[var(--bg)] border border-[var(--rule)]">
+                          <figure className="my-12">
+                            <div className="relative overflow-hidden rounded-lg bg-[var(--panel)]">
                               <Image
                                 src={imageUrl?.width(1000).height(562).url()}
                                 alt={value.alt || "Blog image"}
@@ -281,7 +340,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                               />
                             </div>
                             {value.caption && (
-                              <figcaption className="text-center font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] mt-4 italic">
+                              <figcaption className="mt-3 text-[14px] leading-relaxed text-[var(--mid)]">
                                 {value.caption}
                               </figcaption>
                             )}
@@ -307,7 +366,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h1 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4vw,3rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-16 mb-8">
+                          <h1 id={id} className="rk-section-title mt-16 mb-5 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[clamp(1.6rem,2.4vw,2rem)] leading-[1.15] text-[var(--ink)]">
                             {children}
                           </h1>
                         )
@@ -316,7 +375,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h2 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,3.5vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-12 mb-6">
+                          <h2 id={id} className="rk-section-title mt-14 mb-4 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[clamp(1.4rem,2vw,1.65rem)] leading-[1.2] tracking-[-0.02em] text-[var(--ink)]">
                             {children}
                           </h2>
                         )
@@ -325,7 +384,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h3 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2rem)] font-light leading-[1.15] tracking-[-0.01em] text-[var(--ink)] mt-10 mb-4">
+                          <h3 id={id} className="rk-section-title mt-10 mb-3 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[1.25rem] leading-[1.25] tracking-[-0.015em] text-[var(--ink)]">
                             {children}
                           </h3>
                         )
@@ -334,19 +393,19 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                         const text = childrenToText(children)
                         const id = headingTextToId.get(text) || slugify(text || 'section')
                         return (
-                          <h4 id={id} className="font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2.5vw,1.5rem)] font-light leading-[1.2] text-[var(--ink)] mt-8 mb-3">
+                          <h4 id={id} className="rk-section-title mt-8 mb-2 scroll-mt-[calc(var(--nav-stack)+2rem)] text-[1.075rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">
                             {children}
                           </h4>
                         )
                       },
                       normal: ({children}) => (
-                        <p className="text-[var(--ink)] leading-[1.8] mb-6 text-[16px]">
+                        <p className="mb-6 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </p>
                       ),
                       blockquote: ({children}) => (
-                        <blockquote className="border-l-2 border-[var(--blue)] bg-[var(--blue)]/[0.03] p-6 my-8">
-                          <div className="font-[family-name:var(--font-mono)] text-[var(--ink)] text-[15px] font-light leading-relaxed italic">
+                        <blockquote className="my-10 border-l border-[var(--rule)] pl-6">
+                          <div className="font-[family-name:var(--font-serif)] text-[1.5rem] leading-[1.4] italic text-[var(--mid)]">
                             {children}
                           </div>
                         </blockquote>
@@ -354,24 +413,24 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                     },
                     list: {
                       bullet: ({children}) => (
-                        <ul className="list-disc list-outside ml-6 mb-6 space-y-3">
+                        <ul className="mb-6 ml-6 list-outside list-disc space-y-2.5 marker:text-[var(--mid)]">
                           {children}
                         </ul>
                       ),
                       number: ({children}) => (
-                        <ol className="list-decimal list-outside ml-6 mb-6 space-y-3">
+                        <ol className="mb-6 ml-6 list-outside list-decimal space-y-2.5 marker:text-[var(--mid)]">
                           {children}
                         </ol>
                       ),
                     },
                     listItem: {
                       bullet: ({children}) => (
-                        <li className="text-[var(--ink)] leading-[1.8] text-[16px]">
+                        <li className="pl-1 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </li>
                       ),
                       number: ({children}) => (
-                        <li className="text-[var(--ink)] leading-[1.8] text-[16px]">
+                        <li className="pl-1 font-[family-name:var(--font-figtree)] text-[18px] font-normal leading-[1.7] text-[var(--ink)]">
                           {children}
                         </li>
                       ),
@@ -408,74 +467,18 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
               )}
             </motion.article>
 
-            {/* Right Rail - Desktop Only */}
-            <aside className="hidden lg:block">
-              <div className="sticky top-24 space-y-8">
-                {/* Table of Contents */}
-                <TableOfContents headings={headings} />
 
-                {/* Share */}
-                <ShareMenu title={post.title} />
-
-                {/* Newsletter */}
+              <div className="mt-16">
                 <NewsletterSignup compact={true} />
+              </div>
+            </div>
+
+            <aside className="hidden pt-12 xl:block">
+              <div className="sticky top-[calc(var(--nav-stack)+2rem)]">
+                <Contents headings={headings} />
               </div>
             </aside>
           </div>
-
-          {/* Author Bio */}
-          <motion.div
-            className="mt-16 pt-12 border-t border-[var(--rule)]"
-            variants={fadeUpVariants}
-            {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.9 } })}
-          >
-            <div className="rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-8">
-              <div className="flex items-start gap-6">
-                <div className="w-14 h-14 bg-[var(--background-secondary)] border border-[var(--rule)] rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
-                  {post.author?.image ? (
-                    <Image 
-                      src={urlFor(post.author.image)?.width(64).height(64).url()} 
-                      alt={post.author.name}
-                      width={64}
-                      height={64}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <User className="w-6 h-6 text-[var(--mid)]" />
-                  )}
-                </div>
-                <div className="flex-1">
-                  <h3
-                    className="text-[16px] leading-snug tracking-[-0.02em] text-[var(--ink)] mb-2"
-                    style={{ fontFamily: 'var(--font-mono)', fontWeight: 500 }}
-                  >
-                    {post.author?.name || 'RubixKube Team'}
-                  </h3>
-                  <div className="font-[family-name:var(--font-mono)] text-[14px] font-normal leading-[1.7] text-[var(--ink)]/60 mb-4">
-                    {post.author?.bio ? (
-                      typeof post.author.bio === 'string' ? (
-                        <p className="leading-relaxed">{post.author.bio}</p>
-                      ) : (
-                        <PortableText 
-                          value={post.author.bio} 
-                          components={{
-                            block: {
-                              normal: ({children}) => <p className="leading-relaxed">{children}</p>
-                            }
-                          }}
-                        />
-                      )
-                    ) : (
-                      <p className="leading-relaxed">
-                        Building the future of site reliability with AI-native infrastructure solutions. 
-                        Passionate about turning operational complexity into elegant simplicity.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
 
           {/* Back to Blog Floating Button */}
           {showBackToTop && (
@@ -508,8 +511,8 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
               Related
             </span>
-            <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-3">
-              More <span className="italic text-[var(--blue)]">stories.</span>
+            <h2 className="rk-section-title mt-3 text-[clamp(1.75rem,3vw,2.75rem)] text-[var(--ink)]">
+              More <em>stories.</em>
             </h2>
           </motion.div>
           

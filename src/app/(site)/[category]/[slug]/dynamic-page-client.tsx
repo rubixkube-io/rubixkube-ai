@@ -809,20 +809,20 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
           </motion.div>
 
           <motion.h1
-            className="mb-5 max-w-4xl font-[family-name:var(--font-serif)] text-[clamp(2.25rem,5.5vw,4rem)] leading-[1.08] font-light tracking-[-0.015em] text-[var(--ink)]"
+            className="rk-section-title mb-6 max-w-4xl text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.04] text-[var(--ink)]"
             variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
           >
             {page.titleAccent && page.title.includes(page.titleAccent) ? (
               <>
                 {page.title.split(page.titleAccent)[0]}
-                <span className="italic text-[var(--blue)]">{page.titleAccent}</span>
+                <em>{page.titleAccent}</em>
                 {page.title.split(page.titleAccent)[1]}
               </>
             ) : page.title}
           </motion.h1>
 
           <motion.p
-            className="mb-10 max-w-4xl whitespace-pre-line font-[family-name:var(--font-mono)] text-[15px] font-light leading-relaxed text-[var(--ink)]/80 min-[1920px]:text-[17px]"
+            className="rk-section-body mb-10 max-w-[46em] whitespace-pre-line text-[clamp(17px,1.3vw,20px)] text-[var(--mid)]"
             variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
           >
             {page.subtitle}

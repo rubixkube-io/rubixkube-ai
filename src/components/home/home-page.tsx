@@ -7,11 +7,9 @@ import { FeaturedFilm } from '@/components/featured-film'
 import { ProductCards } from '@/components/landing/products-section'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
 import { type } from '@/lib/type-scale'
 import { HeroLink } from '@/components/hero-link'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
-import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import Image from 'next/image'
 import { latestAfterHoursChallenge } from '@/data/after-hours'
 import type { HomeStory } from '@/lib/landing-featured-content'
@@ -185,12 +183,12 @@ export function HomePage({ stories, beliefCovers }: { stories: HomeStory[]; beli
 
       <section className="px-[var(--pad)] pt-[calc(var(--nav-stack)+3.5rem)] pb-14 sm:pt-[calc(var(--nav-stack)+5rem)] sm:pb-20">
         <div className="rk-landing-max">
-          <h1 className={type.display}>
-            <span className="font-normal text-[var(--ink)]">
+          <h1 className="rk-section-title m-0 max-w-[30ch] text-[clamp(2.25rem,4.2vw,4rem)] leading-[1.06]">
+            <span className="text-[var(--ink)]">
               RubixKube builds for{' '}
               <HeroLink href="/blog/kepler-a-tool-for-the-operator" accent>the people who keep production running</HeroLink>.
             </span>{' '}
-            <span className="font-light text-[var(--mid)]">
+            <span className="text-[var(--mid)]">
               It{' '}
               <HeroLink href="/glossary/mean-time-to-understand">
                 finds the cause
@@ -202,14 +200,23 @@ export function HomePage({ stories, beliefCovers }: { stories: HomeStory[]; beli
               .
             </span>
           </h1>
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <Button asChild variant="primary">
-              <a href={CONSOLE_URL} target="_blank" rel="noopener noreferrer">
-                Start free
-              </a>
-            </Button>
-            <CalendlyBooking url={DEMO_URL} variant="outline" className={outlineBlueAccentMd}>
+          {/* the landing page's button pattern: one solid button and a text link */}
+          <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <a
+              href={CONSOLE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-12 items-center rounded-[6px] bg-[var(--blue)] px-6 font-[family-name:var(--font-figtree)] text-[16px] font-medium text-white transition-[box-shadow] duration-200 hover:shadow-[0_6px_24px_rgba(47,91,255,0.35)] active:translate-y-px"
+            >
+              Start free
+            </a>
+            <CalendlyBooking
+              url={DEMO_URL}
+              variant="outline"
+              className="group !inline-flex !h-auto !items-center !gap-1.5 !rounded-none !border-0 !bg-transparent !p-0 !font-[family-name:var(--font-figtree)] !text-[16px] !font-medium !tracking-normal !text-[var(--ink)] !normal-case !shadow-none"
+            >
               Book a demo
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </CalendlyBooking>
           </div>
         </div>

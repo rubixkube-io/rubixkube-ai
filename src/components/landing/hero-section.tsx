@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { HeroLink } from '@/components/hero-link'
 import { FeaturedFilm } from '@/components/featured-film'
 import { CustomerLogoTicker } from './customer-logo-ticker'
+import { HeroBloom } from './hero-bloom'
 import { ArrowRight } from 'lucide-react'
 
 const CONSOLE_URL = 'https://console.rubixkube.ai'
@@ -17,6 +18,7 @@ export function HeroSection() {
   return (
     <div className="relative shrink-0 snap-start">
       <div className="relative isolate overflow-hidden px-[var(--pad)]">
+        <HeroBloom className="pointer-events-none absolute inset-0 -z-10 h-full w-full max-md:hidden" />
         <div className="rk-landing-max flex flex-col gap-9 pt-12 pb-12 sm:gap-[clamp(2.5rem,6vh,4rem)] sm:pt-[clamp(3rem,10vh,8rem)] sm:pb-[clamp(2.5rem,6vh,4rem)]">
           <h1 className="rk-cover-title m-0 -ml-[0.03em] max-w-[14ch] text-start text-[var(--ink)]">
             For people who keep systems running.

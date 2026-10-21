@@ -10,13 +10,13 @@ import { LandingContentCards, type LandingContentCardsProps } from './content-ca
 export function LandingFooter({ latestPodcast, latestBlog }: LandingContentCardsProps) {
   return (
     <footer
-      className="rk-landing-footer landing-snap-section flex min-h-[calc(100vh-var(--nav-stack))] w-full shrink-0 flex-col bg-[var(--bg)] lg:min-h-[calc(100vh-var(--nav-stack))]"
+      className="rk-landing-footer flex min-h-[calc(100vh-var(--nav-stack))] w-full shrink-0 snap-start flex-col bg-[var(--bg)]"
       aria-label="Featured podcast, whitepaper, blog, and site footer"
     >
-      <div className="flex min-h-0 flex-1 flex-col">
+      <div className="flex flex-col md:h-[clamp(18rem,42vh,28rem)]">
         <LandingContentCards latestPodcast={latestPodcast} latestBlog={latestBlog} />
       </div>
-      <div className="flex min-h-0 flex-1 items-center border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] py-14 md:py-16">
+      <div className="flex flex-1 items-center border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] py-14 md:py-16">
         <div className="rk-landing-max w-full">
           <FooterBody />
         </div>
