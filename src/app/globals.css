@@ -5,6 +5,8 @@
   /* Same family names as redesign.html Google Fonts CSS (not next/font — avoids heavier fallbacks / subset mismatch) */
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-mono: "DM Mono", ui-monospace, monospace;
+  /* The console's sans, used only for long reading: article bodies and legal pages */
+  --font-figtree: "Figtree", system-ui, sans-serif;
 
   --bg: #f2f0eb;
   --ink: #111318;
@@ -25,7 +27,8 @@
   --nav-gap-top: 0px;
   --nav-height: 4rem;
   /* Launch announcement bar above the header; html.rk-announce-off collapses it */
-  --announce-h: 36px;
+  /* No announcement bar is shown; set this back to 36px when <AnnouncementBar /> returns to the navbar */
+  --announce-h: 0px;
   --nav-stack: calc(var(--nav-height) + var(--nav-gap-top) + var(--announce-h));
 
   /* Bridge legacy Tailwind token names */
@@ -647,7 +650,7 @@ h6 {
 
 @media (max-width: 640px) {
   .rk-hero-eyebrow {
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 
@@ -728,9 +731,9 @@ h6 {
 /* Prose — blog & legal */
 .prose {
   color: var(--foreground);
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 300;
+  font-family: var(--font-figtree);
+  font-size: 16px;
+  font-weight: 400;
   line-height: 1.7;
 }
 

@@ -206,11 +206,11 @@ export function PricingPageClient() {
                     {tier.name}
                   </span>
                   <div className="mb-1 flex flex-wrap items-baseline gap-3">
-                    <span className="font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] font-light leading-none text-[var(--ink)]">
+                    <span className="font-[family-name:var(--font-mono)] text-[clamp(3rem,5vw,4.5rem)] font-normal tracking-[-0.04em] leading-none text-[var(--ink)]">
                       {tier.price[billing]}
                     </span>
                     {tier.was[billing] && (
-                      <span className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,2.5vw,2rem)] font-light leading-none text-[var(--mid)] line-through decoration-1">
+                      <span className="font-[family-name:var(--font-mono)] text-[clamp(1.5rem,2.5vw,2rem)] font-normal tracking-[-0.04em] leading-none text-[var(--mid)] line-through decoration-1">
                         <span className="sr-only">Was </span>
                         {tier.was[billing]}
                       </span>
@@ -296,7 +296,7 @@ export function PricingPageClient() {
                   >
                     <div
                       className={cn(
-                        'font-[family-name:var(--font-serif)] text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-normal tracking-[-0.02em]',
+                        'font-[family-name:var(--font-mono)] text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-normal tracking-[-0.04em]',
                         s.c,
                       )}
                     >
@@ -351,11 +351,11 @@ export function PricingPageClient() {
               </p>
 
               <div className="mt-8 flex items-baseline gap-3">
-                <span className="font-[family-name:var(--font-serif)] text-[clamp(2.5rem,4vw,3.5rem)] font-light leading-none text-[var(--ink)]">
+                <span className="font-[family-name:var(--font-mono)] text-[clamp(2.5rem,4vw,3.5rem)] font-normal tracking-[-0.04em] leading-none text-[var(--ink)]">
                   {isAnnual ? '$102' : '$10'}
                 </span>
                 {isAnnual && (
-                  <span className="font-[family-name:var(--font-serif)] text-[clamp(1.25rem,2vw,1.6rem)] font-light leading-none text-[var(--mid)] line-through decoration-1">
+                  <span className="font-[family-name:var(--font-mono)] text-[clamp(1.25rem,2vw,1.6rem)] font-normal tracking-[-0.04em] leading-none text-[var(--mid)] line-through decoration-1">
                     <span className="sr-only">Was </span>$120
                   </span>
                 )}

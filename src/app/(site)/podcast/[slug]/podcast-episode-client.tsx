@@ -132,7 +132,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
         <div className="rk-landing-max">
           {/* Breadcrumb */}
           <motion.div variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible">
-            <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-8">
+            <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] mb-8">
               <Link href="/" className="hover:text-[var(--ink)] transition-colors">Home</Link>
               <span className="text-[var(--faint)]">/</span>
               <Link href="/podcast" className="hover:text-[var(--ink)] transition-colors">Podcast</Link>
@@ -196,7 +196,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
 
           {/* Meta row */}
           <motion.div
-            className="flex flex-wrap items-center gap-4 sm:gap-6 py-5 border-b border-[var(--rule)] mb-10 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
+            className="flex flex-wrap items-center gap-4 sm:gap-6 py-5 border-b border-[var(--rule)] mb-10 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]"
             variants={fadeUpVariants}
             initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
           >
@@ -213,7 +213,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
             
             {/* Audio Links */}
             <div className="flex items-center gap-4 ml-auto">
-              <span className="text-[var(--mid)] tracking-[0.1em] uppercase font-semibold text-[10px]">Listen on:</span>
+              <span className="text-[var(--mid)] tracking-[0.1em] uppercase font-semibold text-[12px]">Listen on:</span>
               {episode.applePodcastUrl && (
                 <a href={episode.applePodcastUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[var(--ink)] hover:text-[#872EC4] transition-colors" title="Apple Podcasts">
                   <IconBrandApplePodcast stroke={1.5} className="w-4 h-4" />
@@ -421,7 +421,7 @@ export function PodcastEpisodeClient({ episode }: { episode: SanityDocument }) {
             >
               <Link
                 href="/podcast"
-                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-xs font-light"
+                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-[13px] font-light"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 All episodes

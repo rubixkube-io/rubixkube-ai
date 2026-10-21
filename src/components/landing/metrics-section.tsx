@@ -46,7 +46,7 @@ export function MetricsSection() {
           <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="flex min-h-0 flex-col border-b border-[var(--rule)] md:border-r md:border-b-0">
             <div className="flex min-h-0 flex-1 flex-col gap-3 border-b border-[var(--rule)] bg-[var(--bg)] p-12 transition-colors hover:bg-[var(--surface)]">
-              <div className="font-[family-name:var(--font-serif)] text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-normal tracking-[-0.03em] text-[var(--blue)]">
+              <div className="font-[family-name:var(--font-mono)] text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-normal tracking-[-0.05em] text-[var(--blue)]">
                 220<span className="text-[0.32em] font-light tracking-normal text-[var(--mid)]"> hrs</span>
               </div>
               <p
@@ -69,7 +69,7 @@ export function MetricsSection() {
               </p>
             </div>
             <div className="flex min-h-0 flex-1 flex-col gap-3 bg-[var(--bg)] p-12 transition-colors hover:bg-[var(--surface)]">
-              <div className="font-[family-name:var(--font-serif)] text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-normal tracking-[-0.03em] text-[var(--green)]">
+              <div className="font-[family-name:var(--font-mono)] text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-normal tracking-[-0.05em] text-[var(--green)]">
                 $6K<span className="text-[0.32em] font-light tracking-normal text-[var(--mid)]"> /mo</span>
               </div>
               <p
@@ -98,7 +98,7 @@ export function MetricsSection() {
                   className={`flex min-h-0 flex-col gap-2.5 bg-[var(--bg)] px-9 py-10 transition-colors hover:bg-[var(--surface)] ${!isRightCol ? 'border-r border-[var(--rule)]' : ''} ${!isBottomRow ? 'border-b border-[var(--rule)]' : ''}`}
                 >
                   <div
-                    className={`font-[family-name:var(--font-serif)] text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-normal tracking-[-0.02em] ${s.c}`}
+                    className={`font-[family-name:var(--font-mono)] text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-normal tracking-[-0.04em] ${s.c}`}
                   >
                     {s.n}
                     <span className="text-[0.4em] font-light tracking-normal text-[var(--mid)]">{s.u}</span>

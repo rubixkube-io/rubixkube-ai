@@ -37,7 +37,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
           <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-12">
             {post.categories && post.categories.length > 0 && (
               <div className="mb-6">
-                <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-white/70 uppercase">
+                <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-white/70 uppercase">
                   {post.categories[0]}
                 </span>
               </div>
@@ -50,7 +50,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
                 {post.excerpt}
               </p>
             )}
-            <div className="flex items-center gap-6 font-[family-name:var(--font-mono)] text-xs text-white/60">
+            <div className="flex items-center gap-6 font-[family-name:var(--font-mono)] text-[13px] text-white/60">
               <div className="flex items-center gap-2">
                 <Calendar className="w-3.5 h-3.5" />
                 <time>
@@ -97,7 +97,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
             {post.publishedAt && (
               <time
                 dateTime={typeof post.publishedAt === 'string' ? post.publishedAt : undefined}
-                className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-3 block"
+                className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] mb-3 block"
               >
                 {new Date(post.publishedAt).toLocaleDateString('en-US', {
                   year: 'numeric',
@@ -107,7 +107,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
               </time>
             )}
             {post.categories && post.categories.length > 0 && (
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase mb-4 self-start">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--blue)] uppercase mb-4 self-start">
                 {post.categories[0]}
               </span>
             )}
@@ -119,7 +119,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
                 {post.excerpt}
               </p>
             )}
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
               <div className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 shrink-0" />
                 <span>5 min read</span>
@@ -161,7 +161,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
 
           <div className="flex-1 min-w-0">
             {post.categories && post.categories.length > 0 && (
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--blue)] uppercase">
                 {post.categories[0]}
               </span>
             )}
@@ -171,7 +171,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
             >
               {post.title}
             </h3>
-            <div className="flex items-center gap-3 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]">
+            <div className="flex items-center gap-3 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
               <time>{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</time>
               <span className="text-[var(--faint)]">&middot;</span>
               <span>5 min read</span>
@@ -195,7 +195,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
       <Link href={`/blog/${post.slug.current}`} className={`group block ${className}`}>
         <article className="rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-4 transition-shadow hover:shadow-md">
           {post.categories && post.categories.length > 0 && (
-            <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase">
+            <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--blue)] uppercase">
               {post.categories[0]}
             </span>
           )}
@@ -205,7 +205,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
           >
             {post.title}
           </h4>
-          <div className="flex items-center justify-between font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]">
+          <div className="flex items-center justify-between font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
             <time>{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</time>
             <span>5 min</span>
           </div>
@@ -233,7 +233,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
           )}
           {post.categories && post.categories.length > 0 && (
             <div className="absolute top-3 left-3">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-white uppercase bg-[var(--ink)]/60 backdrop-blur-sm px-2.5 py-1">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-white uppercase bg-[var(--ink)]/60 backdrop-blur-sm px-2.5 py-1">
                 {post.categories[0]}
               </span>
             </div>
@@ -252,7 +252,7 @@ export function BlogCardStyles({ post, variant = 'default', className = "" }: Bl
               {post.excerpt}
             </p>
           )}
-          <div className="flex items-center justify-between font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] pt-4 border-t border-[var(--rule)]">
+          <div className="flex items-center justify-between font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] pt-4 border-t border-[var(--rule)]">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5" />

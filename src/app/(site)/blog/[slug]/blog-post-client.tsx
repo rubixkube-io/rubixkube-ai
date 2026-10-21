@@ -123,7 +123,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
         <div className="rk-landing-max">
           {/* Breadcrumb */}
           <motion.div variants={fadeUpVariants}>
-            <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-8">
+            <nav className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] mb-8">
               <Link href="/" className="hover:text-[var(--ink)] transition-colors">Home</Link>
               <span className="text-[var(--faint)]">/</span>
               <Link href="/blog" className="hover:text-[var(--ink)] transition-colors">Blog</Link>
@@ -155,7 +155,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                   />
                 </div>
                 {coverCaption ? (
-                  <figcaption className="mt-3 text-center font-[family-name:var(--font-mono)] text-xs font-light leading-relaxed text-[var(--mid)]">
+                  <figcaption className="mt-3 text-center font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)]">
                     {coverCaption}
                   </figcaption>
                 ) : null}
@@ -189,7 +189,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
 
           {/* Meta row */}
           <motion.div
-            className="flex flex-wrap items-center gap-4 sm:gap-6 py-5 border-b border-[var(--rule)] mb-10 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
+            className="flex flex-wrap items-center gap-4 sm:gap-6 py-5 border-b border-[var(--rule)] mb-10 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]"
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: "visible" } : { ...fadeUp, transition: { delay: 0.4 } })}
           >
@@ -281,7 +281,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                               />
                             </div>
                             {value.caption && (
-                              <figcaption className="text-center font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mt-4 italic">
+                              <figcaption className="text-center font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] mt-4 italic">
                                 {value.caption}
                               </figcaption>
                             )}
@@ -487,7 +487,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             >
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-xs font-light"
+                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 bg-[var(--bg)] text-[var(--ink)] border border-[var(--rule)] shadow-md hover:shadow-lg hover:border-[var(--blue)]/30 transition-all duration-200 font-[family-name:var(--font-mono)] text-[13px] font-light"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 All stories
@@ -505,7 +505,7 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
             {...(prefersReducedMotion ? { initial: "visible" } : fadeUp)}
             className="mb-12"
           >
-            <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+            <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
               Related
             </span>
             <h2 className="font-[family-name:var(--font-serif)] text-[clamp(1.5rem,3vw,2.5rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] mt-3">

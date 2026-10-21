@@ -62,7 +62,7 @@ export function AboutPageClient() {
           >
             <motion.p
               variants={fadeUpVariants}
-              className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase"
+              className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase"
             >
               About
             </motion.p>
@@ -112,7 +112,7 @@ export function AboutPageClient() {
           >
             {/* Left: problem */}
             <motion.div variants={fadeUpVariants} className="flex flex-col gap-5 md:pr-16 lg:pr-20">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 Why we exist
               </span>
               <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] font-light leading-[1.05] tracking-[-0.01em] text-[var(--ink)]">
@@ -135,7 +135,7 @@ export function AboutPageClient() {
 
             {/* Right: solution (with left border divider) */}
             <motion.div variants={fadeUpVariants} className="flex flex-col gap-5 border-t border-[var(--rule)] pt-12 md:border-t-0 md:pt-0 md:border-l md:pl-16 lg:pl-20">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--blue)] uppercase">
                 The solution
               </span>
               <h3 className="font-[family-name:var(--font-serif)] text-[clamp(1.75rem,3.5vw,3rem)] font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)]">
@@ -167,7 +167,7 @@ export function AboutPageClient() {
             className="flex flex-col gap-14"
           >
             <motion.div variants={fadeUpVariants} className="flex flex-col gap-3">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 What we believe
               </span>
               <h2 className="font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
@@ -208,7 +208,7 @@ export function AboutPageClient() {
             className="flex flex-col gap-14"
           >
             <motion.div variants={fadeUpVariants} className="flex flex-col gap-3">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 The impact
               </span>
               <h2 className="font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
@@ -219,7 +219,7 @@ export function AboutPageClient() {
 
             <div className="grid md:grid-cols-2 gap-12">
               <motion.div variants={fadeUpVariants} className="flex flex-col gap-6">
-                <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                <p className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                   What this means for your team
                 </p>
                 <ul className="flex flex-col gap-4">
@@ -238,7 +238,7 @@ export function AboutPageClient() {
               </motion.div>
 
               <motion.div variants={fadeUpVariants} className="flex flex-col gap-6">
-                <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--mid)] uppercase">
+                <p className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                   What this means for your business
                 </p>
                 <ul className="flex flex-col gap-4">

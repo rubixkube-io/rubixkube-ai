@@ -1,115 +1,49 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { useReducedMotion } from '@/hooks/use-reduced-motion'
-import { rkMono13 } from '@/lib/landing-responsive-type'
+import { HeroLink } from '@/components/hero-link'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 import { CustomerLogoGrid } from './partner-logos'
-import { ArrowRight, Rocket } from 'lucide-react'
+import { Rocket } from 'lucide-react'
 
 const CONSOLE_URL = 'https://console.rubixkube.ai'
 const KEPLER_URL = 'https://trykepler.rubixkube.ai'
 
 const heroPrimaryCtaClass =
-  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-medium !tracking-[0.12em] !text-white !uppercase shadow-[0_1px_2px_rgba(17,19,24,0.06)] !transition-[box-shadow,opacity] !duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
+  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[12px] !font-medium !tracking-[0.12em] !text-white !uppercase shadow-[0_1px_2px_rgba(17,19,24,0.06)] !transition-[box-shadow,opacity] !duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px] min-[2560px]:!text-sm'
 
-
-const SRI_MANIFESTO_HREF = '/blog/the-age-of-site-reliability-intelligence-sri'
-
-type Truth = { metric: string; label: string; truth: string; href?: string }
-
-const TRUTHS: Truth[] = [
-  { metric: 'new', label: 'Kepler, the SRE IDE, is out', truth: 'the desktop app for on-call engineers.', href: KEPLER_URL },
-  { metric: '2.8 min', label: 'mean time to understand', truth: 'not hours. minutes.' },
-  { metric: '98%', label: 'detection rate', truth: 'nothing slips through.' },
-  { metric: '90% less', label: 'alert noise', truth: 'your team only sees what matters.' },
-  { metric: '55 hrs', label: 'team eng-hrs saved per week', truth: 'focuse on shipping features, not fixing' },
-  { metric: 'zero', label: 'new tools to adopt', truth: 'plugs into your existing stack on day one.' },
-  { metric: 'gets smarter', label: 'with every incident', truth: 'the longer it runs, the better it gets.' },
-]
-
-function TruthLine({ t }: { t: Truth }) {
-  return (
-    <>
-      <span className="text-[var(--blue)]">{t.metric}</span>
-      <span className="mx-1 text-[var(--text-muted)] sm:mx-[10px]">·</span>
-      <span className="text-[var(--ink)]">{t.label}</span>
-      <span className="hidden sm:inline">
-        <span className="mx-[10px] text-[var(--text-muted)]">·</span>
-        <span className="text-[var(--mid)]">{t.truth}</span>
-      </span>
-    </>
-  )
-}
-
+/** The first screen: one promise, who it is for and what it does, two ways in, and who uses it. */
 export function HeroSection() {
-  const prefersReducedMotion = useReducedMotion()
-  const [si, setSi] = useState(0)
-  const [opacity, setOpacity] = useState(1)
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setOpacity(0)
-      setTimeout(() => {
-        setSi((i) => (i + 1) % TRUTHS.length)
-        setOpacity(1)
-      }, 400)
-    }, 7000)
-    return () => clearInterval(id)
-  }, [])
-
-  const t = TRUTHS[si]
-
   return (
     <div className="landing-hero-slide relative">
-      <Link
-        href={SRI_MANIFESTO_HREF}
-        className="absolute top-1/2 left-[var(--pad)] z-10 hidden -translate-y-1/2 -rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--text-muted)] uppercase transition-colors hover:text-[var(--ink)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] min-[1920px]:text-[13px] min-[2560px]:text-[14px] lg:block"
-      >
-        Site Reliability Intelligence
-      </Link>
-      <span
-        className="pointer-events-none absolute top-1/2 right-[var(--pad)] z-10 hidden -translate-y-1/2 rotate-90 whitespace-nowrap font-[family-name:var(--font-mono)] text-[11px] tracking-[0.2em] text-[var(--text-muted)] uppercase min-[1920px]:text-[13px] min-[2560px]:text-[14px] lg:block"
-        aria-hidden
-      >
-        Memory · Safety · Resilience
-      </span>
-
       <div className="flex min-h-0 flex-1 flex-col px-[var(--pad)]">
         <div className="rk-landing-max flex min-h-0 w-full flex-1 flex-col items-center justify-center text-center">
-
-          <p className="rk-hero-eyebrow mb-4 font-[family-name:var(--font-mono)] tracking-[0.3em] text-[var(--mid)] uppercase sm:mb-8">
-            Beyond Observability
-          </p>
-
-          <h1 className="rk-hero-headline rk-hero-display w-full max-w-none tracking-[-0.01em] text-[var(--ink)]">
-            Your infra,
+          <h1 className="rk-hero-headline rk-hero-display max-sm:!text-[10vw] w-full max-w-none tracking-[-0.01em] text-[var(--ink)]">
+            <span className="whitespace-nowrap">For people who</span>
             <br />
-            <span className="rk-hero-headline-accent text-[var(--blue)]">healing itself.</span>
-            <br />
-            <span className="rk-hero-headline-muted">While you sleep.</span>
+            <span className="whitespace-nowrap">
+              keep systems <span className="rk-hero-headline-accent text-[var(--blue)]">running.</span>
+            </span>
           </h1>
-
-          <div className="rk-hero-rule !hidden h-12 w-px bg-[var(--faint)] sm:my-9 sm:!block" aria-hidden />
 
           <p
             className={cn(
-              'rk-hero-sub mt-7 font-[family-name:var(--font-mono)] font-light leading-[1.65] tracking-[-0.01em] text-[var(--mid)] max-sm:text-[13px] sm:mt-0',
-              rkMono13,
+              'rk-hero-sub mt-8 max-w-[56ch] text-balance font-[family-name:var(--font-mono)] font-light leading-[1.6] tracking-[-0.01em] text-[var(--mid)] text-[16px] sm:mt-10 sm:text-[clamp(1.125rem,1.45vw,1.6rem)]',
             )}
           >
-            Detects anomalies. Diagnoses root cause.
-            <br />
-            Resolves failures. Autonomously.
+            <strong className="font-medium text-[var(--ink)]">RubixKube</strong> is an{' '}
+            <span className="text-[var(--blue)]">AI SRE platform</span> that <em className="italic">understands</em> your
+            infrastructure,{' '}
+            <HeroLink href="/glossary/mean-time-to-understand">finds the root cause</HeroLink> of every incident,
+            opens the fix and <HeroLink href="/blog/aiops-auto-remediation-memory-failure">remembers what worked</HeroLink>.
           </p>
 
-          <div className="rk-hero-cta mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-8 sm:gap-4">
+          <div className="rk-hero-cta mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10 sm:gap-4">
             <Button asChild variant="primary" className={heroPrimaryCtaClass}>
               <Link href={CONSOLE_URL} target="_blank" rel="noopener noreferrer">
-                Start for Free 
+                Start for Free
                 <Rocket className="h-3.5 w-3.5 shrink-0 opacity-95" strokeWidth={2.25} aria-hidden />
               </Link>
             </Button>
@@ -119,43 +53,11 @@ export function HeroSection() {
               </Link>
             </Button>
           </div>
-
-          <div className="rk-hero-status mt-5 flex items-center justify-center gap-2 sm:mt-10 sm:gap-3">
-            <span
-              className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--blue)]"
-              style={
-                prefersReducedMotion ? undefined : { animation: 'rk-pulse 2.4s ease-in-out infinite' }
-              }
-            />
-            <p
-              className={cn(
-                'rk-hero-status-text font-[family-name:var(--font-mono)] text-[var(--mid)] transition-opacity duration-300 max-sm:text-[11px]',
-                rkMono13,
-              )}
-              style={{ opacity }}
-            >
-              {t.href ? (
-                <Link href={t.href} target="_blank" rel="noopener noreferrer" className="group">
-                  <TruthLine t={t} />
-                  <ArrowRight
-                    className="ml-1.5 inline h-3 w-3 text-[var(--blue)] transition-transform group-hover:translate-x-0.5"
-                    strokeWidth={2}
-                    aria-hidden
-                  />
-                </Link>
-              ) : (
-                <TruthLine t={t} />
-              )}
-            </p>
-          </div>
-
         </div>
       </div>
 
       <div className="flex w-full shrink-0 flex-row items-center border-t border-[var(--rule)] bg-[var(--bg)]">
-        <span className="rk-marquee-label max-sm:px-3 max-sm:text-[10px] sm:py-0">
-          Trusted by
-        </span>
+        <span className="rk-marquee-label max-sm:px-3 max-sm:text-[13px] sm:py-0">Trusted by</span>
         <div className="flex min-h-0 flex-1 items-center overflow-hidden px-3 py-3 sm:px-[var(--pad)] sm:py-4 md:px-8">
           <CustomerLogoGrid />
         </div>

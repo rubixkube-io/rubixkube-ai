@@ -39,7 +39,6 @@ import { fadeUpVariants } from '@/lib/animations'
 import { outlineBlueAccentNav } from '@/lib/outline-blue-cta'
 import { cn } from '@/lib/utils'
 import { useReferenceGuidesNav } from '@/components/reference-pages-nav-provider'
-import { AnnouncementBar } from '@/components/announcement-bar'
 import { urlFor } from '@/lib/sanity.client'
 import {
   SOLUTIONS_CATEGORIES,
@@ -51,7 +50,9 @@ import {
   type ReferenceGuideNavItem,
 } from '@/lib/reference-nav'
 
-const simpleNavBeforeMega = [{ name: 'Platform', href: '/platform' }] as const
+const simpleNavBeforeMega = [
+  { name: 'Platform', href: '/platform' },
+] as const
 const pricingNavItem = { name: 'Pricing', href: '/pricing' } as const
 const simpleNavTail = [
   { name: 'About', href: '/about' },
@@ -147,13 +148,13 @@ const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const CONSOLE_URL = 'https://console.rubixkube.ai'
 
 const launchConsoleClass =
-  '!rounded-[5px] !py-[9px] !px-5 !text-[10px] !tracking-[0.12em] !font-medium !gap-1.5 shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!py-[11px] min-[1920px]:!px-6 min-[1920px]:!text-[11px] min-[2560px]:!text-xs'
+  '!rounded-[5px] !py-[9px] !px-5 !text-[13px] !tracking-[0.12em] !font-medium !gap-1.5 shadow-[0_1px_2px_rgba(17,19,24,0.06)] transition-[box-shadow,opacity] duration-200 hover:!opacity-100 hover:shadow-[0_4px_20px_rgba(47,91,255,0.38)] active:translate-y-px active:shadow-[0_1px_4px_rgba(47,91,255,0.25)] min-[1920px]:!py-[11px] min-[1920px]:!px-6 min-[1920px]:!text-[13px] min-[2560px]:!text-[13px]'
 
 const navLinkClass =
-  'whitespace-nowrap font-[family-name:var(--font-mono)] text-[12px] tracking-[0.14em] uppercase transition-colors min-[1600px]:text-[13px] min-[1920px]:text-[14px] min-[2560px]:text-[15px]'
+  'whitespace-nowrap font-[family-name:var(--font-mono)] text-[13px] tracking-[0.14em] uppercase transition-colors'
 
 const megaSectionLabel =
-  'mb-3 font-[family-name:var(--font-mono)] text-[10px] font-medium tracking-[0.2em] text-[var(--blue)] uppercase'
+  'mb-3 font-[family-name:var(--font-mono)] text-[13px] font-medium tracking-[0.2em] text-[var(--blue)] uppercase'
 
 function MegaLinkRow({
   href,
@@ -181,7 +182,7 @@ function MegaLinkRow({
           {title}
         </span>
         {(subtitle ?? '').trim() ? (
-          <span className="mt-0.5 line-clamp-3 block font-[family-name:var(--font-mono)] text-[11px] font-light leading-snug text-[var(--mid)] transition-colors group-hover:text-[var(--ink)]">
+          <span className="mt-0.5 line-clamp-3 block font-[family-name:var(--font-mono)] text-[13px] font-light leading-snug text-[var(--mid)] transition-colors group-hover:text-[var(--ink)]">
             {subtitle}
           </span>
         ) : null}
@@ -301,14 +302,14 @@ function ResourcesFeaturedArticle({
         )}
       </div>
       <div className="flex min-w-0 flex-1 flex-col justify-center py-0.5">
-        <p className="mb-1.5 font-[family-name:var(--font-mono)] text-[10px] font-medium tracking-[0.2em] text-[var(--blue)] uppercase">
+        <p className="mb-1.5 font-[family-name:var(--font-mono)] text-[13px] font-medium tracking-[0.2em] text-[var(--blue)] uppercase">
           {categoryLabel}
         </p>
-        <p className="font-[family-name:var(--font-mono)] text-[14px] font-medium leading-snug tracking-[-0.02em] text-[var(--ink)] sm:text-[15px]">
+        <p className="font-[family-name:var(--font-mono)] text-[13px] font-medium leading-snug tracking-[-0.02em] text-[var(--ink)]">
           {item.title}
         </p>
         {(item.subtitle ?? '').trim() ? (
-          <p className="mt-2 line-clamp-3 font-[family-name:var(--font-mono)] text-[11px] font-light leading-relaxed text-[var(--mid)]">
+          <p className="mt-2 line-clamp-3 font-[family-name:var(--font-mono)] text-[13px] font-light leading-relaxed text-[var(--mid)]">
             {item.subtitle}
           </p>
         ) : null}
@@ -493,7 +494,6 @@ export function Navbar() {
 
   return (
     <>
-    <AnnouncementBar />
     <motion.header
       ref={navShellRef}
       variants={fadeUpVariants}
@@ -666,7 +666,6 @@ export function Navbar() {
           <ThemeToggle onClick={toggleTheme} />
         </div>
 
-        <ThemeToggle onClick={toggleTheme} className="relative z-10 shrink-0 min-[1377px]:hidden" />
         <button
           type="button"
           className="relative z-10 shrink-0 rounded-md p-2 text-[var(--ink)] min-[1377px]:hidden"
@@ -697,7 +696,7 @@ export function Navbar() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase',
+                      'py-2.5 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] uppercase',
                       isActive ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
                     )}
                     onClick={() => setIsOpen(false)}
@@ -711,7 +710,7 @@ export function Navbar() {
                 <button
                   type="button"
                   className={cn(
-                    'flex w-full items-center justify-between py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase text-left',
+                    'flex w-full items-center justify-between py-2.5 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] uppercase text-left',
                     isSolutionsNavActive(pathname) ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
                   )}
                   aria-expanded={mobileMega === 'solutions'}
@@ -736,7 +735,7 @@ export function Navbar() {
               <Link
                 href={pricingNavItem.href}
                 className={cn(
-                  'py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase border-t border-[var(--rule)] pt-2 mt-1',
+                  'py-2.5 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] uppercase border-t border-[var(--rule)] pt-2 mt-1',
                   pathname === pricingNavItem.href || pathname.startsWith(`${pricingNavItem.href}/`)
                     ? 'text-[var(--blue)]'
                     : 'text-[var(--ink)]',
@@ -750,7 +749,7 @@ export function Navbar() {
                 <button
                   type="button"
                   className={cn(
-                    'flex w-full items-center justify-between py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase text-left',
+                    'flex w-full items-center justify-between py-2.5 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] uppercase text-left',
                     isResourcesNavActive(pathname) ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
                   )}
                   aria-expanded={mobileMega === 'resources'}
@@ -779,7 +778,7 @@ export function Navbar() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'py-2.5 font-[family-name:var(--font-mono)] text-sm tracking-[0.12em] uppercase',
+                      'py-2.5 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] uppercase',
                       isActive ? 'text-[var(--blue)]' : 'text-[var(--ink)]',
                     )}
                     onClick={() => setIsOpen(false)}
@@ -803,6 +802,17 @@ export function Navbar() {
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </Link>
                 ))}
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  aria-label="Switch between light and dark theme"
+                  className="ml-auto flex items-center gap-2 rounded-md px-3 py-2 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] text-[var(--mid)] uppercase ring-1 ring-[var(--rule)] hover:text-[var(--ink)]"
+                >
+                  <Moon className="rk-only-light h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  <span className="rk-only-light">Dark theme</span>
+                  <Sun className="rk-only-dark h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  <span className="rk-only-dark">Light theme</span>
+                </button>
               </div>
               <div className="mt-4 flex w-full flex-col gap-3">
                 <CalendlyBooking

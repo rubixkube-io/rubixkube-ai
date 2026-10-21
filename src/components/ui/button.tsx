@@ -27,9 +27,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               variant === 'ghost',
           },
           {
-            'px-5 py-2.5 text-[10px]': size === 'sm',
-            'px-6 py-3 text-[11px]': size === 'md',
-            'px-8 py-3.5 text-[12px]': size === 'lg',
+            'px-5 py-2.5 text-[13px]': size === 'sm',
+            'px-6 py-3 text-[13px]': size === 'md',
+            'px-8 py-3.5 text-[13px]': size === 'lg',
           },
           className,
         )}

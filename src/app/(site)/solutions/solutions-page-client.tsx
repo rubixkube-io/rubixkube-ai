@@ -116,7 +116,7 @@ export function SolutionsPageClient() {
             animate="visible"
           >
             <motion.div variants={fadeUpVariants}>
-              <span className="mb-8 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              <span className="mb-8 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 Solutions
               </span>
             </motion.div>
@@ -168,7 +168,7 @@ export function SolutionsPageClient() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+            <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
               Use Cases
             </span>
             <h2 className="mb-4 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
@@ -227,7 +227,7 @@ export function SolutionsPageClient() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+            <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
               Industries
             </span>
             <h2 className="mb-4 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
@@ -268,7 +268,7 @@ export function SolutionsPageClient() {
                     {industry.challenges.map((challenge) => (
                       <li
                         key={challenge}
-                        className="font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.03em] text-[var(--mid)]"
+                        className="font-[family-name:var(--font-mono)] text-[13px] font-light tracking-[0.03em] text-[var(--mid)]"
                       >
                         · {challenge}
                       </li>
@@ -294,7 +294,7 @@ export function SolutionsPageClient() {
             viewport={{ once: true }}
             className="mb-16 text-center"
           >
-            <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+            <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
               How It Works
             </span>
             <h2 className="font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl">
@@ -317,7 +317,7 @@ export function SolutionsPageClient() {
                   className="flex flex-col gap-6 px-0 py-12 md:px-10 md:py-0 first:md:pl-0 last:md:pr-0"
                 >
                   <div className="flex items-start gap-4">
-                    <span className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.15em] text-[var(--mid)] uppercase pt-1">
+                    <span className="font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.15em] text-[var(--mid)] uppercase pt-1">
                       {step.number}
                     </span>
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--blue)]/10">

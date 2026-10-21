@@ -22,7 +22,7 @@ const DEMO_URL = 'https://calendly.com/rubixkube-ai/30min'
 /* ───────────────────────── shared type styles ───────────────────────── */
 
 const eyebrow =
-  'mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase'
+  'mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase'
 const h2 =
   'mb-6 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl'
 const sectionH2 =
@@ -55,7 +55,7 @@ function BrowserFrame({ children, shadow = 'shadow-sm' }: { children: ReactNode;
             <div className="h-3 w-3 rounded-full bg-[var(--faint)]" />
             <div className="h-3 w-3 rounded-full bg-[var(--faint)]" />
           </div>
-          <div className="flex-1 rounded-md bg-[var(--bg)] px-3 py-1.5 font-[family-name:var(--font-mono)] text-[11px] text-[var(--text-muted)]">
+          <div className="flex-1 rounded-md bg-[var(--bg)] px-3 py-1.5 font-[family-name:var(--font-mono)] text-[13px] text-[var(--text-muted)]">
             console.rubixkube.ai
           </div>
         </div>
@@ -123,7 +123,7 @@ function HeroSequence() {
                 style={{ animationDuration: `${HERO_STEP_MS}ms` }}
               />
             </span>
-            <span className={`${mono} text-[10px] tracking-[0.2em] uppercase transition-colors ${i === shown ? 'text-[var(--ink)]' : 'text-[var(--mid)] group-hover:text-[var(--ink)]'}`}>
+            <span className={`${mono} text-[12px] tracking-[0.2em] uppercase transition-colors ${i === shown ? 'text-[var(--ink)]' : 'text-[var(--mid)] group-hover:text-[var(--ink)]'}`}>
               {String(i + 1).padStart(2, '0')} · {f.step}
             </span>
           </button>
@@ -255,7 +255,7 @@ function CopyCommand({ label, command }: { label?: string; command: string }) {
   }
   return (
     <div className="min-w-0">
-      {label && <p className={`${mono} mb-2 text-[11px] text-[var(--mid)]`}>{label}</p>}
+      {label && <p className={`${mono} mb-2 text-[13px] text-[var(--mid)]`}>{label}</p>}
       <div className="flex items-center gap-3 rounded-lg border border-[var(--rule)] bg-[var(--background-secondary)] py-2.5 pr-2 pl-4">
         <code className={`${mono} min-w-0 flex-1 truncate text-[12.5px] text-[var(--ink)]`}>{command}</code>
         <button
@@ -285,7 +285,7 @@ function AppTitle({ icon, name, badge, line }: { icon: ReactNode; name: string; 
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <h3 className="font-[family-name:var(--font-serif)] text-[1.75rem] leading-none font-light text-[var(--ink)]">{name}</h3>
-          {badge && <span className={`${mono} rounded-md border border-[var(--rule)] px-1.5 py-0.5 text-[10px] tracking-[0.1em] text-[var(--mid)] uppercase`}>{badge}</span>}
+          {badge && <span className={`${mono} rounded-md border border-[var(--rule)] px-1.5 py-0.5 text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase`}>{badge}</span>}
         </div>
         <p className={`${mono} mt-2 text-[13px] font-light leading-[1.7] text-[var(--mid)]`}>{line}</p>
       </div>
@@ -322,7 +322,7 @@ export function PlatformPageClient() {
         <div className="rk-landing-max relative z-10 w-full px-[var(--pad)] pt-[calc(var(--nav-stack)+3.5rem)] pb-12 text-center">
           <motion.div className="mx-auto max-w-4xl" variants={fadeUpVariants} initial="hidden" animate="visible">
             <motion.div variants={fadeUpVariants}>
-              <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+              <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
                 RubixKube Console
               </span>
             </motion.div>
@@ -411,7 +411,7 @@ export function PlatformPageClient() {
               <div className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
                 {MODES.map((m) => (
                   <div key={m.name} className="grid grid-cols-[88px_1fr] gap-4 py-4">
-                    <p className={`${mono} pt-0.5 text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase`}>{m.name}</p>
+                    <p className={`${mono} pt-0.5 text-[12px] tracking-[0.2em] text-[var(--blue)] uppercase`}>{m.name}</p>
                     <p className={`${mono} text-[13px] font-light leading-relaxed text-[var(--ink)]`}>{m.copy}</p>
                   </div>
                 ))}
@@ -453,7 +453,7 @@ export function PlatformPageClient() {
                 custom={i}
                 className="flex flex-col rounded-xl border border-[var(--rule)] bg-[var(--bg)] p-10 transition-shadow hover:shadow-md"
               >
-                <span className={`${mono} mb-6 text-[10px] tracking-[0.2em] text-[var(--blue)] uppercase`}>{o.label}</span>
+                <span className={`${mono} mb-6 text-[12px] tracking-[0.2em] text-[var(--blue)] uppercase`}>{o.label}</span>
                 <h3 className={cardTitle} style={cardTitleStyle}>
                   {o.title}
                 </h3>
@@ -523,7 +523,7 @@ export function PlatformPageClient() {
                 <Button asChild variant="outline" className={outlineBlueAccentMd}>
                   <Link href="/hubble">Explore Hubble</Link>
                 </Button>
-                <span className={`${mono} text-[11px] text-[var(--mid)]`}>Web, iOS and Android</span>
+                <span className={`${mono} text-[13px] text-[var(--mid)]`}>Web, iOS and Android</span>
               </div>
             </motion.div>
 
@@ -545,7 +545,7 @@ export function PlatformPageClient() {
                     Download Kepler
                   </Link>
                 </Button>
-                <span className={`${mono} text-[11px] text-[var(--mid)]`}>macOS, Windows and Linux</span>
+                <span className={`${mono} text-[13px] text-[var(--mid)]`}>macOS, Windows and Linux</span>
               </div>
             </motion.div>
 
@@ -643,7 +643,7 @@ export function PlatformPageClient() {
         <div className="rk-landing-max px-[var(--pad)]">
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_2fr] lg:gap-[80px]">
             <motion.div {...reveal}>
-              <span className={`${mono} text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`}>Questions</span>
+              <span className={`${mono} text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`}>Questions</span>
               <h2 className="mt-4 font-[family-name:var(--font-serif)] text-[clamp(2rem,4.5vw,4rem)] leading-[1.1] font-light tracking-[-0.01em] text-[var(--ink)]">
                 Frequently <span className="italic text-[var(--blue)]">asked.</span>
               </h2>

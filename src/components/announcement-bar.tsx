@@ -47,7 +47,7 @@ export function AnnouncementBar() {
     <div
       role="region"
       aria-label="Announcement"
-      className="fixed top-0 right-0 left-0 z-[101] flex h-[var(--announce-h)] overflow-hidden items-center justify-center border-b border-white/10 bg-[#111318] px-10 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.02em] text-[#f2f0eb] sm:px-[var(--pad)] sm:text-[12px]"
+      className="fixed top-0 right-0 left-0 z-[101] flex h-[var(--announce-h)] overflow-hidden items-center justify-center border-b border-white/10 bg-[#111318] px-10 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.02em] text-[#f2f0eb] sm:px-[var(--pad)] sm:text-[13px]"
     >
       <Link
         href={KEPLER_URL}
@@ -55,7 +55,7 @@ export function AnnouncementBar() {
         rel="noopener noreferrer"
         className="group inline-flex min-w-0 items-center gap-2.5 sm:gap-3"
       >
-        <span className="shrink-0 rounded-[3px] bg-[var(--blue)] px-1.5 py-0.5 text-[9px] font-medium tracking-[0.14em] text-white uppercase sm:text-[10px]">
+        <span className="shrink-0 rounded-[3px] bg-[var(--blue)] px-1.5 py-0.5 text-[12px] font-medium tracking-[0.14em] text-white uppercase sm:text-[12px]">
           New
         </span>
         <span className="truncate">

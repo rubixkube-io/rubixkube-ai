@@ -67,7 +67,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
             >
               You&apos;re subscribed!
             </h3>
-            <p className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]">
+            <p className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
               Welcome to the reliability era.
             </p>
           </div>
@@ -79,7 +79,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
             >
               Stay Updated
             </h3>
-            <p className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mb-4">
+            <p className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] mb-4">
               Get the latest insights on infrastructure reliability.
             </p>
             <form
@@ -99,14 +99,14 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full rounded-lg px-3 py-2 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-xs font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
+                className="w-full rounded-lg px-3 py-2 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
                 required
               />
               <Button type="submit" disabled={isLoading} size="sm" className="w-full">
                 {isLoading ? 'Subscribing...' : 'Subscribe'}
               </Button>
               {error && (
-                <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--red)] text-center">{error}</p>
+                <p className="font-[family-name:var(--font-mono)] text-[13px] text-[var(--red)] text-center">{error}</p>
               )}
             </form>
           </>
@@ -169,7 +169,7 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="flex-1 rounded-lg px-4 py-3 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-xs font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
+              className="flex-1 rounded-lg px-4 py-3 bg-[var(--bg)] border border-[var(--rule)] font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]/50 focus:border-[var(--blue)] transition-colors"
               required
             />
             <Button type="submit" disabled={isLoading} className="w-full sm:w-auto whitespace-nowrap flex items-center gap-2">
@@ -183,10 +183,10 @@ export function NewsletterSignup({ compact = false, className = "" }: Newsletter
           </form>
 
           {error && (
-            <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--red)] mt-2 text-center">{error}</p>
+            <p className="font-[family-name:var(--font-mono)] text-[13px] text-[var(--red)] mt-2 text-center">{error}</p>
           )}
 
-          <p className="font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] mt-4 text-center">
+          <p className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] mt-4 text-center">
             No spam, unsubscribe at any time. Read our{" "}
             <Link href="/legal/privacy" className="text-[var(--blue)] hover:underline transition-colors">
               privacy policy

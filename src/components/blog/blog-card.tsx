@@ -128,7 +128,7 @@ export function BlogCard({ post, featured = false, className = "" }: BlogCardPro
           {/* Category badge overlay */}
           {post.categories && post.categories.length > 0 && (
             <div className="absolute top-4 left-4">
-              <span className="inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm text-foreground border border-white/20 px-3 py-1.5 text-xs font-semibold shadow-lg">
+              <span className="inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm text-foreground border border-white/20 px-3 py-1.5 text-[13px] font-semibold shadow-lg">
                 {post.categories[0]}
               </span>
             </div>

@@ -14,7 +14,7 @@ export default function NotFound() {
         initial="hidden"
         animate="visible"
       >
-        <p className="mb-6 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.28em] text-[var(--text-muted)] uppercase">
+        <p className="mb-6 font-[family-name:var(--font-mono)] text-[12px] tracking-[0.28em] text-[var(--text-muted)] uppercase">
           404
         </p>
         <h1 className="mb-4 font-[family-name:var(--font-serif)] text-[clamp(2rem,5vw,3rem)] leading-tight font-light tracking-[-0.01em] text-[var(--ink)]">

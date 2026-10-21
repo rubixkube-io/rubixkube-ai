@@ -375,10 +375,10 @@ export function StatusPageClient() {
                             {svc.name}
                           </span>
                           <UptimeBars bars={bars} />
-                          <span className="hidden sm:block text-xs text-foreground-muted shrink-0 w-16 text-right">
+                          <span className="hidden sm:block text-[13px] text-foreground-muted shrink-0 w-16 text-right">
                             {svc.uptime_7d.toFixed(1)}% 7d
                           </span>
-                          <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium shrink-0 ${cfg.badge}`}>
+                          <span className={`text-[13px] px-2.5 py-0.5 rounded-full font-medium shrink-0 ${cfg.badge}`}>
                             {cfg.label}
                           </span>
                         </div>

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { COOKIE_SETTINGS_EVENT } from '@/components/cookie-banner'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { fadeUpVariants } from '@/lib/animations'
-import { rkMono10, rkMono11, rkMono13 } from '@/lib/landing-responsive-type'
+import { smallSize, type } from '@/lib/type-scale'
 import { cn } from '@/lib/utils'
 import { Linkedin, Github, Slack } from 'lucide-react'
 
@@ -83,7 +83,7 @@ export function FooterBody() {
         viewport={{ once: true }}
         className={cn(
           'mx-auto mb-14 max-w-2xl text-center font-[family-name:var(--font-mono)] font-light leading-relaxed text-[var(--mid)]',
-          rkMono13,
+          smallSize,
         )}
       >
         RubixKube is Site Reliability Intelligence: see more, plan better, act safely, and learn with every
@@ -99,7 +99,7 @@ export function FooterBody() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h3 className="border-b border-[var(--rule)] pb-3 mb-4 font-[family-name:var(--font-serif)] text-lg font-light leading-none tracking-[-0.02em] text-[var(--ink)] sm:text-xl min-[1920px]:text-[1.35rem]">
+            <h3 className={cn(type.statement, 'border-b border-[var(--rule)] pb-3 mb-4 font-light text-[var(--ink)]')}>
               {column.title}
             </h3>
             <ul className="space-y-2 pt-1">
@@ -111,7 +111,7 @@ export function FooterBody() {
                         href={link.href}
                         className={cn(
                           'font-[family-name:var(--font-mono)] font-light leading-relaxed tracking-[0.04em] text-[var(--text-muted)] transition-colors hover:text-[var(--ink)]',
-                          rkMono11,
+                          smallSize,
                         )}
                         {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       >
@@ -171,14 +171,14 @@ export function FooterBody() {
             <span
               className={cn(
                 'font-[family-name:var(--font-mono)] tracking-[0.1em] text-[var(--ink)] uppercase hover:text-[var(--blue)] transition-colors',
-                rkMono10,
+                smallSize,
               )}
             >
               RubixKube
             </span>
           </Link>
           <span
-            className={cn('font-[family-name:var(--font-mono)] text-[var(--text-muted)]', rkMono10)}
+            className={cn('font-[family-name:var(--font-mono)] text-[var(--text-muted)]', smallSize)}
           >
             © {new Date().getFullYear()} All rights reserved.
           </span>
@@ -187,7 +187,7 @@ export function FooterBody() {
             onClick={() => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT))}
             className={cn(
               'cursor-pointer font-[family-name:var(--font-mono)] text-[var(--text-muted)] transition-colors hover:text-[var(--ink)]',
-              rkMono10,
+              smallSize,
             )}
           >
             Cookie settings
@@ -209,7 +209,7 @@ export function FooterBody() {
           <span
             className={cn(
               'font-[family-name:var(--font-mono)] tracking-[0.08em] text-[var(--text-muted)] uppercase',
-              rkMono10,
+              smallSize,
             )}
           >
             <Link href="/llms.txt" className="hover:text-[var(--mid)]">

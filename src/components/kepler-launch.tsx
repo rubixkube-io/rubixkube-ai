@@ -21,7 +21,7 @@ const proofPoints = [
 ]
 
 const primaryCtaClass =
-  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[11px] !font-medium !tracking-[0.12em] !text-white !uppercase shadow-[0_1px_2px_rgba(0,0,0,0.3)] !transition-[box-shadow,opacity] !duration-200 hover:shadow-[0_4px_24px_rgba(47,91,255,0.55)] active:translate-y-px min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px]'
+  '!rounded-[6px] !border-0 !bg-[var(--blue)] !px-[30px] !py-[13px] !text-[12px] !font-medium !tracking-[0.12em] !text-white !uppercase shadow-[0_1px_2px_rgba(0,0,0,0.3)] !transition-[box-shadow,opacity] !duration-200 hover:shadow-[0_4px_24px_rgba(47,91,255,0.55)] active:translate-y-px min-[1920px]:!px-[34px] min-[1920px]:!py-[15px] min-[1920px]:!text-[13px]'
 
 /** Kepler orbital mark, same geometry as the app. */
 function KeplerMark({ className }: { className?: string }) {
@@ -201,7 +201,7 @@ export function KeplerLaunch() {
                   />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--blue)]" />
                 </span>
-                <span className="min-w-0 flex-1 truncate text-[11px] tracking-[0.02em] sm:text-[12px]">
+                <span className="min-w-0 flex-1 truncate text-[13px] tracking-[0.02em] sm:text-[13px]">
                   <span className="font-medium text-white">Kepler</span>
                   <span className="text-[var(--faint)]"> is out. The SRE IDE.</span>
                 </span>

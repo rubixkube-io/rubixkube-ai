@@ -253,13 +253,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                         href={guide.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] hover:text-[var(--blue)] transition-colors border-l border-[var(--rule)] hover:border-[var(--blue)] pl-3 py-0.5"
+                        className="block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] hover:text-[var(--blue)] transition-colors border-l border-[var(--rule)] hover:border-[var(--blue)] pl-3 py-0.5"
                       >
                         {guide.title}
                       </Link>
                     ))}
                     {cat.guides.length > 3 && (
-                      <span className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]/50 pl-3">
+                      <span className="block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]/50 pl-3">
                         +{cat.guides.length - 3} more
                       </span>
                     )}
@@ -270,7 +270,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                       href={cat.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--blue)] hover:underline group"
                     >
                       {'linkLabel' in cat && cat.linkLabel ? cat.linkLabel : 'View Documentation'}
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -305,13 +305,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                     <Link
                       key={`${item.category}-${item.slug}`}
                       href={`/${item.category}/${item.slug}`}
-                      className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)] hover:text-[var(--blue)] transition-colors border-l border-[var(--rule)] hover:border-[var(--blue)] pl-3 py-0.5"
+                      className="block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] hover:text-[var(--blue)] transition-colors border-l border-[var(--rule)] hover:border-[var(--blue)] pl-3 py-0.5"
                     >
                       {referenceGuideNavDisplayTitle(item)}
                     </Link>
                   ))
                 ) : (
-                  <span className="block font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]/50 pl-3 border-l border-[var(--rule)]">
+                  <span className="block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]/50 pl-3 border-l border-[var(--rule)]">
                     New articles appear here when published.
                   </span>
                 )}
@@ -322,7 +322,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                   href="https://docs.rubixkube.ai/concepts/what-is-sri"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                  className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--blue)] hover:underline group"
                 >
                   View Documentation
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -451,7 +451,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                           href={study.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group/link"
+                          className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--blue)] hover:underline group/link"
                         >
                           View Tutorial
                           <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
@@ -512,7 +512,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                       href={tut.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--blue)] hover:underline group"
                     >
                       Start Tutorial
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -571,7 +571,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                       href={res.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--blue)] hover:underline group"
+                      className="inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--blue)] hover:underline group"
                     >
                       Get Help
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

@@ -265,7 +265,7 @@ function TOC({ headings, activeId }: { headings: TocEntry[]; activeId: string })
       <button
         onClick={() => { scrollTo(h.id); onClickExtra?.() }}
         className={`block w-full text-left font-[family-name:var(--font-mono)] font-light leading-snug transition-colors ${
-          h.level === 3 ? 'pl-7 text-[12px]' : 'pl-4 text-[13px]'
+          h.level === 3 ? 'pl-7 text-[13px]' : 'pl-4 text-[13px]'
         } ${
           activeId === h.id
             ? 'text-[var(--blue)] border-l-2 border-[var(--blue)] -ml-px'
@@ -280,7 +280,7 @@ function TOC({ headings, activeId }: { headings: TocEntry[]; activeId: string })
   return (
     <>
       <nav className="hidden lg:block sticky top-[calc(var(--nav-stack)+2rem)] self-start">
-        <span className="mb-4 block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+        <span className="mb-4 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
           On this page
         </span>
         <ul className="space-y-2 border-l border-[var(--rule)]">
@@ -322,7 +322,7 @@ function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
           </h2>
         ) : null}
         {hasBody ? (
-          <div className="text-[16px] leading-[1.8] text-[var(--ink)]">
+          <div className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]">
             <PortableText value={block.body} components={referencePagePortableComponents} />
           </div>
         ) : null}
@@ -333,7 +333,7 @@ function ProseRenderer({ block, anim }: { block: ProseBlock; anim: object }) {
 
 function HighlightRenderer({ block, anim }: { block: HighlightBlock; anim: object }) {
   const bodyClass =
-    'text-[16px] leading-[1.8] text-[var(--ink)]'
+    'font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]'
   return (
     <motion.div variants={fadeUpVariants} {...anim}>
       <div className="rounded-[6px] border border-[var(--blue)]/15 bg-[var(--blue)]/[0.025] px-7 py-6 sm:px-9 sm:py-8">
@@ -362,7 +362,7 @@ function StatsRenderer({ block, anim, prefersReducedMotion }: { block: StatsBloc
             <span className="block font-[family-name:var(--font-serif)] text-[clamp(1.75rem,4vw,2.75rem)] leading-[1] font-light text-[var(--blue)]">
               {item.value}
             </span>
-            <span className="mt-2 block font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.08em] text-[var(--mid)] uppercase">
+            <span className="mt-2 block font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.08em] text-[var(--mid)] uppercase">
               {item.label}
             </span>
           </motion.div>
@@ -421,14 +421,14 @@ function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
             )}
             <FormattedInline
               value={block.body}
-              className="text-[16px] leading-[1.8] text-[var(--ink)]"
+              className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]"
             />
             {block.bullets && block.bullets.length > 0 && (
               <ul className="mt-6 space-y-2.5">
                 {block.bullets.map((b) => (
                   <li key={b} className="flex items-start gap-3">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--blue)]" strokeWidth={2} />
-                    <span className="text-[16px] leading-[1.8] text-[var(--ink)]">{b}</span>
+                    <span className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]">{b}</span>
                   </li>
                 ))}
               </ul>
@@ -439,7 +439,7 @@ function SplitRenderer({ block, anim }: { block: SplitBlock; anim: object }) {
               <Image src={block.imageSrc} alt={block.imageAlt || ''} fill className="object-cover" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center bg-[var(--bg)]">
-                <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.12em] text-[var(--mid)]/30 uppercase">
+                <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.12em] text-[var(--mid)]/30 uppercase">
                   {block.imageAlt || 'Image'}
                 </span>
               </div>
@@ -467,7 +467,7 @@ function ChecklistRenderer({ block, anim }: { block: ChecklistBlock; anim: objec
           <div className="mb-6">
             <FormattedInline
               value={block.body}
-              className="text-[16px] leading-[1.8] text-[var(--ink)]"
+              className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]"
             />
           </div>
         )}
@@ -476,7 +476,7 @@ function ChecklistRenderer({ block, anim }: { block: ChecklistBlock; anim: objec
             {block.items.map((item, i) => (
               <li key={i} className="flex items-start gap-3">
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--blue)]" strokeWidth={2} />
-                <span className="text-[16px] leading-[1.8] text-[var(--ink)]">
+                <span className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]">
                   {item}
                 </span>
               </li>
@@ -510,7 +510,7 @@ function CardsRenderer({ block, anim, prefersReducedMotion }: { block: CardsBloc
             <h3 className="mb-2 font-[family-name:var(--font-serif)] text-[clamp(1rem,1.5vw,1.2rem)] font-light text-[var(--ink)]">{item.title}</h3>
             <FormattedInline
               value={item.body}
-              className="text-[16px] leading-[1.8] text-[var(--ink)]"
+              className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]"
             />
           </motion.div>
         ))}
@@ -542,7 +542,7 @@ function QuoteRenderer({ block, anim }: { block: QuoteBlock; anim: object }) {
               <span className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)]">{block.attribution}</span>
             )}
             {block.role && (
-              <span className="ml-2 font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]">— {block.role}</span>
+              <span className="ml-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">— {block.role}</span>
             )}
           </div>
         )}
@@ -575,7 +575,7 @@ function FaqRenderer({ block, anim }: { block: FaqBlock; anim: object }) {
           </h3>
           <FormattedInline
             value={item.answer}
-            className="text-[16px] leading-[1.8] text-[var(--ink)]"
+            className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]"
           />
         </motion.div>
       ))}
@@ -599,14 +599,14 @@ function InlineCtaRenderer({ block, anim }: { block: InlineCtaBlock; anim: objec
           <div className="mx-auto mb-6 max-w-[50ch]">
             <FormattedInline
               value={block.body}
-              className="text-[16px] leading-[1.8] text-[var(--ink)] text-center [&_p]:text-center [&_ul]:text-left [&_ol]:text-left"
+              className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)] text-center [&_p]:text-center [&_ul]:text-left [&_ol]:text-left"
             />
           </div>
         )}
         {block.cta?.href && (
           <Link
             href={block.cta.href}
-            className="inline-flex items-center gap-2 rounded-[6px] bg-[var(--blue)] px-6 py-3 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-white uppercase transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-[6px] bg-[var(--blue)] px-6 py-3 font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.1em] text-white uppercase transition-colors hover:bg-blue-700"
           >
             {block.cta.label || 'Get started'}
             <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
@@ -655,11 +655,11 @@ const gfmMarkdownComponents: Components = {
     <h3 className="mt-8 font-[family-name:var(--font-serif)] text-[clamp(1.05rem,1.8vw,1.25rem)] font-light leading-[1.25] text-[var(--ink)]">{children}</h3>
   ),
   p: ({children}) => (
-    <p className="mt-4 first:mt-0 text-[16px] leading-[1.8] text-[var(--ink)]">{children}</p>
+    <p className="mt-4 first:mt-0 font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]">{children}</p>
   ),
   ul: ({children}) => <ul className="mt-4 list-disc space-y-2 pl-6 first:mt-0">{children}</ul>,
   ol: ({children}) => <ol className="mt-4 list-decimal space-y-2 pl-6 first:mt-0">{children}</ol>,
-  li: ({children}) => <li className="text-[16px] leading-[1.8] text-[var(--ink)]">{children}</li>,
+  li: ({children}) => <li className="font-[family-name:var(--font-figtree)] font-normal text-[16px] leading-[1.8] text-[var(--ink)]">{children}</li>,
   a: ({href, children}) => (
     <a
       href={href}
@@ -718,7 +718,7 @@ function MarkdownSectionRenderer({ block, anim }: { block: MarkdownSectionBlock;
     <div id={block.id} className="scroll-mt-[calc(var(--nav-stack)+2rem)]">
       <motion.div variants={fadeUpVariants} {...anim}>
         {block.caption ? (
-          <p className="mb-4 font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">
+          <p className="mb-4 font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.12em] text-[var(--mid)] uppercase">
             {block.caption}
           </p>
         ) : null}
@@ -794,7 +794,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
       <header className="bg-[var(--bg)] px-[var(--pad)] pt-[calc(var(--nav-stack)+4.5rem)] pb-16 sm:pb-20">
         <div className="rk-landing-max">
           <motion.nav
-            className="mb-6 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--faint)]"
+            className="mb-6 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--faint)]"
             variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
           >
             <Link href="/" className="transition-colors hover:text-[var(--mid)]">Home</Link>
@@ -803,7 +803,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
           </motion.nav>
 
           <motion.div variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible">
-            <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+            <span className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
               {page.categoryLabel}
             </span>
           </motion.div>
@@ -829,7 +829,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
           </motion.p>
 
           <motion.div
-            className="flex flex-wrap items-center gap-4 sm:gap-6 font-[family-name:var(--font-mono)] text-xs font-light text-[var(--mid)]"
+            className="flex flex-wrap items-center gap-4 sm:gap-6 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]"
             variants={fadeUpVariants} initial={prefersReducedMotion ? 'visible' : 'hidden'} animate="visible"
           >
             {page.lastUpdated && (
@@ -859,7 +859,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
                     <Image src={page.heroImage.src} alt={page.heroImage.alt} fill className="object-cover" priority />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-[var(--bg)]">
-                      <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.12em] text-[var(--mid)]/30 uppercase">
+                      <span className="font-[family-name:var(--font-mono)] text-[12px] tracking-[0.12em] text-[var(--mid)]/30 uppercase">
                         {page.heroImage.alt || 'Cover Image'}
                       </span>
                     </div>
@@ -910,7 +910,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
       {page.relatedPages && page.relatedPages.length > 0 && (
         <section className="border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] py-16">
           <div className="rk-landing-max">
-            <span className="mb-6 block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase">
+            <span className="mb-6 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase">
               Continue reading
             </span>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -922,7 +922,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
                 >
                   <div>
                     {rp.category && (
-                      <span className="mb-1 block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.1em] text-[var(--blue)] uppercase">{rp.category}</span>
+                      <span className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--blue)] uppercase">{rp.category}</span>
                     )}
                     <span className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--ink)] min-[1920px]:text-[15px]">{rp.label}</span>
                   </div>

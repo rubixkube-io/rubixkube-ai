@@ -78,7 +78,7 @@ export function PrivacyPageClient() {
                     className="flex flex-col items-center p-3 rounded-md hover:bg-background transition-colors text-center"
                   >
                     <link.icon className="w-5 h-5 text-primary mb-2" />
-                    <span className="text-xs font-medium text-foreground">{link.title}</span>
+                    <span className="text-[13px] font-medium text-foreground">{link.title}</span>
                   </Link>
                 ))}
               </div>

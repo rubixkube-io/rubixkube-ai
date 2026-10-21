@@ -37,7 +37,7 @@ type Shot = (typeof SHOTS)[keyof typeof SHOTS]
 /* ───────────────────────── shared type styles ───────────────────────── */
 
 const label =
-  'mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase'
+  'mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase'
 const h2 =
   'mb-6 font-[family-name:var(--font-serif)] text-4xl font-light leading-[1.1] tracking-[-0.01em] text-[var(--ink)] md:text-5xl'
 const lead =
@@ -153,7 +153,7 @@ function PhonePair() {
 /* ───────────────────────── drawn views (no screen yet) ───────────────────────── */
 
 const card = 'rounded-2xl border border-[var(--rule)] bg-[var(--bg)] p-6 sm:p-8'
-const cardLabel = `${mono} mb-6 text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`
+const cardLabel = `${mono} mb-6 text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`
 
 function ContactRules() {
   const rules = [
@@ -196,10 +196,10 @@ function EscalationLevels() {
         {LEVELS.map((l) => (
           <li key={l.level} className="flex items-center justify-between gap-3 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-4 py-3 whitespace-nowrap">
             <div className="flex items-center gap-3">
-              <span className={`${mono} text-[10px] tracking-[0.15em] text-[var(--blue)] uppercase`}>{l.level}</span>
+              <span className={`${mono} text-[12px] tracking-[0.15em] text-[var(--blue)] uppercase`}>{l.level}</span>
               <span className={`${mono} text-[13px] text-[var(--ink)]`}>{l.who}</span>
             </div>
-            <span className={`${mono} text-[12px] font-light text-[var(--mid)]`}>{l.wait}</span>
+            <span className={`${mono} text-[13px] font-light text-[var(--mid)]`}>{l.wait}</span>
           </li>
         ))}
       </ol>
@@ -210,28 +210,28 @@ function EscalationLevels() {
 function SlackThread() {
   return (
     <div className={card}>
-      <p className={`${mono} mb-6 flex items-center gap-2 text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`}>
+      <p className={`${mono} mb-6 flex items-center gap-2 text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`}>
         <MessageSquare className="h-3.5 w-3.5" strokeWidth={1.5} /> #checkout
       </p>
       <div className="space-y-5">
         <div>
-          <p className={`${mono} text-[12px] text-[var(--ink)]`}>
+          <p className={`${mono} text-[13px] text-[var(--ink)]`}>
             Sam <span className="text-[var(--text-muted)]">10:01</span>
           </p>
           <p className={`${mono} mt-1 text-[13px] font-light text-[var(--ink)]`}>/oncall who</p>
         </div>
         <div className="border-l-2 border-[var(--blue)] pl-4">
-          <p className={`${mono} text-[12px] text-[var(--ink)]`}>
+          <p className={`${mono} text-[13px] text-[var(--ink)]`}>
             Hubble <span className="text-[var(--text-muted)]">10:01</span>
           </p>
           <p className={`${mono} mt-1 text-[13px] font-light text-[var(--ink)]`}>Checkout: Ada Lovelace, until Wed 9:00 AM.</p>
         </div>
         <div className="border-l-2 border-[var(--blue)] pl-4">
-          <p className={`${mono} text-[12px] text-[var(--ink)]`}>
+          <p className={`${mono} text-[13px] text-[var(--ink)]`}>
             Hubble <span className="text-[var(--text-muted)]">10:02</span>
           </p>
           <p className={`${mono} mt-1 text-[13px] font-light text-[var(--ink)]`}>INC-4F21 {INCIDENT}. Paged Ada Lovelace.</p>
-          <div className={`${mono} mt-3 inline-block rounded-md border border-[var(--rule)] px-3 py-1.5 text-[11px] tracking-[0.1em] text-[var(--ink)] uppercase`}>
+          <div className={`${mono} mt-3 inline-block rounded-md border border-[var(--rule)] px-3 py-1.5 text-[12px] tracking-[0.1em] text-[var(--ink)] uppercase`}>
             Acknowledge
           </div>
         </div>
@@ -244,9 +244,9 @@ function UpgradePath() {
   return (
     // vertical on phones, horizontal from sm up
     <div className={`${card} flex flex-col items-center gap-3 sm:flex-row sm:gap-4`}>
-      <span className={`${mono} rounded-md bg-[var(--blue)]/10 px-3 py-2 text-[12px] text-[var(--blue)]`}>Hubble</span>
+      <span className={`${mono} rounded-md bg-[var(--blue)]/10 px-3 py-2 text-[13px] text-[var(--blue)]`}>Hubble</span>
       <span className="h-8 w-px bg-[var(--faint)] sm:h-px sm:w-auto sm:flex-1" />
-      <span className={`${mono} flex items-center gap-2 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-2 text-[12px] whitespace-nowrap text-[var(--ink)]`}>
+      <span className={`${mono} flex items-center gap-2 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-2 text-[13px] whitespace-nowrap text-[var(--ink)]`}>
         Hubble with
         <Image src="/light-logo.svg" alt="RubixKube" width={1720} height={200} className="rk-only-light h-[10px] w-auto" />
         <Image src="/dark-logo.svg" alt="RubixKube" width={1720} height={200} className="rk-only-dark h-[10px] w-auto" />
@@ -348,22 +348,22 @@ function Pricing() {
               } ${i < PLANS.length - 1 ? 'border-b border-b-[var(--rule)] md:border-r md:border-b-0 md:border-r-[var(--rule)]' : ''}`}
             >
               <div className="mb-6 flex items-center gap-3">
-                <span className={`${mono} text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`}>{plan.name}</span>
+                <span className={`${mono} text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`}>{plan.name}</span>
                 {plan.recommended && (
-                  <span className={`${mono} text-[9px] tracking-[0.1em] text-[var(--blue)] uppercase`}>Recommended</span>
+                  <span className={`${mono} text-[12px] tracking-[0.1em] text-[var(--blue)] uppercase`}>Recommended</span>
                 )}
               </div>
               <p className="mb-1 font-[family-name:var(--font-serif)] text-[clamp(3rem,5vw,4.5rem)] leading-none font-light text-[var(--ink)]">
                 {plan.price[billing]}
               </p>
-              <p className={`${mono} mb-6 text-[11px] font-light text-[var(--mid)]`}>{plan.unit[billing]}</p>
+              <p className={`${mono} mb-6 text-[13px] font-light text-[var(--mid)]`}>{plan.unit[billing]}</p>
               <PlanButton recommended={plan.recommended} />
               <hr className="my-8 border-[var(--rule)]" />
               <Includes items={plan.includes} />
               {plan.recommended && (
                 <Link
                   href="/pricing"
-                  className={`${mono} mt-auto pt-8 text-[11px] font-light text-[var(--mid)] underline underline-offset-2 hover:text-[var(--ink)]`}
+                  className={`${mono} mt-auto pt-8 text-[13px] font-light text-[var(--mid)] underline underline-offset-2 hover:text-[var(--ink)]`}
                 >
                   See RubixKube plans
                 </Link>
@@ -390,7 +390,7 @@ function HubbleLockup({ size = 'md' }: { size?: 'md' | 'lg' }) {
       >
         Hubble
       </span>
-      <span className={`${mono} text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`} aria-hidden>
+      <span className={`${mono} text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`} aria-hidden>
         by
       </span>
       <Image src="/light-logo.svg" alt="" width={1720} height={200} className={`rk-only-light w-auto ${lg ? 'h-[15px]' : 'h-[14px]'}`} />
@@ -503,7 +503,7 @@ export function HubblePageClient() {
             </motion.div>
             <motion.p
               variants={fadeUpVariants}
-              className={`${mono} mt-10 text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase`}
+              className={`${mono} mt-10 text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`}
             >
               Push · Email · In-app · Slack
             </motion.p>

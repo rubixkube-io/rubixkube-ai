@@ -96,7 +96,7 @@ export function ContactPageClient() {
           >
             <motion.span
               variants={fadeUpVariants}
-              className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--mid)] uppercase"
+              className="mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase"
             >
               Contact
             </motion.span>
@@ -142,10 +142,10 @@ export function ContactPageClient() {
                     <method.icon className="h-4 w-4" />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-[family-name:var(--font-mono)] text-[11px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
+                    <p className="font-[family-name:var(--font-mono)] text-[12px] font-light tracking-[0.1em] text-[var(--ink)] uppercase">
                       {method.label}
                     </p>
-                    <p className="mt-0.5 font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]">
+                    <p className="mt-0.5 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
                       {method.description}
                     </p>
                     <p className="mt-1 font-[family-name:var(--font-mono)] text-[13px] font-medium text-[var(--ink)]">
@@ -230,7 +230,7 @@ export function ContactPageClient() {
 
                   <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
                         Full Name *
                       </label>
                       <input
@@ -244,7 +244,7 @@ export function ContactPageClient() {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
                         Company
                       </label>
                       <input
@@ -260,7 +260,7 @@ export function ContactPageClient() {
 
                   <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
                         Email *
                       </label>
                       <input
@@ -274,7 +274,7 @@ export function ContactPageClient() {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                      <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
                         Subject *
                       </label>
                       <input
@@ -290,7 +290,7 @@ export function ContactPageClient() {
                   </div>
 
                   <div>
-                    <label className="mb-1 block font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] text-[var(--mid)] uppercase">
+                    <label className="mb-1 block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase">
                       Message *
                     </label>
                     <textarea
@@ -305,13 +305,13 @@ export function ContactPageClient() {
                   </div>
 
                   {error && (
-                    <p className="font-[family-name:var(--font-mono)] text-[12px] text-red-500">
+                    <p className="font-[family-name:var(--font-mono)] text-[13px] text-red-500">
                       {error}
                     </p>
                   )}
 
                   <div className="flex items-center justify-between gap-6 pt-2">
-                    <p className="font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]">
+                    <p className="font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
                       By submitting you agree to our{' '}
                       <Link href="/legal/privacy" className="underline underline-offset-2 hover:text-[var(--ink)]">
                         Privacy Policy

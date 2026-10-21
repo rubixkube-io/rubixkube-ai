@@ -53,7 +53,7 @@ export function CookieBanner() {
       aria-label="Cookies"
       className="fixed right-3 bottom-3 left-3 z-[100] rounded-md border border-[var(--border)] bg-[var(--bg)] p-5 shadow-[0_8px_32px_rgba(17,19,24,0.14)] sm:right-auto sm:bottom-6 sm:left-6 sm:max-w-sm"
     >
-      <p className="font-[family-name:var(--font-mono)] text-[12px] leading-relaxed text-[var(--mid)]">
+      <p className="font-[family-name:var(--font-mono)] text-[13px] leading-relaxed text-[var(--mid)]">
         We use cookies to see how people use this site, so we can improve it. No ads. Learn more in
         our{' '}
         <Link href="/legal/privacy" className="text-[var(--ink)] underline underline-offset-4 hover:text-[var(--blue)]">

@@ -211,7 +211,7 @@ export function PodcastPageClient({ episodes }: { episodes: any[] }) {
                                          )}
                                          
                                          <div className="absolute top-4 left-4">
-                                            <span className="inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm text-[var(--ink)] border border-[var(--rule)] px-3 py-1.5 text-xs font-semibold shadow-lg">
+                                            <span className="inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm text-[var(--ink)] border border-[var(--rule)] px-3 py-1.5 text-[13px] font-semibold shadow-lg">
                                               Podcast
                                             </span>
                                           </div>
