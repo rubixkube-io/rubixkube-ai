@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { getOgDynamicTemplateDataUrl } from '@/lib/og-background'
+import { getOgDynamicTemplateDataUrl, getOgFonts } from '@/lib/og-background'
 import { DynamicOgTextOverlay } from '@/lib/og-dynamic-overlay'
 
 export interface OGImageParams {
@@ -10,12 +10,12 @@ export interface OGImageParams {
 }
 
 /**
- * Page-specific OG: `og-template.png` + editorial type (matches site, not the full og.png card).
+ * Page-specific OG: `og-template.png` with the page's title drawn on it.
  */
 export function generateOGImage({
   eyebrow,
   title,
-  description = 'Infrastructure that heals itself. Detect, diagnose, and resolve autonomously.',
+  description,
   accent,
 }: OGImageParams) {
   return new ImageResponse(
@@ -26,7 +26,7 @@ export function generateOGImage({
           width: '100%',
           display: 'flex',
           position: 'relative',
-          backgroundColor: '#f2f0eb',
+          backgroundColor: '#0f1013',
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -54,6 +54,7 @@ export function generateOGImage({
     {
       width: 1200,
       height: 630,
+      fonts: getOgFonts(),
       headers: {
         'Cache-Control': 'public, max-age=31536000, immutable',
       },

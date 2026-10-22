@@ -1,5 +1,5 @@
 import { urlFor } from '@/lib/sanity.client'
-import { STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
+import { SITE_URL } from '@/lib/og-metadata'
 
 const OG_WIDTH = 1200
 const OG_HEIGHT = 630
@@ -27,26 +27,27 @@ export function sanityCoverOgUrl(image: SanityCoverImage): string | undefined {
   return urlFor(image).width(OG_WIDTH).height(OG_HEIGHT).url()
 }
 
-/** OG/Twitter image fields from a Sanity cover/hero image, with site fallback. */
+/** The dynamic card (`/api/og`) with the page's own title, for a page with no cover */
+export function titleOgUrl(title: string, eyebrow?: string): string {
+  const q = new URLSearchParams({ title })
+  if (eyebrow) q.set('eyebrow', eyebrow)
+  return `${SITE_URL}/api/og?${q.toString()}`
+}
+
+/** OG/Twitter image fields for a Sanity page: its cover with the logo, or the dark card with its title. */
 export function sanityCoverOgFields(
   image: SanityCoverImage,
-  altFallback: string
+  altFallback: string,
+  eyebrow?: string,
 ): SanityCoverOgFields {
-  const url = sanityCoverOgUrl(image)
+  const cover = sanityCoverOgUrl(image)
   const alt =
     image && typeof image === 'object' && 'alt' in image && image.alt?.trim()
       ? image.alt.trim()
       : altFallback
-  const ogImages = url
-    ? [{ url, width: OG_WIDTH, height: OG_HEIGHT, alt }]
-    : [
-        {
-          url: STATIC_MARKETING_OG_URL,
-          width: OG_WIDTH,
-          height: OG_HEIGHT,
-          alt: altFallback,
-        },
-      ]
+  // with a cover: the cover with the logo tab; without one: the dark card with the title
+  const url = cover ? `${SITE_URL}/api/og?${new URLSearchParams({ cover }).toString()}` : titleOgUrl(altFallback, eyebrow)
+  const ogImages = [{ url, width: OG_WIDTH, height: OG_HEIGHT, alt }]
 
   return {
     openGraph: { images: ogImages },

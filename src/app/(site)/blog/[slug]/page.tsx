@@ -86,7 +86,7 @@ export async function generateMetadata({
   const title = post.seoTitle || post.title
   const description = post.seoDescription || post.excerpt || 'Article from RubixKube.'
   const url = `https://rubixkube.ai/blog/${slug}`
-  const coverOg = sanityCoverOgFields(post.image, title)
+  const coverOg = sanityCoverOgFields(post.image, title, 'Blog')
 
   return {
     title,

@@ -65,7 +65,7 @@ export async function generateMetadata({
   const title = episode.seoTitle || episode.title
   const description = episode.seoDescription || episode.excerpt || 'Podcast episode from RubixKube.'
   const url = `https://rubixkube.ai/podcast/${slug}`
-  const coverOg = podcastCoverOgFields(episode.image, title)
+  const coverOg = podcastCoverOgFields(episode.image, title, 'Podcast')
 
   return {
     title,

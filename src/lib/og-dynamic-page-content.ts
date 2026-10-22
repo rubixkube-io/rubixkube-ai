@@ -1,62 +1,48 @@
 /**
- * Copy for dynamic OG cards (`og-template.png` + overlay).
- * Aligned with each route’s metadata / page promise—no invented metrics.
+ * Copy for dynamic OG cards (`og-template.png` + overlay), taken from each page's hero.
+ * No invented metrics.
  */
 export const dynamicOgPageContent = {
   platform: {
-    eyebrow: 'RubixKube',
-    title: 'Know why it broke, in minutes',
-    description:
-      'Rubix watches your infrastructure, finds the cause when something breaks, and fixes it with you.',
-    accent: 'Console · Hubble · Kepler · CLI',
+    eyebrow: 'Platform',
+    title: 'From alert to fix, in minutes.',
+    description: 'RubixKube watches your infrastructure. When something breaks, Rubix finds the cause and ships the fix with you.',
+    accent: null,
   },
   hubble: {
     eyebrow: 'Hubble by RubixKube',
-    title: 'On-call scheduling and paging',
-    description:
-      'Rosters, escalation policies, acknowledgements, contact rules, a phone app and Slack.',
-    accent: 'Rosters · Escalation · Paging',
+    title: 'On-call and paging, from RubixKube.',
+    description: 'Rosters, escalation policies, acknowledgements, contact rules, a phone app and Slack.',
+    accent: null,
   },
   about: {
-    eyebrow: 'RubixKube',
-    title: 'From outages to intelligence',
-    description:
-      'We built RubixKube from lived pain: late nights and alert floods—and a reliability brain that keeps systems alive.',
-    accent: 'Memory · Safety · Explainability',
+    eyebrow: 'About RubixKube',
+    title: 'Building the bridge between infrastructure and impact.',
+    description: 'We did not start with a product idea. We started with a feeling we could not ignore.',
+    accent: null,
   },
   solutions: {
-    eyebrow: 'RubixKube',
-    title: 'Reliability at scale',
-    description:
-      'Cut MTTR, reduce noise, and protect revenue. Turn firefighting into foresight with autonomous, safe remediation.',
-    accent: 'Detect · Diagnose · Resolve · Learn',
+    eyebrow: 'Solutions',
+    title: 'What teams use RubixKube for.',
+    description: 'Use cases, products and case studies, from the first alert to the post-mortem.',
+    accent: null,
   },
   contact: {
-    eyebrow: 'RubixKube',
-    title: 'Talk with the team',
-    description:
-      'Plan your reliability path with us—from your first cluster to billions in transactions—with infra and customer trust intact.',
-    accent: 'Book a demo · Or reach out',
+    eyebrow: 'Contact',
+    title: 'Get in touch.',
+    description: 'Questions about RubixKube, help getting started, partnerships and press.',
+    accent: null,
   },
   resources: {
-    eyebrow: 'RubixKube',
-    title: 'Docs, playbooks & stories',
-    description:
-      'Learn the reliability playbook—guides, docs, and stories for teams preventing outages and shipping with confidence.',
-    accent: 'Whitepapers · Guides · Case studies',
-  },
-  blogIndex: {
-    eyebrow: 'RubixKube',
-    title: 'SRI diaries & deep dives',
-    description:
-      'AI-native infrastructure, SRE practice, and autonomous reliability—writing from the RubixKube team.',
-    accent: 'Site Reliability Intelligence',
+    eyebrow: 'Resources',
+    title: 'Docs, guides, and deep dives.',
+    description: 'The blog, the podcast, the docs and the glossary, in one place.',
+    accent: null,
   },
   pricing: {
-    eyebrow: 'RubixKube',
-    title: 'Simple, transparent pricing',
-    description:
-      'Start free. Scale when you’re ready. Enterprise when reliability is mission-critical.',
-    accent: 'Free tier · Business · Enterprise',
+    eyebrow: 'Pricing',
+    title: 'Reliability that pays for itself.',
+    description: 'Individual, Business and Enterprise plans. RubixKube finds the root cause in minutes, so your engineers get back to building.',
+    accent: null,
   },
 } as const

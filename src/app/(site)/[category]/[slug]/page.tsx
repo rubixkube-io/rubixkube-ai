@@ -211,7 +211,7 @@ export async function generateMetadata({
 
   const publishedTime = toIsoDate(page?.publishedAt)
   const modifiedTime = toIsoDate(page?.updatedAt) ?? publishedTime
-  const coverOg = sanityCoverOgFields(page?.heroImage, title)
+  const coverOg = sanityCoverOgFields(page?.heroImage, title, CATEGORY_LABELS[category])
 
   return {
     title: `${title}`,
