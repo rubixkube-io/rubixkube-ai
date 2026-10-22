@@ -27,6 +27,12 @@ const nextConfig: NextConfig = {
     ]
   },
 
+  // The share images read these files from disk at runtime, by a path the build cannot follow,
+  // so they are listed here to ship with every server function
+  outputFileTracingIncludes: {
+    '/**': ['./src/lib/og-fonts/**', './public/og.png', './public/og-template.png', './public/dark-logo.svg'],
+  },
+
   // Enable experimental features for better SSR
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
