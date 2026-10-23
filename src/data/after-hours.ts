@@ -171,7 +171,7 @@ export type AfterHoursSolver = AfterHoursChallenge['solvers'][number]
 export async function getAfterHoursSolvers(challenge: AfterHoursChallenge): Promise<AfterHoursSolver[]> {
   if (!challenge.leaderboardUrl) return challenge.solvers
   try {
-    const res = await fetch(challenge.leaderboardUrl, { next: { revalidate: 60 } })
+    const res = await fetch(challenge.leaderboardUrl, { next: { revalidate: 900 } }) // 15 min: the board itself is cached, no need to re-fetch per minute
     if (!res.ok) return challenge.solvers
     const data = (await res.json()) as { solvers?: { github: string; solved_at: string; elapsed: number }[] }
     if (!Array.isArray(data.solvers)) return challenge.solvers
