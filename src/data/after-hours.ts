@@ -14,13 +14,16 @@ export type AfterHoursBlock = { type: 'lead'; text: string } | { type: 'p'; text
 export interface AfterHoursChallenge {
   id: string
   title: string
+  /** Extra word in the small line above the headline, e.g. 'Grand Finale'. */
+  label?: string
   status: 'open' | 'closed'
   date: string
   url: string
   /** When the challenge went live (UTC). Leaderboard times count from here. */
   launchedAt: string
   prize: string
-  needs: string
+  /** Shown as "You need" in the facts card. Leave out to hide the row. */
+  needs?: string
   description: string
   /** Page headline. `accent` is the part of `text` set in blue italic. */
   headline: { text: string; accent: string }
@@ -34,7 +37,7 @@ export interface AfterHoursChallenge {
   postscript?: string
   /**
    * Live leaderboard JSON. A webhook on the challenge repo verifies each claim and adds it, so the page
-   * updates on its own (re-fetched at most once a minute).
+   * updates on its own (re-fetched at most once every 15 minutes).
    */
   leaderboardUrl?: string
   /** Fallback if the live leaderboard can't be reached. Fastest first. */
@@ -111,7 +114,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     title: 'The clocks are lying',
     status: 'open',
     date: '12 October 2026',
-    url: 'https://afterhours.rubixkube.ai',
+    url: 'https://afterhours.rubixkube.ai/002/',
     launchedAt: '2026-10-12T13:00:00Z',
     prize: 'The RubixKube kit',
     needs: 'A terminal, Docker, a browser and your own eyes',
@@ -146,7 +149,7 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
       },
       {
         type: 'p',
-        text: "I left my notes where I always leave them. Start at [afterhours.rubixkube.ai](https://afterhours.rubixkube.ai). Nothing there will hand itself to you, and that is on purpose. You'll need a terminal, Docker, a browser, and for the last part, your own eyes. Your tools can help you read the logs. They can't read that.",
+        text: "I left my notes where I always leave them. Start at [afterhours.rubixkube.ai/002](https://afterhours.rubixkube.ai/002/). Nothing there will hand itself to you, and that is on purpose. You'll need a terminal, Docker, a browser, and for the last part, your own eyes. Your tools can help you read the logs. They can't read that.",
       },
       {
         type: 'p',
@@ -162,6 +165,58 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     solvers: [],
     postscript:
       "Challenge 001 is still open. If you haven't found me yet, [start there](#letter-001).",
+  },
+  {
+    id: '003',
+    title: 'The Night Shift',
+    label: 'Grand Finale',
+    status: 'open',
+    date: '25 October 2026',
+    url: 'https://afterhours.rubixkube.ai',
+    launchedAt: '2026-10-25T04:30:00Z',
+    prize: 'The RubixKube kit',
+    leaderboardUrl: 'https://afterhours.rubixkube.ai/api/leaderboard?c=003',
+    description:
+      "Things keep going wrong on Rubix's watch, and every time it's his name on them. He puts them right. They come back. Something is off.",
+    headline: { text: 'The Night Shift.', accent: 'Night Shift.' },
+    subtitle:
+      "First he went missing. Then the clocks wouldn't agree. Now things keep breaking in his name, and nothing he fixes holds.",
+    poster: {
+      src: '/assets/after-hours/003-grand-finale.png',
+      alt: "Rubix stands on a stool in front of an evidence board covered in notes, photos and red string, a hand on his chin. Pinned notes read: Rubix is missing. The clocks are lying. It comes back. Every time. Is it me? Or something around me? Find what's off. I think I've been looking in the wrong place. The Grand Finale, 25 October, 10:00 IST.",
+      width: 1254,
+      height: 1254,
+    },
+    ogImage: '/assets/after-hours/003-og.jpg',
+    letter: [
+      { type: 'p', text: 'Dear builders,' },
+      { type: 'lead', text: 'Something is off.' },
+      {
+        type: 'p',
+        text: "You found me when I was gone. You put my clocks back in order when I couldn't trust my own time. I thought the strange nights were over.",
+      },
+      {
+        type: 'p',
+        text: "They aren't. Things keep going wrong on my watch, and every time it's my name on them. I didn't do them. I put them right, and by morning they're broken again, the same way, as if nothing I did ever held.",
+      },
+      {
+        type: 'p',
+        text: "I've checked myself over and over. I don't think it's me. I think something around me is wrong, and I can't see it from where I'm standing.",
+      },
+      { type: 'lead', text: 'I need hands, one last time.' },
+      {
+        type: 'p',
+        text: 'This is the Grand Finale. It opens at [afterhours.rubixkube.ai](https://afterhours.rubixkube.ai) on 25 October at 10:00 IST.',
+      },
+      {
+        type: 'p',
+        text: "Please don't post the steps or the answer while it's open. The last night should be everyone's to solve.",
+      },
+      { type: 'lead', text: "Help me find out what's off." },
+    ],
+    signoff: 'Rubix',
+    solvers: [],
+    postscript: 'Challenges 001 and 002 are still open. New here? [Start with 001](/after-hours/001).',
   },
 ]
 

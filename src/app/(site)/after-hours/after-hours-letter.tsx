@@ -67,7 +67,7 @@ function Leaderboard({ solvers }: { solvers: AfterHoursSolver[] }) {
     <div className={card}>
       <div className="flex items-baseline justify-between gap-4 border-b border-[var(--rule)] px-5 pt-5 pb-4">
         <h2 className={`${serif} text-[1.5rem] leading-none font-light text-[var(--ink)]`}>
-          Found <span className="italic text-[var(--blue)]">him.</span>
+          Solved <span className="italic text-[var(--blue)]">by.</span>
         </h2>
         <span className={`${mono} text-[13px] font-light text-[var(--mid)]`}>
           {solvers.length} {solvers.length === 1 ? 'operator' : 'operators'}
@@ -128,7 +128,7 @@ function Details({ challenge, solvers }: { challenge: AfterHoursChallenge; solve
     ['Prize', challenge.prize],
     ['Won by', winner ? `@${winner.github}` : 'Nobody yet'],
     ['Everyone else', 'An Operator Key'],
-    ['You need', challenge.needs],
+    ...(challenge.needs ? [['You need', challenge.needs] as [string, string]] : []),
   ]
   return (
     <div className={`${card} px-5 py-5`}>
@@ -185,6 +185,7 @@ function LetterSection({ challenge, solvers, first }: { challenge: AfterHoursCha
             <header className="mb-8">
               <p className={cn(`${mono} tracking-[0.2em] text-[var(--mid)] uppercase`, rkMono10)}>
                 After Hours · Challenge {challenge.id}
+                {challenge.label && ` · ${challenge.label}`}
                 {!open && ' · Closed'}
               </p>
               <h2 className={`${serif} mt-3 text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] font-light tracking-[-0.01em] text-[var(--ink)]`}>
@@ -277,6 +278,7 @@ export async function AfterHoursLetter({ challenge, path, also = [] }: { challen
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <span className={cn(`${mono} mb-8 tracking-[0.2em] text-[var(--mid)] uppercase`, rkMono10)}>
               After Hours · Challenge {challenge.id}
+              {challenge.label && ` · ${challenge.label}`}
               {!open && ' · Closed'}
             </span>
 
@@ -301,7 +303,7 @@ export async function AfterHoursLetter({ challenge, path, also = [] }: { challen
 
             {solvers.length > 0 && (
               <a href="#found" className={`${mono} mt-8 text-[13px] font-light text-[var(--mid)] underline-offset-4 hover:text-[var(--blue)] hover:underline`}>
-                Found by {solvers.length} so far. Fastest: {formatElapsed(solvers[0].elapsed)}.
+                Solved by {solvers.length} so far. Fastest: {formatElapsed(solvers[0].elapsed)}.
               </a>
             )}
           </div>
