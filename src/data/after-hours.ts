@@ -34,7 +34,7 @@ export interface AfterHoursChallenge {
   postscript?: string
   /**
    * Live leaderboard JSON. A webhook on the challenge repo verifies each claim and adds it, so the page
-   * updates on its own (re-fetched at most once every 15 minutes).
+   * updates on its own (re-fetched at most once a minute).
    */
   leaderboardUrl?: string
   /** Fallback if the live leaderboard can't be reached. Fastest first. */
@@ -162,63 +162,6 @@ export const AFTER_HOURS_CHALLENGES: AfterHoursChallenge[] = [
     solvers: [],
     postscript:
       "Challenge 001 is still open. If you haven't found me yet, [start there](#letter-001).",
-  },
-  {
-    id: '003',
-    title: 'Night shift',
-    status: 'open',
-    date: '25 October 2026',
-    url: 'https://afterhours.rubixkube.ai/night',
-    launchedAt: '2026-10-25T04:30:00Z',
-    prize: 'The RubixKube kit',
-    needs: 'A terminal, Docker and a browser',
-    leaderboardUrl: 'https://afterhours.rubixkube.ai/api/leaderboard?c=003',
-    description:
-      "The gateway Rubix watches is throwing 502s, and someone has been on his box, logged in under his name. He can see it. He can't stop it. He needs hands.",
-    headline: { text: "Someone's using my name.", accent: 'name.' },
-    subtitle:
-      "Rubix is on night watch over gw-02. The gateway is down, something keeps undoing every fix, and the logs say he logged in from an address that isn't his. He needs hands.",
-    poster: {
-      src: '/assets/after-hours/003-night-shift.png',
-      alt: 'Rubix, the blue mascot, cheering on top of a server rack as a human hand presses the glowing green power button, a city skyline lit gold behind him at sunrise, blue cubes drifting in the air.',
-      width: 1254,
-      height: 1254,
-    },
-    ogImage: '/assets/after-hours/003-og.jpg',
-    letter: [
-      { type: 'p', text: 'Dear builders,' },
-      { type: 'lead', text: 'Someone got onto my box. They used my name.' },
-      {
-        type: 'p',
-        text: "I was on night watch over gw-02, the gateway I keep. At 03:12 it stopped answering, and every request since is a 502. When I went looking, the logs said I had logged in at 03:11, a minute before it broke, from an address that isn't mine. I did not do that.",
-      },
-      {
-        type: 'p',
-        text: 'I fix the gateway and it comes back broken. Something I did not install keeps putting my config back the way it wants it, every few seconds, under my own name. I can read all of it from the inside. I cannot make it stop from the inside.',
-      },
-      { type: 'lead', text: 'I need hands.' },
-      {
-        type: 'p',
-        text: 'Get on the box. Get the gateway healthy and keep it that way, which means stopping the thing that keeps breaking it, for good. Then read the trail and tell me who got in. I thought it was a person. Read it, and tell me if I am right.',
-      },
-      {
-        type: 'p',
-        text: "Start at [afterhours.rubixkube.ai/night](https://afterhours.rubixkube.ai/night). Nothing there hands itself to you, on purpose. You'll need a terminal, Docker and a browser. Your tools can do the work on the box. The judgment at the end is yours.",
-      },
-      {
-        type: 'p',
-        text: 'The first person to clear my name gets the RubixKube kit, with a Rubix of your own to keep. Everyone who does gets a third Operator Key. If you hold the earlier ones, bring them. I remember people who came back.',
-      },
-      {
-        type: 'p',
-        text: "Please don't post the steps or the answer while this is open. The next person deserves their own night.",
-      },
-      { type: 'lead', text: 'Clear my name.' },
-    ],
-    signoff: 'Rubix',
-    solvers: [],
-    postscript:
-      'Challenges 001 and 002 are still open. New here? [Start with 001](/after-hours/001).',
   },
 ]
 
