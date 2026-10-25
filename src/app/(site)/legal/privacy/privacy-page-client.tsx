@@ -32,6 +32,7 @@ export function PrivacyPageClient() {
     { title: "How We Use Data", href: "#how-we-use-data" },
     { title: "Data Protection", href: "#data-protection" },
     { title: "Your Rights", href: "#your-rights" },
+    { title: "Hubble Mobile App", href: "#mobile-app" },
     { title: "Contact Us", href: "#contact" },
   ]
 
@@ -46,7 +47,7 @@ export function PrivacyPageClient() {
           className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]"
         >
           <span>Effective Date: June 25, 2025</span>
-          <span>Last Updated: October 9, 2026</span>
+          <span>Last Updated: October 25, 2026</span>
         </div>
 
         {/* Quick Navigation */}
@@ -90,7 +91,7 @@ export function PrivacyPageClient() {
               <h2 className={sectionTitle}>Introduction</h2>
               <p className={`m-0 ${bodyText}`}>
                 This Privacy Policy applies to all users of RubixKube™ services, including our website, 
-                platform, APIs, and integrations. By using RubixKube™, you agree to the practices described 
+                platform, APIs, integrations, and mobile applications such as Hubble by RubixKube. By using RubixKube™, you agree to the practices described 
                 in this document.
               </p>
             </motion.section>
@@ -276,6 +277,46 @@ export function PrivacyPageClient() {
                 your own provider). No Slack data is used to train models. To remove Rubix, disconnect
                 Slack in the console or remove the app in Slack; either stops all reading at once. Data
                 requests go to the address below.
+              </p>
+            </motion.section>
+
+            {/* Hubble mobile app */}
+            <motion.section 
+              id="mobile-app"
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
+            >
+              <h2 className={sectionTitle}>Hubble Mobile App</h2>
+              <p className={`m-0 ${bodyText}`}>
+                When you use the Hubble by RubixKube mobile app, we process your user and organization
+                identifiers; a session for each paired device (the platform, a device label, and when it
+                was paired and last used); the push notification token your phone provides and whether
+                notifications are turned on for the app; reports that a notification was received or
+                opened; the incident actions you take, such as acknowledging or resolving; and content you
+                enter, such as the title and details of a page or the reason for a schedule override.
+              </p>
+              <p className={`m-0 mt-5 ${bodyText}`}>
+                We use this to sign you in, deliver pages to your phone, record what happens to an
+                incident, and show whether notifications will reach you. The app does not collect your
+                location, contacts, photos, or advertising identifiers. It contains no advertising and no
+                third-party analytics, and we do not use it to track you across other apps or websites.
+                Its connections to our servers use HTTPS, and your session is kept in your phone&apos;s
+                secure storage.
+              </p>
+              <p className={`m-0 mt-5 ${bodyText}`}>
+                Push notifications are delivered through Google Firebase Cloud Messaging on Android and,
+                once iPhone push notifications are available, through Apple Push Notification service.
+                Your session and push registration are removed when you sign out or revoke the device in
+                Hubble on the web, and a device session expires 30 days after pairing. Incident history,
+                including the actions you took, is kept for as long as your organization keeps it. To ask
+                for your data to be deleted, write to{' '}
+                <a href="mailto:privacy@rubixkube.ai" className={inlineLink}>
+                  privacy@rubixkube.ai
+                </a>{' '}
+                from the address on your account.
               </p>
             </motion.section>
 
