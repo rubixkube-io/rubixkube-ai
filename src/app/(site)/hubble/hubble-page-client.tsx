@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
+import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { BillingToggle } from '@/components/ui/billing-toggle'
 import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
@@ -313,8 +314,18 @@ function Includes({ items }: { items: readonly string[] }) {
   )
 }
 
-/** No direct payment: every plan's button books a call. The recommended plan has the one solid button. */
-function PlanButton({ recommended }: { recommended: boolean }) {
+/**
+ * Hubble on its own is bought here (/hubble/buy); the other plans book a call. The recommended plan has the
+ * one solid button.
+ */
+function PlanButton({ name, recommended, billing }: { name: string; recommended: boolean; billing: 'monthly' | 'annual' }) {
+  if (name === 'Hubble') {
+    return (
+      <Button asChild variant="outline" className={cn('h-12 w-full', outlineBlueAccentMd)}>
+        <Link href={`/hubble/buy?billing=${billing}`}>Buy now</Link>
+      </Button>
+    )
+  }
   return recommended ? (
     <CalendlyBooking url={CALENDLY_DEMO_URL} className={cn(siteButtonCalendly, '!w-full')}>
       Contact us
@@ -358,7 +369,7 @@ function Pricing() {
                 {plan.price[billing]}
               </p>
               <p className={`${sans} mt-2 mb-6 text-[15px] text-[var(--mid)]`}>{plan.unit[billing]}</p>
-              <PlanButton recommended={plan.recommended} />
+              <PlanButton name={plan.name} recommended={plan.recommended} billing={billing} />
               <hr className="my-8 border-[var(--rule)]" />
               <Includes items={plan.includes} />
               {plan.recommended && (
