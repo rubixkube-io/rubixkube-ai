@@ -40,6 +40,7 @@ interface RazorpayPayment {
 
 interface RazorpayCheckout {
   open: () => void
+  close?: () => void
   on: (event: 'payment.failed', handler: (response: { error?: { description?: string } }) => void) => void
 }
 
@@ -84,6 +85,19 @@ export function startCheckout(form: CheckoutForm): Promise<Checkout> {
   })
 }
 
+/** Asks orchestrator whether Razorpay has the subscription paid. Any failure reads as not yet. */
+async function isPaid(subscriptionId: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${HUBBLE_API_URL}/billing/hubble/checkout/${encodeURIComponent(subscriptionId)}/status`)
+    return response.ok && (await response.json())?.paid === true
+  } catch {
+    return false
+  }
+}
+
+/** How often the page asks while Checkout is open */
+const PAID_CHECK_MS = 5000
+
 let loading: Promise<void> | null = null
 
 function loadRazorpay(): Promise<void> {
@@ -107,13 +121,27 @@ export type PaymentOutcome =
   /** Checkout was closed without a payment; `error` is the last failed attempt's reason, if any */
   | { status: 'closed'; error?: string }
 
-/** Opens Razorpay Checkout for the subscription. A failed attempt keeps Checkout open for another try. */
+/**
+ * Opens Razorpay Checkout for the subscription. A failed attempt keeps Checkout open for another try.
+ *
+ * Checkout's success callback does not always reach the page: when the card's 3-D Secure window cannot report
+ * back, Razorpay takes the money and the page hears nothing, and a buyer who sees nothing may pay again. So
+ * while Checkout is open, and once more when it closes, the page also asks orchestrator whether it is paid.
+ */
 export async function pay(checkout: Checkout, form: CheckoutForm): Promise<PaymentOutcome> {
   await loadRazorpay()
   const Razorpay = window.Razorpay
   if (!Razorpay) throw new Error('The payment form did not load. Try again.')
   return new Promise<PaymentOutcome>((resolve) => {
     let failure: string | undefined
+    let done = false
+    const paid: PaymentOutcome = { status: 'paid', email: form.email, company: form.company }
+    const finish = (outcome: PaymentOutcome) => {
+      if (done) return
+      done = true
+      window.clearInterval(timer)
+      resolve(outcome)
+    }
     const razorpay = new Razorpay({
       key: checkout.key_id,
       subscription_id: checkout.subscription_id,
@@ -124,15 +152,27 @@ export async function pay(checkout: Checkout, form: CheckoutForm): Promise<Payme
       theme: { color: '#2F5BFF' },
       handler: (payment: RazorpayPayment) => {
         post<{ email: string; company: string }>('/billing/hubble/checkout/confirm', payment)
-          .then((confirmed) => resolve({ status: 'paid', ...confirmed }))
+          .then((confirmed) => finish({ status: 'paid', ...confirmed }))
           // The payment went through even if this check did not answer; the email still comes
-          .catch(() => resolve({ status: 'paid', email: form.email, company: form.company }))
+          .catch(() => finish(paid))
       },
-      modal: { ondismiss: () => resolve({ status: 'closed', error: failure }) },
+      modal: {
+        // Closed by the buyer: paid anyway if the money went through before they closed it
+        ondismiss: () => {
+          isPaid(checkout.subscription_id).then((yes) => finish(yes ? paid : { status: 'closed', error: failure }))
+        },
+      },
     })
     razorpay.on('payment.failed', (response) => {
       failure = response.error?.description || 'The payment did not go through.'
     })
+    const timer = window.setInterval(() => {
+      isPaid(checkout.subscription_id).then((yes) => {
+        if (!yes || done) return
+        razorpay.close?.()
+        finish(paid)
+      })
+    }, PAID_CHECK_MS)
     razorpay.open()
   })
 }
