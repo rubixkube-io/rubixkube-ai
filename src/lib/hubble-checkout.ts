@@ -86,7 +86,7 @@ export function startCheckout(form: CheckoutForm): Promise<Checkout> {
 }
 
 /** Asks orchestrator whether Razorpay has the subscription paid. Any failure reads as not yet. */
-async function isPaid(subscriptionId: string): Promise<boolean> {
+export async function isPaid(subscriptionId: string): Promise<boolean> {
   try {
     const response = await fetch(`${HUBBLE_API_URL}/billing/hubble/checkout/${encodeURIComponent(subscriptionId)}/status`)
     return response.ok && (await response.json())?.paid === true
@@ -97,6 +97,42 @@ async function isPaid(subscriptionId: string): Promise<boolean> {
 
 /** How often the page asks while Checkout is open */
 const PAID_CHECK_MS = 5000
+
+/** The order being paid, kept in the tab across Razorpay's redirect (see /hubble/buy/return) */
+export interface PendingOrder {
+  subscriptionId: string
+  email: string
+  company: string
+}
+
+const PENDING_KEY = 'rk.hubble.pendingOrder'
+
+function rememberOrder(order: PendingOrder) {
+  try {
+    sessionStorage.setItem(PENDING_KEY, JSON.stringify(order))
+  } catch {
+    // private mode: the return page falls back to generic wording
+  }
+}
+
+export function pendingOrder(subscriptionId: string): PendingOrder | null {
+  try {
+    const order = JSON.parse(sessionStorage.getItem(PENDING_KEY) || 'null') as PendingOrder | null
+    return order?.subscriptionId === subscriptionId ? order : null
+  } catch {
+    return null
+  }
+}
+
+/** Asks until the subscription reads as paid or the time runs out (Razorpay can take a moment to settle). */
+export async function waitUntilPaid(subscriptionId: string, timeoutMs = 60_000): Promise<boolean> {
+  const until = Date.now() + timeoutMs
+  for (;;) {
+    if (await isPaid(subscriptionId)) return true
+    if (Date.now() > until) return false
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+  }
+}
 
 let loading: Promise<void> | null = null
 
@@ -124,14 +160,17 @@ export type PaymentOutcome =
 /**
  * Opens Razorpay Checkout for the subscription. A failed attempt keeps Checkout open for another try.
  *
- * Checkout's success callback does not always reach the page: when the card's 3-D Secure window cannot report
- * back, Razorpay takes the money and the page hears nothing, and a buyer who sees nothing may pay again. So
- * while Checkout is open, and once more when it closes, the page also asks orchestrator whether it is paid.
+ * Checkout's success callback does not always reach the page. When popups are blocked (in-app browsers, some
+ * settings) the card's 3-D Secure step takes over the whole tab, so Razorpay is given a callback_url
+ * (/hubble/buy/return) that brings the buyer back to /hubble/buy?paid=<subscription>, and the order is kept in
+ * the tab for that page. While Checkout is open, and once more when it closes, the page also asks orchestrator
+ * whether it is paid, so a buyer who pays never sees nothing and pays again.
  */
 export async function pay(checkout: Checkout, form: CheckoutForm): Promise<PaymentOutcome> {
   await loadRazorpay()
   const Razorpay = window.Razorpay
   if (!Razorpay) throw new Error('The payment form did not load. Try again.')
+  rememberOrder({ subscriptionId: checkout.subscription_id, email: form.email, company: form.company })
   return new Promise<PaymentOutcome>((resolve) => {
     let failure: string | undefined
     let done = false
@@ -150,6 +189,8 @@ export async function pay(checkout: Checkout, form: CheckoutForm): Promise<Payme
       prefill: { name: form.name, email: form.email },
       notes: { company: form.company },
       theme: { color: '#2F5BFF' },
+      callback_url: `${window.location.origin}/hubble/buy/return`,
+      redirect: true,
       handler: (payment: RazorpayPayment) => {
         post<{ email: string; company: string }>('/billing/hubble/checkout/confirm', payment)
           .then((confirmed) => finish({ status: 'paid', ...confirmed }))

@@ -16,7 +16,9 @@ import {
   HUBBLE_MAX_SEATS,
   HUBBLE_SEAT_PRICE,
   pay,
+  pendingOrder,
   startCheckout,
+  waitUntilPaid,
 } from '@/lib/hubble-checkout'
 
 const sans = 'font-[family-name:var(--font-figtree)]'
@@ -30,7 +32,14 @@ const textLink = 'text-[var(--ink)] underline decoration-[var(--rule)] underline
 
 const usd = (n: number) => `$${n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0 })}`
 
-type Stage = { step: 'form' } | { step: 'paying' } | { step: 'paid'; email: string; company: string }
+type Stage =
+  | { step: 'form' }
+  | { step: 'paying' }
+  /** Back from Razorpay (/hubble/buy/return), asking orchestrator whether it is paid */
+  | { step: 'confirming' }
+  | { step: 'unconfirmed' }
+  /** email and company are empty when the tab lost the order (private mode) */
+  | { step: 'paid'; email: string; company: string }
 
 export function BuyPageClient() {
   const [billing, setBilling] = useState<Billing>('monthly')
@@ -38,9 +47,21 @@ export function BuyPageClient() {
   const [stage, setStage] = useState<Stage>({ step: 'form' })
   const [error, setError] = useState('')
 
-  // /hubble/buy?billing=annual keeps the choice made on the pricing card
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('billing') === 'annual') setBilling('annual')
+    const params = new URLSearchParams(window.location.search)
+    // /hubble/buy?billing=annual keeps the choice made on the pricing card
+    if (params.get('billing') === 'annual') setBilling('annual')
+    // Back from Razorpay after the card step took over the tab (/hubble/buy/return)
+    const returned = params.get('paid')
+    const failed = params.get('failed')
+    if (returned || failed !== null) window.history.replaceState(null, '', window.location.pathname)
+    if (failed !== null) setError(`${failed || 'The payment did not go through.'} You have not been charged.`)
+    if (!returned) return
+    const order = pendingOrder(returned)
+    setStage({ step: 'confirming' })
+    waitUntilPaid(returned).then((paid) =>
+      setStage(paid ? { step: 'paid', email: order?.email ?? '', company: order?.company ?? '' } : { step: 'unconfirmed' }),
+    )
   }, [])
 
   const count = Number.parseInt(seats, 10)
@@ -78,15 +99,33 @@ export function BuyPageClient() {
     }
   }
 
-  if (stage.step === 'paid') {
+  if (stage.step === 'confirming' || stage.step === 'unconfirmed') {
     return (
       <>
         <Navbar />
         <section className="bg-[var(--bg)]">
-          <PageHero
-            title="Payment received."
-            lede={`We're setting up ${stage.company} on Hubble.`}
-          />
+          {stage.step === 'confirming' ? (
+            <PageHero title="Checking your payment." lede="This takes a few seconds." />
+          ) : (
+            <PageHero
+              title="We couldn't confirm your payment yet."
+              lede="If your card was charged, the email with your link still comes. Nothing arrived within an hour? Write to connect@rubixkube.ai."
+            />
+          )}
+        </section>
+        <Footer />
+      </>
+    )
+  }
+
+  if (stage.step === 'paid') {
+    const company = stage.company || 'your organization'
+    const email = stage.email ? <strong>{stage.email}</strong> : 'the address you entered'
+    return (
+      <>
+        <Navbar />
+        <section className="bg-[var(--bg)]">
+          <PageHero title="Payment received." lede={`We're setting up ${company} on Hubble.`} />
           <div className="rk-landing-max px-[var(--pad)] pb-28">
             <motion.div
               variants={fadeUpVariants}
@@ -98,11 +137,12 @@ export function BuyPageClient() {
                 <Mail className="h-5 w-5 text-[var(--green)]" />
               </div>
               <p className={`m-0 ${sans} text-[17px] leading-[1.6] text-[var(--ink)]`}>
-                In a minute or two you&apos;ll get an email at <strong>{stage.email}</strong> with a link to set up{' '}
-                {stage.company}. You&apos;re its admin.
+                In a minute or two you&apos;ll get an email at {email} with a link to set up {company}.
+                You&apos;re its admin.
               </p>
               <p className={`m-0 mt-4 ${sans} text-[15px] leading-[1.6] text-[var(--mid)]`}>
-                Sign in from that link, as {stage.email}. Signing in any other way makes a separate, empty organization.
+                Sign in from that link, as {stage.email || 'that address'}. Signing in any other way makes a separate,
+                empty organization.
                 The link works for 14 days. No email? Check spam, then write to{' '}
                 <a href="mailto:connect@rubixkube.ai" className={textLink}>connect@rubixkube.ai</a>.
               </p>
