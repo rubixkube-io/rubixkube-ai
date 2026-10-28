@@ -15,7 +15,7 @@ import { siteButton, siteButtonCalendly, siteLink, siteLinkArrow } from '@/lib/s
 import { cn } from '@/lib/utils'
 import { ArrowRight, BellRing, CheckCircle, Mail, MessageSquare, Smartphone } from 'lucide-react'
 
-const HUBBLE_APP_URL = 'https://oncall.rubixkube.ai'
+const HUBBLE_APP_URL = 'https://console.rubixkube.ai'
 
 const INCIDENT = 'Checkout error rate is high'
 
@@ -515,7 +515,7 @@ export function HubblePageClient() {
             <div className="overflow-hidden rounded-3xl shadow-[0_48px_96px_-40px_rgba(17,19,24,0.5)]">
               <Image
                 src={SHOTS.hero.src}
-                alt="Hubble On call page at oncall.rubixkube.ai: who is on call for each service, and the next handoffs"
+                alt="Hubble On call page: who is on call for each service, and the next handoffs"
                 width={SHOTS.hero.w}
                 height={SHOTS.hero.h}
                 sizes="(max-width: 1024px) 100vw, 60vw"
