@@ -11,7 +11,6 @@ import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { useKeyShortcut } from '@/lib/use-key-shortcut'
 import { useTheme } from '@/components/theme-provider'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
-import { fadeUpVariants } from '@/lib/animations'
 import { cn } from '@/lib/utils'
 import { useReferenceGuidesNav, useRecentNav } from '@/components/reference-pages-nav-provider'
 import { urlFor } from '@/lib/sanity.client'
@@ -611,11 +610,8 @@ export function Navbar() {
   const pricingActive = pathname === '/pricing' || pathname.startsWith('/pricing/')
 
   return (
-    <motion.header
+    <header
       ref={navShellRef}
-      variants={fadeUpVariants}
-      initial={prefersReducedMotion ? 'visible' : 'hidden'}
-      animate="visible"
       className={cn(
         'fixed top-[var(--announce-h)] right-0 left-0 z-[100] overflow-visible pt-[var(--nav-gap-top)] font-[family-name:var(--font-figtree)] transition-[background-color,border-color,backdrop-filter] duration-300',
         scrolled || megaDesktop || isOpen
@@ -827,7 +823,7 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   )
 }
 

@@ -2,7 +2,7 @@
 
 /* RubixKube redesign — warm editorial palette (light only for now) */
 :root {
-  /* Same family names as redesign.html Google Fonts CSS (not next/font — avoids heavier fallbacks / subset mismatch) */
+  /* Same family names as redesign.html, faces in fonts.css (not next/font — avoids heavier fallbacks / subset mismatch) */
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-mono: "DM Mono", ui-monospace, monospace;
   /* The console's sans, used only for long reading: article bodies and legal pages */
