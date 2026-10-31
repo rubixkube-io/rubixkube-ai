@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
 import { ThemeProvider, themeInitScript } from '@/components/theme-provider'
+import './fonts.css'
 import './globals.css'
-
-/** Same stylesheet as redesign.html — next/font was rendering heavier than the standalone prototype. */
-const GOOGLE_FONTS_HREF =
-  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Figtree:ital,wght@0,300..700;1,300..700&family=Rajdhani:wght@400;700&display=swap'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rubixkube.ai'),
@@ -52,9 +49,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href={GOOGLE_FONTS_HREF} rel="stylesheet" />
+        <link rel="preload" href="/fonts/figtree-normal-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#f2f0eb" />
         <meta name="msapplication-TileColor" content="#f2f0eb" />

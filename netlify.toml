@@ -1,4 +1,4 @@
-# Build settings stay in the Netlify UI. This file only proxies PostHog.
+# Build settings stay in the Netlify UI. This file proxies PostHog and sets the font cache.
 
 # PostHog ingest, proxied at Netlify's edge so the body is passed through byte for byte.
 # The same rewrite in next.config.ts goes through the Next runtime, which re-encodes a
@@ -24,3 +24,10 @@
   to = "https://us.i.posthog.com/:splat"
   status = 200
   force = true
+
+# The headers in next.config.ts do not reach static files on Netlify. Font file names never
+# change, so a repeat visit paints from the cache with no round trip.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
