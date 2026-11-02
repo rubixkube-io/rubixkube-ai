@@ -379,13 +379,13 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
                     {...(prefersReducedMotion ? { initial: 'visible' } : { ...fadeUp, transition: { delay: idx * 0.08 } })}
                     className="rounded-2xl bg-[var(--panel)] p-8 ring-1 ring-[var(--rule)]"
                   >
-                    <div className="flex items-start justify-between mb-3">
+                    <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1 mb-3">
                       <h3 className="rk-section-title m-0 text-[1.2rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">
                         {study.title}
                       </h3>
                       <span
                         className={cn(
-                          'shrink-0 ml-3 pt-1 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] uppercase',
+                          'pt-1 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.1em] uppercase',
                           study.status === 'Tutorial Available' || study.status === 'Live Demo'
                             ? 'text-[var(--green)]'
                             : 'text-[var(--mid)]',
@@ -447,7 +447,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {handsonTutorials.map((tut, i) => {
               const Icon = tut.icon
               return (
@@ -505,7 +505,7 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {supportResources.map((res, i) => {
               const Icon = res.icon
               return (

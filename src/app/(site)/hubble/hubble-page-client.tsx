@@ -195,8 +195,8 @@ function EscalationLevels() {
       <p className={cardLabel}>Escalation policy · Checkout</p>
       <ol className="space-y-3">
         {LEVELS.map((l) => (
-          <li key={l.level} className="flex items-center justify-between gap-3 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-4 py-3 whitespace-nowrap">
-            <div className="flex items-center gap-3">
+          <li key={l.level} className="flex items-center justify-between gap-2 rounded-md border border-[var(--rule)] bg-[var(--background-secondary)] px-3 py-3 whitespace-nowrap">
+            <div className="flex items-center gap-2">
               <span className={`${mono} text-[12px] tracking-[0.15em] text-[var(--mid)] uppercase`}>{l.level}</span>
               <span className={`${sans} text-[14px] font-medium text-[var(--ink)]`}>{l.who}</span>
             </div>
@@ -340,7 +340,7 @@ function Pricing() {
           <p className={lead}>Pay monthly, or save 15% with annual billing.</p>
         </motion.div>
         <BillingToggle isAnnual={isAnnual} onToggle={() => setIsAnnual(!isAnnual)} />
-        <motion.div {...reveal} className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <motion.div {...reveal} className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {PLANS.map((plan) => (
             <div
               key={plan.name}
@@ -413,7 +413,7 @@ function SectionBar() {
         <a href="#top" className="shrink-0">
           <HubbleLockup />
         </a>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-8 lg:flex">
           {SECTIONS.map((s) => (
             <a
               key={s.id}
@@ -551,47 +551,47 @@ export function HubblePageClient() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-6">
             <Tile
-              span="md:col-span-4"
+              span="md:col-span-2 lg:col-span-4"
               title="Incidents"
               copy="What needs you first, who is on each incident, and where it stands: triggered, paged, acknowledged or resolved."
               tall
               visual={<Float shot={SHOTS.incidents} alt="Hubble incidents list with Needs you and Open groups" width={0.9} left={5} top={12} fits />}
             />
             <Tile
-              span="md:col-span-2"
+              span="lg:col-span-2"
               title="Acknowledgements"
               copy="One tap acknowledges a page. Escalation stops, and the team sees who has it."
               tall
               visual={<Float shot={SHOTS.needsYou} alt="An incident waiting for acknowledgement, with its paging progress" width={2.5} left={-150} top={40} />}
             />
             <Tile
-              span="md:col-span-3"
+              span="lg:col-span-3"
               title="Rosters"
               copy="Rotations with layers and overrides. Everyone can see who is on call now and who is next."
               visual={<Float shot={SHOTS.onCallNow} alt="Who is on call now for each service" width={1.45} left={7} top={14} />}
             />
             <Tile
-              span="md:col-span-3"
+              span="lg:col-span-3"
               title="Handoffs"
               copy="Every handoff coming up, and who takes over, before it happens."
               visual={<Float shot={SHOTS.handoffs} alt="Upcoming handoffs between responders" width={1.45} left={7} top={22} />}
             />
             <Tile
-              span="md:col-span-2"
+              span="lg:col-span-2"
               title="Escalation policies"
               copy="Who is paged at each level, and how long Hubble waits before the next one."
               visual={<FloatCard><EscalationLevels /></FloatCard>}
             />
             <Tile
-              span="md:col-span-2"
+              span="lg:col-span-2"
               title="Contact rules"
               copy="Each person chooses how they are paged and how soon. High and low urgency get their own rules."
               visual={<FloatCard><ContactRules /></FloatCard>}
             />
             <Tile
-              span="md:col-span-2"
+              span="lg:col-span-2"
               title="Slack"
               copy="Ask who is on call, see new pages and acknowledge them without leaving Slack."
               visual={<FloatCard><SlackThread /></FloatCard>}

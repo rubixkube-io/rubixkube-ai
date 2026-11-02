@@ -290,8 +290,8 @@ export function ContactPageClient() {
                     </p>
                   )}
 
-                  <div className="flex items-center justify-between gap-6 pt-2">
-                    <p className="m-0 font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)]">
+                  <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 pt-2">
+                    <p className="m-0 flex-[1_1_16rem] font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)]">
                       By submitting you agree to our{' '}
                       <Link href="/legal/privacy" className="text-[var(--ink)] underline decoration-[var(--rule)] underline-offset-4 hover:decoration-[var(--ink)]">
                         Privacy Policy
@@ -304,7 +304,7 @@ export function ContactPageClient() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`${siteButton} shrink-0 cursor-pointer disabled:cursor-default disabled:opacity-60`}
+                      className={`${siteButton} w-full shrink-0 cursor-pointer disabled:cursor-default disabled:opacity-60 sm:w-auto`}
                     >
                       {isLoading ? 'Sending…' : 'Send Message'}
                     </button>

@@ -351,7 +351,7 @@ export function StatusPageClient() {
                       return (
                         <div key={svc.name} className="flex items-center gap-4 px-5 py-4">
                           <div className={`h-2 w-2 rounded-full shrink-0 ${cfg.dot}`} />
-                          <span className="flex-1 font-[family-name:var(--font-mono)] text-[14px] text-[var(--ink)] min-w-0 truncate">
+                          <span className="flex-1 font-[family-name:var(--font-mono)] text-[14px] text-[var(--ink)] min-w-0">
                             {svc.name}
                           </span>
                           <UptimeBars bars={bars} />

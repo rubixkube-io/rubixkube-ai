@@ -82,7 +82,7 @@ function Leaderboard({ solvers }: { solvers: AfterHoursSolver[] }) {
             <li
               key={s.github}
               className={cn(
-                `${mono} grid grid-cols-[2rem_1fr_auto] items-center gap-2 border-b border-[var(--rule)] px-5 py-3.5 text-[13px] font-light last:border-b-0`,
+                `${mono} grid grid-cols-[2rem_minmax(0,1fr)_auto] items-center gap-2 border-b border-[var(--rule)] px-5 py-3.5 text-[13px] font-light last:border-b-0`,
                 i === 0 && 'bg-[var(--blue)]/[0.04]',
               )}
             >
@@ -171,7 +171,7 @@ function LetterSection({ challenge, solvers, first }: { challenge: AfterHoursCha
       id={first ? 'letter' : `letter-${challenge.id}`}
       className="scroll-mt-[var(--nav-stack)] border-t border-[var(--rule)] bg-[var(--background-secondary)] px-[var(--pad)] py-16 sm:py-24"
     >
-      <div className="rk-landing-max grid items-start gap-8 lg:grid-cols-[minmax(0,680px)_340px] lg:justify-center lg:gap-12">
+      <div className="rk-landing-max grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,680px)_340px] lg:justify-center lg:gap-12">
         <aside
           id={first ? 'found' : `found-${challenge.id}`}
           className="scroll-mt-[calc(var(--nav-stack)+1.5rem)] space-y-6 lg:sticky lg:top-[calc(var(--nav-stack)+1.5rem)] lg:order-2"
