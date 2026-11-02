@@ -131,7 +131,7 @@ export function AboutPageClient() {
               </h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
               {BELIEFS.map((belief) => (
                 <motion.div
                   key={belief.title}

@@ -147,7 +147,7 @@ export function PricingPageClient() {
             variants={fadeUpVariants}
             {...(prefersReducedMotion ? { initial: 'visible' } : fadeUp)}
           >
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {TIERS.map((tier) => (
                 <div
                   key={tier.name}
@@ -234,13 +234,13 @@ export function PricingPageClient() {
                   <div
                     key={s.l}
                     className={cn(
-                      'flex flex-col gap-2.5 bg-[var(--bg)] px-8 py-10 transition-colors hover:bg-[var(--surface)]',
+                      'flex flex-col gap-2.5 bg-[var(--bg)] px-5 py-10 transition-colors sm:px-8 hover:bg-[var(--surface)]',
                       !isLast && 'border-r border-[var(--rule)]',
                       i === 1 && 'border-r-0 md:border-r',
                       i < 2 && 'border-b border-[var(--rule)] md:border-b-0',
                     )}
                   >
-                    <div className="font-[family-name:var(--font-mono)] text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-normal tracking-[-0.04em] text-[var(--ink)]">
+                    <div className="font-[family-name:var(--font-mono)] text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-normal whitespace-nowrap tracking-[-0.04em] text-[var(--ink)]">
                       {s.n}
                       <span className="text-[0.4em] font-light tracking-normal text-[var(--mid)]">
                         {s.u}

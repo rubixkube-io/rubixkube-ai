@@ -261,7 +261,7 @@ function CopyCommand({ label, command }: { label?: string; command: string }) {
     <div className="min-w-0">
       {label && <p className={`${mono} mb-2 text-[13px] text-[var(--mid)]`}>{label}</p>}
       <div className="flex items-center gap-3 rounded-lg border border-[var(--rule)] bg-[var(--background-secondary)] py-2.5 pr-2 pl-4">
-        <code className={`${mono} min-w-0 flex-1 truncate text-[12.5px] text-[var(--ink)]`}>{command}</code>
+        <code className={`${mono} min-w-0 flex-1 text-[12.5px] [overflow-wrap:anywhere] text-[var(--ink)]`}>{command}</code>
         <button
           type="button"
           onClick={copy}
@@ -415,7 +415,7 @@ export function PlatformPageClient() {
             </h2>
             <p className={sectionLead}>Alerts from your observers and monitoring tools arrive as incidents. Each one is investigated, explained and resolved in one place.</p>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
             {OUTCOMES.map((o, i) => (
               <motion.div
                 key={o.label}
@@ -560,13 +560,15 @@ export function PlatformPageClient() {
                 </div>
               </div>
               {AI_TOOLS.map((t) => (
-                <div key={t.name} className="flex flex-wrap items-center gap-4 p-6">
-                  <ToolLogo logo={t.logo} invert={'mono' in t} />
-                  <div className="min-w-0 flex-1">
-                    <p className={rowTitle}>{t.name}</p>
-                    <p className={rowBody}>{t.line}</p>
+                <div key={t.name} className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center">
+                  <div className="flex min-w-0 flex-1 items-center gap-4">
+                    <ToolLogo logo={t.logo} invert={'mono' in t} />
+                    <div className="min-w-0">
+                      <p className={rowTitle}>{t.name}</p>
+                      <p className={rowBody}>{t.line}</p>
+                    </div>
                   </div>
-                  <Button asChild variant="outline" className={outlineBlueAccentMd}>
+                  <Button asChild variant="outline" className={`w-full sm:w-auto ${outlineBlueAccentMd}`}>
                     <a href={t.href} {...('web' in t ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                       {t.action}
                       {'web' in t && <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} />}
