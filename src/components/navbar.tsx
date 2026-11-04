@@ -272,16 +272,20 @@ function UseCasesPanel({ onNavigate }: { onNavigate?: () => void }) {
   const guides = useReferenceGuidesNav()
   const { useCases, caseStudies } = useMemo(() => {
     const written = guides.filter((g) => g.category === 'use-case').map(sanityCard)
-    // until the use cases are published in Sanity, the short list on /solutions stands in
-    const useCases: NavCard[] = written.length
-      ? written
-      : USE_CASES.map((u) => ({
+    const byTitle = new Map(written.map((c) => [c.title.toLowerCase(), c]))
+    // in the order of USE_CASES; a use case with a published page links to it, the rest to their docs page
+    const listed: NavCard[] = USE_CASES.map(
+      (u) =>
+        byTitle.get(u.title.toLowerCase()) ?? {
           key: `use-case/${u.slug}`,
           href: u.href,
           kind: 'Use case',
           title: u.title,
           summary: u.summary,
-        }))
+        },
+    )
+    const titles = new Set(USE_CASES.map((u) => u.title.toLowerCase()))
+    const useCases = [...listed, ...written.filter((c) => !titles.has(c.title.toLowerCase()))]
     return {
       useCases,
       caseStudies: guides.filter((g) => g.category === 'case-study').map(sanityCard),
