@@ -32,6 +32,8 @@ const footerColumns = [
     title: 'Resources',
     links: [
       { label: 'Resources', href: '/resources' },
+      { label: 'Compare AI SRE tools', href: '/compare' },
+      { label: 'What is an AI SRE', href: '/learn/what-is-an-ai-sre' },
       { label: 'Blog', href: '/blog' },
       { label: 'Docs', href: 'https://docs.rubixkube.ai/' },
       { label: 'Rubix CLI', href: '/products/rubix-cli' },

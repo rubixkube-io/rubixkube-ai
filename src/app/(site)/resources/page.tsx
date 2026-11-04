@@ -6,27 +6,26 @@ import type { ReferenceGuideListItem } from './types'
 import { webPageJsonLd } from '@/components/structured-data'
 
 export const metadata: Metadata = {
-  title: 'Resources - Docs, Playbooks, Case Studies',
+  title: 'Resources - RubixKube',
   description:
-    'Learn the reliability playbook. Guides, docs, and stories that show how teams prevent outages and ship with confidence using RubixKube.',
-  keywords: ['documentation', 'playbooks', 'case studies', 'best practices', 'SRE guides'],
+    'Docs, guides, comparisons and use cases for RubixKube, the AI SRE.',
   openGraph: {
-    title: 'Resources - Docs, Playbooks, Case Studies',
+    title: 'Resources - RubixKube',
     description:
-      'Learn the reliability playbook. Guides, docs, and stories that show how teams prevent outages and ship with confidence using RubixKube.',
+      'Docs, guides, comparisons and use cases for RubixKube, the AI SRE.',
     url: 'https://rubixkube.ai/resources',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Resources - Docs, Playbooks, Case Studies',
+    title: 'Resources - RubixKube',
     description:
-      'Learn the reliability playbook. Guides, docs, and stories that show how teams prevent outages and ship with confidence using RubixKube.',
+      'Docs, guides, comparisons and use cases for RubixKube, the AI SRE.',
   },
 }
 
 const pageJsonLd = webPageJsonLd({
-  name: 'Resources - Docs, Playbooks, Case Studies',
-  description: 'Learn the reliability playbook. Guides, docs, and stories that show how teams prevent outages and ship with confidence using RubixKube.',
+  name: 'Resources - RubixKube',
+  description: 'Docs, guides, comparisons and use cases for RubixKube, the AI SRE.',
   url: 'https://rubixkube.ai/resources',
 })
 
