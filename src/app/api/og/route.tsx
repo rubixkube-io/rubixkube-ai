@@ -57,7 +57,14 @@ export async function GET(request: NextRequest) {
         </div>
       )
 
-    return new ImageResponse(card, { width: 1200, height: 630, fonts: getOgFonts(), headers: { 'Cache-Control': CACHE } })
+    // Netlify keys its cache on the path alone unless told otherwise, which served the first
+    // card drawn after a deploy for every page. `query` keys it on the whole query string.
+    return new ImageResponse(card, {
+      width: 1200,
+      height: 630,
+      fonts: getOgFonts(),
+      headers: { 'Cache-Control': CACHE, 'Netlify-Vary': 'query' },
+    })
   } catch (e: unknown) {
     console.log(`${(e as Error).message}`)
     return new Response('Failed to generate the image', { status: 500 })
