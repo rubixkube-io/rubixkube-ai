@@ -194,6 +194,7 @@ export function articleJsonLd(input: {
   description?: string
   datePublished?: string
   dateModified?: string
+  imageUrl?: string
   url: string
 }) {
   const datePublished = toIsoDate(input.datePublished)
@@ -206,6 +207,7 @@ export function articleJsonLd(input: {
     description: input.description,
     ...(datePublished && { datePublished }),
     ...(dateModified && { dateModified }),
+    ...(input.imageUrl && { image: input.imageUrl }),
     author: { '@type': 'Organization', name: 'RubixKube' },
     publisher: {
       '@type': 'Organization',
