@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, ArrowUpRight, BookOpen, Cable, LayoutList, Terminal } from 'lucide-react'
 import { Navbar } from '@/components/navbar'
 import { PageHero } from '@/components/page-hero'
@@ -70,7 +71,8 @@ const HELP = [
   { title: 'Contact', href: '/contact' },
 ]
 
-const BLOG_TOPICS = ['Infrastructure Reliability', 'AI Operations', 'Industry Insights', 'Product Updates', 'Best Practices']
+/** A blog post as the server hands it over: the cover already sized */
+export type ResourcePost = { title: string; href: string; excerpt: string; date: string; image: string }
 
 const mono = 'font-[family-name:var(--font-mono)] text-[12px] tracking-[0.12em] text-[var(--mid)] uppercase'
 const heading = 'rk-section-title m-0 mt-4 text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.1] text-[var(--ink)]'
@@ -130,7 +132,7 @@ function Go({ href, className, children }: { href: string; className?: string; c
  * Resources: the docs, then a few of each kind of page on the site (learn, compare, use cases),
  * each with a link to all of them, then the blog and where to get help.
  */
-export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem[] }) {
+export function ResourcesPageClient({ guides, posts }: { guides: ReferenceGuideListItem[]; posts: ResourcePost[] }) {
   const { learn, compare, useCases } = useMemo(() => {
     const byTitle = new Map(guides.filter((g) => g.category === 'use-case').map((g) => [g.title.toLowerCase(), g]))
     return {
@@ -229,21 +231,32 @@ export function ResourcesPageClient({ guides }: { guides: ReferenceGuideListItem
           </Section>
         )}
 
-        <Section label="Blog" title="From the blog." more={{ title: 'All posts', href: '/blog' }}>
-          <ul className="m-0 grid list-none grid-cols-1 gap-x-6 p-0 sm:grid-cols-2 lg:grid-cols-5">
-            {BLOG_TOPICS.map((t) => (
-              <li key={t} className="m-0 border-t border-[var(--rule)] p-0">
-                <Link
-                  href={`/blog?category=${encodeURIComponent(t)}`}
-                  className="group flex items-center justify-between gap-3 py-4 font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)]"
-                >
-                  {t}
-                  <ArrowRight className="h-4 w-4 shrink-0 text-[var(--mid)] transition-transform group-hover:translate-x-0.5 group-hover:text-[var(--ink)]" aria-hidden />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Section>
+        {posts.length > 0 && (
+          <Section label="Blog" title="From the blog." more={{ title: 'All posts', href: '/blog' }}>
+            <ul className="m-0 grid list-none grid-cols-1 gap-x-6 gap-y-14 p-0 sm:grid-cols-2 lg:grid-cols-3">
+              {posts.map((p) => (
+                <li key={p.href} className="m-0 p-0">
+                  <Link href={p.href} className="group block">
+                    {p.date && <span className="block font-[family-name:var(--font-figtree)] text-[14px] text-[var(--mid)]">{p.date}</span>}
+                    <span className="relative mt-3 block aspect-[4/3] overflow-hidden rounded-xl bg-[var(--panel)] ring-1 ring-[var(--rule)]">
+                      <Image
+                        src={p.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                      />
+                    </span>
+                    <span className="mt-4 block font-[family-name:var(--font-figtree)] text-[17px] leading-[1.3] font-semibold tracking-[-0.01em] text-balance text-[var(--ink)]">
+                      {p.title}
+                    </span>
+                    {p.excerpt && <span className="rk-section-body mt-2 line-clamp-3 block text-[15px] text-[var(--mid)]">{p.excerpt}</span>}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Section>
+        )}
 
         <Section label="Help" title="Get help.">
           <ul className="m-0 grid list-none grid-cols-2 gap-x-6 p-0 sm:grid-cols-3 lg:grid-cols-6">

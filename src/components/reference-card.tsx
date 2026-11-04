@@ -2,7 +2,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity.client'
 import { AbstractCover } from '@/components/solutions/abstract-cover'
-import type { ReferenceGuideNavItem } from '@/lib/reference-nav'
+import { CompareCover } from '@/components/compare-cover'
+import { compareToolName, type ReferenceGuideNavItem } from '@/lib/reference-nav'
 
 /** A Sanity reference page as a card: its cover (or the abstract drawing), the kind, the title and its line */
 export function ReferenceCard({
@@ -19,6 +20,15 @@ export function ReferenceCard({
   const key = `${page.category}/${page.slug}`
   const image = page.heroImage?.asset ? urlFor(page.heroImage).width(wide ? 1200 : 800).height(wide ? 750 : 600).url() : null
   const summary = (page.subtitle ?? '').split(/\n\s*\n/)[0].trim()
+  // a comparison without a cover gets one with the other tool's name on it
+  const compare =
+    page.category !== 'compare'
+      ? null
+      : page.slug.startsWith('vs-')
+        ? { label: 'RubixKube vs', name: compareToolName(page) }
+        : page.slug.endsWith('-alternatives')
+          ? { label: 'Alternatives', name: page.title.replace(/ Alternatives.*$/, '') }
+          : { label: 'Compare', name: page.title }
   return (
     <Link href={`/${key}`} className="group block">
       {kind && <span className="block font-[family-name:var(--font-figtree)] text-[14px] text-[var(--ink)]">{kind}</span>}
@@ -35,6 +45,10 @@ export function ReferenceCard({
             sizes={wide ? '(max-width: 1024px) 100vw, 58vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'}
             className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           />
+        ) : compare ? (
+          <span className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.02]">
+            <CompareCover label={compare.label} name={compare.name} seed={key} />
+          </span>
         ) : (
           <span className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.02]">
             <AbstractCover seed={key} index={index} />

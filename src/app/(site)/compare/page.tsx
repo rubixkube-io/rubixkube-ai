@@ -8,7 +8,7 @@ import { ClosingCTA } from '@/components/closing-cta'
 import { ReferenceCard } from '@/components/reference-card'
 import { webPageJsonLd } from '@/components/structured-data'
 import { sanityFetch } from '@/sanity/lib/live'
-import { NAV_GUIDES_QUERY, compareGroups, compareToolName, type ReferenceGuideNavItem } from '@/lib/reference-nav'
+import { NAV_GUIDES_QUERY, compareGroups, type ReferenceGuideNavItem } from '@/lib/reference-nav'
 
 const TITLE = 'Compare AI SRE Tools - RubixKube'
 const DESCRIPTION =
@@ -92,7 +92,7 @@ export default async function ComparePage() {
             <ul className="m-0 grid list-none grid-cols-1 gap-x-6 gap-y-14 p-0 sm:grid-cols-2 lg:grid-cols-4">
               {versus.map((p, i) => (
                 <li key={p.slug} className="m-0 p-0">
-                  <ReferenceCard page={p} kind={`vs ${compareToolName(p)}`} index={i + 4} />
+                  <ReferenceCard page={p} index={i + 4} />
                 </li>
               ))}
             </ul>
