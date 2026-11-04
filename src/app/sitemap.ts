@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const KNOWN_ROUTES = new Set([
     'blog', 'platform', 'solutions', 'resources', 'about',
-    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours', 'hubble', 'why',
+    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours', 'hubble', 'why', 'night-shift',
   ])
 
   // Fetch dynamic reference pages
@@ -112,6 +112,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/night-shift`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
     },
     ...AFTER_HOURS_CHALLENGES.map((c) => ({
       url: `${baseUrl}/after-hours/${c.id}`,
