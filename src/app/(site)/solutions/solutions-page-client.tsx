@@ -174,18 +174,28 @@ export function SolutionsPageClient({ pages }: { pages: SolutionEntry[] }) {
     // a Sanity product page that a product above already links to is not listed twice
     const linked = new Set(SOLUTION_PRODUCTS.map((p) => p.href))
     const fromSanity = pages.filter((p) => !(p.category === 'products' && (linked.has(p.href) || /kepler/i.test(p.href))))
-    // a use case written up in Sanity replaces the short entry of the same name
-    const written = new Set(fromSanity.filter((p) => p.category === 'use-case').map((p) => p.title.toLowerCase()))
-    const useCases: SolutionEntry[] = USE_CASES.filter((u) => !written.has(u.title.toLowerCase())).map((u) => ({
-      key: `use-case/${u.slug}`,
-      category: 'use-case',
-      kind: 'Use case',
-      title: u.title,
-      summary: u.summary,
-      href: u.href,
-    }))
+    // a use case written up in Sanity replaces the short entry of the same name, in the order of USE_CASES
+    const written = fromSanity.filter((p) => p.category === 'use-case')
+    const byTitle = new Map(written.map((p) => [p.title.toLowerCase(), p]))
+    const useCases: SolutionEntry[] = USE_CASES.map(
+      (u) =>
+        byTitle.get(u.title.toLowerCase()) ?? {
+          key: `use-case/${u.slug}`,
+          category: 'use-case',
+          kind: 'Use case',
+          title: u.title,
+          summary: u.summary,
+          href: u.href,
+        },
+    )
+    const titles = new Set(USE_CASES.map((u) => u.title.toLowerCase()))
     // use cases first, the newest Sanity pages next, the products last: the band above already shows them
-    return [...fromSanity.filter((p) => p.category === 'use-case'), ...useCases, ...fromSanity.filter((p) => p.category !== 'use-case'), ...products]
+    return [
+      ...useCases,
+      ...written.filter((p) => !titles.has(p.title.toLowerCase())),
+      ...fromSanity.filter((p) => p.category !== 'use-case'),
+      ...products,
+    ]
   }, [pages])
 
   const groups = GROUPS.map((g) => ({ ...g, count: entries.filter((e) => e.category === g.id).length })).filter((g) => g.count > 0)
