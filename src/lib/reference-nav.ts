@@ -77,3 +77,24 @@ export function isResourcesNavActive(pathname: string): boolean {
 export function isCompanyNavActive(pathname: string): boolean {
   return ['/about', '/contact', '/status'].some((b) => under(pathname, b))
 }
+
+/** The comparison pages in three groups: the tools list first, the alternatives, then RubixKube vs each tool */
+export function compareGroups(guides: ReferenceGuideNavItem[]) {
+  const pages = guides.filter((g) => g.category === 'compare')
+  const lead = pages.find((g) => g.slug === 'ai-sre-tools-2026')
+  const alternatives = pages.filter((g) => g.slug.endsWith('-alternatives'))
+  const versus = pages
+    .filter((g) => g.slug.startsWith('vs-'))
+    .sort((a, b) => compareToolName(a).localeCompare(compareToolName(b)))
+  const others = pages.filter((g) => g !== lead && !alternatives.includes(g) && !versus.includes(g))
+  return { lead, alternatives, versus, others }
+}
+
+/** The other tool a "RubixKube vs" page is about, from its title: "RubixKube vs Komodor: ..." is Komodor */
+export function compareToolName(page: ReferenceGuideNavItem): string {
+  return page.title
+    .replace(/^RubixKube vs /, '')
+    .replace(/ vs RubixKube.*$/, '')
+    .replace(/:.*$/, '')
+    .trim()
+}
