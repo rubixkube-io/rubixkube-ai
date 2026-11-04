@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Rubix Night Shift</title>
+<link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/embed.css">
+</head>
+<body>
+  <div class="stage" id="stage">
+  <div class="game" id="game">
+    <canvas id="c" width="256" height="160" aria-label="Rubix Night Shift, a pixel game about watching over a team's systems"></canvas>
+    <div class="hud" id="hud" hidden>
+      <div class="hud-left">
+        <div class="obj px-box" id="obj"><b id="objHead">Now</b><span id="objText"></span></div>
+        <div class="meter px-box" id="conf" hidden><div class="row"><span id="confLabel">RCA confidence</span><span id="confVal">0%</span></div><div class="bar"><div class="fill" id="confFill"></div></div></div>
+        <div class="meter check px-box" id="check" hidden><div class="row"><span id="checkLabel">Checking the fix</span><span id="checkVal"></span></div><div class="bar"><div class="fill" id="checkFill"></div></div></div>
+      </div>
+      <div class="btns">
+        <span class="chip-mode px-box" id="modeChip" hidden>Assist</span>
+        <button class="btn" id="fsBtn" type="button" aria-label="Full screen">Full screen</button>
+        <button class="btn" id="panelBtn" type="button">Incidents<span class="dot" id="panelDot" hidden></span></button>
+        <button class="btn" id="soundBtn" type="button">Sound on</button>
+      </div>
+    </div>
+    <div class="prompt px-box" id="prompt" hidden><kbd id="promptKey">E</kbd><span id="promptText"></span></div>
+    <div class="dialog px-box" id="dialog" hidden data-who="">
+      <div class="who" id="who"></div>
+      <div class="text" id="dtext"></div>
+      <div class="choices" id="choices" hidden></div>
+      <div class="more" aria-hidden="true">&#9660;</div>
+    </div>
+    <div class="overlay panel-wrap" id="panel" hidden>
+      <div class="panel" role="dialog" aria-labelledby="panelTitle">
+        <div class="panel-head"><h2 id="panelTitle">Incidents</h2><button class="close" id="panelClose" type="button">Close</button></div>
+        <div id="panelBody" class="entries"></div>
+      </div>
+    </div>
+    <div class="overlay summary end" id="summary" hidden>
+      <div class="card px-box">
+        <h2 id="sumTitle">Night done</h2>
+        <p class="sub" id="sumSub"></p>
+        <div class="stats" id="sumStats"></div>
+        <div class="lbl">What Rubix learned</div>
+        <ul id="sumLearn"></ul>
+        <div class="row"><button class="big" id="sumBtn" type="button">Back to the cottage</button></div>
+      </div>
+    </div>
+    <div class="overlay title" id="title">
+      <div>
+        <h1>Rubix Night Shift</h1>
+        <p>You are Rubix, the RubixKube agent. Five night shifts, five teams. Read incidents, test ideas against evidence, find the root cause, and ask before you change anything.</p>
+        <div class="row"><button class="big" id="newBtn" type="button">New game</button><button class="big alt" id="contBtn" type="button" hidden>Continue</button></div>
+        <small>About an hour, with sound. Progress saves after each night.</small>
+      </div>
+    </div>
+  </div>
+  <div class="pad" id="pad">
+    <div class="dpad">
+      <button class="u" data-dir="up" type="button" aria-label="Up">&#9650;</button>
+      <button class="l" data-dir="left" type="button" aria-label="Left">&#9664;</button>
+      <button class="r" data-dir="right" type="button" aria-label="Right">&#9654;</button>
+      <button class="d" data-dir="down" type="button" aria-label="Down">&#9660;</button>
+    </div>
+    <span></span>
+    <div class="acts">
+      <button class="n" id="padPanel" type="button">Incidents</button>
+      <button class="a" id="padA" type="button" aria-label="Talk or look">A</button>
+    </div>
+  </div>
+  </div>
+<script src="js/engine/util.js"></script>
+<script src="js/engine/sprites.js"></script>
+<script src="js/engine/sprites2.js"></script>
+<script src="js/engine/scene.js"></script>
+<script src="js/engine/render.js"></script>
+<script src="js/engine/audio.js"></script>
+<script src="js/engine/ui.js"></script>
+<script src="js/engine/incident.js"></script>
+<script src="js/content/scenes.js"></script>
+<script src="js/content/nights.js"></script>
+<script src="js/engine/game.js"></script>
+</body>
+</html>

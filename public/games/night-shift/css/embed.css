@@ -1,0 +1,14 @@
+/* The game on its own, as the website's /night-shift page embeds it. Fonts come from the site's own
+   /fonts (no Google Fonts link: Cloudflare rewrites it). The page around it is the website's. */
+@font-face { font-family: 'Pixelify Sans'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/fonts/pixelify-sans-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Figtree'; font-style: normal; font-weight: 300 900; font-display: swap; src: url(/fonts/figtree-normal-latin.woff2) format('woff2'); }
+html, body { margin: 0; height: 100%; background: #0b0914; overflow: hidden; }
+.stage { position: relative; height: 100%; display: grid; place-items: center; }
+.stage .game { width: min(100vw, calc(100vh * 1.6)); max-width: none; border: 0; box-shadow: none; }
+/* touch controls sit over the game, so the frame on the page keeps the game's shape */
+.pad { position: absolute; left: 0; right: 0; bottom: 10px; width: auto; padding: 0 12px; opacity: 0.8; pointer-events: none; }
+.pad > * { pointer-events: auto; }
+@media (max-width: 520px) { .dpad { grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(3, 40px); } .acts .a { width: 56px; height: 56px; font-size: 22px; } .acts .n { height: 36px; padding: 0 10px; font-size: 13px; } .pad button { font-size: 16px; } }
+.stage.immersive { position: fixed; inset: 0; z-index: 100; background: #05040a; }
+/* in the page's frame a phone has no room for the controls: New game opens full screen, where they fit */
+.touch .stage:not(.immersive) .pad { display: none; }
