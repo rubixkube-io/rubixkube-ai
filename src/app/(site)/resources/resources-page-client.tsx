@@ -62,6 +62,15 @@ const DOC_CARDS = [
   },
 ]
 
+/** The docs pages that explain the ideas, for the Learn section */
+const CONCEPTS = [
+  { title: 'Incidents', line: 'Where they come from, how they group, and when the RCA starts.', href: `${DOCS}/concepts/incidents` },
+  { title: 'Root cause analysis', line: 'How Rubix finds the cause and shows the evidence.', href: `${DOCS}/concepts/root-cause-analysis` },
+  { title: 'Tasks', line: 'The Fix and Follow-ups every RCA proposes.', href: `${DOCS}/concepts/tasks` },
+  { title: 'Skills', line: 'Your runbooks, written once for Rubix.', href: `${DOCS}/concepts/skills` },
+  { title: 'Safety and control', line: 'What RubixKube can reach, change and record.', href: `${DOCS}/concepts/guardrails` },
+]
+
 const HELP = [
   { title: 'FAQ', href: `${DOCS}/support/faq` },
   { title: 'Troubleshooting', href: `${DOCS}/support/troubleshooting` },
@@ -175,13 +184,28 @@ export function ResourcesPageClient({ guides, posts }: { guides: ReferenceGuideL
 
         {learn.length > 0 && (
           <Section label="Learn" title="The ideas behind it.">
-            <ul className="m-0 grid list-none grid-cols-1 gap-x-6 gap-y-14 p-0 sm:grid-cols-2 lg:grid-cols-3">
-              {learn.slice(0, 3).map((p, i) => (
-                <li key={p.slug} className="m-0 p-0">
-                  <ReferenceCard page={p} index={i} />
-                </li>
+            <div className="grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+              {learn.slice(0, 2).map((p, i) => (
+                <ReferenceCard key={p.slug} page={p} index={i} />
               ))}
-            </ul>
+              {/* the docs pages that explain how it works, as a reading list beside the guides */}
+              <div className="sm:col-span-2 lg:col-span-1">
+                <p className={`${mono} m-0`}>How it works</p>
+                <ul className="m-0 mt-4 list-none p-0">
+                  {CONCEPTS.map((c) => (
+                    <li key={c.href} className="m-0 border-t border-[var(--rule)] p-0">
+                      <a href={c.href} target="_blank" rel="noopener noreferrer" className="group block py-4">
+                        <span className="flex items-center gap-1.5 font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)]">
+                          {c.title}
+                          <ArrowUpRight className="h-4 w-4 text-[var(--mid)] group-hover:text-[var(--ink)]" aria-hidden />
+                        </span>
+                        <span className="rk-section-body mt-1 block text-[14px] text-[var(--mid)]">{c.line}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </Section>
         )}
 
