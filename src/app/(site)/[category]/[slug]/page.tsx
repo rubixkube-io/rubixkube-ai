@@ -31,8 +31,8 @@ const PAGE_QUERY = `*[_type == "referencePage" && category == $category && slug.
   subtitle,
   category,
   lastUpdated,
-  publishedAt,
-  updatedAt,
+  "publishedAt": coalesce(publishedAt, _createdAt),
+  "updatedAt": coalesce(updatedAt, _updatedAt),
   readingTime,
   heroImage{
     asset,
@@ -276,6 +276,7 @@ export default async function MarketingPage({
     description,
     datePublished: sanityPage.publishedAt,
     dateModified: sanityPage.updatedAt,
+    imageUrl: sanityPage.heroImage?.asset ? urlFor(sanityPage.heroImage.asset).width(1200).height(630).url() : undefined,
     url,
   })
 
