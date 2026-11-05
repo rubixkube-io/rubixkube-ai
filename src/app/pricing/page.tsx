@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   keywords: [
     'RubixKube pricing',
     'SRE pricing',
-    'Site Reliability Intelligence cost',
+    'AI SRE pricing',
     'investigation pricing',
     'free tier',
     'enterprise SRE',
   ],
   openGraph: {
-    title: 'Pricing - RubixKube | Site Reliability Intelligence',
+    title: 'Pricing - RubixKube | AI SRE',
     description: 'Start free. Scale when you\'re ready. Enterprise when reliability becomes mission-critical.',
     url: 'https://rubixkube.ai/pricing',
   },

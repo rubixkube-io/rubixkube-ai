@@ -5,18 +5,15 @@ import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rubixkube.ai'),
-  title: 'RubixKube | Site Reliability Intelligence',
+  title: 'RubixKube | AI SRE for Kubernetes, Cloud and VMs',
   description:
-    'AI-native SRI: infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve failures autonomously. Memory, safety, Resilience.',
+    'RubixKube is an AI SRE. It watches Kubernetes, clouds and machines, finds the root cause of every incident with evidence, and proposes the fix.',
   keywords: [
-    'site reliability intelligence',
-    'SRI',
     'AI SRE',
+    'AI SRE agent',
+    'AI root cause analysis',
     'AIOps',
-    'autonomous remediation',
-    'Kubernetes reliability',
-    'root cause analysis',
-    'agent mesh',
+    'Kubernetes troubleshooting',
     'incident response automation',
   ],
   authors: [{ name: 'RubixKube' }],

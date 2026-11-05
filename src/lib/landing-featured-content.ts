@@ -69,11 +69,11 @@ export function toPodcastFeaturedCard(row: PodcastRow): LandingFeaturedCard {
 
 export function toBlogFeaturedCard(row: BlogRow): LandingFeaturedCard {
   const category = row?.categories?.filter(Boolean)[0]
-  const eyebrow = category ? `${category} · Blog` : 'SRI Diaries · Blog'
+  const eyebrow = category ? `${category} · Blog` : 'Blog'
   return buildCard(row, '/blog', eyebrow, {
     href: '/blog',
     title: 'From the RubixKube blog',
-    eyebrow: 'SRI Diaries · Blog',
+    eyebrow: 'Blog',
     imageUrl: '/beyond-observability.webp',
     imageAlt: 'RubixKube blog',
   })

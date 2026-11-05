@@ -28,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch dynamic reference pages
   const referencePages: { category: string; slug: { current: string }; lastUpdated?: string }[] =
     await client.fetch(
-      `*[_type == "referencePage" && defined(slug.current) && defined(category)]{ category, slug, lastUpdated }`,
+      `*[_type == "referencePage" && defined(slug.current) && defined(category)]{ category, slug, "lastUpdated": _updatedAt }`,
       {},
       { next: { revalidate: 0 } }
     )
