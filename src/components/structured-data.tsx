@@ -218,7 +218,34 @@ export function articleJsonLd(input: {
   }
 }
 
-export type WebPageType = 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage'
+export function videoObjectJsonLd(input: {
+  name: string
+  description?: string
+  youtubeId: string
+  thumbnailUrl: string
+  uploadDate?: string
+  duration?: string
+}) {
+  const uploadDate = toIsoDate(input.uploadDate)
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: input.name,
+    description: input.description,
+    thumbnailUrl: input.thumbnailUrl,
+    ...(uploadDate && { uploadDate }),
+    ...(input.duration && { duration: input.duration }),
+    contentUrl: `https://www.youtube.com/watch?v=${input.youtubeId}`,
+    embedUrl: `https://www.youtube.com/embed/${input.youtubeId}`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'RubixKube',
+      logo: { '@type': 'ImageObject', url: `${SITE}/logo-icon.png` },
+    },
+  }
+}
+
+export type WebPageType ='WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage'
 
 export function webPageJsonLd(input: {
   name: string
