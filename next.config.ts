@@ -24,6 +24,14 @@ const nextConfig: NextConfig = {
       { source: '/og.jpeg', destination: '/og.png', permanent: true },
       // /why was folded into the home page
       { source: '/why', destination: '/', permanent: true },
+      // old addresses Google still crawls, to the pages that replaced them
+      { source: '/products/compare/:slug', destination: '/compare/:slug', permanent: true },
+      { source: '/legal', destination: '/legal/privacy', permanent: true },
+      { source: '/glossary', destination: '/resources', permanent: true },
+      { source: '/learn', destination: '/resources', permanent: true },
+      { source: '/use-case', destination: '/solutions?type=use-case', permanent: true },
+      { source: '/slack', destination: 'https://docs.rubixkube.ai/integrations/slack', permanent: true },
+      { source: '/feed', destination: '/blog', permanent: true },
     ]
   },
 

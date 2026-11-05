@@ -6,7 +6,7 @@ export const llmFullPageBlocks = [
   {
     url: 'https://rubixkube.ai/',
     heading: 'Homepage',
-    body: `RubixKube is Site Reliability Intelligence (SRI): software that detects infrastructure anomalies, runs evidence-linked root cause analysis, and drives governed resolution before customers feel impact. The product is built around an AI agent mesh that observes, plans, acts within guardrails, and learns so operational memory compounds across incidents instead of resetting after every outage.
+    body: `RubixKube is an AI SRE: software that watches Kubernetes, clouds and machines, groups related alerts into one incident, writes a root cause analysis with the evidence behind it, and proposes the fix before customers feel the impact. Its agent, Rubix, works within the mode a team sets (Observe, Assist, Auto) and remembers past incidents and fixes, so a repeat failure starts from what the team already learned.
 
 The positioning is intentionally beyond classic observability. Dashboards and alerts remain necessary; RubixKube reasons across signals and context, maintains graph-backed incident memory, and closes the loop with diagnosis and human-approved or policy-governed action. Pillars called out on the site include memory (what the system remembers), safety (guardrails and approvals), and explainability (auditable reasoning tied to evidence).
 

@@ -1,8 +1,8 @@
 /** Single source for about page FAQ (visible UI + FAQPage JSON-LD). */
 export const aboutFaqItems = [
   {
-    q: 'What is Site Reliability Intelligence (SRI)?',
-    a: 'Site Reliability Intelligence is a new category that goes beyond observability and AIOps. SRI closes the full loop — detection, reasoning, resolution, and learning — without waiting for a human in the middle. It builds a living model of your infrastructure that compounds knowledge with every incident.',
+    q: 'What is an AI SRE?',
+    a: 'An AI SRE is software that does the investigation work of a site reliability engineer: it watches your systems, investigates what breaks, finds the root cause with evidence, and proposes the fix. RubixKube does this across Kubernetes, clouds and machines, and remembers every incident and fix.',
   },
   {
     q: 'Why was RubixKube built?',
@@ -10,7 +10,7 @@ export const aboutFaqItems = [
   },
   {
     q: 'How is RubixKube different from AIOps platforms?',
-    a: 'AIOps platforms typically add AI on top of existing monitoring to reduce alert noise. RubixKube is built from the ground up as an autonomous system: an agent mesh that observes, diagnoses, and acts — with operational memory that compounds over time and safety guardrails that keep humans in control.',
+    a: 'AIOps platforms typically add AI on top of existing monitoring to reduce alert noise. RubixKube is an AI SRE: it investigates every incident to a root cause with evidence and proposes the fix, remembers past incidents, and only changes what your mode allows.',
   },
   {
     q: 'What does "governed automation" mean?',

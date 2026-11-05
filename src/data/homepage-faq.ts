@@ -37,8 +37,8 @@ export const homepageFaqItems = [
     a: 'Yes — this is one of the core problems RubixKube solves. The knowledge graph and operational memory capture what your senior engineers know implicitly: service dependencies, past incident patterns, and resolution playbooks. This makes your infrastructure legible to the broader team, so debugging is not bottlenecked on the two people who have been around the longest.',
   },
   {
-    q: 'What is Site Reliability Intelligence and how is it different from AIOps?',
-    a: 'Site Reliability Intelligence (SRI) is a new category that closes the full loop: detect, diagnose, resolve, and learn. AIOps typically adds machine learning on top of existing monitoring to reduce noise or predict anomalies, but still leaves humans to investigate and fix. SRI goes further — it reasons about root cause, takes governed action, and builds a compounding model that gets smarter with every incident.',
+    q: 'What is an AI SRE and how is it different from AIOps?',
+    a: 'An AI SRE does the investigation work of a site reliability engineer: it watches your systems, groups related alerts, finds the root cause of each incident with the evidence behind it, and proposes the fix. AIOps reduces and groups alerts but leaves people to investigate. RubixKube goes further, and remembers what fixed each incident for next time.',
   },
   {
     q: 'Does RubixKube work with Kubernetes, AWS, GCP, and my existing tools?',

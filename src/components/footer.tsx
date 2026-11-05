@@ -84,8 +84,8 @@ export function FooterBody() {
         viewport={{ once: true }}
         className="mx-auto mb-14 max-w-2xl text-center font-[family-name:var(--font-figtree)] text-[16px] leading-relaxed text-[var(--mid)]"
       >
-        RubixKube is Site Reliability Intelligence: see more, plan better, act safely, and learn with every
-        incident.
+        RubixKube is an AI SRE: it finds the root cause of every incident with evidence, proposes the fix, and
+        learns from each one.
       </motion.p>
 
       <div className="mb-14 grid grid-cols-2 items-start gap-10 md:grid-cols-5 md:gap-6 lg:gap-8">

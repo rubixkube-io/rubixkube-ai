@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         url: STATIC_MARKETING_OG_URL,
         width: 1200,
         height: 630,
-        alt: 'RubixKube | Site Reliability Intelligence',
+        alt: 'RubixKube | AI SRE for Kubernetes, Cloud and VMs',
       },
     ],
   },

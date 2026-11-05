@@ -3,9 +3,9 @@ import { SITE_URL, STATIC_MARKETING_OG_URL } from '@/lib/og-metadata'
 
 const SITE = SITE_URL
 
-/** Aligns with on-site hero + pillars: autonomous loop, memory, safety, explainability, agent mesh. */
+/** What RubixKube is, in the words the site uses: an AI SRE across Kubernetes, clouds and machines. */
 const softwareDescription =
-  'AI-native Site Reliability Intelligence (SRI) that detects anomalies, diagnoses root cause, and resolves failures autonomously. Agent mesh with operational memory, safety guardrails, and evidence-linked RCA. Goes beyond traditional observability.'
+  'RubixKube is an AI SRE. Read-only observers watch Kubernetes, AWS, Google Cloud, Azure and Linux machines, and alerts come in from Datadog, PagerDuty, Grafana and other tools. Rubix groups related alerts into one incident, writes a root cause analysis with the evidence behind it, and proposes the fix, within the limits you set: Observe, Assist or Auto.'
 
 function softwareApplicationNode() {
   return {
@@ -27,12 +27,13 @@ function softwareApplicationNode() {
       url: SITE,
     },
     featureList: [
-      'Autonomous detection, diagnosis, and resolution loop',
-      'Agent mesh (observe, plan, act, learn)',
-      'Operational memory that compounds with every incident',
-      'Safety guardrails, approvals, and explainability',
-      'Evidence-linked root cause analysis (RCA)',
-      'Conversational operations and integrations (Slack, Jira, and more)',
+      'Read-only observers for Kubernetes, AWS, Google Cloud, Azure and Linux machines',
+      'Alert triage and grouping across Datadog, PagerDuty, Grafana, Sentry and more',
+      'Root cause analysis with cited, checked evidence',
+      'Proposed Fix and Follow-up Tasks, each with a check',
+      'Observe, Assist and Auto modes, hooks and an activity log',
+      'Memory of past incidents, RCAs and fixes',
+      'Console, Slack, CLI and MCP'
     ],
   }
 }
@@ -44,12 +45,12 @@ function organizationNode() {
     url: SITE,
     logo: `${SITE}/logo-icon.png`,
     description:
-      'RubixKube builds Site Reliability Intelligence (SRI): systems that heal infrastructure autonomously while keeping humans in control.',
+      'RubixKube builds an AI SRE that investigates every incident to a root cause with evidence and proposes the fix, while people stay in control.',
     foundingDate: '2024',
     industry: 'Software Development',
     sameAs: ['https://linkedin.com/company/rubixkube', 'https://github.com/rubixkube-io'],
     knowsAbout: [
-      'Site Reliability Intelligence',
+      'AI SRE',
       'Site Reliability Engineering',
       'AIOps',
       'Kubernetes',
