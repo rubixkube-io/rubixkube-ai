@@ -94,6 +94,19 @@ export const referencePageType = defineType({
       group: 'content',
     }),
     defineField({
+      name: 'heroVideo',
+      title: 'Cover Video',
+      type: 'object',
+      description: 'A YouTube video shown in place of the cover image, with the cover image as its poster.',
+      fields: [
+        {name: 'url', type: 'url', title: 'YouTube URL'},
+        {name: 'title', type: 'string', title: 'Video title'},
+        {name: 'duration', type: 'string', title: 'Duration', description: 'ISO 8601, e.g. PT3M1S'},
+        {name: 'uploadDate', type: 'datetime', title: 'Upload date'},
+      ],
+      group: 'content',
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       description: 'Rich text, images, code, Markdown (tables via GFM), and special sections.',

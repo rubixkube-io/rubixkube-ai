@@ -5,7 +5,7 @@ import { sanityFetch } from '@/sanity/lib/live'
 import { urlFor } from '@/sanity/lib/image'
 import { ReferencePageClient } from './dynamic-page-client'
 import type { ReferencePage, ContentBlock } from './dynamic-page-client'
-import { articleJsonLd, faqPageJsonLd, toIsoDate } from '@/components/structured-data'
+import { articleJsonLd, faqPageJsonLd, toIsoDate, videoObjectJsonLd } from '@/components/structured-data'
 import { sanityCoverOgFields } from '@/lib/sanity-cover-og'
 
 const KNOWN_ROUTES = new Set([
@@ -39,6 +39,7 @@ const PAGE_QUERY = `*[_type == "referencePage" && category == $category && slug.
     alt,
     caption
   },
+  heroVideo,
   body,
   relatedPages,
   seoTitle,
@@ -165,6 +166,11 @@ function sanityBodyToBlocks(body: unknown): ContentBlock[] {
   return blocks
 }
 
+/** The 11-character id in a YouTube watch, short or embed link */
+function youtubeIdOf(url?: string): string | undefined {
+  return url?.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|watch\?(?:.*&)?v=))([\w-]{11})/)?.[1]
+}
+
 /** Extract FAQ items from raw Sanity body nodes for structured data. */
 function extractFaqItems(body: unknown): { question: string; answer: string }[] {
   if (!body || !Array.isArray(body)) return []
@@ -256,6 +262,9 @@ export default async function MarketingPage({
       }
     : undefined
 
+  const youtubeId = youtubeIdOf(sanityPage.heroVideo?.url)
+  const heroVideo = youtubeId ? { youtubeId, title: sanityPage.heroVideo.title || sanityPage.title } : undefined
+
   const page: ReferencePage = {
     category,
     categoryLabel: CATEGORY_LABELS[category] || category.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()),
@@ -265,6 +274,7 @@ export default async function MarketingPage({
     lastUpdated: sanityPage.lastUpdated,
     readingTime: sanityPage.readingTime,
     heroImage,
+    heroVideo,
     blocks: sanityBodyToBlocks(sanityPage.body),
     relatedPages: sanityPage.relatedPages,
   }
@@ -282,12 +292,29 @@ export default async function MarketingPage({
 
   const faqItems = extractFaqItems(sanityPage.body)
 
+  const video = heroVideo
+    ? videoObjectJsonLd({
+        name: heroVideo.title,
+        description,
+        youtubeId: heroVideo.youtubeId,
+        thumbnailUrl: heroImage?.src ?? `https://i.ytimg.com/vi/${heroVideo.youtubeId}/maxresdefault.jpg`,
+        uploadDate: sanityPage.heroVideo.uploadDate,
+        duration: sanityPage.heroVideo.duration,
+      })
+    : undefined
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(article) }}
       />
+      {video && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(video) }}
+        />
+      )}
       {faqItems.length > 0 && (
         <script
           type="application/ld+json"

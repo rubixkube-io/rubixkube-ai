@@ -12,7 +12,7 @@ import { Footer } from '@/components/footer'
 import { ClosingCTA } from '@/components/closing-cta'
 import { fadeUpVariants, fadeUp } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
-import { ArrowRight, Check, X, Minus, ChevronDown } from 'lucide-react'
+import { ArrowRight, Check, X, Minus, ChevronDown, Play } from 'lucide-react'
 import { ShareLinks } from '@/components/blog/share-links'
 import { splitTitle } from '@/lib/title-split'
 
@@ -144,6 +144,8 @@ export interface ReferencePage {
     width?: number
     height?: number
   }
+  /** shown in place of the cover image, with the cover as its poster */
+  heroVideo?: { youtubeId: string; title: string }
   blocks: ContentBlock[]
   relatedPages?: { label: string; href: string; category?: string }[]
 }
@@ -743,6 +745,7 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
   const anim = prefersReducedMotion ? { initial: 'visible' as const } : fadeUp
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeId, setActiveId] = useState('')
+  const [playing, setPlaying] = useState(false)
 
   const tocHeadings = useMemo<TocEntry[]>(() => {
     const entries: TocEntry[] = []
@@ -841,13 +844,39 @@ export function ReferencePageClient({ page }: { page: ReferencePage }) {
               <div
                 className="relative w-full overflow-hidden rounded-lg bg-[var(--panel)]"
                 style={{
-                  aspectRatio:
-                    page.heroImage.width && page.heroImage.height
+                  aspectRatio: page.heroVideo
+                    ? 16 / 9
+                    : page.heroImage.width && page.heroImage.height
                       ? Math.max(page.heroImage.width / page.heroImage.height, 4 / 3)
                       : 2,
                 }}
               >
-                <Image src={page.heroImage.src} alt={page.heroImage.alt} fill className="object-cover" priority sizes="(max-width: 1400px) 100vw, 1400px" />
+                {/* a video loads YouTube only once played, so the page stays fast */}
+                {page.heroVideo && playing ? (
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${page.heroVideo.youtubeId}?autoplay=1&rel=0`}
+                    title={page.heroVideo.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 h-full w-full"
+                  />
+                ) : (
+                  <>
+                    <Image src={page.heroImage.src} alt={page.heroImage.alt} fill className="object-cover" priority sizes="(max-width: 1400px) 100vw, 1400px" />
+                    {page.heroVideo && (
+                      <button
+                        type="button"
+                        onClick={() => setPlaying(true)}
+                        aria-label={`Play video: ${page.heroVideo.title}`}
+                        className="group absolute inset-0 flex items-center justify-center"
+                      >
+                        <span className="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--ink)]/85 text-[var(--bg)] transition-transform group-hover:scale-105">
+                          <Play className="ml-1 h-8 w-8 fill-current" aria-hidden />
+                        </span>
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
               {page.heroImage.caption && (
                 <figcaption className="mt-3 font-[family-name:var(--font-figtree)] text-[14px] leading-relaxed text-[var(--mid)]">
