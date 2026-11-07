@@ -7,8 +7,9 @@ import { Maximize, Pause, Play, Volume2, VolumeX, X } from 'lucide-react'
 import { type } from '@/lib/type-scale'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 
-/** How long the card must stay on screen before the film starts by itself */
-const LINGER_MS = 10_000
+/** How long the card must stay on screen before the film starts by itself: long enough that
+ * scrolling past does not start it */
+const LINGER_MS = 1_500
 /** How much of the card must be visible to count as being looked at */
 const SEEN = 0.6
 
@@ -148,6 +149,8 @@ export function FeaturedFilm() {
     const seen = new IntersectionObserver(
       ([entry]) => {
         const v = video.current
+        // start loading as the card comes into view, so the film is ready when it starts
+        if (entry.isIntersecting && v?.preload === 'none') v.preload = 'auto'
         if (entry.intersectionRatio >= SEEN) {
           if (!dismissed.current && !reducedMotion && v?.paused && !playing)
             timer = setTimeout(() => start(false), LINGER_MS)
