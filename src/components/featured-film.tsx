@@ -1,15 +1,16 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import posthog from 'posthog-js'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Maximize, Pause, Play, Volume2, VolumeX, X } from 'lucide-react'
 import { type } from '@/lib/type-scale'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 
-/** How long the card must stay on screen before the film starts by itself: long enough that
- * scrolling past does not start it */
-const LINGER_MS = 1_500
+/** How long the card must stay on screen before the film starts by itself: long enough to read
+ * the headline and see the console, so the film does not cover the text the moment someone stops */
+const LINGER_MS = 4_000
 /** How much of the card must be visible to count as being looked at */
 const SEEN = 0.6
 
@@ -125,7 +126,10 @@ export function FeaturedFilm() {
   const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(true)
   const dismissed = useRef(false)
+  /** how the film last started: by itself after the wait, or from "Watch the film" */
+  const trigger = useRef<'auto' | 'click'>('auto')
   const reducedMotion = useReducedMotion()
+  const at = () => Math.round(video.current?.currentTime ?? 0)
 
   const start = (withSound: boolean) => {
     const v = video.current
@@ -133,13 +137,24 @@ export function FeaturedFilm() {
     setMuted(!withSound)
     v.muted = !withSound
     setPlaying(true)
-    v.play().catch(() => {})
+    trigger.current = withSound ? 'click' : 'auto'
+    // counted once it really plays: a browser can refuse to start a film by itself
+    v.play()
+      .then(() => posthog.capture('film_started', { trigger: trigger.current }))
+      .catch(() => {})
   }
-  const close = () => {
+  const close = (how: 'button' | 'escape' | 'ended') => {
+    if (how === 'ended') posthog.capture('film_finished', { trigger: trigger.current })
+    else posthog.capture('film_closed', { trigger: trigger.current, how, at_seconds: at() })
     dismissed.current = true
     video.current?.pause()
     setPlaying(false)
   }
+  // Esc and the end of the film close it from inside an effect: always the latest close
+  const closeRef = useRef(close)
+  useEffect(() => {
+    closeRef.current = close
+  })
 
   // start muted after the card has been looked at for a while; pause when it leaves the screen
   useEffect(() => {
@@ -172,13 +187,14 @@ export function FeaturedFilm() {
   // Esc closes the film; the end of the film brings the card back
   useEffect(() => {
     if (!playing) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close()
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && closeRef.current('escape')
+    const onEnded = () => closeRef.current('ended')
     const v = video.current
     document.addEventListener('keydown', onKey)
-    v?.addEventListener('ended', close)
+    v?.addEventListener('ended', onEnded)
     return () => {
       document.removeEventListener('keydown', onKey)
-      v?.removeEventListener('ended', close)
+      v?.removeEventListener('ended', onEnded)
     }
   }, [playing])
 
@@ -256,9 +272,10 @@ export function FeaturedFilm() {
           onMute={() => {
             const v = video.current
             if (v) v.muted = !muted
+            if (muted) posthog.capture('film_unmuted', { trigger: trigger.current, at_seconds: at() })
             setMuted(!muted)
           }}
-          onClose={close}
+          onClose={() => close('button')}
         />
       </div>
     </>
