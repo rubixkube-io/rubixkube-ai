@@ -126,7 +126,7 @@ export function PricingPageClient() {
       <section className="relative bg-[var(--bg)]">
         <PageHero
           title="Reliability that pays for itself."
-          lede="Start free, no card needed. Connect Datadog or a Kubernetes cluster to begin."
+          lede="Every hour your team spends investigating is an hour not building. Start free with no card, connect Datadog or any part of your stack, and Rubix finds the root cause for you."
         />
       </section>
 

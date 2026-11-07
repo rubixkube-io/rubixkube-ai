@@ -54,7 +54,7 @@ export function HeroSection() {
               </Link>
             </div>
             <p className="m-0 mt-4 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
-              Free. No card. Connect Datadog or a Kubernetes cluster to start.
+              Free. No card. Connect Datadog or any part of your stack to start.
             </p>
           </div>
         </div>
