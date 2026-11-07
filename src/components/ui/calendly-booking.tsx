@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { InlineWidget } from 'react-calendly'
+import { InlineWidget, useCalendlyEventListener } from 'react-calendly'
+import posthog from 'posthog-js'
 import { Button } from './button'
 import { X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -34,7 +35,18 @@ export function CalendlyBooking({
     setMounted(true)
   }, [])
 
-  const openCalendly = () => {
+  // a booking counts once, by the button whose window is open: several can sit on one page
+  useCalendlyEventListener({
+    onEventScheduled: () => {
+      if (isOpen) posthog.capture('demo_booked', { page: location.pathname })
+    },
+  })
+
+  const openCalendly = (e: React.MouseEvent<HTMLElement>) => {
+    posthog.capture('demo_clicked', {
+      page: location.pathname,
+      label: e.currentTarget.textContent?.trim(),
+    })
     onOpen?.()
     setIsOpen(true)
     document.body.style.overflow = 'hidden'
