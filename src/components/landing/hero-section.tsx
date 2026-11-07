@@ -53,6 +53,9 @@ export function HeroSection() {
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </Link>
             </div>
+            <p className="m-0 mt-4 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]">
+              Start free on AWS, GCP, Azure or Kubernetes.
+            </p>
           </div>
         </div>
       </div>
