@@ -25,4 +25,19 @@ if (process.env.NODE_ENV === 'production' && !location.pathname.startsWith('/stu
     // replays never record what people type into forms
     session_recording: { maskAllInputs: true },
   })
+
+  // every button into the console: Start for free and its kin, and Sign in, wherever they sit
+  document.addEventListener(
+    'click',
+    (e) => {
+      const link = (e.target as Element | null)?.closest?.('a[href^="https://console.rubixkube.ai"]')
+      if (!link) return
+      const label = link.textContent?.trim() ?? ''
+      posthog.capture(/^sign in$/i.test(label) ? 'sign_in_clicked' : 'start_free_clicked', {
+        page: location.pathname,
+        label,
+      })
+    },
+    { capture: true },
+  )
 }
