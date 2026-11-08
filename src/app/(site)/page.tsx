@@ -19,13 +19,12 @@ import {
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'RubixKube | Site Reliability Intelligence',
+  title: 'RubixKube | AI SRE for Kubernetes, Cloud and VMs',
   description:
-    'Your infrastructure, healing itself. AI-native SRI that detects anomalies, diagnoses root cause, and resolves failures autonomously.',
+    'RubixKube is an AI SRE. It watches Kubernetes, clouds and machines, finds the root cause of every incident with evidence, and proposes the fix.',
   keywords: [
-    'site reliability intelligence',
-    'SRI',
     'AI SRE',
+    'AI SRE agent',
     'AIOps',
     'autonomous remediation',
     'incident response automation',
@@ -35,7 +34,7 @@ export const metadata: Metadata = {
     'SLO management',
   ],
   openGraph: {
-    title: 'RubixKube | Site Reliability Intelligence',
+    title: 'RubixKube | AI SRE for Kubernetes, Cloud and VMs',
     description:
       'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
     url: 'https://rubixkube.ai',
@@ -46,13 +45,13 @@ export const metadata: Metadata = {
         url: STATIC_MARKETING_OG_URL,
         width: 1200,
         height: 630,
-        alt: 'RubixKube | Site Reliability Intelligence',
+        alt: 'RubixKube | AI SRE for Kubernetes, Cloud and VMs',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RubixKube | Site Reliability Intelligence',
+    title: 'RubixKube | AI SRE for Kubernetes, Cloud and VMs',
     description:
       'Infrastructure that heals itself. Detect anomalies, diagnose root cause, resolve autonomously before customers feel it.',
     images: [STATIC_MARKETING_OG_URL],
@@ -74,8 +73,8 @@ export const metadata: Metadata = {
 }
 
 const pageJsonLd = webPageJsonLd({
-  name: 'RubixKube | Site Reliability Intelligence',
-  description: 'Your infrastructure, healing itself. AI-native SRI that detects anomalies, diagnoses root cause, and resolves failures autonomously.',
+  name: 'RubixKube | AI SRE for Kubernetes, Cloud and VMs',
+  description: 'RubixKube is an AI SRE. It watches Kubernetes, clouds and machines, finds the root cause of every incident with evidence, and proposes the fix.',
   url: 'https://rubixkube.ai',
 })
 

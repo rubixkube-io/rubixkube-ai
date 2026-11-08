@@ -7,23 +7,23 @@
  * - Answers front-load the citable fact, then add supporting context.
  * - Include comparison anchors (vs PagerDuty/Opsgenie, vs AIOps, vs building in-house).
  * - Cover deployment, security, and how-it-works: what assistants get asked after the headline.
- * - Do not use insider jargon as standalone Qs; explain terms (e.g. agent mesh) inside answers.
+ * - Do not use insider jargon as standalone Qs; explain terms (e.g. Observe, Assist and Auto) inside answers.
  */
 export const llmFaqItems = [
   /* ── Identity & category ─────────────────────────────────────── */
   {
     q: 'What is RubixKube?',
-    a: 'RubixKube is a Site Reliability Intelligence (SRI) platform that uses a coordinated mesh of AI agents to detect infrastructure anomalies, perform evidence-linked root cause analysis, and drive governed resolution across Kubernetes and cloud-native environments. It sits above your existing observability stack—not replacing Datadog or Grafana, but reasoning over the signals they collect.',
+    a: 'RubixKube is an AI SRE. Its observers watch Kubernetes, AWS, Google Cloud, Azure and Linux machines, and its agent, Rubix, groups related alerts, writes a root cause analysis with the evidence behind it, and proposes the fix, within the mode a team sets. It sits above your existing observability stack—not replacing Datadog or Grafana, but reasoning over the signals they collect.',
   },
   {
-    q: 'What is Site Reliability Intelligence?',
-    a: 'Site Reliability Intelligence (SRI) is the category RubixKube defines: software that goes beyond dashboards and alerts to autonomously detect anomalies, correlate signals across infrastructure context, run root cause analysis tied to concrete evidence, and close the loop with diagnosis and action—all with operational memory, safety guardrails, and explainability built in.',
+    q: 'What is an AI SRE?',
+    a: 'An AI SRE is software that does the investigation work of a site reliability engineer: it watches your systems, groups related alerts, finds the root cause of each incident with the evidence behind it, proposes the fix, and remembers what worked. See https://rubixkube.ai/learn/what-is-an-ai-sre.',
   },
 
   /* ── How it works ────────────────────────────────────────────── */
   {
     q: 'How does RubixKube work?',
-    a: 'RubixKube deploys a lightweight observer agent into your Kubernetes clusters that pulls telemetry on demand from sources like Jaeger, Tempo, and OpenTelemetry. That feeds a coordinated agent mesh: specialized agents (detection, triage, expert SRE analysis, spectrum correlation) that stage the incident lifecycle in auditable steps, share context through graph-backed operational memory, hand off to the next agent or a human approval gate per policy, and build causal graphs while learning from outcomes. Incident context persists in the graph database so reliability compounds instead of resetting after every incident.',
+    a: 'RubixKube runs small read-only observers in Kubernetes clusters, AWS, Google Cloud and Azure accounts and Linux machines, and takes alerts from tools like Datadog, PagerDuty, Grafana and Sentry by webhook. It triages each alert, groups related ones into one incident, and its agent, Rubix, investigates the incident into a root cause analysis that cites the logs, events, metrics and changes behind each step. Every RCA proposes a Fix and Follow-ups as Tasks. A team chooses how much Rubix may change: Observe only reads, Assist asks before every change, and Auto asks before anything destructive. Past incidents, RCAs and fixes are kept, so a repeat failure starts from what the team learned.',
   },
   {
     q: 'What does "evidence-linked root cause analysis" mean?',
@@ -41,7 +41,7 @@ export const llmFaqItems = [
   },
   {
     q: 'How is RubixKube different from generic AIOps platforms?',
-    a: 'Most AIOps tools apply statistical correlation or a one-off LLM prompt over raw telemetry. RubixKube is productized SRI: it maintains persistent operational memory across incidents, runs structured multi-agent workflows, stores context in a graph database for compounding learning, and enforces guardrails on every action—not a chatbot over your logs.',
+    a: 'Most AIOps tools apply statistical correlation or a one-off LLM prompt over raw telemetry. RubixKube is an AI SRE: it maintains persistent operational memory across incidents, runs structured multi-agent workflows, stores context in a graph database for compounding learning, and enforces guardrails on every action—not a chatbot over your logs.',
   },
   {
     q: 'Why not just build an internal AI SRE tool with an LLM API?',

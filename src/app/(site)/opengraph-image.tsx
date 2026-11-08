@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { getOgPngDataUrl } from '@/lib/og-background'
 
-export const alt = 'RubixKube | Site Reliability Intelligence'
+export const alt = 'RubixKube | AI SRE for Kubernetes, Cloud and VMs'
 export const size = {
   width: 1200,
   height: 630,
