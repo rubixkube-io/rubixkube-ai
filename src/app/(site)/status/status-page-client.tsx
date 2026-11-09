@@ -278,7 +278,7 @@ export function StatusPageClient() {
       {/* Header */}
       <header className="bg-[var(--bg)]">
         <PageHero
-          className="pb-0"
+          className="pb-0 [&>*]:mx-auto [&>*]:max-w-[900px]"
           title="System Status."
           lede="Real-time health of all RubixKube platform services."
         >
@@ -291,7 +291,7 @@ export function StatusPageClient() {
 
           {/* Prominent overall status banner */}
           {overall && data && (
-            <div className={`mt-8 max-w-[900px] rounded-2xl px-6 py-5 ring-1 ring-[var(--rule)] ${overall.bg}`}>
+            <div className={`mt-8 rounded-2xl px-6 py-5 ring-1 ring-[var(--rule)] ${overall.bg}`}>
               <div className="flex items-center gap-3">
                 <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${overall.dotColor}`} />
                 <span className={`font-[family-name:var(--font-figtree)] text-[18px] font-semibold ${overall.textColor}`}>
@@ -305,7 +305,7 @@ export function StatusPageClient() {
 
       {/* Content */}
       <section className="bg-[var(--bg)] px-[var(--pad)] pt-14 pb-24">
-        <div className="rk-landing-max [&>*]:max-w-[900px]">
+        <div className="rk-landing-max [&>*]:mx-auto [&>*]:max-w-[900px]">
 
           {/* Error state */}
           {error && (
