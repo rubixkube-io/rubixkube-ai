@@ -278,34 +278,37 @@ export function StatusPageClient() {
       {/* Header */}
       <header className="bg-[var(--bg)]">
         <PageHero
-          className="pb-0 [&>*]:mx-auto [&>*]:max-w-[900px]"
+          className="pb-0"
           title="System Status."
           lede="Real-time health of all RubixKube platform services."
-        >
-          {lastFetched && (
-            <div className="mt-6 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
-              <RefreshCw className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
-              <span>Updated {timeAgo(lastFetched.toISOString())}</span>
-            </div>
-          )}
-
-          {/* Prominent overall status banner */}
-          {overall && data && (
-            <div className={`mt-8 rounded-2xl px-6 py-5 ring-1 ring-[var(--rule)] ${overall.bg}`}>
-              <div className="flex items-center gap-3">
-                <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${overall.dotColor}`} />
-                <span className={`font-[family-name:var(--font-figtree)] text-[18px] font-semibold ${overall.textColor}`}>
-                  {overall.label}
-                </span>
-              </div>
-            </div>
-          )}
-        </PageHero>
+        />
       </header>
 
       {/* Content */}
       <section className="bg-[var(--bg)] px-[var(--pad)] pt-14 pb-24">
         <div className="rk-landing-max [&>*]:mx-auto [&>*]:max-w-[900px]">
+
+          {/* Overall status, with the last refresh on the right */}
+          {(lastFetched || overall) && (
+            <div className="mb-10">
+              {lastFetched && (
+                <div className="mb-3 flex items-center justify-end gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+                  <RefreshCw className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+                  <span>Updated {timeAgo(lastFetched.toISOString())}</span>
+                </div>
+              )}
+              {overall && data && (
+                <div className={`rounded-2xl px-6 py-5 ring-1 ring-[var(--rule)] ${overall.bg}`}>
+                  <div className="flex items-center gap-3">
+                    <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${overall.dotColor}`} />
+                    <span className={`font-[family-name:var(--font-figtree)] text-[18px] font-semibold ${overall.textColor}`}>
+                      {overall.label}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Error state */}
           {error && (
