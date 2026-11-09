@@ -39,6 +39,7 @@ interface Service {
   name: string
   group: string
   key?: string
+  order?: number
   status: ServiceStatus
   uptime_24h: number | null
   uptime_7d: number | null
@@ -121,14 +122,24 @@ function toEndpointKey(internalGroup: string, internalName: string): string {
   return `${slugify(internalGroup)}_${slugify(internalName)}`
 }
 
+// Rows follow SERVICE_MAP order; services missing from it go last.
+const SERVICE_ORDER = Object.keys(SERVICE_MAP)
+
 function applyServiceMap(services: Service[]): Service[] {
   return services.map((svc) => {
     const mapped = SERVICE_MAP[svc.name]
     // Keep the key from the internal names; the history lookup uses it.
     const key = endpointKey(svc)
-    if (!mapped) return { ...svc, key }
-    return { ...svc, key, name: mapped.name, group: mapped.group }
+    if (!mapped) return { ...svc, key, order: SERVICE_ORDER.length }
+    return { ...svc, key, order: SERVICE_ORDER.indexOf(svc.name), name: mapped.name, group: mapped.group }
   })
+}
+
+function groupSummary(services: Service[]): string {
+  const outage = services.filter((s) => s.status === 'outage').length
+  const degraded = services.filter((s) => s.status === 'degraded').length
+  if (!outage && !degraded) return 'All operational'
+  return [outage && `${outage} outage`, degraded && `${degraded} degraded`].filter(Boolean).join(', ')
 }
 
 function groupServices(services: Service[]): Record<string, Service[]> {
@@ -138,6 +149,9 @@ function groupServices(services: Service[]): Record<string, Service[]> {
     acc[g].push(svc)
     return acc
   }, {})
+  for (const list of Object.values(grouped)) {
+    list.sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.name.localeCompare(b.name))
+  }
   // Return groups in defined order
   const ordered: Record<string, Service[]> = {}
   for (const g of GROUP_ORDER) {
@@ -170,6 +184,9 @@ function buildBars(results: GatusResult[] | undefined): Bar[] {
   return [...pad, ...slice.map((r): Bar => (r.success ? 'green' : 'red'))]
 }
 
+// Dot, name, bars, uptime, status. Bars and uptime hide on small screens.
+const ROW_GRID = 'grid-cols-[0.5rem_1fr_7rem] sm:grid-cols-[0.5rem_1fr_auto_6rem_7rem] gap-x-4'
+
 const BAR_COLOR_CLASS: Record<Bar, string> = {
   green: 'bg-emerald-500',
   red: 'bg-red-500',
@@ -183,7 +200,7 @@ interface UptimeBarsProps {
 function UptimeBars({ bars }: UptimeBarsProps) {
   return (
     <div
-      className="hidden sm:flex items-end gap-[2px] shrink-0"
+      className="hidden sm:flex items-end gap-[2px]"
       title={`Last ${BAR_COUNT} checks, oldest to newest`}
       aria-label={`Last ${BAR_COUNT} checks`}
     >
@@ -335,24 +352,35 @@ export function StatusPageClient() {
                   viewport={{ once: true }}
                   transition={{ delay: reducedMotion ? 0 : idx * 0.05 }}
                 >
-                  <h2 className="m-0 mb-4 font-[family-name:var(--font-mono)] text-[12px] font-light uppercase leading-normal tracking-[0.12em] text-[var(--mid)]">
-                    {group}
-                  </h2>
+                  <div className="mb-4 flex items-baseline justify-between gap-4">
+                    <h2 className="m-0 font-[family-name:var(--font-mono)] text-[12px] font-light uppercase leading-normal tracking-[0.12em] text-[var(--mid)]">
+                      {group}
+                    </h2>
+                    <span className="font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]">
+                      {groupSummary(services)}
+                    </span>
+                  </div>
                   <div className="rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] divide-y divide-[var(--rule)]">
+                    <div className={`hidden sm:grid ${ROW_GRID} px-5 py-2.5 font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]`}>
+                      <span className="col-span-2">Service</span>
+                      <span>Last {BAR_COUNT} checks</span>
+                      <span className="text-right">Uptime (7d)</span>
+                      <span className="text-center">Status</span>
+                    </div>
                     {services.map((svc) => {
                       const cfg = STATUS_CONFIG[svc.status]
                       const bars = buildBars(historyMap[endpointKey(svc)])
                       return (
-                        <div key={svc.name} className="flex items-center gap-4 px-5 py-4">
-                          <div className={`h-2 w-2 rounded-full shrink-0 ${cfg.dot}`} />
-                          <span className="flex-1 font-[family-name:var(--font-mono)] text-[14px] text-[var(--ink)] min-w-0">
+                        <div key={svc.name} className={`grid ${ROW_GRID} items-center px-5 py-4`}>
+                          <div className={`h-2 w-2 rounded-full ${cfg.dot}`} />
+                          <span className="font-[family-name:var(--font-mono)] text-[14px] text-[var(--ink)] min-w-0 truncate">
                             {svc.name}
                           </span>
                           <UptimeBars bars={bars} />
-                          <span className="hidden sm:block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] shrink-0 w-20 text-right">
-                            {svc.uptime_7d == null ? '-' : `${svc.uptime_7d.toFixed(1)}%`} 7d
+                          <span className="hidden sm:block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] text-right tabular-nums">
+                            {svc.uptime_7d == null ? '-' : `${svc.uptime_7d.toFixed(1)}%`}
                           </span>
-                          <span className={`font-[family-name:var(--font-mono)] text-[12px] px-2.5 py-0.5 rounded-full shrink-0 ${cfg.badge}`}>
+                          <span className={`font-[family-name:var(--font-mono)] text-[12px] w-[7rem] text-center py-0.5 rounded-full ${cfg.badge}`}>
                             {cfg.label}
                           </span>
                         </div>
