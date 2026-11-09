@@ -9,34 +9,40 @@ import { fadeUpVariants } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { RefreshCw, CheckCircle } from 'lucide-react'
 
-const STATUS_API = 'https://api.rubixkube.ai/status'
+const STATUS_API = process.env.NEXT_PUBLIC_STATUS_API_URL ?? 'https://api.rubixkube.ai/status'
 
 // Maps endpoint names returned by the status API to display names and groups.
 // Keys must match the API's endpoint names exactly.
 const SERVICE_MAP: Record<string, { name: string; group: string }> = {
-  'Orchestrator':    { name: 'API',               group: 'Platform'       },
-  'Console':         { name: 'Dashboard',          group: 'Platform'       },
-  'Opel SSE':        { name: 'AI Agents',          group: 'Intelligence'   },
-  'RCA Pipeline':    { name: 'Investigations',     group: 'Intelligence'   },
-  'Memory Engine X': { name: 'Insights Engine',    group: 'Data'           },
-  'Knowledge Graph': { name: 'Topology Engine',    group: 'Data'           },
-  'NATS':            { name: 'Event Streaming',    group: 'Infrastructure' },
-  'Neo4j':           { name: 'Graph Store',        group: 'Infrastructure' },
+  'Orchestrator':      { name: 'API',                   group: 'Platform'       },
+  'Console':           { name: 'Console',               group: 'Platform'       },
+  'MCP Server':        { name: 'MCP Server',            group: 'Platform'       },
+  'Slack Bot':         { name: 'Slack App',             group: 'Platform'       },
+  'Notification':      { name: 'Notifications',         group: 'Platform'       },
+  'Rubix Agent':       { name: 'Rubix',                 group: 'Intelligence'   },
+  'Automation Engine': { name: 'Automations',           group: 'Intelligence'   },
+  'Memory Engine X':   { name: 'Incidents',             group: 'Data'           },
+  'Knowledge Graph':   { name: 'Topology',              group: 'Data'           },
+  'NATS':              { name: 'Event Streaming',       group: 'Infrastructure' },
+  'Neo4j':             { name: 'Graph Store',           group: 'Infrastructure' },
+  'Novu':              { name: 'Notification Service',  group: 'Infrastructure' },
 }
 
 const GROUP_ORDER = ['Platform', 'Intelligence', 'Data', 'Infrastructure']
-const HISTORY_API = (key: string) => `https://api.rubixkube.ai/status/history/${key}`
-const POLL_INTERVAL = 30_000
 const BAR_COUNT = 45
+const HISTORY_API = (key: string) => `${STATUS_API}/history/${key}?limit=${BAR_COUNT}`
+const POLL_INTERVAL = 30_000
 
 type ServiceStatus = 'operational' | 'degraded' | 'outage'
 
 interface Service {
   name: string
   group: string
+  key?: string
+  order?: number
   status: ServiceStatus
-  uptime_24h: number
-  uptime_7d: number
+  uptime_24h: number | null
+  uptime_7d: number | null
   response_time_ms: number | null
   checked_at: string | null
 }
@@ -105,18 +111,35 @@ const OVERALL_CONFIG: Record<
   },
 }
 
-// Use original internal name to build the Gatus history key (before remapping)
+// The API sends each service's Gatus key. Older API versions don't, so build it
+// from the original internal names (before remapping), the way Gatus does.
+function endpointKey(svc: Service): string {
+  return svc.key ?? toEndpointKey(svc.group, svc.name)
+}
+
 function toEndpointKey(internalGroup: string, internalName: string): string {
   const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
   return `${slugify(internalGroup)}_${slugify(internalName)}`
 }
 
+// Rows follow SERVICE_MAP order; services missing from it go last.
+const SERVICE_ORDER = Object.keys(SERVICE_MAP)
+
 function applyServiceMap(services: Service[]): Service[] {
   return services.map((svc) => {
     const mapped = SERVICE_MAP[svc.name]
-    if (!mapped) return svc
-    return { ...svc, name: mapped.name, group: mapped.group }
+    // Keep the key from the internal names; the history lookup uses it.
+    const key = endpointKey(svc)
+    if (!mapped) return { ...svc, key, order: SERVICE_ORDER.length }
+    return { ...svc, key, order: SERVICE_ORDER.indexOf(svc.name), name: mapped.name, group: mapped.group }
   })
+}
+
+function groupSummary(services: Service[]): string {
+  const outage = services.filter((s) => s.status === 'outage').length
+  const degraded = services.filter((s) => s.status === 'degraded').length
+  if (!outage && !degraded) return 'All operational'
+  return [outage && `${outage} outage`, degraded && `${degraded} degraded`].filter(Boolean).join(', ')
 }
 
 function groupServices(services: Service[]): Record<string, Service[]> {
@@ -126,6 +149,9 @@ function groupServices(services: Service[]): Record<string, Service[]> {
     acc[g].push(svc)
     return acc
   }, {})
+  for (const list of Object.values(grouped)) {
+    list.sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.name.localeCompare(b.name))
+  }
   // Return groups in defined order
   const ordered: Record<string, Service[]> = {}
   for (const g of GROUP_ORDER) {
@@ -146,51 +172,37 @@ function timeAgo(iso: string | null): string {
   return `${Math.floor(diff / 3600)}h ago`
 }
 
-/**
- * Build an array of BAR_COUNT bar colors from history results (most recent last).
- * Falls back to a pseudo-random distribution based on uptime_7d if no history.
- */
-function buildBars(
-  results: GatusResult[] | undefined,
-  uptime7d: number
-): ('green' | 'red' | 'amber')[] {
-  if (results && results.length > 0) {
-    // Results from Gatus are newest-first; we want oldest→newest (left→right)
-    const slice = results.slice(0, BAR_COUNT).reverse()
-    // Pad with green on the left if we have fewer than BAR_COUNT results
-    const pad: ('green' | 'red' | 'amber')[] = Array(Math.max(0, BAR_COUNT - slice.length)).fill('green')
-    const bars: ('green' | 'red' | 'amber')[] = slice.map((r) => (r.success ? 'green' : 'red'))
-    return [...pad, ...bars]
-  }
+type Bar = 'green' | 'red' | 'empty'
 
-  // Fallback: distribute failures pseudo-randomly based on uptime_7d
-  const failRatio = Math.max(0, Math.min(1, 1 - uptime7d / 100))
-  const bars: ('green' | 'red' | 'amber')[] = []
-  // Simple seeded pseudo-random using index
-  for (let i = 0; i < BAR_COUNT; i++) {
-    const pseudo = Math.sin(i * 127.1 + 311.7) * 43758.5453
-    const frac = pseudo - Math.floor(pseudo)
-    bars.push(frac < failRatio ? 'red' : 'green')
-  }
-  return bars
+/**
+ * One bar per check, oldest on the left. The API returns the newest BAR_COUNT
+ * results, oldest first. Missing checks show as empty bars.
+ */
+function buildBars(results: GatusResult[] | undefined): Bar[] {
+  const slice = (results ?? []).slice(-BAR_COUNT)
+  const pad: Bar[] = Array(BAR_COUNT - slice.length).fill('empty')
+  return [...pad, ...slice.map((r): Bar => (r.success ? 'green' : 'red'))]
 }
 
-const BAR_COLOR_CLASS: Record<'green' | 'red' | 'amber', string> = {
+// Dot, name, bars, uptime, status. Bars and uptime hide on small screens.
+const ROW_GRID = 'grid-cols-[0.5rem_1fr_7rem] sm:grid-cols-[0.5rem_1fr_auto_6rem_7rem] gap-x-4'
+
+const BAR_COLOR_CLASS: Record<Bar, string> = {
   green: 'bg-emerald-500',
   red: 'bg-red-500',
-  amber: 'bg-amber-500',
+  empty: 'bg-[var(--rule)]',
 }
 
 interface UptimeBarsProps {
-  bars: ('green' | 'red' | 'amber')[]
+  bars: Bar[]
 }
 
 function UptimeBars({ bars }: UptimeBarsProps) {
   return (
     <div
-      className="hidden sm:flex items-end gap-[2px] shrink-0"
-      title="45-day uptime history (oldest → newest)"
-      aria-label="45-day uptime history"
+      className="hidden sm:flex items-end gap-[2px]"
+      title={`Last ${BAR_COUNT} checks, oldest to newest`}
+      aria-label={`Last ${BAR_COUNT} checks`}
     >
       {bars.map((color, i) => (
         <div
@@ -213,7 +225,7 @@ export function StatusPageClient() {
   const fetchHistory = useCallback(async (services: Service[]) => {
     const results = await Promise.allSettled(
       services.map(async (svc) => {
-        const key = toEndpointKey(svc.group, svc.name)
+        const key = endpointKey(svc)
         try {
           const res = await fetch(HISTORY_API(key), { cache: 'no-store' })
           if (!res.ok) return { key, results: [] as GatusResult[] }
@@ -269,31 +281,34 @@ export function StatusPageClient() {
           className="pb-0"
           title="System Status."
           lede="Real-time health of all RubixKube platform services."
-        >
-          {lastFetched && (
-            <div className="mt-6 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
-              <RefreshCw className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
-              <span>Updated {timeAgo(lastFetched.toISOString())}</span>
-            </div>
-          )}
-
-          {/* Prominent overall status banner */}
-          {overall && data && (
-            <div className={`mt-8 max-w-[900px] rounded-2xl px-6 py-5 ring-1 ring-[var(--rule)] ${overall.bg}`}>
-              <div className="flex items-center gap-3">
-                <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${overall.dotColor}`} />
-                <span className={`font-[family-name:var(--font-figtree)] text-[18px] font-semibold ${overall.textColor}`}>
-                  {overall.label}
-                </span>
-              </div>
-            </div>
-          )}
-        </PageHero>
+        />
       </header>
 
       {/* Content */}
       <section className="bg-[var(--bg)] px-[var(--pad)] pt-14 pb-24">
-        <div className="rk-landing-max [&>*]:max-w-[900px]">
+        <div className="rk-landing-max [&>*]:mx-auto [&>*]:max-w-[900px]">
+
+          {/* Overall status, with the last refresh on the right */}
+          {(lastFetched || overall) && (
+            <div className="mb-10">
+              {lastFetched && (
+                <div className="mb-3 flex items-center justify-end gap-2 font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)]">
+                  <RefreshCw className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+                  <span>Updated {timeAgo(lastFetched.toISOString())}</span>
+                </div>
+              )}
+              {overall && data && (
+                <div className={`rounded-2xl px-6 py-5 ring-1 ring-[var(--rule)] ${overall.bg}`}>
+                  <div className="flex items-center gap-3">
+                    <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${overall.dotColor}`} />
+                    <span className={`font-[family-name:var(--font-figtree)] text-[18px] font-semibold ${overall.textColor}`}>
+                      {overall.label}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Error state */}
           {error && (
@@ -340,25 +355,35 @@ export function StatusPageClient() {
                   viewport={{ once: true }}
                   transition={{ delay: reducedMotion ? 0 : idx * 0.05 }}
                 >
-                  <h2 className="m-0 mb-4 font-[family-name:var(--font-mono)] text-[12px] font-light uppercase leading-normal tracking-[0.12em] text-[var(--mid)]">
-                    {group}
-                  </h2>
+                  <div className="mb-4 flex items-baseline justify-between gap-4">
+                    <h2 className="m-0 font-[family-name:var(--font-mono)] text-[12px] font-light uppercase leading-normal tracking-[0.12em] text-[var(--mid)]">
+                      {group}
+                    </h2>
+                    <span className="font-[family-name:var(--font-mono)] text-[12px] font-light text-[var(--mid)]">
+                      {groupSummary(services)}
+                    </span>
+                  </div>
                   <div className="rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] divide-y divide-[var(--rule)]">
+                    <div className={`hidden sm:grid ${ROW_GRID} px-5 py-2.5 font-[family-name:var(--font-mono)] text-[11px] font-light text-[var(--mid)]`}>
+                      <span className="col-span-2">Service</span>
+                      <span>Last {BAR_COUNT} checks</span>
+                      <span className="text-right">Uptime (7d)</span>
+                      <span className="text-center">Status</span>
+                    </div>
                     {services.map((svc) => {
                       const cfg = STATUS_CONFIG[svc.status]
-                      const key = toEndpointKey(svc.group, svc.name)
-                      const bars = buildBars(historyMap[key], svc.uptime_7d)
+                      const bars = buildBars(historyMap[endpointKey(svc)])
                       return (
-                        <div key={svc.name} className="flex items-center gap-4 px-5 py-4">
-                          <div className={`h-2 w-2 rounded-full shrink-0 ${cfg.dot}`} />
-                          <span className="flex-1 font-[family-name:var(--font-mono)] text-[14px] text-[var(--ink)] min-w-0">
+                        <div key={svc.name} className={`grid ${ROW_GRID} items-center px-5 py-4`}>
+                          <div className={`h-2 w-2 rounded-full ${cfg.dot}`} />
+                          <span className="font-[family-name:var(--font-mono)] text-[14px] text-[var(--ink)] min-w-0 truncate">
                             {svc.name}
                           </span>
                           <UptimeBars bars={bars} />
-                          <span className="hidden sm:block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] shrink-0 w-20 text-right">
-                            {svc.uptime_7d.toFixed(1)}% 7d
+                          <span className="hidden sm:block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] text-right tabular-nums">
+                            {svc.uptime_7d == null ? '-' : `${svc.uptime_7d.toFixed(1)}%`}
                           </span>
-                          <span className={`font-[family-name:var(--font-mono)] text-[12px] px-2.5 py-0.5 rounded-full shrink-0 ${cfg.badge}`}>
+                          <span className={`font-[family-name:var(--font-mono)] text-[12px] w-[7rem] text-center py-0.5 rounded-full ${cfg.badge}`}>
                             {cfg.label}
                           </span>
                         </div>
