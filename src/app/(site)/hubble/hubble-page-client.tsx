@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
+import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
 import { BillingToggle } from '@/components/ui/billing-toggle'
 import { CALENDLY_DEMO_URL } from '@/lib/calendly-demo-url'
@@ -15,7 +16,9 @@ import { siteButton, siteButtonCalendly, siteLink, siteLinkArrow } from '@/lib/s
 import { cn } from '@/lib/utils'
 import { ArrowRight, BellRing, CheckCircle, Mail, MessageSquare, Smartphone } from 'lucide-react'
 
-const HUBBLE_APP_URL = 'https://console.rubixkube.ai'
+// Hubble's way into the console: sign-in with Hubble's logo, a new account starts as Hubble, then the first
+// payment. ?interval= picks monthly or yearly there.
+const HUBBLE_APP_URL = 'https://console.rubixkube.ai/hubble'
 
 const INCIDENT = 'Checkout error rate is high'
 
@@ -264,6 +267,7 @@ const PLANS = [
     price: { monthly: '$20', annual: '$17' },
     unit: { monthly: 'per seat, per month', annual: 'per seat, per month, billed annually' },
     recommended: false,
+    signUp: true,
     includes: [
       'Rosters with rotations, layers and overrides',
       'Escalation policies with timers',
@@ -313,8 +317,19 @@ function Includes({ items }: { items: readonly string[] }) {
   )
 }
 
-/** No direct payment: every plan's button books a call. The recommended plan has the one solid button. */
-function PlanButton({ recommended }: { recommended: boolean }) {
+/**
+ * Hubble on its own is bought in the console: sign up, then pay for seats there. The plans that need a RubixKube
+ * organization or a contract book a call. The recommended plan has the one solid button.
+ */
+function PlanButton({ recommended, signUp, billing }: { recommended: boolean; signUp: boolean; billing: 'monthly' | 'annual' }) {
+  if (signUp)
+    return (
+      <Button asChild variant="outline" className={cn('h-12 w-full', outlineBlueAccentMd)}>
+        <a href={`${HUBBLE_APP_URL}?interval=${billing === 'annual' ? 'yearly' : 'monthly'}`} target="_blank" rel="noopener noreferrer">
+          Get started
+        </a>
+      </Button>
+    )
   return recommended ? (
     <CalendlyBooking url={CALENDLY_DEMO_URL} className={cn(siteButtonCalendly, '!w-full')}>
       Contact us
@@ -358,7 +373,7 @@ function Pricing() {
                 {plan.price[billing]}
               </p>
               <p className={`${sans} mt-2 mb-6 text-[15px] text-[var(--mid)]`}>{plan.unit[billing]}</p>
-              <PlanButton recommended={plan.recommended} />
+              <PlanButton recommended={plan.recommended} signUp={'signUp' in plan && plan.signUp} billing={billing} />
               <hr className="my-8 border-[var(--rule)]" />
               <Includes items={plan.includes} />
               {plan.recommended && (
