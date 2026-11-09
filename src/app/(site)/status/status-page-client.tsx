@@ -9,34 +9,39 @@ import { fadeUpVariants } from '@/lib/animations'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { RefreshCw, CheckCircle } from 'lucide-react'
 
-const STATUS_API = 'https://api.rubixkube.ai/status'
+const STATUS_API = process.env.NEXT_PUBLIC_STATUS_API_URL ?? 'https://api.rubixkube.ai/status'
 
 // Maps endpoint names returned by the status API to display names and groups.
 // Keys must match the API's endpoint names exactly.
 const SERVICE_MAP: Record<string, { name: string; group: string }> = {
-  'Orchestrator':    { name: 'API',               group: 'Platform'       },
-  'Console':         { name: 'Dashboard',          group: 'Platform'       },
-  'Opel SSE':        { name: 'AI Agents',          group: 'Intelligence'   },
-  'RCA Pipeline':    { name: 'Investigations',     group: 'Intelligence'   },
-  'Memory Engine X': { name: 'Insights Engine',    group: 'Data'           },
-  'Knowledge Graph': { name: 'Topology Engine',    group: 'Data'           },
-  'NATS':            { name: 'Event Streaming',    group: 'Infrastructure' },
-  'Neo4j':           { name: 'Graph Store',        group: 'Infrastructure' },
+  'Orchestrator':      { name: 'API',                   group: 'Platform'       },
+  'Console':           { name: 'Console',               group: 'Platform'       },
+  'MCP Server':        { name: 'MCP Server',            group: 'Platform'       },
+  'Slack Bot':         { name: 'Slack App',             group: 'Platform'       },
+  'Notification':      { name: 'Notifications',         group: 'Platform'       },
+  'Rubix Agent':       { name: 'Rubix',                 group: 'Intelligence'   },
+  'Automation Engine': { name: 'Automations',           group: 'Intelligence'   },
+  'Memory Engine X':   { name: 'Incidents',             group: 'Data'           },
+  'Knowledge Graph':   { name: 'Topology',              group: 'Data'           },
+  'NATS':              { name: 'Event Streaming',       group: 'Infrastructure' },
+  'Neo4j':             { name: 'Graph Store',           group: 'Infrastructure' },
+  'Novu':              { name: 'Notification Delivery', group: 'Infrastructure' },
 }
 
 const GROUP_ORDER = ['Platform', 'Intelligence', 'Data', 'Infrastructure']
-const HISTORY_API = (key: string) => `https://api.rubixkube.ai/status/history/${key}`
-const POLL_INTERVAL = 30_000
 const BAR_COUNT = 45
+const HISTORY_API = (key: string) => `${STATUS_API}/history/${key}?limit=${BAR_COUNT}`
+const POLL_INTERVAL = 30_000
 
 type ServiceStatus = 'operational' | 'degraded' | 'outage'
 
 interface Service {
   name: string
   group: string
+  key?: string
   status: ServiceStatus
-  uptime_24h: number
-  uptime_7d: number
+  uptime_24h: number | null
+  uptime_7d: number | null
   response_time_ms: number | null
   checked_at: string | null
 }
@@ -105,7 +110,12 @@ const OVERALL_CONFIG: Record<
   },
 }
 
-// Use original internal name to build the Gatus history key (before remapping)
+// The API sends each service's Gatus key. Older API versions don't, so build it
+// from the original internal names (before remapping), the way Gatus does.
+function endpointKey(svc: Service): string {
+  return svc.key ?? toEndpointKey(svc.group, svc.name)
+}
+
 function toEndpointKey(internalGroup: string, internalName: string): string {
   const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
   return `${slugify(internalGroup)}_${slugify(internalName)}`
@@ -114,8 +124,10 @@ function toEndpointKey(internalGroup: string, internalName: string): string {
 function applyServiceMap(services: Service[]): Service[] {
   return services.map((svc) => {
     const mapped = SERVICE_MAP[svc.name]
-    if (!mapped) return svc
-    return { ...svc, name: mapped.name, group: mapped.group }
+    // Keep the key from the internal names; the history lookup uses it.
+    const key = endpointKey(svc)
+    if (!mapped) return { ...svc, key }
+    return { ...svc, key, name: mapped.name, group: mapped.group }
   })
 }
 
@@ -146,51 +158,34 @@ function timeAgo(iso: string | null): string {
   return `${Math.floor(diff / 3600)}h ago`
 }
 
-/**
- * Build an array of BAR_COUNT bar colors from history results (most recent last).
- * Falls back to a pseudo-random distribution based on uptime_7d if no history.
- */
-function buildBars(
-  results: GatusResult[] | undefined,
-  uptime7d: number
-): ('green' | 'red' | 'amber')[] {
-  if (results && results.length > 0) {
-    // Results from Gatus are newest-first; we want oldest→newest (left→right)
-    const slice = results.slice(0, BAR_COUNT).reverse()
-    // Pad with green on the left if we have fewer than BAR_COUNT results
-    const pad: ('green' | 'red' | 'amber')[] = Array(Math.max(0, BAR_COUNT - slice.length)).fill('green')
-    const bars: ('green' | 'red' | 'amber')[] = slice.map((r) => (r.success ? 'green' : 'red'))
-    return [...pad, ...bars]
-  }
+type Bar = 'green' | 'red' | 'empty'
 
-  // Fallback: distribute failures pseudo-randomly based on uptime_7d
-  const failRatio = Math.max(0, Math.min(1, 1 - uptime7d / 100))
-  const bars: ('green' | 'red' | 'amber')[] = []
-  // Simple seeded pseudo-random using index
-  for (let i = 0; i < BAR_COUNT; i++) {
-    const pseudo = Math.sin(i * 127.1 + 311.7) * 43758.5453
-    const frac = pseudo - Math.floor(pseudo)
-    bars.push(frac < failRatio ? 'red' : 'green')
-  }
-  return bars
+/**
+ * One bar per check, oldest on the left. The API returns the newest BAR_COUNT
+ * results, oldest first. Missing checks show as empty bars.
+ */
+function buildBars(results: GatusResult[] | undefined): Bar[] {
+  const slice = (results ?? []).slice(-BAR_COUNT)
+  const pad: Bar[] = Array(BAR_COUNT - slice.length).fill('empty')
+  return [...pad, ...slice.map((r): Bar => (r.success ? 'green' : 'red'))]
 }
 
-const BAR_COLOR_CLASS: Record<'green' | 'red' | 'amber', string> = {
+const BAR_COLOR_CLASS: Record<Bar, string> = {
   green: 'bg-emerald-500',
   red: 'bg-red-500',
-  amber: 'bg-amber-500',
+  empty: 'bg-[var(--rule)]',
 }
 
 interface UptimeBarsProps {
-  bars: ('green' | 'red' | 'amber')[]
+  bars: Bar[]
 }
 
 function UptimeBars({ bars }: UptimeBarsProps) {
   return (
     <div
       className="hidden sm:flex items-end gap-[2px] shrink-0"
-      title="45-day uptime history (oldest → newest)"
-      aria-label="45-day uptime history"
+      title={`Last ${BAR_COUNT} checks, oldest to newest`}
+      aria-label={`Last ${BAR_COUNT} checks`}
     >
       {bars.map((color, i) => (
         <div
@@ -213,7 +208,7 @@ export function StatusPageClient() {
   const fetchHistory = useCallback(async (services: Service[]) => {
     const results = await Promise.allSettled(
       services.map(async (svc) => {
-        const key = toEndpointKey(svc.group, svc.name)
+        const key = endpointKey(svc)
         try {
           const res = await fetch(HISTORY_API(key), { cache: 'no-store' })
           if (!res.ok) return { key, results: [] as GatusResult[] }
@@ -346,8 +341,7 @@ export function StatusPageClient() {
                   <div className="rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] divide-y divide-[var(--rule)]">
                     {services.map((svc) => {
                       const cfg = STATUS_CONFIG[svc.status]
-                      const key = toEndpointKey(svc.group, svc.name)
-                      const bars = buildBars(historyMap[key], svc.uptime_7d)
+                      const bars = buildBars(historyMap[endpointKey(svc)])
                       return (
                         <div key={svc.name} className="flex items-center gap-4 px-5 py-4">
                           <div className={`h-2 w-2 rounded-full shrink-0 ${cfg.dot}`} />
@@ -356,7 +350,7 @@ export function StatusPageClient() {
                           </span>
                           <UptimeBars bars={bars} />
                           <span className="hidden sm:block font-[family-name:var(--font-mono)] text-[13px] font-light text-[var(--mid)] shrink-0 w-20 text-right">
-                            {svc.uptime_7d.toFixed(1)}% 7d
+                            {svc.uptime_7d == null ? '-' : `${svc.uptime_7d.toFixed(1)}%`} 7d
                           </span>
                           <span className={`font-[family-name:var(--font-mono)] text-[12px] px-2.5 py-0.5 rounded-full shrink-0 ${cfg.badge}`}>
                             {cfg.label}
