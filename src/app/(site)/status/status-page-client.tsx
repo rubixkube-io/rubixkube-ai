@@ -25,7 +25,7 @@ const SERVICE_MAP: Record<string, { name: string; group: string }> = {
   'Knowledge Graph':   { name: 'Topology',              group: 'Data'           },
   'NATS':              { name: 'Event Streaming',       group: 'Infrastructure' },
   'Neo4j':             { name: 'Graph Store',           group: 'Infrastructure' },
-  'Novu':              { name: 'Notification Delivery', group: 'Infrastructure' },
+  'Novu':              { name: 'Notification Service',  group: 'Infrastructure' },
 }
 
 const GROUP_ORDER = ['Platform', 'Intelligence', 'Data', 'Infrastructure']
