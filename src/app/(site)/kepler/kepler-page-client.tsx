@@ -11,6 +11,8 @@ import { ProductLockup } from '@/components/product/product-lockup'
 import { SectionBar } from '@/components/product/section-bar'
 import { PricingCard } from '@/components/product/pricing-card'
 import { Tile } from '@/components/product/tile'
+import { DownloadButton } from '@/components/product/download-button'
+import { DownloadRows } from '@/components/product/download-rows'
 import { BillingToggle } from '@/components/ui/billing-toggle'
 import { Button } from '@/components/ui/button'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
@@ -225,10 +227,7 @@ export function KeplerPageClient() {
                 {HERO.lead}
               </motion.p>
               <motion.div variants={fadeUpVariants} className="mt-10 flex flex-wrap items-center gap-4">
-                {/* Placeholder: Task 4 replaces this with the real download button. */}
-                <Button asChild size="lg" className="w-full sm:w-auto">
-                  <a href="#download">Download</a>
-                </Button>
+                <DownloadButton className="w-full sm:w-auto" />
               </motion.div>
               <motion.p
                 variants={fadeUpVariants}
@@ -341,10 +340,16 @@ export function KeplerPageClient() {
 
       <Pricing />
 
-      {/* Placeholder: Task 4 fills download. */}
       <section id="download" className={`${section} border-t border-[var(--faint)]`}>
         <div className="rk-landing-max px-[var(--pad)]">
-          <h2 className={h2}>Download</h2>
+          <motion.div {...reveal} className="mb-12">
+            <span className={label}>Download</span>
+            <h2 className={h2}>Download Kepler</h2>
+            <p className={lead}>Free to download. 14 days of Pro to start. No card.</p>
+          </motion.div>
+          <motion.div {...reveal} className="max-w-3xl">
+            <DownloadRows />
+          </motion.div>
         </div>
       </section>
 
