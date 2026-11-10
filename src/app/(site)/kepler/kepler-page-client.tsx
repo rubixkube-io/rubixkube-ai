@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -8,10 +9,13 @@ import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { ProductLockup } from '@/components/product/product-lockup'
 import { SectionBar } from '@/components/product/section-bar'
+import { PricingCard } from '@/components/product/pricing-card'
 import { Tile } from '@/components/product/tile'
+import { BillingToggle } from '@/components/ui/billing-toggle'
 import { Button } from '@/components/ui/button'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
 import { siteLink, siteLinkArrow } from '@/lib/site-ui'
+import { FAQ, PLANS, USAGE_PRICES, formatMoney, keplerPrice } from './pricing'
 import { FEATURE_GROUPS, FOUNDER, HERO, KEPLER_SECTIONS, SHOTS, THESIS, type KeplerFeature } from './content'
 
 const label =
@@ -58,6 +62,124 @@ function IconView({ icon: Icon }: { icon: KeplerFeature['icon'] }) {
         <Icon className="h-7 w-7 text-[var(--ink)]" strokeWidth={1.5} aria-hidden />
       </span>
     </div>
+  )
+}
+
+const mono = 'font-[family-name:var(--font-mono)]'
+const sans = 'font-[family-name:var(--font-figtree)]'
+
+function usd(cents: number | null) {
+  return cents === null ? 'TBD' : formatMoney(cents, 'USD')
+}
+
+function PlanButton({ plan }: { plan: (typeof PLANS)[number] }) {
+  const { label: text, href } = plan.button
+  return (
+    <>
+      <Button asChild size="lg" variant={plan.recommended ? 'primary' : 'outline'} className="w-full">
+        {href.startsWith('/') ? <Link href={href}>{text}</Link> : <a href={href}>{text}</a>}
+      </Button>
+      {/* Reserve the line on every card so the buttons and lists line up. */}
+      <p className={`${sans} m-0 mt-3 min-h-[1.5rem] text-center text-[14px] text-[var(--mid)]`}>{plan.note}</p>
+    </>
+  )
+}
+
+function planPrice(plan: (typeof PLANS)[number], annual: boolean) {
+  if (plan.price === null) return { price: 'Custom', unit: 'per seat' }
+  if (plan.price.monthly === 0) return { price: '$0', unit: 'forever' }
+  const cents = annual ? plan.price.annual : plan.price.monthly
+  const whole = formatMoney(cents, 'USD').replace('.00', '')
+  return {
+    price: whole,
+    unit: annual ? `a month. ${formatMoney(plan.price.annual * 12, 'USD').replace('.00', '')} a year, billed once` : 'a month',
+  }
+}
+
+function Pricing() {
+  const [isAnnual, setIsAnnual] = useState(false)
+  return (
+    <section id="pricing" className={`${section} border-t border-[var(--faint)]`}>
+      <div className="rk-landing-max px-[var(--pad)]">
+        <motion.div {...reveal} className="mb-16">
+          <span className={label}>Pricing</span>
+          <h2 className={h2}>
+            Free to start. <em>Pro when you need it.</em>
+          </h2>
+        </motion.div>
+        <BillingToggle isAnnual={isAnnual} onToggle={() => setIsAnnual(!isAnnual)} saving="Save 20%" />
+        <motion.div {...reveal} className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:[&>div]:min-h-[44rem]">
+          {PLANS.map((plan) => {
+            const { price, unit } = planPrice(plan, isAnnual)
+            return (
+              <PricingCard
+                key={plan.name}
+                name={plan.name}
+                price={price}
+                unit={unit}
+                recommended={plan.recommended}
+                includes={plan.includes}
+                button={<PlanButton plan={plan} />}
+              />
+            )
+          })}
+        </motion.div>
+
+        <motion.div {...reveal} className="mt-24 max-w-3xl">
+          <h3 className="rk-section-title mt-0 mb-4 text-[clamp(1.5rem,2.2vw,2rem)] leading-[1.15] text-[var(--ink)]">Hosted model usage</h3>
+          <p className={`${lead} mb-8 max-w-[60ch]`}>
+            Pro includes $5 of usage a month. Beyond that, prepaid credit at the provider&apos;s list price plus 10%.
+          </p>
+          <div className="overflow-x-auto rounded-2xl ring-1 ring-[var(--rule)]">
+            <table className="w-full min-w-[30rem] border-collapse text-left">
+              <caption className="sr-only">Hosted model prices per million tokens, input and output</caption>
+              <thead>
+                <tr className="bg-[var(--panel)]">
+                  {['Model', 'Provider price', 'Kepler price'].map((h) => (
+                    <th key={h} scope="col" className={`${mono} px-5 py-4 text-[12px] font-normal tracking-[0.2em] text-[var(--mid)] uppercase`}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {USAGE_PRICES.map((row) => (
+                  <tr key={row.model} className="border-t border-[var(--rule)]">
+                    <th scope="row" className={`${mono} px-5 py-4 text-[14px] font-normal text-[var(--ink)]`}>
+                      {row.model}
+                    </th>
+                    <td className={`${sans} px-5 py-4 text-[15px] text-[var(--mid)]`}>
+                      {usd(row.provider_in)} / {usd(row.provider_out)}
+                    </td>
+                    <td className={`${sans} px-5 py-4 text-[15px] text-[var(--ink)]`}>
+                      {usd(keplerPrice(row.provider_in))} / {usd(keplerPrice(row.provider_out))}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className={`${mono} mt-4 mb-0 text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase`}>Per million tokens, input / output</p>
+        </motion.div>
+
+        <div className="mt-24 grid grid-cols-1 gap-16 lg:grid-cols-[1fr_2fr] lg:gap-20">
+          <motion.div {...reveal}>
+            <span className={label}>Questions</span>
+            <h3 className="rk-section-title m-0 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]">
+              Frequently <em>asked.</em>
+            </h3>
+          </motion.div>
+          <div>
+            {FAQ.map((item, i) => (
+              <motion.div key={item.question} {...reveal} className={`py-8 ${i === 0 ? 'pt-0' : 'border-t border-[var(--rule)]'}`}>
+                <h4 className="rk-section-title m-0 mb-2.5 text-[1.2rem] leading-[1.3] tracking-[-0.015em] text-[var(--ink)]">{item.question}</h4>
+                <p className="rk-section-body m-0 text-[var(--mid)]">{item.answer}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -207,12 +329,9 @@ export function KeplerPageClient() {
         </motion.div>
       </section>
 
-      {/* Placeholders: Task 3 fills pricing, Task 4 fills download. */}
-      <section id="pricing" className={`${section} border-t border-[var(--faint)]`}>
-        <div className="rk-landing-max px-[var(--pad)]">
-          <h2 className={h2}>Pricing</h2>
-        </div>
-      </section>
+      <Pricing />
+
+      {/* Placeholder: Task 4 fills download. */}
       <section id="download" className={`${section} border-t border-[var(--faint)]`}>
         <div className="rk-landing-max px-[var(--pad)]">
           <h2 className={h2}>Download</h2>
