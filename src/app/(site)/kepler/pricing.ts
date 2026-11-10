@@ -62,7 +62,7 @@ export const USAGE_PRICES: readonly { model: string; provider_in: number | null;
   { model: 'kepler-expert', provider_in: null, provider_out: null },
 ]
 
-export const USAGE_MARKUP = 1.1
+export const USAGE_MARKUP_PERCENT = 110
 
 export const FAQ = [
   {
@@ -87,5 +87,5 @@ export function formatMoney(minor: number, currency: string): string {
 
 /** Kepler price is the provider's list price plus 10%, rounded to a cent. null stays null. */
 export function keplerPrice(provider: number | null): number | null {
-  return provider === null ? null : Math.round(provider * USAGE_MARKUP)
+  return provider === null ? null : Math.round((provider * USAGE_MARKUP_PERCENT) / 100)
 }

@@ -79,20 +79,30 @@ function PlanButton({ plan }: { plan: (typeof PLANS)[number] }) {
       <Button asChild size="lg" variant={plan.recommended ? 'primary' : 'outline'} className="w-full">
         {href.startsWith('/') ? <Link href={href}>{text}</Link> : <a href={href}>{text}</a>}
       </Button>
-      {/* Reserve the line on every card so the buttons and lists line up. */}
-      <p className={`${sans} m-0 mt-3 min-h-[1.5rem] text-center text-[14px] text-[var(--mid)]`}>{plan.note}</p>
+      {/* From lg the line is reserved on every card so buttons and lists line up; on one column it collapses. */}
+      <p className={`${sans} m-0 text-center text-[14px] text-[var(--mid)] lg:mt-3 lg:min-h-[1.5rem] ${plan.note ? 'mt-3' : ''}`}>{plan.note}</p>
+    </>
+  )
+}
+
+const whole = (cents: number) => formatMoney(cents, 'USD').replace('.00', '')
+
+/** Two-line unit. The second line is reserved (from lg) on every card so the toggle does not reflow. */
+function Unit({ first, second }: { first: string; second?: string }) {
+  return (
+    <>
+      <span className="block">{first}</span>
+      <span className="block">{second ?? <span className="hidden lg:inline">&nbsp;</span>}</span>
     </>
   )
 }
 
 function planPrice(plan: (typeof PLANS)[number], annual: boolean) {
-  if (plan.price === null) return { price: 'Custom', unit: 'per seat' }
-  if (plan.price.monthly === 0) return { price: '$0', unit: 'forever' }
-  const cents = annual ? plan.price.annual : plan.price.monthly
-  const whole = formatMoney(cents, 'USD').replace('.00', '')
+  if (plan.price === null) return { price: <span className="text-[0.5em] tracking-normal">Contact us</span>, unit: <Unit first="for your team" /> }
+  if (plan.price.monthly === 0) return { price: '$0', unit: <Unit first="forever" /> }
   return {
-    price: whole,
-    unit: annual ? `a month. ${formatMoney(plan.price.annual * 12, 'USD').replace('.00', '')} a year, billed once` : 'a month',
+    price: whole(annual ? plan.price.annual : plan.price.monthly),
+    unit: <Unit first="a month" second={annual ? `${whole(plan.price.annual * 12)} a year, billed once` : undefined} />,
   }
 }
 
@@ -127,7 +137,7 @@ function Pricing() {
 
         <motion.div {...reveal} className="mt-24 max-w-3xl">
           <h3 className="rk-section-title mt-0 mb-4 text-[clamp(1.5rem,2.2vw,2rem)] leading-[1.15] text-[var(--ink)]">Hosted model usage</h3>
-          <p className={`${lead} mb-8 max-w-[60ch]`}>
+          <p className="rk-section-body m-0 mb-8 max-w-[60ch] text-[var(--mid)]">
             Pro includes $5 of usage a month. Beyond that, prepaid credit at the provider&apos;s list price plus 10%.
           </p>
           <div className="overflow-x-auto rounded-2xl ring-1 ring-[var(--rule)]">

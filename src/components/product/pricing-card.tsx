@@ -32,8 +32,8 @@ export function PricingCard({
   footer,
 }: {
   name: string
-  price: string
-  unit: string
+  price: ReactNode
+  unit: ReactNode
   recommended: boolean
   includes: readonly string[]
   button: ReactNode

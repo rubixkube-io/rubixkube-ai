@@ -23,6 +23,7 @@ test('keplerPrice is provider plus 10%, rounded to a cent', () => {
   assert.equal(keplerPrice(null), null)
   assert.equal(keplerPrice(300), 330)
   assert.equal(keplerPrice(125), 138)
+  assert.equal(keplerPrice(105), 116)
   assert.equal(keplerPrice(1), 1)
 })
 
