@@ -5,6 +5,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
+import { Backdrop } from '@/components/product/backdrop'
+import { PricingCard } from '@/components/product/pricing-card'
+import { ProductLockup } from '@/components/product/product-lockup'
+import { SectionBar } from '@/components/product/section-bar'
+import { Tile } from '@/components/product/tile'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { CalendlyBooking } from '@/components/ui/calendly-booking'
@@ -14,7 +19,7 @@ import { fadeUpVariants, staggerContainer } from '@/lib/animations'
 import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { siteButton, siteButtonCalendly, siteLink, siteLinkArrow } from '@/lib/site-ui'
 import { cn } from '@/lib/utils'
-import { ArrowRight, BellRing, CheckCircle, Mail, MessageSquare, Smartphone } from 'lucide-react'
+import { ArrowRight, BellRing, Mail, MessageSquare, Smartphone } from 'lucide-react'
 
 // Hubble's way into the console: sign-in with Hubble's logo, a new account starts as Hubble, then the first
 // payment. ?interval= picks monthly or yearly there.
@@ -56,22 +61,6 @@ const reveal = {
 }
 
 /* ───────────────────────── product views ───────────────────────── */
-
-/** A soft blue field with a faint dot grid, for product views to float on. */
-function Backdrop({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return (
-    <div
-      className={`relative overflow-hidden bg-[var(--background-secondary)] ${className}`}
-      style={{
-        backgroundImage:
-          'radial-gradient(120% 90% at 0% 0%, rgba(47,91,255,0.16), transparent 60%), radial-gradient(90% 70% at 100% 100%, rgba(47,91,255,0.10), transparent 60%), radial-gradient(rgba(17,19,24,0.07) 1px, transparent 1px)',
-        backgroundSize: 'auto, auto, 14px 14px',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
 
 /** Fades the right and bottom edges, so a view larger than its frame ends softly. */
 const fadeEdges = {
@@ -301,22 +290,6 @@ const PLANS = [
   },
 ] as const
 
-function Includes({ items }: { items: readonly string[] }) {
-  return (
-    <ul className="space-y-2.5">
-      {items.map((item) => {
-        const strong = item.startsWith('**')
-        return (
-          <li key={item} className={`${sans} flex items-start gap-3 text-[15px] leading-[1.5] ${strong ? 'font-medium text-[var(--ink)]' : 'text-[var(--mid)]'}`}>
-            <CheckCircle className="mt-[3px] h-4 w-4 shrink-0 text-[var(--ink)]" strokeWidth={1.5} />
-            <span>{item.replaceAll('**', '')}</span>
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
-
 /**
  * Hubble on its own is bought in the console: sign up, then pay for seats there. The plans that need a RubixKube
  * organization or a contract book a call. The recommended plan has the one solid button.
@@ -357,32 +330,23 @@ function Pricing() {
         <BillingToggle isAnnual={isAnnual} onToggle={() => setIsAnnual(!isAnnual)} />
         <motion.div {...reveal} className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {PLANS.map((plan) => (
-            <div
+            <PricingCard
               key={plan.name}
-              className={`relative flex flex-col rounded-2xl bg-[var(--panel)] p-8 sm:p-10 ${
-                plan.recommended ? 'ring-1 ring-[var(--ink)]/40' : 'ring-1 ring-[var(--rule)]'
-              }`}
-            >
-              <div className="mb-6 flex items-center gap-3">
-                <span className={`${mono} text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`}>{plan.name}</span>
-                {plan.recommended && (
-                  <span className={`${mono} text-[12px] tracking-[0.1em] text-[var(--ink)] uppercase`}>Recommended</span>
-                )}
-              </div>
-              <p className={`${mono} mb-1 text-[clamp(3rem,5vw,4.5rem)] leading-none font-normal tracking-[-0.04em] text-[var(--ink)]`}>
-                {plan.price[billing]}
-              </p>
-              <p className={`${sans} mt-2 mb-6 text-[15px] text-[var(--mid)]`}>{plan.unit[billing]}</p>
-              <PlanButton recommended={plan.recommended} signUp={'signUp' in plan && plan.signUp} billing={billing} />
-              <hr className="my-8 border-[var(--rule)]" />
-              <Includes items={plan.includes} />
-              {plan.recommended && (
-                <Link href="/pricing" className={`${siteLink} mt-auto self-start pt-8`}>
-                  See RubixKube plans
-                  <ArrowRight className={siteLinkArrow} aria-hidden />
-                </Link>
-              )}
-            </div>
+              name={plan.name}
+              price={plan.price[billing]}
+              unit={plan.unit[billing]}
+              recommended={plan.recommended}
+              includes={plan.includes}
+              button={<PlanButton recommended={plan.recommended} signUp={'signUp' in plan && plan.signUp} billing={billing} />}
+              footer={
+                plan.recommended ? (
+                  <Link href="/pricing" className={`${siteLink} mt-auto self-start pt-8`}>
+                    See RubixKube plans
+                    <ArrowRight className={siteLinkArrow} aria-hidden />
+                  </Link>
+                ) : undefined
+              }
+            />
           ))}
         </motion.div>
       </div>
@@ -390,83 +354,17 @@ function Pricing() {
   )
 }
 
-/* ───────────────────────── brand and page chrome ───────────────────────── */
+/* ───────────────────────── page chrome ───────────────────────── */
 
-/** "Hubble by RubixKube": the product name in the site serif, then the RubixKube wordmark. */
-function HubbleLockup({ size = 'md' }: { size?: 'md' | 'lg' }) {
-  // md is the section bar, lg the hero
-  const lg = size === 'lg'
-  return (
-    <span className="inline-flex items-center gap-2.5" aria-label="Hubble by RubixKube">
-      <span
-        className={`font-[family-name:var(--font-serif)] leading-none text-[var(--ink)] ${lg ? 'text-[28px]' : 'text-[26px]'}`}
-        aria-hidden
-      >
-        Hubble
-      </span>
-      <span className={`${mono} text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`} aria-hidden>
-        by
-      </span>
-      <Image src="/light-logo.svg" alt="" width={1720} height={200} className={`rk-only-light w-auto ${lg ? 'h-[15px]' : 'h-[14px]'}`} />
-      <Image src="/dark-logo.svg" alt="" width={1720} height={200} className={`rk-only-dark w-auto ${lg ? 'h-[15px]' : 'h-[14px]'}`} />
-    </span>
-  )
-}
-
-const SECTIONS = [
-  { id: 'features', name: 'Features' },
-  { id: 'mobile', name: 'Mobile' },
-  { id: 'rubixkube', name: 'RubixKube' },
-  { id: 'pricing', name: 'Pricing' },
-] as const
-
-/** Sticky in-page bar under the site navbar: the product name, its sections, and Open Hubble. */
-function SectionBar() {
-  return (
-    <div className="sticky top-[var(--nav-stack)] z-[90] border-y border-[var(--rule)] bg-[var(--bg)]/85 backdrop-blur-md">
-      <div className="rk-landing-max flex h-16 items-center gap-10 px-[var(--pad)]">
-        <a href="#top" className="shrink-0">
-          <HubbleLockup />
-        </a>
-        <nav className="hidden items-center gap-8 lg:flex">
-          {SECTIONS.map((s) => (
-            <a
-              key={s.id}
-              href={`#${s.id}`}
-              className={`${mono} text-[13px] tracking-[0.15em] text-[var(--mid)] uppercase transition-colors hover:text-[var(--ink)]`}
-            >
-              {s.name}
-            </a>
-          ))}
-        </nav>
-        <a
-          href={HUBBLE_APP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(siteButton, 'ml-auto hidden h-10 px-5 text-[15px] sm:inline-flex')}
-        >
-          Open Hubble
-        </a>
-      </div>
-    </div>
-  )
-}
-
-/** One feature in the grid: a zoomed view on top, its name and one or two lines below. */
-function Tile({ span, title, copy, visual, tall = false }: { span: string; title: string; copy: string; visual: ReactNode; tall?: boolean }) {
-  return (
-    <motion.div
-      {...reveal}
-      className={`${span} flex flex-col overflow-hidden rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] transition-shadow hover:shadow-md`}
-    >
-      <Backdrop className={`border-b border-[var(--rule)] ${tall ? 'h-[300px] lg:h-[360px]' : 'h-[260px] lg:h-[300px]'}`}>{visual}</Backdrop>
-      <div className="p-8">
-        <h3 className="rk-section-title mt-0 mb-2.5 text-[1.2rem] leading-[1.3] tracking-[-0.01em] text-[var(--ink)]">{title}</h3>
-        <p className={`${sans} m-0 text-[15px] leading-[1.6] text-[var(--mid)]`}>{copy}</p>
-      </div>
-    </motion.div>
-  )
-}
+const PRODUCT = {
+  name: 'Hubble',
+  sections: [
+    { id: 'features', name: 'Features' },
+    { id: 'mobile', name: 'Mobile' },
+    { id: 'rubixkube', name: 'RubixKube' },
+    { id: 'pricing', name: 'Pricing' },
+  ],
+} as const
 
 /* ───────────────────────── page ───────────────────────── */
 
@@ -498,7 +396,7 @@ export function HubblePageClient() {
         <div className="rk-landing-max relative grid items-center gap-14 px-[var(--pad)] pt-[calc(var(--nav-stack)+4rem)] pb-24 lg:grid-cols-[5fr_7fr] lg:gap-10 lg:pt-[calc(var(--nav-stack)+5rem)] lg:pb-32">
           <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="relative z-10 lg:-mt-12">
             <motion.div variants={fadeUpVariants} className="mb-10">
-              <HubbleLockup size="lg" />
+              <ProductLockup name="Hubble" size="lg" />
             </motion.div>
             <motion.h1
               variants={fadeUpVariants}
@@ -551,7 +449,7 @@ export function HubblePageClient() {
         </div>
       </section>
 
-      <SectionBar />
+      <SectionBar product={PRODUCT} action={{ label: 'Open Hubble', href: HUBBLE_APP_URL, external: true }} />
 
       {/* Features: one grid, each tile a zoomed product view */}
       <section id="features" className="scroll-mt-[calc(var(--nav-stack)+4rem)] bg-[var(--bg)] py-24 sm:py-32">

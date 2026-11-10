@@ -15,6 +15,18 @@ export const dynamicOgPageContent = {
     description: 'Rosters, escalation policies, acknowledgements, contact rules, a phone app and Slack.',
     accent: null,
   },
+  kepler: {
+    eyebrow: 'Kepler',
+    title: 'The IDE for operators',
+    description: 'A desktop agent for the people who keep systems alive.',
+    accent: null,
+  },
+  keplerCreators: {
+    eyebrow: 'Kepler',
+    title: 'Kepler for creators',
+    description: 'Share what you build with Kepler.',
+    accent: null,
+  },
   about: {
     eyebrow: 'About RubixKube',
     title: 'Building the bridge between infrastructure and impact.',

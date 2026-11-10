@@ -70,7 +70,7 @@ const PRODUCTS: {
   {
     title: 'Kepler',
     line: 'The desktop IDE for operators.',
-    href: '/products/kepler',
+    href: '/kepler',
     image: '/screenshots/kepler/cover-window.png',
     offset: true,
   },
