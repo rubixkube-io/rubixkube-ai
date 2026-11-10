@@ -13,10 +13,12 @@ import { PricingCard } from '@/components/product/pricing-card'
 import { Tile } from '@/components/product/tile'
 import { DownloadButton } from '@/components/product/download-button'
 import { DownloadRows } from '@/components/product/download-rows'
+import { NotifyForm } from '@/components/product/notify-form'
 import { BillingToggle } from '@/components/ui/billing-toggle'
 import { Button } from '@/components/ui/button'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
 import { siteLink, siteLinkArrow } from '@/lib/site-ui'
+import { KEPLER_DOWNLOADS_LIVE } from './launch'
 import { FAQ, PLANS, USAGE_PRICES, formatMoney, keplerPrice } from './pricing'
 import { FEATURE_GROUPS, FOUNDER, HERO, KEPLER_SECTIONS, SHOTS, THESIS, type KeplerFeature } from './content'
 
@@ -25,6 +27,19 @@ const label =
 const h2 = 'rk-section-title mt-0 mb-6 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]'
 const lead = 'rk-section-body m-0 max-w-[44ch] text-[var(--mid)]'
 const section = 'scroll-mt-[calc(var(--nav-stack)+4rem)] bg-[var(--bg)] py-24 sm:py-32'
+
+const LAUNCH_LINE = 'Kepler ships on 20 November. Leave your email and we will tell you the moment it is live.'
+
+/** Shown in place of the download button and rows until KEPLER_DOWNLOADS_LIVE is true. */
+function PreLaunch() {
+  return (
+    <div>
+      <span className={`${label} !mb-4`}>Public launch, 20 November</span>
+      <p className="rk-section-body m-0 mb-6 max-w-[44ch] text-[var(--mid)]">{LAUNCH_LINE}</p>
+      <NotifyForm />
+    </div>
+  )
+}
 
 const PRODUCT = { name: 'Kepler', sections: KEPLER_SECTIONS } as const
 
@@ -227,7 +242,7 @@ export function KeplerPageClient() {
                 {HERO.lead}
               </motion.p>
               <motion.div variants={fadeUpVariants} className="mt-10 flex flex-wrap items-center gap-4">
-                <DownloadButton className="w-full sm:w-auto" />
+                {KEPLER_DOWNLOADS_LIVE ? <DownloadButton className="w-full sm:w-auto" /> : <PreLaunch />}
               </motion.div>
               <motion.p
                 variants={fadeUpVariants}
@@ -342,14 +357,22 @@ export function KeplerPageClient() {
 
       <section id="download" className={`${section} border-t border-[var(--faint)]`}>
         <div className="rk-landing-max px-[var(--pad)]">
-          <motion.div {...reveal} className="mb-12">
-            <span className={label}>Download</span>
-            <h2 className={h2}>Download Kepler</h2>
-            <p className={lead}>Free to download. 14 days of Pro to start. No card.</p>
-          </motion.div>
-          <motion.div {...reveal} className="max-w-3xl">
-            <DownloadRows />
-          </motion.div>
+          {KEPLER_DOWNLOADS_LIVE ? (
+            <>
+              <motion.div {...reveal} className="mb-12">
+                <span className={label}>Download</span>
+                <h2 className={h2}>Download Kepler</h2>
+                <p className={lead}>Free to download. 14 days of Pro to start. No card.</p>
+              </motion.div>
+              <motion.div {...reveal} className="max-w-3xl">
+                <DownloadRows />
+              </motion.div>
+            </>
+          ) : (
+            <motion.div {...reveal}>
+              <PreLaunch />
+            </motion.div>
+          )}
         </div>
       </section>
 

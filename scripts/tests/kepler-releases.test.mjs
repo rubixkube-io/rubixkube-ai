@@ -42,3 +42,10 @@ test('detectPlatform reads three user agents', () => {
   assert.equal(detectPlatform('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15'), null)
   assert.equal(detectPlatform('Mozilla/5.0 (Linux; Android 14; Pixel 8) Chrome/120 Mobile'), null)
 })
+
+test('the two Linux rows have different labels', () => {
+  const rows = rowsFromRelease(release)
+  const labels = rows.map((r) => r.label)
+  assert.equal(new Set(labels).size, labels.length)
+  assert.deepEqual(labels.filter((l) => l.startsWith('Linux')), ['Linux (.deb)', 'Linux (.rpm)'])
+})
