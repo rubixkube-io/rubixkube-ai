@@ -39,4 +39,6 @@ test('detectPlatform reads three user agents', () => {
   assert.equal(detectPlatform('Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120'), 'windows')
   assert.equal(detectPlatform('Mozilla/5.0 (X11; Linux x86_64) Firefox/121'), 'linux-deb')
   assert.equal(detectPlatform('curl/8.0'), null)
+  assert.equal(detectPlatform('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15'), null)
+  assert.equal(detectPlatform('Mozilla/5.0 (Linux; Android 14; Pixel 8) Chrome/120 Mobile'), null)
 })

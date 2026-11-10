@@ -25,7 +25,7 @@ export function DownloadRows() {
             </p>
           </div>
           <Button asChild size="sm" variant={row.key === platform ? 'primary' : 'outline'}>
-            <a href={row.url}>Download</a>
+            <a href={row.url} aria-label={`Download Kepler for ${row.label}`}>Download</a>
           </Button>
         </li>
       ))}
