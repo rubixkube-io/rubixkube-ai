@@ -1,16 +1,9 @@
 import {
-  BookOpen,
-  Code2,
   Eye,
-  FileText,
-  Globe,
   MessageSquare,
-  Network,
   Plug,
-  Radio,
   Smartphone,
   SquareTerminal,
-  TerminalSquare,
   Users,
   Workflow,
   Brain,
@@ -26,8 +19,9 @@ export const KEPLER_SECTIONS = [
 ] as const
 
 export const HERO = {
-  title: 'The IDE for operators.',
-  lead: 'Kepler is a desktop agent for the people who keep systems alive. It runs the commands, reads the logs and remembers what broke last time.',
+  title: 'The IDE for',
+  titleEm: 'operators.',
+  lead: 'Kepler is a desktop agent for the people who keep systems alive. It reads the logs, suggests the command, and runs it only when you say so.',
   note: 'Open beta · macOS · Windows · Linux',
 }
 
@@ -55,28 +49,21 @@ export const FEATURE_GROUPS: readonly { name: string; plan: string; blurb: strin
     plan: 'Free',
     blurb: 'Ask it what is going on. It looks, shows you what it ran, and suggests what to do.',
     features: [
-      { title: 'Chat', copy: 'Ask in plain words. Kepler runs the commands and shows what it ran before it says what it thinks. Use our hosted models or your own keys.', icon: MessageSquare },
-      { title: 'Terminal', copy: 'A terminal that you and the agent share, inside the same workspace.', icon: SquareTerminal },
-      { title: 'Browser', copy: 'Dashboards open next to the conversation, so the agent reads what you read.', icon: Globe },
-      { title: 'Editor', copy: 'A file tree and editor in the same workspace the agent works in.', icon: Code2 },
-      { title: 'Memory', copy: 'Services, conventions and runbooks that you can read and edit. Day 30 Kepler knows what Day 1 had to ask.', icon: Brain },
-      { title: 'Skills', copy: 'Markdown files that teach Kepler a task. They load when needed and work with Claude Code skill folders.', icon: BookOpen },
-      { title: 'MCP', copy: 'Connect the tools you already use. Large servers do not flood the conversation.', icon: Plug },
-      { title: 'CLI', copy: 'The kepler command uses the same agent and sessions, for when you stay in the shell.', icon: TerminalSquare },
-      { title: 'Watchers', copy: 'Cheap background checks on a deploy, a certificate or a pod count. They cost nothing until something changes.', icon: Eye },
+      { title: 'Chat', copy: 'Ask in plain words. Kepler reads the logs, shows the commands it ran and the evidence, then suggests the fix. You run it, or let Kepler run it. Use our hosted models or your own keys.', icon: MessageSquare },
+      { title: 'A workspace, not a chat box', copy: 'A terminal, a browser and an editor in one window. You and the agent share them, inside the same workspace.', icon: SquareTerminal },
+      { title: 'Memory', copy: 'Services, conventions and runbooks that you can read and edit. By day 30, Kepler knows what it had to ask on day 1.', icon: Brain },
+      { title: 'Watchers', copy: 'Background checks on a deploy, a certificate or a pod count. They spend nothing until something changes, then Kepler wakes up and looks into it.', icon: Eye },
+      { title: 'Connect what you use', copy: 'Skills are markdown files that teach a task, and they work with Claude Code skill folders. MCP connects your tools. The kepler CLI uses the same agent from the shell.', icon: Plug },
     ],
   },
   {
     name: 'The standing presence',
     plan: 'Pro',
-    blurb: 'Kepler keeps working when you are not looking, and tells you only what is worth it.',
+    blurb: 'Kepler keeps working when you are not looking, and tells you only what matters.',
     features: [
-      { title: 'War rooms', copy: 'Put several agents on one incident. Each takes its own angle and reports back in one place.', icon: Users },
-      { title: 'Topology', copy: 'A live map of your services and how they connect, built from what Kepler learns.', icon: Network },
-      { title: 'Automations', copy: 'Run on a schedule or a webhook, with an approval step wherever a person has to say yes.', icon: Workflow },
-      { title: 'Remote access', copy: 'Reach your own machine from anywhere. Your history and credentials stay on it.', icon: Smartphone },
-      { title: 'Channels', copy: 'Talk to Kepler from WhatsApp, Telegram, Slack or Discord, with the same approvals.', icon: Radio },
-      { title: 'Artifacts', copy: 'An automation publishes its result under a stable name, like a nightly status page. Each run adds a version.', icon: FileText },
+      { title: 'See and share an incident', copy: 'War rooms put several agents on one incident, each on its own angle. Topology is a live map of your services and how they connect.', icon: Users },
+      { title: 'Automations and artifacts', copy: 'Run on a schedule or a webhook, with an approval step where a person has to say yes. Each run publishes its result, like a nightly status page, as a new version.', icon: Workflow },
+      { title: 'Reach it from anywhere', copy: 'Remote access to your own machine, and channels for WhatsApp, Telegram, Slack and Discord, with the same approvals. Your history and credentials stay on your machine.', icon: Smartphone },
     ],
   },
 ]

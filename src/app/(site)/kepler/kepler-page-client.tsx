@@ -26,7 +26,7 @@ const reveal = {
   variants: fadeUpVariants,
   initial: 'hidden' as const,
   whileInView: 'visible' as const,
-  viewport: { once: true, amount: 0.3 },
+  viewport: { once: true, amount: 0.1 },
 }
 
 /** The workspace, running off the right and bottom edges of its frame. */
@@ -41,11 +41,11 @@ function WorkspaceView() {
     >
       <Image
         src={SHOTS.workspace.src}
-        alt="Kepler chat: an agent investigates a failing checkout, with the commands it ran, the evidence and a suggested fix"
+        alt="Kepler workspace: a chat on the left where the agent checked pods and events, found a bad image tag as the cause and suggested a fix, and a new-session prompt on the right in Observe, read-only mode"
         width={SHOTS.workspace.w}
         height={SHOTS.workspace.h}
         sizes="(max-width: 1024px) 100vw, 1100px"
-        className="absolute top-[6%] left-[6%] h-auto w-[88%] max-w-none rounded-lg drop-shadow-[0_18px_36px_rgba(17,19,24,0.18)]"
+        className="absolute top-[6%] left-[6%] h-auto w-[88%] max-w-none rounded-lg drop-shadow-[0_18px_36px_color-mix(in_srgb,var(--ink)_18%,transparent)]"
       />
     </div>
   )
@@ -54,7 +54,7 @@ function WorkspaceView() {
 function IconView({ icon: Icon }: { icon: KeplerFeature['icon'] }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[var(--rule)] bg-[var(--bg)] drop-shadow-[0_12px_24px_rgba(17,19,24,0.1)]">
+      <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[var(--rule)] bg-[var(--bg)] drop-shadow-[0_12px_24px_color-mix(in_srgb,var(--ink)_10%,transparent)]">
         <Icon className="h-7 w-7 text-[var(--ink)]" strokeWidth={1.5} aria-hidden />
       </span>
     </div>
@@ -72,7 +72,7 @@ export function KeplerPageClient() {
             className="pointer-events-none absolute inset-0"
             style={{
               backgroundImage:
-                'radial-gradient(60% 70% at 85% 40%, rgba(47,91,255,0.12), transparent 70%), radial-gradient(rgba(17,19,24,0.06) 1px, transparent 1px)',
+                'radial-gradient(60% 70% at 85% 40%, color-mix(in srgb, var(--blue) 12%, transparent), transparent 70%), radial-gradient(color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px)',
               backgroundSize: 'auto, 16px 16px',
               maskImage: 'linear-gradient(to bottom, black 60%, transparent)',
               WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent)',
@@ -87,7 +87,7 @@ export function KeplerPageClient() {
                 variants={fadeUpVariants}
                 className="rk-section-title mt-0 mb-8 text-[clamp(2.25rem,4.4vw,4.25rem)] leading-[1.06] text-[var(--ink)]"
               >
-                The IDE for <em>operators.</em>
+                {HERO.title} <em>{HERO.titleEm}</em>
               </motion.h1>
               <motion.p variants={fadeUpVariants} className={lead}>
                 {HERO.lead}
@@ -100,14 +100,14 @@ export function KeplerPageClient() {
               </motion.div>
               <motion.p
                 variants={fadeUpVariants}
-                className="mt-10 font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase"
+                className={`${label} !mb-0 mt-10`}
               >
                 {HERO.note}
               </motion.p>
             </motion.div>
 
             <motion.div variants={fadeUpVariants} initial="hidden" animate="visible" className="relative">
-              <div className="overflow-hidden rounded-3xl shadow-[0_48px_96px_-40px_rgba(17,19,24,0.5)]">
+              <div className="overflow-hidden rounded-3xl shadow-[0_48px_96px_-40px_color-mix(in_srgb,var(--ink)_50%,transparent)]">
                 <Image
                   src={SHOTS.hero.src}
                   alt="The Kepler desktop app on its sign-in screen"

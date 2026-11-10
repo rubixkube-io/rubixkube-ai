@@ -12,7 +12,7 @@ export function Tile({ span, title, copy, visual, tall = false }: { span: string
       variants={fadeUpVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.1 }}
       className={`${span} flex flex-col overflow-hidden rounded-2xl bg-[var(--panel)] ring-1 ring-[var(--rule)] transition-shadow hover:shadow-md`}
     >
       <Backdrop className={`border-b border-[var(--rule)] ${tall ? 'h-[300px] lg:h-[360px]' : 'h-[260px] lg:h-[300px]'}`}>{visual}</Backdrop>
