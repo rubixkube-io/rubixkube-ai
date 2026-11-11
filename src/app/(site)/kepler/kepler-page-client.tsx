@@ -28,12 +28,14 @@ const h2 = 'rk-section-title mt-0 mb-6 text-[clamp(1.75rem,3vw,2.75rem)] leading
 const lead = 'rk-section-body m-0 max-w-[44ch] text-[var(--mid)]'
 const section = 'scroll-mt-[calc(var(--nav-stack)+4rem)] bg-[var(--bg)] py-24 sm:py-32'
 
-const LAUNCH_LINE = 'Kepler ships on 20 November. Leave your email and we will tell you the moment it is live.'
+const NOTIFY_LABEL = 'Notify me'
+const LAUNCH_LINE ='Kepler ships on 20 November. Leave your email and we will tell you the moment it is live.'
 
 /** Shown in place of the download button and rows until KEPLER_DOWNLOADS_LIVE is true. */
 function PreLaunch() {
   return (
     <div>
+      <h2 className="sr-only">{NOTIFY_LABEL}</h2>
       <span className={`${label} !mb-4`}>Public launch, 20 November</span>
       <p className="rk-section-body m-0 mb-6 max-w-[44ch] text-[var(--mid)]">{LAUNCH_LINE}</p>
       <NotifyForm />
@@ -90,7 +92,9 @@ function usd(cents: number | null) {
 }
 
 function PlanButton({ plan }: { plan: (typeof PLANS)[number] }) {
-  const { label: text, href } = plan.button
+  const { href } = plan.button
+  // the plan buttons that point at #download read Notify me until the downloads are live
+  const text = href === '#download' && !KEPLER_DOWNLOADS_LIVE ? NOTIFY_LABEL : plan.button.label
   return (
     <>
       <Button asChild size="lg" variant={plan.recommended ? 'primary' : 'outline'} className="w-full">
@@ -269,7 +273,7 @@ export function KeplerPageClient() {
         </section>
       </div>
 
-      <SectionBar product={PRODUCT} action={{ label: 'Download', href: '#download' }} />
+      <SectionBar product={PRODUCT} action={{ label: KEPLER_DOWNLOADS_LIVE ? 'Download' : NOTIFY_LABEL, href: '#download' }} />
 
       {/* Thesis */}
       <section id="thesis" className={section}>

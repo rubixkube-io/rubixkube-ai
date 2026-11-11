@@ -9,20 +9,21 @@ import {
   Brain,
   type LucideIcon,
 } from 'lucide-react'
+import { KEPLER_DOWNLOADS_LIVE } from './launch'
 
 export const KEPLER_SECTIONS = [
   { id: 'what', name: 'What it is' },
   { id: 'thesis', name: 'Why' },
   { id: 'features', name: 'Features' },
   { id: 'pricing', name: 'Pricing' },
-  { id: 'download', name: 'Download' },
+  { id: 'download', name: KEPLER_DOWNLOADS_LIVE ? 'Download' : 'Notify me' },
 ] as const
 
 export const HERO = {
   title: 'The IDE for',
   titleEm: 'operators.',
   lead: 'Kepler is a desktop agent for the people who keep systems alive. It reads the logs, suggests the command, and runs it only when you say so.',
-  note: 'Open beta · macOS · Windows · Linux',
+  note: KEPLER_DOWNLOADS_LIVE ? 'macOS · Windows · Linux' : 'Launching 20 November · macOS · Windows · Linux',
 }
 
 export const THESIS = {

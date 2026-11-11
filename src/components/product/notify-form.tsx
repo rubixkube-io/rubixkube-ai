@@ -15,12 +15,13 @@ export function NotifyForm({ className }: { className?: string }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
+    const botField = String(new FormData(e.currentTarget as HTMLFormElement).get('bot-field') ?? '')
     setStatus('sending')
     try {
       const response = await fetch('/contact-form.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ 'form-name': 'kepler-notify', email }).toString(),
+        body: new URLSearchParams({ 'form-name': 'kepler-notify', email, 'bot-field': botField }).toString(),
       })
       if (!response.ok) throw new Error('Submission failed')
       setStatus('done')
@@ -31,7 +32,7 @@ export function NotifyForm({ className }: { className?: string }) {
   }
 
   if (status === 'done') {
-    return <p className={`${sans} m-0 text-[15px] text-[var(--ink)] ${className ?? ''}`}>We will email you on the 20th.</p>
+    return <p role="status" className={`${sans} m-0 text-[15px] text-[var(--ink)] ${className ?? ''}`}>We will email you on the 20th.</p>
   }
 
   return (
