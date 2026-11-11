@@ -23,7 +23,7 @@ export const HERO = {
   title: 'The IDE for',
   titleEm: 'operators.',
   lead: 'Kepler is a desktop agent for the people who keep systems alive. It reads the logs, suggests the command, and runs it only when you say so.',
-  note: KEPLER_DOWNLOADS_LIVE ? 'macOS · Windows · Linux' : 'Launching 20 November · macOS · Windows · Linux',
+  note: 'macOS · Windows · Linux',
 }
 
 export const THESIS = {
@@ -50,7 +50,7 @@ export const FEATURE_GROUPS: readonly { name: string; plan: string; blurb: strin
     plan: 'Free',
     blurb: 'Ask it what is going on. It looks, shows you what it ran, and suggests what to do.',
     features: [
-      { title: 'Chat', copy: 'Ask in plain words. Kepler reads the logs, shows the commands it ran and the evidence, then suggests the fix. You run it, or let Kepler run it. Use our hosted models or your own keys.', icon: MessageSquare },
+      { title: 'Chat', copy: 'Ask in plain words. Kepler reads the logs, shows the commands it ran and the evidence, then suggests the fix. You run it, or let Kepler run it. Use your own keys, or hosted models on Pro.', icon: MessageSquare },
       { title: 'A workspace, not a chat box', copy: 'A terminal, a browser and an editor in one window. You and the agent share them, inside the same workspace.', icon: SquareTerminal },
       { title: 'Memory', copy: 'Services, conventions and runbooks that you can read and edit. By day 30, Kepler knows what it had to ask on day 1.', icon: Brain },
       { title: 'Watchers', copy: 'Background checks on a deploy, a certificate or a pod count. They spend nothing until something changes, then Kepler wakes up and looks into it.', icon: Eye },

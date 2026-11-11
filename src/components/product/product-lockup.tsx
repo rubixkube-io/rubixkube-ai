@@ -5,7 +5,7 @@ export function ProductLockup({ name, size = 'md' }: { name: string; size?: 'md'
   // md is the section bar, lg the hero
   const lg = size === 'lg'
   return (
-    <span className="inline-flex items-center gap-2.5" aria-label={`${name} by RubixKube`}>
+    <span role="img" className="inline-flex items-center gap-2.5" aria-label={`${name} by RubixKube`}>
       <span
         className={`font-[family-name:var(--font-serif)] leading-none text-[var(--ink)] ${lg ? 'text-[28px]' : 'text-[26px]'}`}
         aria-hidden

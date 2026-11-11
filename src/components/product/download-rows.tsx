@@ -20,7 +20,7 @@ export function DownloadRows() {
         >
           <div className="min-w-0">
             <p className={`${sans} m-0 text-[16px] text-[var(--ink)]`}>{row.label}</p>
-            <p className={`${mono} m-0 mt-1 min-h-[1.25rem] text-[12px] tracking-[0.1em] text-[var(--mid)] uppercase`}>
+            <p className={`${mono} m-0 mt-1 min-h-[1.25rem] text-[12px] tracking-[0.1em] text-[var(--mid)]`}>
               {[row.version, formatSize(row.size)].filter(Boolean).join(' · ')}
             </p>
           </div>

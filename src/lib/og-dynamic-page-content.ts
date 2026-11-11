@@ -24,7 +24,7 @@ export const dynamicOgPageContent = {
   keplerCreators: {
     eyebrow: 'Kepler',
     title: 'Kepler for creators',
-    description: 'Share what you build with Kepler.',
+    description: 'Two months of Kepler Pro, free. Six if you post.',
     accent: null,
   },
   about: {

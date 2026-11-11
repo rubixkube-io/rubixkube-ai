@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, X } from 'lucide-react'
+import { KEPLER_DOWNLOADS_LIVE } from '@/app/(site)/kepler/launch'
 
 const KEPLER_URL = '/kepler'
 const DISMISS_KEY = 'rk-announce-kepler-launch'
@@ -57,8 +58,10 @@ export function AnnouncementBar() {
           New
         </span>
         <span className="truncate">
-          <span className="hidden sm:inline">Kepler, the SRE IDE by RubixKube, is here.</span>
-          <span className="sm:hidden">Kepler, the SRE IDE, is here.</span>
+          <span className="hidden sm:inline">
+            {KEPLER_DOWNLOADS_LIVE ? 'Kepler, the SRE IDE by RubixKube, is here.' : 'Kepler, the SRE IDE by RubixKube, launches 20 November.'}
+          </span>
+          <span className="sm:hidden">{KEPLER_DOWNLOADS_LIVE ? 'Kepler, the SRE IDE, is here.' : 'Kepler launches 20 November.'}</span>
         </span>
         <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[#c4c5cc] transition-colors group-hover:text-white">
           See Kepler

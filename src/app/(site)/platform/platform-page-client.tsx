@@ -509,8 +509,8 @@ export function PlatformPageClient() {
               />
               <div className="mt-auto flex flex-wrap items-center gap-4 pt-8">
                 <Link href={KEPLER_URL} className={siteButton}>
-                  <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
                   See Kepler
+                  <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
                 </Link>
                 <span className={`${mono} text-[13px] text-[var(--mid)]`}>macOS, Windows and Linux</span>
               </div>

@@ -21,7 +21,7 @@ export type Row = {
 
 /** Asset name patterns, copied from the old static site. */
 export const PLATFORMS: { key: PlatformKey; label: string; match: RegExp }[] = [
-  { key: 'macos-arm', label: 'macOS, Apple silicon (.dmg)', match: /\.dmg$/ },
+  { key: 'macos-arm', label: 'macOS (Apple silicon)', match: /\.dmg$/ },
   { key: 'linux-deb', label: 'Linux (.deb)', match: /\.deb$/ },
   { key: 'linux-rpm', label: 'Linux (.rpm)', match: /\.rpm$/ },
   { key: 'windows', label: 'Windows (installer)', match: /-setup\.exe$/ },
@@ -44,7 +44,7 @@ export function detectPlatform(ua: string): PlatformKey | null {
 }
 
 export const PLATFORM_NAMES: Record<PlatformKey, string> = {
-  'macos-arm': 'macOS',
+  'macos-arm': 'macOS (Apple silicon)',
   'linux-deb': 'Linux',
   'linux-rpm': 'Linux',
   windows: 'Windows',

@@ -160,7 +160,7 @@ function Pricing() {
         <motion.div {...reveal} className="mt-24 max-w-3xl">
           <h3 className="rk-section-title mt-0 mb-4 text-[clamp(1.5rem,2.2vw,2rem)] leading-[1.15] text-[var(--ink)]">Hosted model usage</h3>
           <p className="rk-section-body m-0 mb-8 max-w-[60ch] text-[var(--mid)]">
-            Pro includes $5 of usage a month. Beyond that, prepaid credit at the provider&apos;s list price plus 10%.
+            Pro includes $5 of usage a month. Beyond that, buy prepaid credit in $10 steps at the provider&apos;s list price plus 10%.
           </p>
           <div className="overflow-x-auto rounded-2xl ring-1 ring-[var(--rule)]">
             <table className="w-full min-w-[30rem] border-collapse text-left">
@@ -179,6 +179,7 @@ function Pricing() {
                   <tr key={row.model} className="border-t border-[var(--rule)]">
                     <th scope="row" className={`${mono} px-5 py-4 text-[14px] font-normal text-[var(--ink)]`}>
                       {row.model}
+                      <span className={`${sans} mt-1 block text-[13px] text-[var(--mid)]`}>{row.provider}</span>
                     </th>
                     <td className={`${sans} px-5 py-4 text-[15px] text-[var(--mid)]`}>
                       {usd(row.provider_in)} / {usd(row.provider_out)}

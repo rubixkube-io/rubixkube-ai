@@ -43,23 +43,18 @@ export const PLANS = [
     recommended: false,
     includes: [
       '**Everything in Pro**',
-      'Shared war rooms and memory',
-      'Seats and admin',
-      'Pooled usage with one cap',
       '5 devices per seat',
+      'Billing and invoices for the organization',
     ],
     button: { label: 'Contact us', href: '/contact' },
     note: null,
   },
 ] as const
 
-/**
- * Provider list price per million tokens, in cents. Filled in by the controller
- * before merge (from BILLING_USAGE_PRICES). null renders as TBD.
- */
-export const USAGE_PRICES: readonly { model: string; provider_in: number | null; provider_out: number | null }[] = [
-  { model: 'kepler-fast', provider_in: null, provider_out: null },
-  { model: 'kepler-expert', provider_in: null, provider_out: null },
+/** Provider list price per million tokens, in cents. Mirrors gitops BILLING_USAGE_PRICES. null renders as TBD. */
+export const USAGE_PRICES: readonly { model: string; provider: string; provider_in: number | null; provider_out: number | null }[] = [
+  { model: 'kepler-fast', provider: 'Google Vertex AI, Gemini 3.5 Flash', provider_in: 150, provider_out: 900 },
+  { model: 'kepler-expert', provider: 'Google Vertex AI, Gemini 3.1 Pro', provider_in: 200, provider_out: 1200 },
 ]
 
 export const USAGE_MARKUP_PERCENT = 110
