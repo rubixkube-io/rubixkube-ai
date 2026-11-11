@@ -10,7 +10,7 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { rkMono11, rkMono13 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 
-const KEPLER_URL = 'https://trykepler.rubixkube.ai'
+const KEPLER_URL = '/kepler'
 const POSTER = '/screenshots/kepler.png'
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -146,8 +146,8 @@ export function KeplerLaunch() {
             </ul>
             <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 lg:mt-10">
               <Button asChild variant="primary" className={primaryCtaClass}>
-                <Link href={KEPLER_URL} target="_blank" rel="noopener noreferrer">
-                  Try Kepler
+                <Link href={KEPLER_URL}>
+                  See Kepler
                 </Link>
               </Button>
               <Link

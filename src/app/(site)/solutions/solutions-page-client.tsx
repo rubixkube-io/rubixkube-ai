@@ -171,7 +171,8 @@ export function SolutionsPageClient({ pages }: { pages: SolutionEntry[] }) {
       href: p.href,
       image: p.image.src,
     }))
-    // a Sanity product page that a product above already links to is not listed twice
+    // a Sanity product page that a product above already links to is not listed twice.
+    // Kepler stays filtered: its page is /kepler (/products/kepler redirects there), not a Sanity page
     const linked = new Set(SOLUTION_PRODUCTS.map((p) => p.href))
     const fromSanity = pages.filter((p) => !(p.category === 'products' && (linked.has(p.href) || /kepler/i.test(p.href))))
     // a use case written up in Sanity replaces the short entry of the same name, in the order of USE_CASES

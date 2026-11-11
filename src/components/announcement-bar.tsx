@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, X } from 'lucide-react'
 
-const KEPLER_URL = 'https://trykepler.rubixkube.ai'
+const KEPLER_URL = '/kepler'
 const DISMISS_KEY = 'rk-announce-kepler-launch'
 const OFF_CLASS = 'rk-announce-off'
 
@@ -51,8 +51,6 @@ export function AnnouncementBar() {
     >
       <Link
         href={KEPLER_URL}
-        target="_blank"
-        rel="noopener noreferrer"
         className="group inline-flex min-w-0 items-center gap-2.5 sm:gap-3"
       >
         <span className="shrink-0 rounded-[3px] bg-[var(--blue)] px-1.5 py-0.5 text-[12px] font-medium tracking-[0.14em] text-white uppercase sm:text-[12px]">
@@ -63,7 +61,7 @@ export function AnnouncementBar() {
           <span className="sm:hidden">Kepler, the SRE IDE, is here.</span>
         </span>
         <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[#c4c5cc] transition-colors group-hover:text-white">
-          Try Kepler
+          See Kepler
           <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" strokeWidth={2} aria-hidden />
         </span>
       </Link>

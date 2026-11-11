@@ -8,7 +8,7 @@ import { HeroBloom } from './hero-bloom'
 import { ArrowRight } from 'lucide-react'
 
 const CONSOLE_URL = 'https://console.rubixkube.ai'
-const KEPLER_URL = 'https://trykepler.rubixkube.ai'
+const KEPLER_URL = '/kepler'
 
 /**
  * The first screen: one large headline in a single colour, the opening paragraph, one button
@@ -45,11 +45,9 @@ export function HeroSection() {
               </Link>
               <Link
                 href={KEPLER_URL}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="group inline-flex items-center gap-1.5 font-[family-name:var(--font-figtree)] text-[16px] font-medium text-[var(--ink)]"
               >
-                Try Kepler
+                See Kepler
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </Link>
             </div>
