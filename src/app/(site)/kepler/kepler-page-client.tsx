@@ -29,13 +29,14 @@ const lead = 'rk-section-body m-0 max-w-[44ch] text-[var(--mid)]'
 const section = 'scroll-mt-[calc(var(--nav-stack)+4rem)] bg-[var(--bg)] py-24 sm:py-32'
 
 const NOTIFY_LABEL = 'Notify me'
-const LAUNCH_LINE ='Kepler ships on 20 November. Leave your email and we will tell you the moment it is live.'
+const LAUNCH_LINE = 'Kepler ships on 20 November. Leave your email and we will tell you the moment it is live.'
 
-/** Shown in place of the download button and rows until KEPLER_DOWNLOADS_LIVE is true. */
-function PreLaunch() {
+/** Shown in place of the download button and rows until KEPLER_DOWNLOADS_LIVE is true.
+ *  Only the download section instance carries the heading; the hero sits under the page h1. */
+function PreLaunch({ heading = false }: { heading?: boolean }) {
   return (
     <div>
-      <h2 className="sr-only">{NOTIFY_LABEL}</h2>
+      {heading && <h2 className="sr-only">{NOTIFY_LABEL}</h2>}
       <span className={`${label} !mb-4`}>Public launch, 20 November</span>
       <p className="rk-section-body m-0 mb-6 max-w-[44ch] text-[var(--mid)]">{LAUNCH_LINE}</p>
       <NotifyForm />
@@ -374,7 +375,7 @@ export function KeplerPageClient() {
             </>
           ) : (
             <motion.div {...reveal}>
-              <PreLaunch />
+              <PreLaunch heading />
             </motion.div>
           )}
         </div>
