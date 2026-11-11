@@ -7,6 +7,8 @@ import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { ProductLockup } from '@/components/product/product-lockup'
 import { SectionBar } from '@/components/product/section-bar'
+import { HeroGrid } from '@/components/product/hero-grid'
+import { h2, label, lead, mono, reveal, sans, section } from '@/components/product/styles'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
@@ -14,24 +16,10 @@ import { siteButton, siteLink, siteLinkArrow } from '@/lib/site-ui'
 import { ArrowRight } from 'lucide-react'
 import { CREATOR_SECTIONS, EMAIL, FORM, HERO, RULES, STEPS, WHO } from './content'
 
-const mono = 'font-[family-name:var(--font-mono)]'
-const sans = 'font-[family-name:var(--font-figtree)]'
-const label =
-  'mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase'
-const h2 = 'rk-section-title mt-0 mb-6 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]'
-const lead = 'rk-section-body m-0 max-w-[44ch] text-[var(--mid)]'
-const section = 'scroll-mt-[calc(var(--nav-stack)+4rem)] bg-[var(--bg)] py-24 sm:py-32'
 const fieldLabel = `${mono} mb-2 block text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase`
 const fieldClass = 'h-[3.1rem]'
 
 const PRODUCT = { name: 'Kepler', sections: CREATOR_SECTIONS } as const
-
-const reveal = {
-  variants: fadeUpVariants,
-  initial: 'hidden' as const,
-  whileInView: 'visible' as const,
-  viewport: { once: true, amount: 0.1 },
-}
 
 /** The four fields, submitted as the Netlify form `creators`. */
 function ApplyForm() {
@@ -138,16 +126,7 @@ export function CreatorsPageClient() {
 
       <div id="top">
         <section className="relative overflow-hidden bg-[var(--bg)]">
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              backgroundImage:
-                'radial-gradient(60% 70% at 85% 40%, color-mix(in srgb, var(--blue) 12%, transparent), transparent 70%), radial-gradient(color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px)',
-              backgroundSize: 'auto, 16px 16px',
-              maskImage: 'linear-gradient(to bottom, black 60%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent)',
-            }}
-          />
+          <HeroGrid />
           <motion.div
             variants={staggerContainer}
             initial="hidden"

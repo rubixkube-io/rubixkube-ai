@@ -7,7 +7,7 @@ export function Backdrop({ children, className = '' }: { children: ReactNode; cl
       className={`relative overflow-hidden bg-[var(--background-secondary)] ${className}`}
       style={{
         backgroundImage:
-          'radial-gradient(120% 90% at 0% 0%, rgba(47,91,255,0.16), transparent 60%), radial-gradient(90% 70% at 100% 100%, rgba(47,91,255,0.10), transparent 60%), radial-gradient(rgba(17,19,24,0.07) 1px, transparent 1px)',
+          'radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--blue) 16%, transparent), transparent 60%), radial-gradient(90% 70% at 100% 100%, color-mix(in srgb, var(--blue) 10%, transparent), transparent 60%), radial-gradient(color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px)',
         backgroundSize: 'auto, auto, 14px 14px',
       }}
     >

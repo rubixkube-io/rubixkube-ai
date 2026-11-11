@@ -14,6 +14,8 @@ import { Tile } from '@/components/product/tile'
 import { DownloadButton } from '@/components/product/download-button'
 import { DownloadRows } from '@/components/product/download-rows'
 import { NotifyForm } from '@/components/product/notify-form'
+import { HeroGrid } from '@/components/product/hero-grid'
+import { h2, label, lead, mono, reveal, sans, section } from '@/components/product/styles'
 import { BillingToggle } from '@/components/ui/billing-toggle'
 import { Button } from '@/components/ui/button'
 import { fadeUpVariants, staggerContainer } from '@/lib/animations'
@@ -21,12 +23,6 @@ import { siteLink, siteLinkArrow } from '@/lib/site-ui'
 import { KEPLER_DOWNLOADS_LIVE } from './launch'
 import { FAQ, PLANS, USAGE_PRICES, formatMoney, keplerPrice } from './pricing'
 import { FEATURE_GROUPS, FOUNDER, HERO, KEPLER_SECTIONS, SHOTS, THESIS, type KeplerFeature } from './content'
-
-const label =
-  'mb-6 inline-block font-[family-name:var(--font-mono)] text-[12px] tracking-[0.2em] text-[var(--mid)] uppercase'
-const h2 = 'rk-section-title mt-0 mb-6 text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] text-[var(--ink)]'
-const lead = 'rk-section-body m-0 max-w-[44ch] text-[var(--mid)]'
-const section = 'scroll-mt-[calc(var(--nav-stack)+4rem)] bg-[var(--bg)] py-24 sm:py-32'
 
 const NOTIFY_LABEL = 'Notify me'
 const LAUNCH_LINE = 'Kepler ships on 20 November. Leave your email and we will tell you the moment it is live.'
@@ -45,13 +41,6 @@ function PreLaunch({ heading = false }: { heading?: boolean }) {
 }
 
 const PRODUCT = { name: 'Kepler', sections: KEPLER_SECTIONS } as const
-
-const reveal = {
-  variants: fadeUpVariants,
-  initial: 'hidden' as const,
-  whileInView: 'visible' as const,
-  viewport: { once: true, amount: 0.1 },
-}
 
 /** The workspace, running off the right and bottom edges of its frame. */
 function WorkspaceView() {
@@ -84,9 +73,6 @@ function IconView({ icon: Icon }: { icon: KeplerFeature['icon'] }) {
     </div>
   )
 }
-
-const mono = 'font-[family-name:var(--font-mono)]'
-const sans = 'font-[family-name:var(--font-figtree)]'
 
 function usd(cents: number | null) {
   return cents === null ? 'TBD' : formatMoney(cents, 'USD')
@@ -223,16 +209,7 @@ export function KeplerPageClient() {
 
       <div id="top">
         <section id="what" className="relative overflow-hidden bg-[var(--bg)]">
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              backgroundImage:
-                'radial-gradient(60% 70% at 85% 40%, color-mix(in srgb, var(--blue) 12%, transparent), transparent 70%), radial-gradient(color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px)',
-              backgroundSize: 'auto, 16px 16px',
-              maskImage: 'linear-gradient(to bottom, black 60%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent)',
-            }}
-          />
+          <HeroGrid />
           <div className="rk-landing-max relative grid items-center gap-14 px-[var(--pad)] pt-[calc(var(--nav-stack)+4rem)] pb-24 lg:grid-cols-[5fr_7fr] lg:gap-16 lg:pt-[calc(var(--nav-stack)+5rem)] lg:pb-32">
             <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="relative z-10">
               <motion.div variants={fadeUpVariants} className="mb-10">
