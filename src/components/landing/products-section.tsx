@@ -5,7 +5,7 @@ import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { Backdrop, Float } from '@/components/console-shot'
 
 const CONSOLE_URL = 'https://console.rubixkube.ai'
-const KEPLER_URL = 'https://trykepler.rubixkube.ai'
+const KEPLER_URL = '/kepler'
 const DOCS_URL = 'https://docs.rubixkube.ai'
 
 type Action = { label: string; href: string; external?: boolean }
@@ -61,7 +61,7 @@ const PRODUCTS: {
         </div>
       </Backdrop>
     ),
-    primary: { label: 'Download Kepler', href: KEPLER_URL, external: true },
+    primary: { label: 'See Kepler', href: KEPLER_URL },
     links: [{ label: 'Why we built it', href: '/blog/kepler-a-tool-for-the-operator' }],
   },
 ]

@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const KNOWN_ROUTES = new Set([
     'blog', 'platform', 'solutions', 'resources', 'about',
-    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours', 'hubble', 'why', 'night-shift',
+    'contact', 'legal', 'status', 'studio', 'pricing', 'after-hours', 'hubble', 'kepler', 'why', 'night-shift',
   ])
 
   // Fetch dynamic reference pages
@@ -60,6 +60,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/hubble`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/kepler`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
@@ -154,6 +160,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const referenceEntries: MetadataRoute.Sitemap = referencePages
     .filter((p) => !KNOWN_ROUTES.has(p.category))
+    .filter((p) => !(p.category === 'products' && p.slug.current === 'kepler'))
     .map((p) => ({
       url: `${baseUrl}/${p.category}/${p.slug.current}`,
       lastModified: p.lastUpdated ? new Date(p.lastUpdated) : new Date(),

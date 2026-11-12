@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
       { source: '/glossary', destination: '/resources', permanent: true },
       { source: '/learn', destination: '/resources', permanent: true },
       { source: '/use-case', destination: '/solutions?type=use-case', permanent: true },
+      { source: '/products/kepler', destination: '/kepler', permanent: true },
       { source: '/slack', destination: 'https://docs.rubixkube.ai/integrations/slack', permanent: true },
       { source: '/feed', destination: '/blog', permanent: true },
     ]

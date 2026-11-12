@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, X } from 'lucide-react'
+import { KEPLER_DOWNLOADS_LIVE } from '@/app/(site)/kepler/launch'
 
-const KEPLER_URL = 'https://trykepler.rubixkube.ai'
+const KEPLER_URL = '/kepler'
 const DISMISS_KEY = 'rk-announce-kepler-launch'
 const OFF_CLASS = 'rk-announce-off'
 
@@ -51,19 +52,19 @@ export function AnnouncementBar() {
     >
       <Link
         href={KEPLER_URL}
-        target="_blank"
-        rel="noopener noreferrer"
         className="group inline-flex min-w-0 items-center gap-2.5 sm:gap-3"
       >
         <span className="shrink-0 rounded-[3px] bg-[var(--blue)] px-1.5 py-0.5 text-[12px] font-medium tracking-[0.14em] text-white uppercase sm:text-[12px]">
           New
         </span>
         <span className="truncate">
-          <span className="hidden sm:inline">Kepler, the SRE IDE by RubixKube, is here.</span>
-          <span className="sm:hidden">Kepler, the SRE IDE, is here.</span>
+          <span className="hidden sm:inline">
+            {KEPLER_DOWNLOADS_LIVE ? 'Kepler, the SRE IDE by RubixKube, is here.' : 'Kepler, the SRE IDE by RubixKube, launches 20 November.'}
+          </span>
+          <span className="sm:hidden">{KEPLER_DOWNLOADS_LIVE ? 'Kepler, the SRE IDE, is here.' : 'Kepler launches 20 November.'}</span>
         </span>
         <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[#c4c5cc] transition-colors group-hover:text-white">
-          Try Kepler
+          See Kepler
           <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" strokeWidth={2} aria-hidden />
         </span>
       </Link>

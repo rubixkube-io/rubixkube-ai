@@ -5,12 +5,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, CheckCircle, X } from 'lucide-react'
+import { KEPLER_DOWNLOADS_LIVE } from '@/app/(site)/kepler/launch'
 import { Button } from '@/components/ui/button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { rkMono11, rkMono13 } from '@/lib/landing-responsive-type'
 import { cn } from '@/lib/utils'
 
-const KEPLER_URL = 'https://trykepler.rubixkube.ai'
+const KEPLER_URL = '/kepler'
 const POSTER = '/screenshots/kepler.png'
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -120,7 +121,7 @@ export function KeplerLaunch() {
             </div>
 
             <p className={cn('mb-4 font-[family-name:var(--font-mono)] text-[var(--faint)]', rkMono11)}>
-              Just launched
+              {KEPLER_DOWNLOADS_LIVE ? 'Just launched' : 'Launching 20 November'}
             </p>
             <h2 className="font-[family-name:var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] leading-[1.02] font-light tracking-[-0.01em] text-white">
               The SRE IDE,
@@ -146,8 +147,8 @@ export function KeplerLaunch() {
             </ul>
             <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 lg:mt-10">
               <Button asChild variant="primary" className={primaryCtaClass}>
-                <Link href={KEPLER_URL} target="_blank" rel="noopener noreferrer">
-                  Try Kepler
+                <Link href={KEPLER_URL}>
+                  See Kepler
                 </Link>
               </Button>
               <Link
@@ -203,7 +204,7 @@ export function KeplerLaunch() {
                 </span>
                 <span className="min-w-0 flex-1 truncate text-[13px] tracking-[0.02em] sm:text-[13px]">
                   <span className="font-medium text-white">Kepler</span>
-                  <span className="text-[var(--faint)]"> is out. The SRE IDE.</span>
+                  <span className="text-[var(--faint)]">{KEPLER_DOWNLOADS_LIVE ? ' is out. The SRE IDE.' : ' ships 20 November. The SRE IDE.'}</span>
                 </span>
                 <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[var(--faint)] transition-transform group-hover:translate-x-0.5 group-hover:text-white" strokeWidth={2} aria-hidden />
               </div>

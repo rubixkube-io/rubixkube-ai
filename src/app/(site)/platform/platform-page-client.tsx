@@ -13,7 +13,7 @@ import { outlineBlueAccentMd } from '@/lib/outline-blue-cta'
 import { fadeUpVariants } from '@/lib/animations'
 import { platformFaqItems } from '@/data/platform-faq'
 import { siteButton, siteLink, siteLinkArrow } from '@/lib/site-ui'
-import { ArrowRight, ArrowUpRight, BellRing, Check, CheckCircle, Copy, Download, Terminal } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, BellRing, Check, CheckCircle, Copy, Terminal } from 'lucide-react'
 import { BrainIntegrationStrip } from '@/components/landing/brain-integration-strip'
 import { IntelligenceSection } from '@/components/landing/intelligence-section'
 import { BuiltOnSection } from '@/components/landing/built-on-section'
@@ -236,7 +236,7 @@ const PARTS = [
 ] as const
 
 /** RubixKube's own apps, as on the console's Apps page. */
-const KEPLER_URL = 'https://trykepler.rubixkube.ai'
+const KEPLER_URL = '/kepler'
 const CLI_INSTALL = 'npm install -g @rubixkube/rubix'
 const MCP_URL = 'https://mcp.rubixkube.ai/mcp'
 
@@ -508,9 +508,9 @@ export function PlatformPageClient() {
                 line="The SRE IDE. Chat, terminal and browser in one desktop app, with RubixKube and your environments a click away."
               />
               <div className="mt-auto flex flex-wrap items-center gap-4 pt-8">
-                <Link href={KEPLER_URL} target="_blank" rel="noopener noreferrer" className={siteButton}>
-                  <Download className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
-                  Download Kepler
+                <Link href={KEPLER_URL} className={siteButton}>
+                  See Kepler
+                  <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
                 </Link>
                 <span className={`${mono} text-[13px] text-[var(--mid)]`}>macOS, Windows and Linux</span>
               </div>

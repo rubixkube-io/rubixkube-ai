@@ -126,7 +126,7 @@ export default function NightShiftPage() {
               <Link href="/products/rubix-cli">Rubix CLI</Link>
             </Button>
             <Button asChild variant="outline" className={outlineInkMd}>
-              <a href="https://trykepler.rubixkube.ai" target="_blank" rel="noopener noreferrer">Try Kepler</a>
+              <Link href="/kepler">See Kepler</Link>
             </Button>
           </div>
         </div>
