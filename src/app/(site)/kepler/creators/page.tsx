@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
 import { CreatorsPageClient } from './creators-page-client'
+import '../kepler.css'
 
 const title = 'Kepler for creators'
-const description = 'Two months of Kepler Pro, free. Six if you post. Say what you think.'
+const description = 'Two months of Kepler Pro, free. Post an honest take and get four more.'
 
 export const metadata: Metadata = {
   title,
@@ -20,5 +21,5 @@ export const metadata: Metadata = {
 }
 
 export default function KeplerCreatorsPage() {
-  return <CreatorsPageClient />
+  return <CreatorsPageClient serverNow={Date.now()} />
 }

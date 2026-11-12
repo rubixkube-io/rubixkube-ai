@@ -4,7 +4,7 @@ const CACHE_KEY = 'kepler.release.latest'
 const CACHE_MS = 3600000
 const FAIL_MS = 300000
 
-export type PlatformKey = 'macos-arm' | 'linux-deb' | 'linux-rpm' | 'windows'
+export type PlatformKey = 'macos-arm' | 'linux-deb' | 'linux-rpm' | 'linux-arch' | 'windows'
 
 export type Release = {
   tag_name: string
@@ -24,6 +24,7 @@ export const PLATFORMS: { key: PlatformKey; label: string; match: RegExp }[] = [
   { key: 'macos-arm', label: 'macOS (Apple silicon)', match: /\.dmg$/ },
   { key: 'linux-deb', label: 'Linux (.deb)', match: /\.deb$/ },
   { key: 'linux-rpm', label: 'Linux (.rpm)', match: /\.rpm$/ },
+  { key: 'linux-arch', label: 'Linux (Arch)', match: /\.pkg\.tar\.zst$/ },
   { key: 'windows', label: 'Windows (installer)', match: /-setup\.exe$/ },
 ]
 
@@ -47,6 +48,7 @@ export const PLATFORM_NAMES: Record<PlatformKey, string> = {
   'macos-arm': 'macOS (Apple silicon)',
   'linux-deb': 'Linux',
   'linux-rpm': 'Linux',
+  'linux-arch': 'Linux',
   windows: 'Windows',
 }
 

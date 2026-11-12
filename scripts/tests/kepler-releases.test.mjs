@@ -8,22 +8,24 @@ const release = {
     { name: 'Kepler_0.4.2_aarch64.dmg', browser_download_url: 'https://x/a.dmg', size: 104857600 },
     { name: 'kepler_0.4.2_amd64.deb', browser_download_url: 'https://x/a.deb', size: 52428800 },
     { name: 'kepler-0.4.2.x86_64.rpm', browser_download_url: 'https://x/a.rpm', size: 53477376 },
+    { name: 'Kepler-0.4.2-x86_64.pkg.tar.zst', browser_download_url: 'https://x/a.zst', size: 50331648 },
     { name: 'Kepler_0.4.2_x64-setup.exe', browser_download_url: 'https://x/a.exe', size: 62914560 },
   ],
 }
 
 test('null release gives the fallback on every row', () => {
   const rows = rowsFromRelease(null)
-  assert.equal(rows.length, 4)
+  assert.equal(rows.length, 5)
   for (const r of rows) assert.deepEqual([r.url, r.size, r.version], [FALLBACK_URL, null, null])
 })
 
 test('assets map to rows with size and version', () => {
   const rows = rowsFromRelease(release)
-  assert.deepEqual(rows.map((r) => r.key), ['macos-arm', 'linux-deb', 'linux-rpm', 'windows'])
+  assert.deepEqual(rows.map((r) => r.key), ['macos-arm', 'linux-deb', 'linux-rpm', 'linux-arch', 'windows'])
   assert.equal(rows[0].url, 'https://x/a.dmg')
   assert.equal(rows[0].size, 104857600)
-  assert.equal(rows[3].url, 'https://x/a.exe')
+  assert.equal(rows[3].url, 'https://x/a.zst')
+  assert.equal(rows[4].url, 'https://x/a.exe')
   assert.ok(rows.every((r) => r.version === 'v0.4.2'))
 })
 
@@ -47,5 +49,5 @@ test('the two Linux rows have different labels', () => {
   const rows = rowsFromRelease(release)
   const labels = rows.map((r) => r.label)
   assert.equal(new Set(labels).size, labels.length)
-  assert.deepEqual(labels.filter((l) => l.startsWith('Linux')), ['Linux (.deb)', 'Linux (.rpm)'])
+  assert.deepEqual(labels.filter((l) => l.startsWith('Linux')), ['Linux (.deb)', 'Linux (.rpm)', 'Linux (Arch)'])
 })
