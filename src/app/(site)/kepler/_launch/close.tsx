@@ -1,5 +1,6 @@
 'use client'
 
+import posthog from 'posthog-js'
 import { AppleIcon, DownloadIcon, LinuxIcon, WindowsIcon } from './icons'
 import { Notify } from './notify'
 import { SYSTEMS, useDownloads, type Os } from './use-downloads'
@@ -26,7 +27,13 @@ function Downloads() {
               <p>{s.detail}</p>
               <div className="acts">
                 {files[s.os].map((f) => (
-                  <a key={f.label} className="dlb" href={f.url} rel="noopener">
+                  <a
+                    key={f.label}
+                    className="dlb"
+                    href={f.url}
+                    rel="noopener"
+                    onClick={() => posthog.capture('kepler_download_clicked', { platform: f.key, from: 'downloads' })}
+                  >
                     {s.os !== 'linux' && <DownloadIcon />}
                     {f.label}
                     {s.os !== 'linux' && f.size && <small>{f.size}</small>}

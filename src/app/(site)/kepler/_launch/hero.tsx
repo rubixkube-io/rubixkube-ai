@@ -1,5 +1,6 @@
 'use client'
 
+import posthog from 'posthog-js'
 import { useEffect, useRef } from 'react'
 import { ASSETS, DISCORD_URL, FACES, NAV, TAGLINE } from '../content'
 import { AppleIcon, KeplerMark, LinuxIcon, WindowsIcon } from './icons'
@@ -54,11 +55,16 @@ function Download() {
   const system = SYSTEMS.find((s) => s.os === os)
   const Icon = os ? ICON[os] : null
   // Linux has three packages, so its button goes to the list
-  const href = os && os !== 'linux' ? files[os][0].url : '#download'
+  const file = os && os !== 'linux' ? files[os][0] : null
+  const href = file ? file.url : '#download'
   return (
     <div className="golive">
       <div className="go">
-        <a className="btn primary" href={href}>
+        <a
+          className="btn primary"
+          href={href}
+          onClick={() => file && posthog.capture('kepler_download_clicked', { platform: file.key, from: 'hero' })}
+        >
           {Icon && <Icon />}
           {system ? `Download for ${system.name}` : 'Download Kepler'}
         </a>

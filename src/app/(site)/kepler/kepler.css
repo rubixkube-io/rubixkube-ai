@@ -44,7 +44,7 @@
 .kl .count .nums div{display:flex;align-items:baseline;gap:6px}
 .kl .count .n{font:300 clamp(30px,2.8vw,44px)/1 var(--display);letter-spacing:-0.035em;font-variant-numeric:tabular-nums}
 .kl .count .l{font-size:13px;color:rgba(255,255,255,.55)}
-.kl .lead .sub{margin-top:clamp(22px,3.6vh,36px);max-width:34ch;font-size:16px;line-height:1.55;color:rgba(255,255,255,.72)}
+.kl .lead .sub{margin-top:clamp(22px,3.6vh,36px);max-width:42ch;font-size:16px;line-height:1.55;color:rgba(255,255,255,.72);text-wrap:pretty}
 .kl .lead .notify{margin-top:18px;width:min(460px,100%)}
 .kl .lead .hfaces{margin-top:14px}
 .kl .lead .notify input{background:rgba(4,6,15,.5);border-color:rgba(205,214,244,.2);color:#fff;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}

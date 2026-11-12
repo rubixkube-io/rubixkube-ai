@@ -1,5 +1,6 @@
 'use client'
 
+import posthog from 'posthog-js'
 import Link from 'next/link'
 import { useId, useState } from 'react'
 import { Footer } from '../_launch/footer'
@@ -33,6 +34,8 @@ function ApplyForm() {
         }),
       })
       if (!response.ok) throw new Error(`Application refused: ${response.status}`)
+      // Where they publish only: never the person's name, email or link
+      posthog.capture('kepler_creator_applied', { where: field('where') })
       setStatus('done')
     } catch {
       setStatus('failed')

@@ -4,7 +4,8 @@ export const DISCORD_URL = 'https://discord.gg/HTHkEU7YTj'
 export const DOCS_URL = 'https://docs.rubixkube.ai/kepler/overview'
 export const ASSETS = '/kepler/launch'
 
-export const TAGLINE = "The world's first SRE IDE. Built with the people who carry the pager."
+export const TAGLINE =
+  'Developers got their AI IDE the day their repos held still. The people keeping production alive never did. Kepler is the IDE for the ones on call.'
 
 export const NAV = [
   { href: '#why', label: 'Why' },

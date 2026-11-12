@@ -11,7 +11,7 @@ const OS_OF: Record<PlatformKey, Os> = { 'macos-arm': 'mac', windows: 'win', 'li
 export function useDownloads() {
   const { release, platform } = useLatestRelease()
   const rows = Object.fromEntries(rowsFromRelease(release).map((r) => [r.key, r])) as Record<PlatformKey, ReturnType<typeof rowsFromRelease>[number]>
-  const file = (key: PlatformKey, label: string) => ({ label, url: rows[key].url, size: formatSize(rows[key].size) })
+  const file = (key: PlatformKey, label: string) => ({ key, label, url: rows[key].url, size: formatSize(rows[key].size) })
   return {
     os: platform ? OS_OF[platform] : null,
     version: release?.tag_name ?? null,
@@ -19,7 +19,7 @@ export function useDownloads() {
       mac: [file('macos-arm', 'Download .dmg')],
       win: [file('windows', 'Download installer')],
       linux: [file('linux-deb', '.deb'), file('linux-rpm', '.rpm'), file('linux-arch', 'Arch')],
-    } satisfies Record<Os, { label: string; url: string; size: string }[]>,
+    } satisfies Record<Os, { key: PlatformKey; label: string; url: string; size: string }[]>,
   }
 }
 

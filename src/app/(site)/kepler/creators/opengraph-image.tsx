@@ -1,13 +1,15 @@
-import { generateOGImage } from '@/lib/og-image'
-import { dynamicOgPageContent } from '@/lib/og-dynamic-page-content'
+import { KEPLER_OG_SIZE, keplerOgImage } from '@/lib/og-kepler'
 
-export const alt = 'Kepler for creators'
-export const size = {
-  width: 1200,
-  height: 630,
-}
+export const alt = 'Kepler creator program: get Kepler Pro free'
+export const size = KEPLER_OG_SIZE
 export const contentType = 'image/png'
 
 export default async function Image() {
-  return generateOGImage({ ...dynamicOgPageContent.keplerCreators })
+  return keplerOgImage({
+    background: 'creators-bg.jpg',
+    label: 'Creator program',
+    bright: 'Get Kepler Pro free.',
+    soft: 'Two months, on us.',
+    address: 'rubixkube.ai/kepler/creators',
+  })
 }

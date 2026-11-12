@@ -1,5 +1,6 @@
 'use client'
 
+import posthog from 'posthog-js'
 import { useState, type FormEvent } from 'react'
 
 /** The email field and button, sent as the Netlify form `kepler-notify` (defined in public/contact-form.html). */
@@ -19,6 +20,7 @@ export function Notify() {
         body: new URLSearchParams({ 'form-name': 'kepler-notify', email, 'bot-field': bot }).toString(),
       })
       if (!res.ok) throw new Error('Submission failed')
+      posthog.capture('kepler_notify_signed_up', { page: location.pathname })
       setStatus('done')
     } catch {
       setStatus('failed')
