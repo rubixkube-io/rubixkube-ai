@@ -25,7 +25,7 @@ function Avatar({ name, photo }: { name: string; photo?: string }) {
 /** A name and a small LinkedIn or YouTube icon, both linking to that person's profile */
 function ProfileLink({ name, link }: { name: string; link?: string }) {
   if (!link) return <>{name}</>
-  const youtube = link.includes('youtube.com')
+  const youtube = isYoutube(link)
   return (
     <a
       className="profile"
@@ -38,6 +38,15 @@ function ProfileLink({ name, link }: { name: string; link?: string }) {
       {youtube ? <Youtube aria-hidden="true" /> : <Linkedin aria-hidden="true" />}
     </a>
   )
+}
+
+/** Whether a profile link is on YouTube, by its real hostname rather than anywhere in the text */
+function isYoutube(link: string) {
+  try {
+    return ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'].includes(new URL(link).hostname.toLowerCase())
+  } catch {
+    return false
+  }
 }
 
 /** Two letters for an avatar: the first letters of two words, else the first two of one */
