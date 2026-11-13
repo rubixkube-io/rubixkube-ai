@@ -1,0 +1,81 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "Kepler",
+  "home_page_url": "https://rubixkube.ai/kepler",
+  "feed_url": "https://rubixkube.ai/kepler/feed.json",
+  "items": [
+    {
+      "id": "0.2.0-open",
+      "title": "Kepler is open to everyone",
+      "content_text": "This is Kepler's first public release: an agent for the people who keep systems running. It runs on your machine and works with your clusters, clouds and tools.",
+      "image": "0.2.0/welcome.webp",
+      "date_published": "2026-11-20T04:30:00Z",
+      "_kepler": {
+        "placement": "whats_new",
+        "version": "0.2.0",
+        "order": 1,
+        "image_alt": "A dark planet with a gold ring"
+      }
+    },
+    {
+      "id": "0.2.0-journey",
+      "title": "Built with 300+ operators",
+      "content_text": "Kepler went from first commit to launch in 136 days. Operators in the beta used it on real incidents and told us what broke. This release is built on what they said.",
+      "image": "0.2.0/lights.webp",
+      "date_published": "2026-11-20T04:30:00Z",
+      "_kepler": {
+        "placement": "whats_new",
+        "version": "0.2.0",
+        "order": 2,
+        "image_alt": "A field of gold lights around a planet"
+      }
+    },
+    {
+      "id": "0.2.0-ask",
+      "title": "Ask about your systems",
+      "content_text": "Ask what changed, why something is failing, or what to check first. Kepler runs the checks, shows the evidence behind each answer, and suggests the fix.",
+      "image": "0.2.0/world.webp",
+      "date_published": "2026-11-20T04:30:00Z",
+      "_kepler": {
+        "placement": "whats_new",
+        "version": "0.2.0",
+        "order": 3,
+        "image_alt": "A planet lit by a network of lines",
+        "action": {
+          "kind": "ask",
+          "label": "Try it",
+          "text": "What changed in my environments today?"
+        }
+      }
+    },
+    {
+      "id": "0.2.0-watch",
+      "title": "It keeps watch when you don't",
+      "content_text": "Watchers check your environments in the background and wake Kepler when something changes. Kepler asks before it changes anything, unless you tell it otherwise.",
+      "image": "0.2.0/plan.webp",
+      "date_published": "2026-11-20T04:30:00Z",
+      "_kepler": {
+        "placement": "whats_new",
+        "version": "0.2.0",
+        "order": 4,
+        "image_alt": "A ringed planet at night"
+      }
+    },
+    {
+      "id": "pro-welcome",
+      "title": "Welcome to Kepler Pro",
+      "content_text": "War rooms, automations, remote access, channels, topology and hosted models are on. Your usage and invoices are in Settings, Plan & Usage.",
+      "image": "0.2.0/plan.webp",
+      "date_published": "2026-11-20T04:30:00Z",
+      "_kepler": {
+        "placement": "pro_welcome",
+        "order": 1,
+        "image_alt": "A ringed planet at night",
+        "action": {
+          "kind": "plan",
+          "label": "Open Plan & Usage"
+        }
+      }
+    }
+  ]
+}
