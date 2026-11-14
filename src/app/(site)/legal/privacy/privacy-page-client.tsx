@@ -32,6 +32,7 @@ export function PrivacyPageClient() {
     { title: "How We Use Data", href: "#how-we-use-data" },
     { title: "Data Protection", href: "#data-protection" },
     { title: "Your Rights", href: "#your-rights" },
+    { title: "Kepler", href: "#kepler" },
     { title: "Contact Us", href: "#contact" },
   ]
 
@@ -46,7 +47,7 @@ export function PrivacyPageClient() {
           className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]"
         >
           <span>Effective Date: June 25, 2025</span>
-          <span>Last Updated: October 9, 2026</span>
+          <span>Last Updated: November 20, 2026</span>
         </div>
 
         {/* Quick Navigation */}
@@ -279,8 +280,44 @@ export function PrivacyPageClient() {
               </p>
             </motion.section>
 
+            {/* Kepler */}
+            <motion.section
+              id="kepler"
+              variants={fadeUpVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-14 scroll-mt-[calc(var(--nav-stack)+2rem)] last:mb-0"
+            >
+              <h2 className={sectionTitle}>Kepler</h2>
+              <p className={`m-0 ${bodyText}`}>
+                Kepler is a desktop app that runs on your machine. Your conversations, memory, settings and
+                the keys you add stay on that machine. We do not receive them.
+              </p>
+              <p className={`m-0 mt-5 ${bodyText}`}>
+                Kepler connects out only for these: the model you choose, which receives what you ask it
+                and what it needs to answer; the tools and systems you connect it to; signing in to your
+                Kepler account; checking your plan, which sends a device identifier (a one-way hash, not a
+                serial number); checking for updates; and reading the list of what is new in each
+                release. When you use Kepler&apos;s hosted models, your requests pass through our gateway to
+                the model provider, and we record how much you use to apply your plan&apos;s limits.
+              </p>
+              <p className={`m-0 mt-5 ${bodyText}`}>
+                Sharing usage with us is off until you turn it on, during onboarding or in Settings,
+                General, Privacy. When it is on, Kepler sends which features you use and how they go, as
+                counts and outcomes, with your plan, the app version and your operating system, linked to
+                your Kepler account. It never sends what you type, what Kepler runs or reads, or the names
+                of your systems, and it sends no IP address or location. We use PostHog, in the United
+                States, to store it. Turn sharing off at any time and Kepler stops sending at once.
+              </p>
+              <p className={`m-0 mt-5 ${bodyText}`}>
+                Report a Problem copies a report (the app version, the agent&apos;s state and its recent log
+                lines) to your clipboard. Nothing is sent unless you paste it somewhere yourself.
+              </p>
+            </motion.section>
+
             {/* Updates */}
-            <motion.section 
+            <motion.section
               id="updates"
               variants={fadeUpVariants}
               initial="hidden"
