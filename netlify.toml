@@ -31,3 +31,12 @@
   for = "/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# The Kepler app reads its what's new and announcement cards from this feed. The app's page is
+# another origin (tauri://localhost), so the fetch needs CORS. Five minutes of cache, so a change
+# reaches apps quickly; the pictures beside it are named per release and can stay cached.
+[[headers]]
+  for = "/kepler/feed.json"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=300"

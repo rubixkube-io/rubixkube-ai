@@ -32,6 +32,9 @@ const nextConfig: NextConfig = {
       { source: '/use-case', destination: '/solutions?type=use-case', permanent: true },
       { source: '/products/kepler', destination: '/kepler', permanent: true },
       { source: '/slack', destination: 'https://docs.rubixkube.ai/integrations/slack', permanent: true },
+      // The Kepler app's Help menu links here, so the invite can change without an app release.
+      // Not permanent: browsers must not cache it.
+      { source: '/discord', destination: 'https://discord.gg/HTHkEU7YTj', permanent: false },
       { source: '/feed', destination: '/blog', permanent: true },
     ]
   },
