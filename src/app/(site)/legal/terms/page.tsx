@@ -51,7 +51,7 @@ const TermsPage = () => {
           className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]"
         >
           <span>Effective Date: June 25, 2025</span>
-          <span>Last Updated: June 25, 2025</span>
+          <span>Last Updated: November 16, 2026</span>
         </div>
 
         {/* Quick Navigation */}
@@ -126,13 +126,27 @@ const TermsPage = () => {
             {/* Data & Responsibilities */}
             <Section title="Your Data & Responsibilities" id="data-responsibilities">
               <p className="!mb-4">
-                You retain ownership of your data. We process it according to our Privacy Policy.
+                You own your data. We handle it as our{' '}
+                <Link href="/legal/privacy" className={inlineLink}>Privacy Policy</Link> describes.
+              </p>
+              <p className="!mb-4">
+                On paid plans, we never use your content to train models shared with other customers. We
+                use it only to run and improve your own workspace. On free plans, we may use your content
+                to improve RubixKube and to train or tune our models, after removing secrets and personal
+                details we can detect. You can turn this off at any time, as the Privacy Policy explains.
+              </p>
+              <p className="!mb-4">
+                When you connect your systems, you decide what they send us and you are responsible for
+                having the right to send it. Business customers can ask for our Data Processing Agreement
+                at{' '}
+                <a href="mailto:privacy@rubixkube.ai" className={inlineLink}>privacy@rubixkube.ai</a>.
               </p>
               <div>
                 <ul className={listText}>
                   <li>Keep your credentials secure</li>
-                  <li>Ensure compliance of integrated tools (e.g., GitHub, Prometheus)</li>
-                  <li>Backup critical data</li>
+                  <li>Make sure your use of connected tools (for example GitHub or Prometheus) follows their terms</li>
+                  <li>Use masking rules for data you do not want to leave your systems</li>
+                  <li>Keep your own backups of critical data</li>
                 </ul>
               </div>
             </Section>
@@ -141,8 +155,10 @@ const TermsPage = () => {
             <Section title="Subscription, Billing & Payment" id="billing-payment">
               <div>
                 <p>
-                  All paid Services are billed per our pricing terms. Charges are non-refundable unless required by law. 
-                  Pricing may be updated with prior notice.
+                  All paid Services are billed per our pricing terms. Charges are non-refundable unless required by law.
+                  Pricing may be updated with prior notice. When a trial ends or a payment lapses, your
+                  organization moves to the free plan automatically, and the free plan terms above apply
+                  from then on.
                 </p>
               </div>
             </Section>
@@ -194,8 +210,9 @@ const TermsPage = () => {
             <Section title="Termination" id="termination">
               <div>
                 <p>
-                  You may cancel your account at any time. We may terminate accounts for Terms violations. 
-                  Upon termination, your access to Services will cease immediately.
+                  You may cancel your account at any time. We may terminate accounts for Terms violations.
+                  Upon termination, your access to Services will cease immediately. We delete your data
+                  within 30 days after that, except records the law requires us to keep, such as invoices.
                 </p>
               </div>
             </Section>
