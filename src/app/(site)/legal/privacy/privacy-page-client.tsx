@@ -144,8 +144,8 @@ export function PrivacyPageClient() {
       </header>
 
       {/* Content Section */}
-      <section className="bg-[var(--bg)] px-[var(--pad)] pt-14 pb-24">
-        <div className="rk-landing-max [&>*]:max-w-[900px]">
+      <section className="bg-[var(--bg)] pt-14 pb-24">
+        <div className="rk-landing-max px-[var(--pad)] [&>*]:max-w-[900px]">
           <div>
 
             <Section id="introduction" title="Introduction">
