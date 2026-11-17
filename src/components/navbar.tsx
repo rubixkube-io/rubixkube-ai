@@ -37,6 +37,8 @@ type Row = {
   external?: boolean
 }
 
+import { AnnouncementBar } from '@/components/announcement-bar'
+
 const CALENDLY = 'https://calendly.com/rubixkube-ai/30min'
 const CONSOLE_URL = 'https://console.rubixkube.ai'
 const DOCS_URL = 'https://docs.rubixkube.ai/'
@@ -614,6 +616,8 @@ export function Navbar() {
   const pricingActive = pathname === '/pricing' || pathname.startsWith('/pricing/')
 
   return (
+    <>
+    <AnnouncementBar />
     <header
       ref={navShellRef}
       className={cn(
@@ -828,6 +832,7 @@ export function Navbar() {
         )}
       </AnimatePresence>
     </header>
+    </>
   )
 }
 
