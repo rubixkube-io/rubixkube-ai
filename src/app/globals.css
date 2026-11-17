@@ -27,8 +27,7 @@
   --nav-gap-top: 0px;
   --nav-height: 4rem;
   /* Launch announcement bar above the header; html.rk-announce-off collapses it */
-  /* No announcement bar is shown; set this back to 36px when <AnnouncementBar /> returns to the navbar */
-  --announce-h: 0px;
+  --announce-h: 36px;
   --nav-stack: calc(var(--nav-height) + var(--nav-gap-top) + var(--announce-h));
 
   /* Bridge legacy Tailwind token names */
@@ -291,6 +290,12 @@ html[data-theme='dark'] .rk-mono-logo {
 
 html.rk-announce-off {
   --announce-h: 0px;
+}
+
+/* The announcement bar's two wordings: the launch time adds html.rk-kepler-live before paint (announcement-bar.tsx) */
+html.rk-kepler-live .rk-launch-soon,
+html:not(.rk-kepler-live) .rk-launch-live {
+  display: none !important;
 }
 
 @media (min-width: 1536px) {

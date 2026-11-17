@@ -3,15 +3,18 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, X } from 'lucide-react'
-import { KEPLER_DOWNLOADS_LIVE } from '@/app/(site)/kepler/launch'
+import { LAUNCH_AT } from '@/app/(site)/kepler/launch'
 
 const KEPLER_URL = '/kepler'
 const DISMISS_KEY = 'rk-announce-kepler-launch'
 const OFF_CLASS = 'rk-announce-off'
+/** On <html> from the launch time on; picks the bar's after-launch wording (globals.css) */
+const LIVE_CLASS = 'rk-kepler-live'
 
 /**
  * Launch bar pinned above the navbar. Dismiss lasts for the tab session only. Height feeds --nav-stack via --announce-h,
- * so the fixed header and the homepage snap sections shift with it.
+ * so the fixed header and the homepage snap sections shift with it. The bar carries both wordings and the launch time
+ * picks one in the browser, before paint: pages are cached, so the server cannot know whether the launch has passed.
  */
 export function AnnouncementBar() {
   const [dismissed, setDismissed] = useState(false)
@@ -25,6 +28,11 @@ export function AnnouncementBar() {
       document.documentElement.classList.add(OFF_CLASS)
       setDismissed(true)
     }
+    // A tab left open across the launch switches when it comes
+    const wait = LAUNCH_AT - Date.now()
+    if (wait <= 0 || wait > 2 ** 31 - 1) return
+    const id = setTimeout(() => document.documentElement.classList.add(LIVE_CLASS), wait)
+    return () => clearTimeout(id)
   }, [])
 
   const dismiss = () => {
@@ -42,7 +50,7 @@ export function AnnouncementBar() {
       {/* Runs while the HTML parses so a returning visitor never sees the bar flash before hydration */}
       <script
         dangerouslySetInnerHTML={{
-          __html: `try{if(sessionStorage.getItem('${DISMISS_KEY}')==='1')document.documentElement.classList.add('${OFF_CLASS}')}catch(e){}`,
+          __html: `try{if(sessionStorage.getItem('${DISMISS_KEY}')==='1')document.documentElement.classList.add('${OFF_CLASS}')}catch(e){}if(Date.now()>=${LAUNCH_AT})document.documentElement.classList.add('${LIVE_CLASS}')`,
         }}
       />
     <div
@@ -58,10 +66,10 @@ export function AnnouncementBar() {
           New
         </span>
         <span className="truncate">
-          <span className="hidden sm:inline">
-            {KEPLER_DOWNLOADS_LIVE ? 'Kepler, the SRE IDE by RubixKube, is here.' : 'Kepler, the SRE IDE by RubixKube, launches 20 November.'}
-          </span>
-          <span className="sm:hidden">{KEPLER_DOWNLOADS_LIVE ? 'Kepler, the SRE IDE, is here.' : 'Kepler launches 20 November.'}</span>
+          <span className="rk-launch-soon hidden sm:inline">Kepler, the SRE IDE by RubixKube, launches 20 November.</span>
+          <span className="rk-launch-live hidden sm:inline">Kepler, the SRE IDE by RubixKube, is live.</span>
+          <span className="rk-launch-soon sm:hidden">Kepler launches 20 November.</span>
+          <span className="rk-launch-live sm:hidden">Kepler is live.</span>
         </span>
         <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[#c4c5cc] transition-colors group-hover:text-white">
           See Kepler
