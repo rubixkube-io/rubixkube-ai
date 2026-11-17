@@ -15,6 +15,19 @@ export const NAV = [
   { href: '#pricing', label: 'Pricing' },
 ] as const
 
+/** The headline after launch: the second line rolls through who runs production once, then settles on the last */
+export const TITLE_LIVE = {
+  lead: 'The IDE for',
+  roles: ['SREs.', 'platform engineers.', 'DevOps.', 'SecOps.', 'network engineers.', 'developers.', 'on call.', 'operations.'],
+}
+
+/** After launch the nav points at what someone about to install wants; the page's own sections are a scroll away */
+export const NAV_LIVE = [
+  { href: '#days', label: 'Journey' },
+  { href: DOCS_URL, label: 'Docs' },
+  { href: '#pricing', label: 'Pricing' },
+] as const
+
 /** Beta members shown next to "Join the operators already inside" */
 export const FACES = ['randy', 'sarthak', 'vaishnav', 'jaideep', 'pramod'].map((n) => `${ASSETS}/av-${n}.webp`)
 

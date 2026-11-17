@@ -15,16 +15,24 @@
 .kl :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 .kl .tag{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;border:1px solid currentColor;font-size:11.5px;opacity:.85}
 .kl .label{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--accent)}
-.kl .hero{position:relative;background:var(--void)}
+/* The hero's art fills the window at any width, so its text keeps the same side margin as at 1440 instead of the
+   page's centred 1320px column, and its headline keeps growing with the window; otherwise wide screens leave the
+   text small and adrift from the planet */
+.kl .hero{position:relative;background:var(--void);--gut:clamp(24px,6.5vw,200px)}
 .kl .pin{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;isolation:isolate;color:#fff;display:grid;grid-template-rows:auto 1fr auto}
 .kl .planet-wrap{position:absolute;inset:0;z-index:-2;pointer-events:none;transform:scale(1.26);transform-origin:0 0;background:var(--void) url(/kepler/launch/hero-planet-hd.webp) center/cover no-repeat}
 .kl .planet{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 @media (prefers-reduced-motion:reduce){
   .kl .planet{display:none}
 }
+/* Where the loop plays, the still under it is the loop's own first frame, so nothing moves when the video starts */
+@media (min-width:761px) and (prefers-reduced-motion:no-preference){
+  .kl .planet-wrap{background-image:url(/kepler/launch/hero-loop-poster.webp)}
+}
 @media (max-width:760px){
   .kl .planet{display:none}
-  .kl .hero .pin{padding-bottom:82vw}
+  /* The planet sits behind the lower part of the text, not in a space of its own; a short tail shows the ring */
+  .kl .hero .pin{padding-bottom:46vw}
   .kl .planet-wrap{top:auto;height:96vw;transform:none;background-size:cover;background-position:66% 45%;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%);mask-image:linear-gradient(180deg,transparent 0,#000 30%)}
 }
 .kl .pin::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(4,6,15,.45),rgba(4,6,15,0) 30%,rgba(4,6,15,0) 75%,rgba(4,6,15,.7))}
@@ -36,9 +44,22 @@
 .kl .bar nav a{text-decoration:none;color:rgba(255,255,255,.72);transition:color 120ms var(--ease)}
 .kl .bar nav a:hover{color:#fff}
 .kl .lead{align-self:start;padding:clamp(56px,13vh,140px) var(--gut) 0}
-.kl .lead h1{max-width:13em;font:500 clamp(42px,5.6vw,90px)/1.02 var(--display);letter-spacing:-0.04em}
+.kl .lead h1{max-width:13em;font:500 clamp(42px,5.6vw,132px)/1.02 var(--display);letter-spacing:-0.04em}
 .kl .lead h1 span{display:block}
 .kl .lead h1 .bold{color:rgba(255,255,255,.5)}
+/* After launch the headline is one line, "The IDE for" and the role in grey (hero.tsx Roles), each role rolling up
+   into place. It never wraps, so the hero does not jump; its size keeps the longest role on the line. Phones have no
+   room for one line, so there the role sits under "The IDE for" and the headline shrinks to fit the longest role. */
+.kl.is-live .lead h1{display:flex;align-items:baseline;gap:.26em;max-width:none;white-space:nowrap;font-size:min(clamp(42px,5.6vw,132px),calc((100vw - 2 * var(--gut)) / 13))}
+@media (max-width:760px){
+  .kl.is-live .lead h1{display:block;font-size:min(clamp(42px,5.6vw,90px),calc((100vw - 56px) / 7.6))}
+}
+.kl .lead h1 .roll{overflow:hidden;white-space:nowrap;padding-bottom:.12em;margin-bottom:-.12em}
+.kl .lead h1 .roll > span{display:inline-block;animation:kl-roll 600ms var(--ease) both}
+@keyframes kl-roll{from{opacity:0;transform:translateY(60%)}}
+@media (prefers-reduced-motion:reduce){
+  .kl .lead h1 .roll > span{animation:none}
+}
 .kl .count{margin-top:clamp(22px,3.6vh,36px);padding-top:clamp(16px,2.4vh,22px);border-top:1px solid rgba(255,255,255,.16);max-width:520px}
 .kl .count .nums{display:flex;align-items:baseline;gap:clamp(18px,2.4vw,32px)}
 .kl .count .nums div{display:flex;align-items:baseline;gap:6px}
@@ -55,16 +76,134 @@
 .kl .hfaces span{display:flex}
 .kl .hfaces img{width:30px;height:30px;border-radius:50%;margin-left:-8px;border:2px solid var(--void);object-fit:cover;background:#242a55}
 .kl .hfaces img:first-child{margin-left:0}
-.kl.is-live .pin{min-height:0}
-.kl .screens{padding:clamp(88px,12vh,140px) var(--gut) clamp(88px,10vw,140px);color:#fff}
-.kl .screens .sect-head{display:block}
-.kl .screens .sect-head h2 span{color:rgba(255,255,255,.42)}
-.kl .screen{margin:clamp(36px,5vw,56px) 0 0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 40px 120px rgba(84,87,230,.2),0 24px 60px rgba(0,0,0,.5)}
-.kl .screen img{display:block;width:100%;height:auto}
+.kl.is-live .pin{min-height:0;grid-template-columns:minmax(0,1fr)}
+.kl.is-live .lead{padding-top:clamp(40px,9vh,104px)}
+/* The Kepler window under the hero, lit from behind by the ring */
+.kl .demo{position:relative;padding:clamp(56px,8vh,88px) var(--gut) clamp(72px,9vw,120px)}
+.kl .demo::before{content:"";position:absolute;left:50%;top:0;width:90%;height:60%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(232,168,92,.2),rgba(99,102,234,.14) 55%,transparent);filter:blur(30px);pointer-events:none}
+/* Phones, after launch: the planet sits where it does before launch, after the text (overlapping its last 14vw), and
+   the Kepler window follows the text at the usual gap, over the planet, so the planet adds no space of its own */
+@media (max-width:760px){
+  .kl.is-live .hero .pin{display:flex;flex-direction:column;padding-bottom:0}
+  .kl.is-live .bar{order:1}
+  .kl.is-live .lead{order:2}
+  .kl.is-live .planet-wrap{position:relative;inset:auto;order:3;flex:none;margin-top:-14vw}
+  .kl.is-live .demo{order:4;margin-top:calc(-82vw + 40px);padding-top:0}
+}
+/* Larger screens: the hero pins at full height and the window rises over the planet as the page scrolls (--r, 0 to 1,
+   set by useRise), while the headline fades and the planet dims. The rest of the hero's scroll holds the window in
+   place to be used. Sticky needs the page root to clip, not hide, its overflow. */
+@media (min-width:761px) and (prefers-reduced-motion:no-preference){
+  .kl:has(.hero.rise){overflow-x:clip}
+  .kl .hero.rise{height:300vh}
+  .kl .hero.rise .pin{position:sticky;top:0;height:100vh;height:100svh}
+  .kl .hero.rise .planet-wrap{bottom:0;height:auto;-webkit-mask-image:none;mask-image:none;filter:brightness(calc(1 - var(--r,0) * .45))}
+  .kl .hero.rise .lead{padding-top:0;opacity:calc(1 - var(--r,0) * 1.7);transform:translateY(calc(var(--r,0) * -60px))}
+  .kl .hero.rise .demo{position:absolute;left:50%;top:100%;width:min(1200px,90vw,calc((100vh - 150px) * 1.85));padding:0;transform:translate(-50%,calc(var(--r,0) * -1 * (50vh + 50% - 34px)));will-change:transform}
+  .kl .hero.rise .kd{height:auto;aspect-ratio:1.85}
+}
+
+/* The window itself (demo.tsx): Kepler Studio Dark, the app's default dark theme */
+.kl .kd{--b0:#08090f;--b1:#0f1119;--b2:#191c26;--b3:#232734;--e:rgba(255,255,255,.085);--es:rgba(255,255,255,.045);--t1:#d8dcf1;--t2:#878ca4;--t3:#63687f;--ac:#6366ea;
+  position:relative;max-width:1200px;height:clamp(480px,50vw,660px);margin:0 auto;display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:var(--b0);color:var(--t1);font:400 13.5px/1.55 var(--ui);text-align:left;
+  box-shadow:0 0 0 1px rgba(255,255,255,.1),0 40px 120px rgba(0,0,0,.6),0 0 180px rgba(99,102,234,.16)}
+.kl .kd svg{width:15px;height:15px;flex:none;stroke-width:1.75}
+.kl .kd p{margin:0}
+.kl .kd code{font:400 12px var(--mono)}
+.kl .kd p code,.kl .kd li code{padding:1px 5px;border-radius:4px;background:var(--b2);color:var(--t1)}
+.kl .kd i{font-style:normal;color:var(--t3)}
+.kl .kd-top{flex:none;display:flex;align-items:center;gap:12px;height:40px;padding:0 14px;background:var(--b1);border-bottom:1px solid var(--es);font-size:12.5px;color:var(--t3)}
+.kl .kd-lights{display:flex;gap:7px}
+.kl .kd-lights i{width:11px;height:11px;border-radius:50%;background:#2c2f3b;transition:background 200ms}
+.kl .kd:hover .kd-lights i:nth-child(1){background:#ff5f57}
+.kl .kd:hover .kd-lights i:nth-child(2){background:#febc2e}
+.kl .kd:hover .kd-lights i:nth-child(3){background:#28c840}
+.kl .kd-brand{display:flex;align-items:center;gap:7px;color:var(--t1);font-weight:500}
+.kl .kd-brand svg{width:16px;height:16px}
+.kl .kd-brand em{font-style:normal;font-size:10.5px;padding:1px 6px;border-radius:5px;background:rgba(99,102,234,.18);color:#a5a7f5}
+.kl .kd-tabs{flex:1;min-width:0;display:flex;align-items:stretch;align-self:stretch;margin-left:20px;overflow-x:auto;scrollbar-width:none}
+.kl .kd-tabs::-webkit-scrollbar{display:none}
+.kl .kd-tabs button{flex:none;display:flex;align-items:center;gap:8px;max-width:210px;padding:0 14px;border:0;background:none;color:var(--t3);font:inherit;white-space:nowrap;cursor:pointer;transition:color 120ms}
+.kl .kd-tabs button span{overflow:hidden;text-overflow:ellipsis}
+.kl .kd-tabs button:hover{color:var(--t2)}
+.kl .kd-tabs button.on{color:var(--t1);box-shadow:inset 0 -2px 0 var(--ac);cursor:default}
+.kl .kd-tabs svg{width:12px;height:12px}
+.kl .kd-tabs .kd-plus{align-self:center;margin-left:4px}
+.kl .kd-tools{display:flex;gap:14px}
+.kl .kd-body{flex:1;min-height:0;display:flex}
+.kl .kd-side{flex:none;width:212px;display:flex;flex-direction:column;gap:1px;padding:10px 8px;background:var(--b1);border-right:1px solid var(--es);font-size:13px;color:var(--t2)}
+/* Only the workspaces with a story are buttons; the rest of the sidebar is still, so it never invites a dead click */
+.kl .kd-side > span,.kl .kd-side button{display:flex;align-items:center;gap:10px;height:30px;padding:0 10px;border:0;border-radius:7px;background:none;color:inherit;font:inherit;text-align:left}
+.kl .kd-side button{cursor:pointer;transition:background 120ms,color 120ms}
+.kl .kd-side button:hover,.kl .kd-side button.on{background:var(--b2);color:var(--t1)}
+.kl .kd-side button.on{cursor:default}
+.kl .kd-side kbd{margin-left:auto;padding:1px 5px;border-radius:4px;background:var(--b2);font:400 10.5px var(--mono);color:var(--t3)}
+.kl .kd-side b{margin:14px 10px 4px;font-size:11.5px;font-weight:500;color:var(--t3)}
+.kl .kd-side .kd-me{margin-top:auto;color:var(--t1)}
+.kl .kd-me i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ac);color:#fff;font:600 10px var(--ui)}
+.kl .kd-main{position:relative;flex:1;min-width:0;display:flex;flex-direction:column}
+.kl .kd-thread{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding:28px 32px 16px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 32px);mask-image:linear-gradient(180deg,transparent,#000 32px)}
+.kl .kd-thread::-webkit-scrollbar{display:none}
+.kl .kd-col{max-width:680px;margin:0 auto;display:grid;gap:10px}
+.kl .kd-col > .kd-in{display:grid;gap:10px}
+.kl .kd-you{justify-self:end;max-width:80%;padding:9px 14px;border-radius:12px;background:var(--b2);border:1px solid var(--e)}
+.kl .kd-row{display:flex;align-items:center;gap:8px;min-width:0;font-size:12.5px;color:var(--t3)}
+.kl .kd-row svg{width:12px;height:12px}
+.kl .kd-row code{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--t2)}
+.kl .kd-noticed{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)}
+.kl .kd-noticed svg{color:#a5a7f5}
+.kl .kd-noticed b{font-weight:500;color:var(--t1)}
+.kl .kd ul{margin:0;padding-left:18px;display:grid;gap:4px;list-style:disc}
+.kl .kd li::marker{color:var(--t3)}
+.kl .kd-h{font-weight:600}
+.kl .kd pre{margin:0;padding:10px 14px;border-radius:8px;background:var(--b1);border:1px solid var(--e);overflow:hidden}
+.kl .kd pre code{white-space:pre;color:var(--t1)}
+.kl .kd-quiet{color:var(--t2)}
+.kl .kd-blocked{margin-left:20px;padding:7px 12px;border-radius:7px;background:rgba(229,72,77,.08);border:1px solid rgba(229,72,77,.18);color:#e9a3a6;font-size:12.5px}
+.kl .kd-blocked code{background:none !important;padding:0 !important;color:#f2c2c4 !important}
+.kl .kd-ask{display:grid;gap:10px;padding:12px 14px;border-radius:10px;background:var(--b1);border:1px solid var(--e);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 12px 32px rgba(0,0,0,.4)}
+.kl .kd-ask-head{display:flex;align-items:baseline;gap:5px;font-size:12px;color:var(--t3)}
+.kl .kd-ask-head span{margin-right:auto;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--t2)}
+.kl .kd-ask-head b{font-weight:500;color:var(--t2)}
+.kl .kd-ask pre{background:var(--b0)}
+.kl .kd-ask-acts{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:6px}
+.kl .kd-ask-acts button,.kl .kd-replay{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:0;border-radius:7px;background:none;color:var(--t2);font:500 12.5px var(--ui);cursor:pointer;transition:background 120ms,color 120ms}
+.kl .kd-ask-acts button:hover,.kl .kd-replay:hover{background:var(--b2);color:var(--t1)}
+.kl .kd-ask-acts svg,.kl .kd-replay svg{width:13px;height:13px}
+.kl .kd-ask-acts .kd-run{background:var(--ac);color:#fff;animation:kd-pulse 1.8s ease-in-out infinite}
+.kl .kd-ask-acts .kd-run:hover{background:#7d80f0;color:#fff}
+@keyframes kd-pulse{0%,100%{box-shadow:0 0 0 0 rgba(99,102,234,.55)}50%{box-shadow:0 0 0 7px rgba(99,102,234,0)}}
+.kl .kd-in{animation:kd-in 380ms var(--ease) both}
+@keyframes kd-in{from{opacity:0;transform:translateY(6px)}}
+.kl .kd-compose{flex:none;align-self:center;width:calc(100% - 64px);max-width:680px;margin:0 0 18px;padding:12px 12px 10px;border-radius:12px;background:var(--b1);border:1px solid var(--e);color:var(--t3)}
+.kl .kd-compose p{margin:0 0 14px 4px;font-size:13px}
+.kl .kd-compose div{display:flex;align-items:center;gap:12px}
+.kl .kd-mode{display:flex;align-items:center;gap:6px;font-size:12px}
+.kl .kd-mode b{font-weight:500;color:var(--t2)}
+.kl .kd-push{margin-left:auto}
+.kl .kd-send{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--b3)}
+.kl .kd-send svg{width:13px;height:13px}
+.kl .kd-replay{position:absolute;top:12px;right:14px;border:1px solid var(--e);background:var(--b1)}
+@media (max-width:900px){
+  .kl .kd-side,.kl .kd-tools{display:none}
+  .kl .kd-tabs{margin-left:8px}
+}
+@media (max-width:640px){
+  .kl .kd{height:540px;font-size:13px}
+  .kl .kd-thread{padding:20px 16px 12px}
+  .kl .kd-compose{width:calc(100% - 24px);margin-bottom:12px}
+  .kl .kd-mode:nth-of-type(2),.kl .kd-compose svg:nth-of-type(3){display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .kl .kd-in,.kl .kd-ask-acts .kd-run{animation:none}
+}
 .kl .btn svg{width:18px;height:18px;margin-right:10px;flex:none}
-.kl.is-live .lead{display:flex;flex-direction:column;align-items:flex-start}
-.kl.is-live .lead .golive{order:1}
+/* After launch the lead reads top to bottom: the headline, the line under it, the buttons with the platform line,
+   then who is already inside. No rule between them; the gaps do the grouping. */
+.kl.is-live .lead{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
 .kl.is-live .lead .hfaces{order:2;margin-top:clamp(20px,3vh,28px)}
+.kl.is-live .lead .golive{order:1;width:auto;margin-top:clamp(26px,4vh,36px);padding-top:0;border-top:0}
+.kl.is-live .lead .golive .go{justify-content:flex-start}
 .kl .golive{margin-top:clamp(28px,4.4vh,44px);padding-top:clamp(22px,3vh,28px);border-top:1px solid rgba(255,255,255,.16);width:min(520px,100%)}
 .kl .golive .go{margin-top:0}
 .kl .golive p{margin-top:14px;font-size:14px;color:rgba(255,255,255,.6)}
@@ -294,8 +433,10 @@
   .kl .band .head{position:relative;left:auto;top:auto;padding:36px 22px 0}
   .kl .lights{min-height:0;aspect-ratio:3/4;background-position:62% 50%}
   .kl .lights .head{position:absolute;top:28px;left:0;padding:0 22px}
-  .kl .days .art{margin-top:8px}
-  .kl .days .stop div{display:none}
+  /* Phones: the ring is the section's backdrop, not a block of its own, so the timeline follows the intro */
+  .kl .days .art{display:none}
+  .kl .days{background:linear-gradient(180deg,rgba(4,6,15,.35),rgba(4,6,15,.7) 45%,rgba(4,6,15,.92)),var(--void) url(/kepler/launch/ch-ring.webp) 62% 30%/auto 70% no-repeat}
+  .kl .days .tl-list{margin-top:28px}
   .kl .stop i{width:10px;height:10px;box-shadow:0 0 0 4px rgba(246,207,148,.22),0 0 14px rgba(246,207,148,.7)}
   .kl .tl-list{display:grid;gap:0;list-style:none;margin:0 22px;border-left:1px solid rgba(255,255,255,.18);padding-left:18px}
   .kl .tl-list li{position:relative;padding:12px 0}
@@ -379,4 +520,28 @@
 @media (max-width:760px){
   .kl .cr-hero{background:var(--void)}
   .kl .cr-hero .bar nav{display:none}
+}
+
+/* Wide screens: the hero's art grows with the window, so its text and controls grow with it too, from their size at
+   1440px up to about 1.4 times. At 1440 and below every value is exactly the size it was. */
+.kl .hero .bar{padding-top:clamp(28px,1.944vw,40px);padding-bottom:clamp(28px,1.944vw,40px)}
+.kl .hero .bar nav{gap:clamp(26px,1.806vw,36px);font-size:clamp(14px,.972vw,20px)}
+.kl .hero .brand svg{width:clamp(30px,2.083vw,42px);height:clamp(30px,2.083vw,42px)}
+.kl .hero .brand b{font-size:clamp(22px,1.528vw,31px)}
+.kl .hero .lead .sub{font-size:clamp(16px,1.111vw,22px)}
+.kl .hero .count{max-width:clamp(520px,36.1vw,728px)}
+.kl .hero .count .n{font-size:clamp(30px,2.8vw,62px)}
+.kl .hero .count .l{font-size:clamp(13px,.903vw,18px)}
+.kl .hero .golive{width:min(clamp(520px,36.1vw,728px),100%)}
+.kl .hero .golive p{font-size:clamp(14px,.972vw,20px)}
+.kl .hero .btn{height:clamp(52px,3.611vw,73px);padding:0 clamp(26px,1.806vw,36px);font-size:clamp(15px,1.042vw,21px)}
+.kl .hero .btn svg{width:clamp(18px,1.25vw,25px);height:clamp(18px,1.25vw,25px)}
+.kl .hero .lead .notify{width:min(clamp(460px,31.9vw,644px),100%)}
+.kl .hero .notify input,.kl .hero .notify button{height:clamp(52px,3.611vw,73px);font-size:clamp(15px,1.042vw,21px)}
+.kl .hero .hfaces{font-size:clamp(13px,.903vw,18px)}
+.kl .hero .hfaces img{width:clamp(30px,2.083vw,42px);height:clamp(30px,2.083vw,42px)}
+/* Larger screens: the hero's text sits in the middle of the screen. It is centred in the space under the nav, with a
+   bottom padding as tall as the nav, so it lands in the middle of the whole window. Phones keep their top padding. */
+@media (min-width:761px){
+  .kl .hero .lead,.kl .hero.rise .lead{align-self:center;padding-top:0;padding-bottom:calc(2 * clamp(28px,1.944vw,40px) + clamp(30px,2.083vw,42px))}
 }
