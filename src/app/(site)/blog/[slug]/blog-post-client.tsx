@@ -286,15 +286,23 @@ export function BlogPostClient({ post, relatedPosts = [] }: BlogPostClientProps)
                     types: {
                       image: ({value}: PortableTextImageProps) => {
                         if (!value?.asset?._ref) return null
+                        // Keep the image's own aspect ratio. Asking the URL builder for a
+                        // fixed width and height makes it crop to that box (it adds a rect
+                        // parameter), which cut the sides off charts and diagrams.
+                        const dims = /-(\d+)x(\d+)-/.exec(value.asset._ref)
+                        const width = 1000
+                        const height = dims
+                          ? Math.round((width * Number(dims[2])) / Number(dims[1]))
+                          : 562
                         const imageUrl = urlFor(value)
                         return (
                           <figure className="my-12">
                             <div className="relative overflow-hidden rounded-lg bg-[var(--panel)]">
                               <Image
-                                src={imageUrl?.width(1000).height(562).url()}
+                                src={imageUrl?.width(width).fit("max").url()}
                                 alt={value.alt || "Blog image"}
-                                width={1000}
-                                height={562}
+                                width={width}
+                                height={height}
                                 className="w-full h-auto"
                               />
                             </div>
