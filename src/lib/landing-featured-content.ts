@@ -86,7 +86,8 @@ export const LATEST_PODCAST_FOR_HOME_QUERY = `*[_type == "podcastEpisode" && def
   excerpt
 }`
 
-export const LATEST_BLOG_FOR_HOME_QUERY = `*[_type == "post" && defined(slug.current)]|order(publishedAt desc)[0]{
+// A post marked Featured wins; otherwise the newest. coalesce() keeps posts with no value from sorting first.
+export const LATEST_BLOG_FOR_HOME_QUERY = `*[_type == "post" && defined(slug.current)]|order(coalesce(featured, false) desc, publishedAt desc)[0]{
   title,
   "slug": slug.current,
   image,

@@ -143,7 +143,13 @@ export function BlogPageClient({ posts, category }: BlogPageClientProps) {
     () => [...posts].sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || '')),
     [posts],
   )
-  const featured = newest.slice(0, FEATURED)
+  // Posts marked Featured in Sanity come first, newest first; the newest of the rest fill
+  // the remaining slots so the carousel always has up to three stories.
+  const featured = useMemo(() => {
+    const flagged = newest.filter((p) => p.featured === true)
+    const rest = newest.filter((p) => p.featured !== true)
+    return [...flagged, ...rest].slice(0, FEATURED)
+  }, [newest])
 
   const shown = newest.filter((p) => {
     if (topic && !p.categories?.includes(topic)) return false

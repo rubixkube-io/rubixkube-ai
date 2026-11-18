@@ -8,7 +8,7 @@ import { sanityCoverOgFields } from "@/lib/sanity-cover-og"
 const POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
-]|order(featured desc, publishedAt desc){
+]|order(coalesce(featured, false) desc, publishedAt desc){
   _id,
   title,
   slug,
@@ -24,7 +24,7 @@ const FILTERED_POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
   && $category in categories[]->title
-]|order(featured desc, publishedAt desc){
+]|order(coalesce(featured, false) desc, publishedAt desc){
   _id,
   title,
   slug,
@@ -59,8 +59,8 @@ export async function generateMetadata({
   const url = category && category !== '' ? `https://rubixkube.ai/blog?category=${encodeURIComponent(category)}` : 'https://rubixkube.ai/blog'
 
   const coverQuery = category
-    ? `*[_type == "post" && defined(slug.current) && $category in categories[]->title]|order(featured desc, publishedAt desc)[0]{ title, image }`
-    : `*[_type == "post" && defined(slug.current)]|order(featured desc, publishedAt desc)[0]{ title, image }`
+    ? `*[_type == "post" && defined(slug.current) && $category in categories[]->title]|order(coalesce(featured, false) desc, publishedAt desc)[0]{ title, image }`
+    : `*[_type == "post" && defined(slug.current)]|order(coalesce(featured, false) desc, publishedAt desc)[0]{ title, image }`
   const { data: leadPost } = await sanityFetch({
     query: coverQuery,
     params: category ? { category } : {},
