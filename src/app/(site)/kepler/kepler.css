@@ -216,6 +216,15 @@
 .kl .btn.primary:hover{background:#e9ecf3}
 .kl .btn.ghost{border:1px solid rgba(255,255,255,.28);color:#fff}
 .kl .btn.ghost:hover{border-color:rgba(255,255,255,.6)}
+/* Product Hunt's badge beside the download, as the second button: the same height and pill, in Product Hunt's own
+   colour (their light badge, #ff6154 on white). The badge has its own square frame, which must not show inside the
+   pill: the badge is drawn 2.5px larger than the pill's inside on every side, so that frame is cut off and the pill
+   carries the only edge. The pill's width follows from its height (--h) by the badge's 250:54 shape. The mark and
+   the count sit inside the round ends. */
+.kl .go .hunt{--h:52px;position:relative;display:block;flex:none;box-sizing:border-box;height:var(--h);width:calc((var(--h) + 1px) * 4.6296 - 1px);border-radius:999px;overflow:hidden;border:2px solid #ff6154;background:#fff;transition:transform 120ms var(--ease),filter 120ms var(--ease)}
+.kl .go .hunt img{position:absolute;top:-2.5px;left:-2.5px;display:block;height:calc(100% + 5px);width:auto;max-width:none}
+.kl .go .hunt:hover{filter:brightness(.95)}
+.kl .go .hunt:active{transform:scale(.98)}
 .kl .dltable{width:min(1100px,100%);margin:clamp(40px,5vw,64px) auto 0;text-align:left}
 .kl .dlrows{list-style:none;border-top:1px solid var(--rule)}
 .kl .dlrows li{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr) auto;align-items:center;gap:24px;padding:24px 0;border-bottom:1px solid var(--rule)}
@@ -536,6 +545,7 @@
 .kl .hero .golive p{font-size:clamp(14px,.972vw,20px)}
 .kl .hero .btn{height:clamp(52px,3.611vw,73px);padding:0 clamp(26px,1.806vw,36px);font-size:clamp(15px,1.042vw,21px)}
 .kl .hero .btn svg{width:clamp(18px,1.25vw,25px);height:clamp(18px,1.25vw,25px)}
+.kl .hero .go .hunt{--h:clamp(52px,3.611vw,73px)}
 .kl .hero .lead .notify{width:min(clamp(460px,31.9vw,644px),100%)}
 .kl .hero .notify input,.kl .hero .notify button{height:clamp(52px,3.611vw,73px);font-size:clamp(15px,1.042vw,21px)}
 .kl .hero .hfaces{font-size:clamp(13px,.903vw,18px)}
