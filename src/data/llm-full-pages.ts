@@ -21,7 +21,7 @@ RubixKube Console is one place to see what broke, why, and what to do next, acro
 
 Hubble is on-call and paging: rosters, escalation policies with timers, acknowledgements from a phone app or Slack, and contact rules per person (details at /hubble).
 
-Rubix CLI (npm package @rubixkube/rubix) lets engineers ask Rubix about incidents and environments from the terminal. Kepler, part of the same ecosystem, is the desktop app (the SRE IDE): an agent that works on the operator's own machine with their credentials and keeps a local memory of their systems.`,
+Rubix CLI (npm package @rubixkube/rubix) lets engineers ask Rubix about incidents and environments from the terminal. Kepler, part of the same ecosystem, is the desktop app (the harness for operations): an agent that works on the operator's own machine with their credentials and keeps a local memory of their systems.`,
   },
   {
     url: 'https://rubixkube.ai/solutions',

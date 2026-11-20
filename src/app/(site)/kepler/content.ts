@@ -5,7 +5,7 @@ export const DOCS_URL = 'https://docs.rubixkube.ai/kepler/overview'
 export const ASSETS = '/kepler/launch'
 
 export const TAGLINE =
-  'Developers got their AI IDE the day their repos held still. The people keeping production alive never did. Kepler is the IDE for the ones on call.'
+  'AI changed how developers write code. Nothing like that reached the people on call. Code has a harness. Now operations does too.'
 
 export const NAV = [
   { href: '#why', label: 'Why' },
@@ -17,7 +17,7 @@ export const NAV = [
 
 /** The headline after launch: the second line rolls through who runs production once, then settles on the last */
 export const TITLE_LIVE = {
-  lead: 'The IDE for',
+  lead: 'The harness for',
   roles: ['SREs.', 'platform engineers.', 'DevOps.', 'SecOps.', 'network engineers.', 'developers.', 'on call.', 'operations.'],
 }
 
@@ -114,7 +114,7 @@ export const FOUNDER = {
   photoAlt: 'Priyank Upadhyay on stage, mid-sentence, microphone in hand.',
   letter: [
     "I have spent most of my working life keeping other people's systems alive. Coding agents got a perfect world model for free. The rest of us got dashboards at 3am. Kepler is my attempt at the other half: an agent that learns your infrastructure the way a good colleague does, and asks before it touches anything.",
-    'Hundreds of operators used the beta and shaped what it is today. On 20 November it opens to everyone. It ships every week and it is not finished. If something breaks or feels wrong, tell me on the',
+    'Hundreds of operators used the beta and shaped what it is today. On 20 November it opened to everyone. It ships every week and it is not finished. If something breaks or feels wrong, tell me on the',
   ],
   letterEnd: ' I would rather hear it now than after it is polished.',
 }

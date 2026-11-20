@@ -34,7 +34,7 @@ https://rubixkube.ai/llms-full.txt | Extended LLM corpus: long-form plain text p
 https://rubixkube.ai/            | Homepage: what RubixKube is, the AI SRE; incidents, RCAs with evidence, proposed fixes, modes
 https://rubixkube.ai/compare     | Comparisons: the best AI SRE tools in 2026, alternatives to Resolve AI, Cleric and Traversal, and RubixKube vs each tool
 https://rubixkube.ai/learn/what-is-an-ai-sre | What an AI SRE is, how it differs from AIOps and observability, and how to choose one
-https://rubixkube.ai/platform    | Products: RubixKube Console, Hubble (on-call), Kepler (desktop SRE IDE) and Rubix CLI; less noise, the cause in minutes, coverage across the stack
+https://rubixkube.ai/platform    | Products: RubixKube Console, Hubble (on-call), Kepler (the harness for operations, a desktop app) and Rubix CLI; less noise, the cause in minutes, coverage across the stack
 https://rubixkube.ai/hubble      | Hubble by RubixKube: on-call rosters, escalation with timers, acknowledgements, contact rules, phone app, Slack
 https://rubixkube.ai/solutions   | Outcomes: MTTR, alert noise, safe operations, reliability for the AI era
 https://rubixkube.ai/pricing     | Plans (Individual, Business, Enterprise), the Hubble add-on, FAQ
