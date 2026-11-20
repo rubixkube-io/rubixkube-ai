@@ -42,7 +42,7 @@ const PRODUCTS: {
   },
   {
     name: 'Kepler.',
-    rest: 'A new way of thinking about operations: the SRE IDE that sits with the engineer on call.',
+    rest: 'A new way of thinking about operations: the harness that sits with the engineer on call.',
     image: (
       <Backdrop className="h-full rounded-none border-0">
         {/* the same float as the RubixKube part: one object on the same paper, same edge and shadow */}
@@ -52,7 +52,7 @@ const PRODUCTS: {
         >
           <Image
             src="/screenshots/kepler.png"
-            alt="Kepler, the SRE IDE by RubixKube"
+            alt="Kepler, the harness for operations by RubixKube"
             width={1920}
             height={1080}
             sizes="(max-width: 768px) 90vw, 45vw"

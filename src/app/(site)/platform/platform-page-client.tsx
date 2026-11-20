@@ -499,13 +499,13 @@ export function PlatformPageClient() {
             {/* Kepler */}
             <motion.div {...reveal} id="kepler" className={appCard}>
               <AppShot>
-                <Image src="/screenshots/kepler.png" alt="Kepler, the SRE IDE by RubixKube" fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover" />
+                <Image src="/screenshots/kepler.png" alt="Kepler, the harness for operations by RubixKube" fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover" />
               </AppShot>
               <AppTitle
                 icon={<Image src="/logos/ai/kepler.webp" alt="" width={44} height={44} className="h-full w-full" />}
                 name="Kepler"
                 badge="Beta"
-                line="The SRE IDE. Chat, terminal and browser in one desktop app, with RubixKube and your environments a click away."
+                line="The harness for operations. Chat, terminal and browser in one desktop app, with RubixKube and your environments a click away."
               />
               <div className="mt-auto flex flex-wrap items-center gap-4 pt-8">
                 <Link href={KEPLER_URL} className={siteButton}>
