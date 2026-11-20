@@ -7,16 +7,18 @@ import { Founder } from './founder'
 import { Hero } from './hero'
 import { Plans } from './plans'
 import { Story } from './story'
-import { useLaunch } from './use-launch'
+import { PRODUCT_HUNT_AT } from '../launch'
+import { useLaunch, useSince } from './use-launch'
 import { Why } from './why'
 
 /** The /kepler launch page. Before 20 November it counts down and collects emails; from then on it offers the
  *  download. `serverNow` is the time the page was rendered, so the first render matches the server's. */
 export function KeplerLaunch({ serverNow }: { serverNow: number }) {
   const { live, left } = useLaunch(serverNow)
+  const hunt = useSince(PRODUCT_HUNT_AT, serverNow, 'hunt')
   return (
     <div className={live ? 'kl is-live' : 'kl'}>
-      <Hero live={live} left={left} />
+      <Hero live={live} left={left} hunt={hunt} />
       <Why />
       <Story live={live} />
       <Beta />

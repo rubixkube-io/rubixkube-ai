@@ -71,7 +71,7 @@ const PRODUCTS: {
   },
   {
     title: 'Kepler',
-    line: 'The harness for operations.',
+    line: 'The IDE for operations.',
     href: '/kepler',
     image: '/screenshots/kepler/cover-window.png',
     offset: true,

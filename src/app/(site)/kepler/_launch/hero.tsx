@@ -2,7 +2,7 @@
 
 import posthog from 'posthog-js'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ASSETS, DISCORD_URL, DOCS_URL, FACES, NAV, NAV_LIVE, TAGLINE, TITLE_LIVE } from '../content'
+import { ASSETS, DISCORD_URL, DOCS_URL, FACES, NAV, NAV_LIVE, PRODUCT_HUNT, TAGLINE, TITLE_LIVE } from '../content'
 import { KeplerDemo } from './demo'
 import { AppleIcon, KeplerMark, LinuxIcon, WindowsIcon } from './icons'
 import { Notify } from './notify'
@@ -64,8 +64,9 @@ function useDownload(from: string) {
   }
 }
 
-/** After launch: the download, and the docs for engineers who read before they install. */
-function Download() {
+/** After launch: the download, and the docs for engineers who read before they install. Once the Product Hunt
+ *  launch has opened (`hunt`), its badge takes the docs button's place; the docs stay in the nav above. */
+function Download({ hunt }: { hunt: boolean }) {
   const { system, Icon, href, onClick } = useDownload('hero')
   return (
     <div className="golive">
@@ -74,9 +75,16 @@ function Download() {
           {Icon && <Icon />}
           {system ? `Download for ${system.name}` : 'Download Kepler'}
         </a>
-        <a className="btn ghost" href={DOCS_URL} rel="noopener">
-          Read the docs
-        </a>
+        {hunt ? (
+          <a className="hunt" href={PRODUCT_HUNT.url} target="_blank" rel="noopener noreferrer" onClick={() => posthog.capture('kepler_product_hunt_clicked', { from: 'hero' })}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- Product Hunt's own badge, drawn by them with the live count */}
+            <img src={PRODUCT_HUNT.badge} alt={PRODUCT_HUNT.alt} width={250} height={54} />
+          </a>
+        ) : (
+          <a className="btn ghost" href={DOCS_URL} rel="noopener">
+            Read the docs
+          </a>
+        )}
       </div>
       <p>
         {system ? (
@@ -145,7 +153,7 @@ function useRise(ref: React.RefObject<HTMLElement | null>, on: boolean) {
 
 /** Before launch: the countdown and the planet. After: the download, then Kepler itself rises over the planet and
  *  replays an incident, waiting for the visitor to press Run. */
-export function Hero({ live, left }: { live: boolean; left: Left }) {
+export function Hero({ live, left, hunt }: { live: boolean; left: Left; hunt: boolean }) {
   const ref = useRef<HTMLElement>(null)
   const risen = useRise(ref, live)
   return (
@@ -180,7 +188,7 @@ export function Hero({ live, left }: { live: boolean; left: Left }) {
               <span className="bold">on 20 November.</span>
             </h1>
           )}
-          {live ? <Download /> : <Countdown left={left} />}
+          {live ? <Download hunt={hunt} /> : <Countdown left={left} />}
           <p className="sub">{TAGLINE}</p>
           {!live && <Notify />}
           <a className="hfaces" href={DISCORD_URL} rel="noopener">

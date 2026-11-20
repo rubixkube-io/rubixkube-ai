@@ -5,8 +5,23 @@ import { LAUNCH_AT, isLive } from '../launch'
 
 export type Left = { days: number; hours: number; minutes: number; seconds: number }
 
-/** In development, /kepler?preview=live shows the page as it is after launch */
-const previewLive = () => process.env.NODE_ENV !== 'production' && new URLSearchParams(location.search).get('preview') === 'live'
+/** In development, /kepler?preview=live shows the page as it is after launch, and ?preview=hunt as it is once
+ *  the Product Hunt launch has opened */
+const preview = (name: string) => process.env.NODE_ENV !== 'production' && new URLSearchParams(location.search).get('preview') === name
+const previewLive = () => preview('live')
+
+/** True from the moment `at` on. Starts from the server's time so the first render matches, then checks the
+ *  visitor's clock and waits for the moment, so an open tab switches by itself. */
+export function useSince(at: number, serverNow: number, previewName: string) {
+  const [since, setSince] = useState(serverNow >= at)
+  useEffect(() => {
+    const wait = at - Date.now()
+    if (wait <= 0 || preview(previewName)) return setSince(true)
+    const id = setTimeout(() => setSince(true), wait)
+    return () => clearTimeout(id)
+  }, [at, previewName])
+  return since
+}
 
 /** The time now, ticking every second until launch. Starts from the server's time so the first render matches. */
 export function useLaunch(serverNow: number): { live: boolean; left: Left } {

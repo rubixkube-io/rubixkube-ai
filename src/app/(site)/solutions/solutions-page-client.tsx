@@ -28,7 +28,7 @@ const isExternal = (href: string) => href.startsWith('http')
 
 /** The groups, in the order the category row and the topic menu show them */
 const GROUPS = [
-  { id: 'products', name: 'Products', icon: Boxes, line: 'What we build: the platform, on-call, the desktop app and the CLI.' },
+  { id: 'products', name: 'Products', icon: Boxes, line: 'What we build: the platform, on-call, the desktop IDE and the CLI.' },
   { id: 'use-case', name: 'Use cases', icon: Workflow, line: 'What teams use RubixKube for, from the first alert to the post-mortem.' },
   { id: 'case-study', name: 'Case studies', icon: BookOpen, line: 'How teams run RubixKube in production.' },
   { id: 'glossary', name: 'Glossary', icon: Hash, line: 'The terms we use, defined plainly.' },

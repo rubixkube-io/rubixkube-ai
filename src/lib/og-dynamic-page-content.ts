@@ -17,7 +17,7 @@ export const dynamicOgPageContent = {
   },
   kepler: {
     eyebrow: 'Kepler',
-    title: 'The harness for operations',
+    title: 'The IDE for operations',
     description: 'A desktop agent for the people who keep systems alive.',
     accent: null,
   },

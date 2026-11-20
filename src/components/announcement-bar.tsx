@@ -66,8 +66,8 @@ export function AnnouncementBar() {
           New
         </span>
         <span className="truncate">
-          <span className="rk-launch-soon hidden sm:inline">Kepler, the harness for operations by RubixKube, launches 20 November.</span>
-          <span className="rk-launch-live hidden sm:inline">Kepler, the harness for operations by RubixKube, is live.</span>
+          <span className="rk-launch-soon hidden sm:inline">Kepler, the IDE for operations by RubixKube, launches 20 November.</span>
+          <span className="rk-launch-live hidden sm:inline">Kepler, the IDE for operations by RubixKube, is live.</span>
           <span className="rk-launch-soon sm:hidden">Kepler launches 20 November.</span>
           <span className="rk-launch-live sm:hidden">Kepler is live.</span>
         </span>
