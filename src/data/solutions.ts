@@ -38,7 +38,7 @@ export const SOLUTION_PRODUCTS: SolutionProduct[] = [
   },
   {
     name: 'Kepler',
-    line: 'The harness for operations. It works on your machine, with your access, and remembers your systems.',
+    line: 'The IDE for operations. It works on your machine, with your access, and remembers your systems.',
     href: '/kepler',
     action: 'See Kepler',
     image: { src: '/screenshots/kepler/workspace.png', w: 2000, h: 1254, alt: 'The Kepler window with two conversations side by side, one investigating a failing deployment' },

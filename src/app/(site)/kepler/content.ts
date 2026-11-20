@@ -5,7 +5,7 @@ export const DOCS_URL = 'https://docs.rubixkube.ai/kepler/overview'
 export const ASSETS = '/kepler/launch'
 
 export const TAGLINE =
-  'AI changed how developers write code. Nothing like that reached the people on call. Code has a harness. Now operations does too.'
+  'Developers have an IDE, and a harness that makes AI useful inside it. The people on call got neither. Kepler is both, for operations.'
 
 export const NAV = [
   { href: '#why', label: 'Why' },
@@ -17,7 +17,7 @@ export const NAV = [
 
 /** The headline after launch: the second line rolls through who runs production once, then settles on the last */
 export const TITLE_LIVE = {
-  lead: 'The harness for',
+  lead: 'The IDE for',
   roles: ['SREs.', 'platform engineers.', 'DevOps.', 'SecOps.', 'network engineers.', 'developers.', 'on call.', 'operations.'],
 }
 

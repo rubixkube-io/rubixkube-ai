@@ -47,9 +47,9 @@
 .kl .lead h1{max-width:13em;font:500 clamp(42px,5.6vw,132px)/1.02 var(--display);letter-spacing:-0.04em}
 .kl .lead h1 span{display:block}
 .kl .lead h1 .bold{color:rgba(255,255,255,.5)}
-/* After launch the headline is one line, "The harness for" and the role in grey (hero.tsx Roles), each role rolling up
+/* After launch the headline is one line, "The IDE for" and the role in grey (hero.tsx Roles), each role rolling up
    into place. It never wraps, so the hero does not jump; its size keeps the longest role on the line. Phones have no
-   room for one line, so there the role sits under "The harness for" and the headline shrinks to fit the longest role. */
+   room for one line, so there the role sits under "The IDE for" and the headline shrinks to fit the longest role. */
 .kl.is-live .lead h1{display:flex;align-items:baseline;gap:.26em;max-width:none;white-space:nowrap;font-size:min(clamp(42px,5.6vw,132px),calc((100vw - 2 * var(--gut)) / 13))}
 @media (max-width:760px){
   .kl.is-live .lead h1{display:block;font-size:min(clamp(42px,5.6vw,90px),calc((100vw - 56px) / 7.6))}
