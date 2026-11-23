@@ -36,13 +36,13 @@ export const PLANS = [
   },
 ] as const
 
-/** AI credit: a one-time buy, used once a week's hosted usage is reached. Not a subscription. */
+/** AI credit: a one-time buy, used once a 5-hour or weekly hosted limit is reached. Not a subscription. */
 export const CREDIT = {
   name: 'AI credit',
   tag: 'One-time',
   headline: 'Add credit',
   line: 'Buy once. No subscription.',
-  includes: ['For when you reach your weekly limit', 'Use it on any hosted model', 'Lasts a year'],
+  includes: ['For when you reach a 5-hour or weekly limit', 'Use it on any hosted model', 'Lasts a year'],
 } as const
 
 /** Team is not self-serve at launch: one line under the cards, linking to contact. */
@@ -64,7 +64,7 @@ export const FAQ = [
   {
     question: 'How much hosted usage does Pro include?',
     answer:
-      'Pro has two limits on hosted models: one resets every 5 hours and one resets every week. Most people never reach them. If you do, wait for the reset or add credit.',
+      'Pro has two limits on hosted models: one resets every 5 hours and one resets every week. Most people never reach them. If you do and have credit, Kepler keeps going on it until the limit resets. You can turn that off.',
   },
   {
     question: 'What happens when I stop paying?',
