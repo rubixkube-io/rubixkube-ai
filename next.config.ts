@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
       // old addresses Google still crawls, to the pages that replaced them
       { source: '/products/compare/:slug', destination: '/compare/:slug', permanent: true },
       { source: '/legal', destination: '/legal/privacy', permanent: true },
+      { source: '/privacy', destination: '/legal/privacy', permanent: true },
       { source: '/glossary', destination: '/resources', permanent: true },
       { source: '/learn', destination: '/resources', permanent: true },
       { source: '/use-case', destination: '/solutions?type=use-case', permanent: true },

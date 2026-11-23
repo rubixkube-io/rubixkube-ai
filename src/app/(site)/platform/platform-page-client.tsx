@@ -504,7 +504,6 @@ export function PlatformPageClient() {
               <AppTitle
                 icon={<Image src="/logos/ai/kepler.webp" alt="" width={44} height={44} className="h-full w-full" />}
                 name="Kepler"
-                badge="Beta"
                 line="The IDE for operations. Chat, terminal and browser in one desktop app, with RubixKube and your environments a click away."
               />
               <div className="mt-auto flex flex-wrap items-center gap-4 pt-8">
@@ -527,7 +526,7 @@ export function PlatformPageClient() {
               <AppTitle
                 icon={<Terminal className="h-5 w-5 text-[var(--ink)]" strokeWidth={1.5} />}
                 name="Rubix CLI"
-                line="Chat with Rubix from your terminal. Needs Node.js 18 or later."
+                line="Chat with Rubix from your terminal. Needs Node.js 22.12 or later."
               />
               <div className="mt-auto pt-8">
                 <CopyCommand label="Install" command={CLI_INSTALL} />
