@@ -48,11 +48,26 @@
 .kl .lead h1 span{display:block}
 .kl .lead h1 .bold{color:rgba(255,255,255,.5)}
 /* After launch the headline is one line, "The IDE for" and the role in grey (hero.tsx Roles), each role rolling up
-   into place. It never wraps, so the hero does not jump; its size keeps the longest role on the line. Phones have no
-   room for one line, so there the role sits under "The IDE for" and the headline shrinks to fit the longest role. */
-.kl.is-live .lead h1{display:flex;align-items:baseline;gap:.26em;max-width:none;white-space:nowrap;font-size:min(clamp(42px,5.6vw,132px),calc((100vw - 2 * var(--gut)) / 13))}
+   into place. It never wraps, so the hero does not jump. Phones have no room for one line, so there the role sits
+   under "The IDE for".
+   The size steps at breakpoints instead of following the window width, so it holds still while a window is resized,
+   and tracking tightens as the size grows. Each step keeps the longest role ("The IDE for platform engineers.",
+   about 13em; 7.6em on phones) on its line at the narrowest width of its range; the min() is only a backstop. */
+.kl.is-live .lead h1{--h1:48px;display:flex;align-items:baseline;gap:.26em;max-width:none;white-space:nowrap;font-size:min(var(--h1),calc((100vw - 2 * var(--gut)) / 13));line-height:1.02;letter-spacing:-0.03em}
+@media (min-width:1024px){
+  .kl.is-live .lead h1{--h1:64px;letter-spacing:-0.035em}
+}
+@media (min-width:1280px){
+  .kl.is-live .lead h1{--h1:80px;letter-spacing:-0.04em}
+}
+@media (min-width:1600px){
+  .kl.is-live .lead h1{--h1:96px;letter-spacing:-0.04em}
+}
 @media (max-width:760px){
-  .kl.is-live .lead h1{display:block;font-size:min(clamp(42px,5.6vw,90px),calc((100vw - 56px) / 7.6))}
+  .kl.is-live .lead h1{--h1:48px;display:block;font-size:min(var(--h1),calc((100vw - 56px) / 7.6));line-height:1.06;letter-spacing:-0.03em}
+}
+@media (max-width:419px){
+  .kl.is-live .lead h1{--h1:40px;letter-spacing:-0.025em}
 }
 .kl .lead h1 .roll{overflow:hidden;white-space:nowrap;padding-bottom:.12em;margin-bottom:-.12em}
 .kl .lead h1 .roll > span{display:inline-block;animation:kl-roll 600ms var(--ease) both}
@@ -216,15 +231,6 @@
 .kl .btn.primary:hover{background:#e9ecf3}
 .kl .btn.ghost{border:1px solid rgba(255,255,255,.28);color:#fff}
 .kl .btn.ghost:hover{border-color:rgba(255,255,255,.6)}
-/* Product Hunt's badge beside the download, as the second button: the same height and pill, in Product Hunt's own
-   colour (their light badge, #ff6154 on white). The badge has its own square frame, which must not show inside the
-   pill: the badge is drawn 2.5px larger than the pill's inside on every side, so that frame is cut off and the pill
-   carries the only edge. The pill's width follows from its height (--h) by the badge's 250:54 shape. The mark and
-   the count sit inside the round ends. */
-.kl .go .hunt{--h:52px;position:relative;display:block;flex:none;box-sizing:border-box;height:var(--h);width:calc((var(--h) + 1px) * 4.6296 - 1px);border-radius:999px;overflow:hidden;border:2px solid #ff6154;background:#fff;transition:transform 120ms var(--ease),filter 120ms var(--ease)}
-.kl .go .hunt img{position:absolute;top:-2.5px;left:-2.5px;display:block;height:calc(100% + 5px);width:auto;max-width:none}
-.kl .go .hunt:hover{filter:brightness(.95)}
-.kl .go .hunt:active{transform:scale(.98)}
 .kl .dltable{width:min(1100px,100%);margin:clamp(40px,5vw,64px) auto 0;text-align:left}
 .kl .dlrows{list-style:none;border-top:1px solid var(--rule)}
 .kl .dlrows li{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr) auto;align-items:center;gap:24px;padding:24px 0;border-bottom:1px solid var(--rule)}
@@ -531,27 +537,40 @@
   .kl .cr-hero .bar nav{display:none}
 }
 
-/* Wide screens: the hero's art grows with the window, so its text and controls grow with it too, from their size at
-   1440px up to about 1.4 times. At 1440 and below every value is exactly the size it was. */
-.kl .hero .bar{padding-top:clamp(28px,1.944vw,40px);padding-bottom:clamp(28px,1.944vw,40px)}
-.kl .hero .bar nav{gap:clamp(26px,1.806vw,36px);font-size:clamp(14px,.972vw,20px)}
-.kl .hero .brand svg{width:clamp(30px,2.083vw,42px);height:clamp(30px,2.083vw,42px)}
-.kl .hero .brand b{font-size:clamp(22px,1.528vw,31px)}
-.kl .hero .lead .sub{font-size:clamp(16px,1.111vw,22px)}
+/* The hero's text and controls keep their size while a window is resized, like the headline. Wide screens (1920px and
+   up), where the art is much larger, take one step up of 1.2 times. --bar-pad and --mark feed the centring below. */
+.kl .hero{--bar-pad:28px;--mark:30px}
+.kl .hero .bar{padding-top:var(--bar-pad);padding-bottom:var(--bar-pad)}
+.kl .hero .bar nav{gap:26px;font-size:14px}
+.kl .hero .brand svg{width:var(--mark);height:var(--mark)}
+.kl .hero .brand b{font-size:22px}
+.kl .hero .lead .sub{font-size:16px}
 .kl .hero .count{max-width:clamp(520px,36.1vw,728px)}
 .kl .hero .count .n{font-size:clamp(30px,2.8vw,62px)}
 .kl .hero .count .l{font-size:clamp(13px,.903vw,18px)}
-.kl .hero .golive{width:min(clamp(520px,36.1vw,728px),100%)}
-.kl .hero .golive p{font-size:clamp(14px,.972vw,20px)}
-.kl .hero .btn{height:clamp(52px,3.611vw,73px);padding:0 clamp(26px,1.806vw,36px);font-size:clamp(15px,1.042vw,21px)}
-.kl .hero .btn svg{width:clamp(18px,1.25vw,25px);height:clamp(18px,1.25vw,25px)}
-.kl .hero .go .hunt{--h:clamp(52px,3.611vw,73px)}
+.kl .hero .golive{width:min(520px,100%)}
+.kl .hero .golive p{font-size:14px}
+.kl .hero .btn{height:52px;padding:0 26px;font-size:15px}
+.kl .hero .btn svg{width:18px;height:18px}
 .kl .hero .lead .notify{width:min(clamp(460px,31.9vw,644px),100%)}
 .kl .hero .notify input,.kl .hero .notify button{height:clamp(52px,3.611vw,73px);font-size:clamp(15px,1.042vw,21px)}
-.kl .hero .hfaces{font-size:clamp(13px,.903vw,18px)}
-.kl .hero .hfaces img{width:clamp(30px,2.083vw,42px);height:clamp(30px,2.083vw,42px)}
+.kl .hero .hfaces{font-size:13px}
+.kl .hero .hfaces img{width:30px;height:30px}
+@media (min-width:1920px){
+  .kl .hero{--bar-pad:34px;--mark:36px}
+  .kl .hero .bar nav{gap:31px;font-size:17px}
+  .kl .hero .brand b{font-size:26px}
+  .kl .hero .lead .sub{font-size:19px}
+  .kl .hero .golive{width:min(624px,100%)}
+  .kl .hero .golive p{font-size:17px}
+  .kl .hero .btn{height:62px;padding:0 31px;font-size:18px}
+  .kl .hero .btn svg{width:22px;height:22px}
+  .kl .hero .hfaces{font-size:16px}
+  .kl .hero .hfaces img{width:36px;height:36px}
+  .kl.is-live .lead h1{--h1:112px}
+}
 /* Larger screens: the hero's text sits in the middle of the screen. It is centred in the space under the nav, with a
    bottom padding as tall as the nav, so it lands in the middle of the whole window. Phones keep their top padding. */
 @media (min-width:761px){
-  .kl .hero .lead,.kl .hero.rise .lead{align-self:center;padding-top:0;padding-bottom:calc(2 * clamp(28px,1.944vw,40px) + clamp(30px,2.083vw,42px))}
+  .kl .hero .lead,.kl .hero.rise .lead{align-self:center;padding-top:0;padding-bottom:calc(2 * var(--bar-pad) + var(--mark))}
 }

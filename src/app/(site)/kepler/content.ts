@@ -4,13 +4,6 @@ export const DISCORD_URL = 'https://discord.gg/HTHkEU7YTj'
 export const DOCS_URL = 'https://docs.rubixkube.ai/kepler/overview'
 export const ASSETS = '/kepler/launch'
 
-/** The Product Hunt launch of 20 November 2026: the page, and the badge Product Hunt draws with the live count */
-export const PRODUCT_HUNT = {
-  url: 'https://www.producthunt.com/products/kepler?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-kepler-by-rubixkube',
-  badge: 'https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1247574&theme=light',
-  alt: 'Kepler by RubixKube on Product Hunt',
-}
-
 export const TAGLINE =
   'Developers have an IDE, and a harness that makes AI useful inside it. The people on call got neither. Kepler is both, for operations.'
 
