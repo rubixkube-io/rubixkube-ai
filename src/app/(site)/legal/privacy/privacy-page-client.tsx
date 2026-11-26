@@ -116,7 +116,7 @@ export function PrivacyPageClient() {
           className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-[family-name:var(--font-figtree)] text-[15px] text-[var(--mid)]"
         >
           <span>Effective Date: June 25, 2025</span>
-          <span>Last Updated: November 16, 2026</span>
+          <span>Last Updated: November 27, 2026</span>
         </div>
 
         {/* Quick Navigation */}
@@ -389,6 +389,14 @@ export function PrivacyPageClient() {
                 serial number); checking for updates; and reading the list of what is new in each
                 release. When you use Kepler&apos;s hosted models, your requests pass through our gateway to
                 the model provider, and we record how much you use to apply your plan&apos;s limits.
+              </p>
+              <p className={`m-0 mt-5 ${bodyText}`}>
+                Kepler for Chrome, the browser extension, works only in tabs Kepler opens and keeps in a
+                &quot;Kepler&quot; tab group. It sends the text and screenshots of those pages to the Kepler app
+                on your computer and nowhere else. Kepler then uses them like anything else you ask it to
+                read: they go to the model you chose, and with Kepler&apos;s hosted models they pass through
+                our gateway to the model provider. The extension does not read your other tabs, does not
+                keep your browsing history, and sends nothing to RubixKube itself.
               </p>
               <p className={`m-0 mt-5 ${bodyText}`}>
                 Sharing usage with us is off until you turn it on, during onboarding or in Settings,
