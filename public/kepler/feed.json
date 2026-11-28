@@ -62,6 +62,24 @@
       }
     },
     {
+      "id": "0.2.3-browser",
+      "title": "Kepler works in your browser",
+      "content_text": "Kepler for Chrome lets Kepler work in your own browser, on the sites you are already signed in to.\n- It asks before anything it can't undo, and never types a password.\n- /style sets how much it says: Quiet, Normal or Verbose.\n- Steps fold under one line that says what they did.",
+      "image": "0.2.3/browser.webp",
+      "date_published": "2026-11-29T04:30:00Z",
+      "_kepler": {
+        "placement": "whats_new",
+        "version": "0.2.3",
+        "order": 1,
+        "image_alt": "Kepler reading a spike on a metrics page in the browser",
+        "action": {
+          "kind": "settings",
+          "section": "browser",
+          "label": "Set up your browser"
+        }
+      }
+    },
+    {
       "id": "pro-welcome",
       "title": "Welcome to Kepler Pro",
       "content_text": "War rooms, automations, remote access, channels, topology and hosted models are on. Your usage and invoices are in Settings, Plan & Usage.",
